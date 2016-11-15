@@ -1,0 +1,12 @@
+Package: startup
+Version: 0.0.1-9000
+Title: Friendly R Startup Configuration
+Depends: R (>= 2.12.0)
+Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
+                                          email = "henrikb@braju.com"))
+Description: By adding startup::startup() to the .Rprofile startup script all files under .Renviron.d/ will be parsed as .Renviron formatted files and all files under .Rprofile.d/ will be source as .Rprofile formatted files.
+License: LGPL (>= 2.1)
+LazyLoad: TRUE
+URL: https://github.com/HenrikBengtsson/startup
+BugReports: https://github.com/HenrikBengtsson/startup/issues
+RoxygenNote: 5.0.1

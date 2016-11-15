@@ -1,0 +1,5 @@
+Package: startup
+================
+
+Version: 0.0.1-9000 [2016-11-15]
+o Package created. Adopted from a specialized .Rprofile script.
