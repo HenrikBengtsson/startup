@@ -4,7 +4,7 @@
 
 Add
 ```r
-startup::everything()$unload()
+startup::startup()
 ```
 to `~/.Rprofile` (or `./.Rprofile`).
 
@@ -14,7 +14,7 @@ This will cause all files under (recursively)
 
 2. `./.profile.d/` and `~./.Rprofile.d/` to be sourced as `.Rprofile` files.
 
-When done, the `startup` package will be unloaded again.
+When done, the `startup` package will be unloaded again leaving no trace of itself.
 
 
 ## Conditional file names
