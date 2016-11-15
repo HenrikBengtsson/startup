@@ -7,13 +7,15 @@
 \alias{startup}
 \title{Simplified Initialization at Start of an R Session}
 \usage{
-everything(debug = NA)
+everything(paths = c(".", "~"), debug = NA)
 
-renviron(debug = NA)
+renviron(paths = c(".", "~"), debug = NA)
 
-rprofile(debug = NA)
+rprofile(paths = c(".", "~"), debug = NA)
 }
 \arguments{
+\item{paths}{Character vector of paths where to locate the \file{.Renviron.d/} and \file{.Rprofile.d/} directories.}
+
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
@@ -36,11 +38,11 @@ directory.
 }}
 \examples{
 \dontrun{
-# Initiate just .Renviron.d/ files
+# Initiate any ./.Renviron.d/ and ~/.Renviron.d/ files
 startup::renviron()
 
-# Initiate just .Rprofile.d/ files
-startup::rprofile()
+# Initiate only ~/.Rprofile.d/ files
+startup::rprofile(paths = "~/.Rprofile.d/")
 
 # Initiate .Renviron.d/ files then .Rprofile.d/ files
 startup::renviron()$rprofile()

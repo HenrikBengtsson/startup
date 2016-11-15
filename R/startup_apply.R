@@ -1,22 +1,36 @@
-startup_apply <- function(prefix, FUN, ..., debug = FALSE) {
+startup_apply <- function(dir, FUN, ..., paths = c(".", "~")) {
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
+  
+  ## Directories to look for
+  paths <- file.path(paths, dir)
+  
+  ## Keep only the ones that exists
+  paths <- paths[file.exists(paths)]
 
-  ## (i) Initialization directory in current directory
-  path <- file.path(".", sprintf("%s.d", prefix))
-  files1 <- dir(path = path, pattern = "[^~]$", recursive = TRUE, all.files = TRUE, full.names = TRUE)
+  ## Nothing to do?
+  if (length(paths) == 0) return(character(0L))
   
-  ## (ii) Initialization directory in user's home directory
-  path <- file.path("~", sprintf("%s.d", prefix))
-  files2 <- dir(path = path, pattern = "[^~]$", recursive = TRUE, all.files = TRUE, full.names = TRUE)
-  
-  files <- c(files1, files2)
-  files <- files[basename(files) != ".Rhistory"]
+  ## For each directory, locate files of interest
+  files <- NULL
+  for (path in paths) {
+    files <- c(files, dir(path = path, pattern = "[^~]$", recursive = TRUE, all.files = TRUE, full.names = TRUE))
+  }
+
+  ## Drop stray files
+  files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
+
+  ## Keep only existing files
   files <- files[file.exists(files)]
   files <- files[!file.info(files)$isdir]
+
+  ## Drop duplicates
   files <- normalizePath(files)
   files <- unique(files)
+
+  ## Nothing to do?
+  if (length(files) == 0) return(character(0L))
 
   ## Parse <key>=<value> and keep only matching ones
   sysinfo <- sysinfo()
@@ -33,7 +47,7 @@ startup_apply <- function(prefix, FUN, ..., debug = FALSE) {
 
   dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
   dryrun <- getOption("startup.dryrun", dryrun)
-  logf("startup: processing %d %s files", length(files), prefix)
+  logf("startup: processing %d %s files", length(files), dir)
   for (file in files) {
     logf(" - %s", file)
     if (!dryrun) FUN(file, ...)
