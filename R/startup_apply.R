@@ -1,4 +1,4 @@
-startup_apply <- function(prefix, FUN, ...) {
+startup_apply <- function(prefix, FUN, ..., debug = FALSE) {
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")

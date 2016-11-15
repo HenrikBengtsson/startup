@@ -1,4 +1,4 @@
-check_rprofile <- function() {
+check_rprofile <- function(debug = FALSE) {
   # (iii) Check for common mistakes?
   if (!isTRUE(getOption(".Rprofile.check", TRUE))) return()
   

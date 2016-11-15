@@ -7,11 +7,14 @@
 \alias{startup}
 \title{Simplified Initialization at Start of an R Session}
 \usage{
-everything()
+everything(debug = NA)
 
-renviron()
+renviron(debug = NA)
 
-rprofile()
+rprofile(debug = NA)
+}
+\arguments{
+\item{debug}{If TRUE, debug messages are outputted, otherwise not.}
 }
 \description{
 Simplified Initialization at Start of an R Session

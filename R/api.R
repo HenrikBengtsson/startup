@@ -2,6 +2,6 @@ api <- function() {
   list(
     renviron = renviron,
     rprofile = rprofile,
-    unload   = function() unloadNamespace("startup")
+    unload   = function(debug = FALSE) unloadNamespace("startup")
   )
 }

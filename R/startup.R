@@ -1,5 +1,7 @@
 #' Simplified Initialization at Start of an R Session
 #'
+#' @param debug If TRUE, debug messages are outputted, otherwise not.
+#'
 #' @examples
 #' \dontrun{
 #' # Initiate just .Renviron.d/ files
@@ -26,13 +28,12 @@ NULL
 #'
 #' @rdname startup
 #' @export
-everything <- function() {
+everything <- function(debug = NA) {
+  debug(debug)
   # (i) Load custom .Renviron.d/* files
   renviron()
-  
   # (ii) Load custom .Rprofile.d/* files
-  rprofile()
-  
+  rprofile()  
   invisible(api())
 }
 
@@ -40,7 +41,8 @@ everything <- function() {
 #'
 #' @rdname startup
 #' @export
-renviron <- function() {
+renviron <- function(debug = NA) {
+  debug(debug)
   # Load custom .Renviron.d/* files
   startup_apply(".Renviron", FUN = readRenviron)
   invisible(api())
@@ -50,7 +52,8 @@ renviron <- function() {
 #'
 #' @rdname startup
 #' @export
-rprofile <- function() {
+rprofile <- function(debug = NA) {
+  debug(debug)
   # (a) Load custom .Rprofile.d/* files
   startup_apply(".Rprofile", FUN = source)
   # (b) Validate .Rprofile
