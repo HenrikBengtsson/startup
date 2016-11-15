@@ -31,7 +31,7 @@ Initiate .Rprofile.d/ files
 startup::renviron()
 
 # Initiate just .Rprofile.d/ files
-startup::rprofiled()
+startup::rprofile()
 
 # Initiate .Renviron.d/ files then .Rprofile.d/ files
 startup::renviron()$rprofile()
