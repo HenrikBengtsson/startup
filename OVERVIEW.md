@@ -8,9 +8,9 @@ to `~/.Rprofile` (or `./.Rprofile`).
 
 This will cause all files under (recursively)
 
-1. `./.Renviron.d/` and `~./.Renviron.d/` will be processed as `.Renviron` files.
+1. `./.Renviron.d/` and `~./.Renviron.d/` to be processed as `.Renviron` files.
 
-2. `./.profile.d/` and `~./.Rprofile.d/` will be sourced as `.Rprofile` files.
+2. `./.profile.d/` and `~./.Rprofile.d/` to be sourced as `.Rprofile` files.
 
 When done, the `startup` package will be unloaded again.
 
@@ -65,4 +65,5 @@ local({
   repos <- repos[!(nzchar(names) & duplicated(names))]
   
   options(repos=repos)
-}) ```
+})
+```
