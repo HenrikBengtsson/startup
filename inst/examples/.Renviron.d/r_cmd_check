@@ -1,0 +1,8 @@
+# R CMD check settings, cf. Section 'Tools' in 'R Internals'.
+_R_CHECK_DOT_INTERNAL_=true
+_R_CHECK_UNSAFE_CALLS_=true
+_R_CHECK_REPLACING_IMPORTS_=true
+_R_CHECK_LICENSE_=true
+_R_CHECK_RD_EXAMPLES_T_AND_F_=true
+_R_CHECK_CRAN_INCOMING_=true
+

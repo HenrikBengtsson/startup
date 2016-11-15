@@ -1,0 +1,19 @@
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Setup a repositories
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+local({
+  repos <- c(
+    CRAN="https://cloud.r-project.org",
+    CRANextra = if (.Platform$OS.type == "windows") {
+      "https://www.stats.ox.ac.uk/pub/RWin"
+    },
+    getOption("repos")
+  )
+
+  # Keep only unique existing ones
+  repos <- repos[!is.na(repos) && nzchar(repos)]
+  names <- names(repos)
+  repos <- repos[!(nzchar(names) & duplicated(names))]
+  
+  options(repos=repos)
+})
