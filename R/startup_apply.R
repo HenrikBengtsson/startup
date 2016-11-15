@@ -19,11 +19,9 @@ startup_apply <- function(prefix, FUN, ...) {
   files <- unique(files)
 
   ## Parse <key>=<value> and keep only matching ones
-  sysinfo <- Sys.info()
-  sysinfo[["os"]] <- .Platform$OS.type
-  sysinfo[["interactive"]] <- interactive()
+  sysinfo <- sysinfo()
   for (key in names(sysinfo)) {
-    pattern <- sprintf(".*[^a-z]+%s=([^/=]*).*", key)
+    pattern <- sprintf(".*[^a-z]+%s=([^=,/]*).*", key)
     idxs <- grep(pattern, files, fixed = FALSE)
     if (length(idxs) > 0) {
       value <- sysinfo[[key]]

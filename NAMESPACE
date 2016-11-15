@@ -3,3 +3,4 @@
 export(everything)
 export(renviron)
 export(rprofile)
+export(sysinfo)

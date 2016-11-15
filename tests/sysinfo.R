@@ -1,0 +1,2 @@
+print(startup::sysinfo())
+
