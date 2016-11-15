@@ -17,7 +17,7 @@ When done, the `startup` package will be unloaded again.
 
 ## Conditional file names
 
-If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows` will be ignored unless `startup::sysinfo()$os == "win"`, i.e. the R session is started on a Windows system.
+If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
 
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their file names:
 
