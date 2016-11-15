@@ -14,17 +14,26 @@ renviron(debug = NA)
 rprofile(debug = NA)
 }
 \arguments{
-\item{debug}{If TRUE, debug messages are outputted, otherwise not.}
+\item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
-Simplified Initialization at Start of an R Session
-
-Initiate .Renviron.d/ files then .Rprofile.d/ files
-
-Initiate .Renviron.d/ files
-
-Initiate .Rprofile.d/ files
+Initiates R using all files under \file{.Renviron.d/}
+and / or \file{.Rprofile.d/} directories (or in subdirectories)
+thereof.  This is done in addition the \file{.Renviron} and
+\file{.Rprofile} files supported by the
+\link[base:Startup]{default R startup process}.
+Directories \file{.Renviron.d/} and \file{.Rprofile.d/} may
+be located in the current directory and / or the user's home
+directory.
 }
+\section{Functions}{
+\itemize{
+\item \code{everything}: \code{renviron()} followed by \code{rprofile()}
+
+\item \code{renviron}: Initiate using \file{.Renviron.d/} files
+
+\item \code{rprofile}: Initiate using \file{.Rprofile.d/} files
+}}
 \examples{
 \dontrun{
 # Initiate just .Renviron.d/ files

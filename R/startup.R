@@ -1,6 +1,15 @@
 #' Simplified Initialization at Start of an R Session
 #'
-#' @param debug If TRUE, debug messages are outputted, otherwise not.
+#' Initiates R using all files under \file{.Renviron.d/}
+#' and / or \file{.Rprofile.d/} directories (or in subdirectories)
+#' thereof.  This is done in addition the \file{.Renviron} and
+#' \file{.Rprofile} files supported by the
+#' \link[base:Startup]{default R startup process}.
+#' Directories \file{.Renviron.d/} and \file{.Rprofile.d/} may
+#' be located in the current directory and / or the user's home
+#' directory.
+#'
+#' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
 #'
 #' @examples
 #' \dontrun{
@@ -24,9 +33,7 @@
 #' @name startup
 NULL
 
-#' Initiate .Renviron.d/ files then .Rprofile.d/ files
-#'
-#' @rdname startup
+#' @describeIn startup \code{renviron()} followed by \code{rprofile()}
 #' @export
 everything <- function(debug = NA) {
   debug(debug)
@@ -37,9 +44,7 @@ everything <- function(debug = NA) {
   invisible(api())
 }
 
-#' Initiate .Renviron.d/ files
-#'
-#' @rdname startup
+#' @describeIn startup Initiate using \file{.Renviron.d/} files
 #' @export
 renviron <- function(debug = NA) {
   debug(debug)
@@ -48,9 +53,7 @@ renviron <- function(debug = NA) {
   invisible(api())
 }
 
-#' Initiate .Rprofile.d/ files
-#'
-#' @rdname startup
+#' @describeIn startup Initiate using \file{.Rprofile.d/} files
 #' @export
 rprofile <- function(debug = NA) {
   debug(debug)
