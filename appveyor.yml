@@ -10,7 +10,7 @@
 #----------------------------------------------------------------
 environment:
   _R_CHECK_FORCE_SUGGESTS_: false
-  USE_RTOOLS: true
+  USE_RTOOLS: false
   
   matrix:
   - R_VERSION: devel
@@ -31,16 +31,11 @@ init:
         $ErrorActionPreference = "Stop"
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
         Import-Module '..\appveyor-tool.ps1'
-install:
-  ps: |
-        Bootstrap
-        InstallRtools
 
 # Adapt as necessary starting from here
 
 build_script:
   - echo Current directory=%CD%
-  - travis-tool.sh install_r digest globals listenv markdown R.rsp
 
 test_script:
   - travis-tool.sh run_tests
