@@ -21,6 +21,9 @@ startup_apply <- function(dir, FUN, ..., paths = c(".", "~")) {
   ## Drop stray files
   files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
 
+  ## Drop files based on filename extension
+  files <- files[!is.element(file_ext(files), c("txt", "md"))]
+
   ## Keep only existing files
   files <- files[file.exists(files)]
   files <- files[!file.info(files)$isdir]
