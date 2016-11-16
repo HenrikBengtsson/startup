@@ -7,7 +7,15 @@
 #' @export
 install <- function(path = "~", debug = FALSE) {
   debug(debug)
+
+  dir <- file.path(path, ".Rprofile.d")
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
+  dir <- file.path(path, ".Renviron.d")
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
   if (is_installed(path = path)) return(FALSE)
+  
   file <- file.path(path, ".Rprofile")
   cat("startup::startup()\n", file = file, append = TRUE)
   TRUE
