@@ -8,7 +8,7 @@ startup::startup()
 ```
 to `~/.Rprofile` (or `./.Rprofile`).
 
-This will cause all files under (recursively)
+This will cause all files (found recursively) under
 
 1. `./.Renviron.d/` and `~./.Renviron.d/` to be processed as `.Renviron` files.
 
