@@ -8,9 +8,9 @@ to `~/.Rprofile` (or `./.Rprofile`).
 
 This will cause all files (found recursively) under
 
-1. `./.Renviron.d/` and `~./.Renviron.d/` to be processed as `.Renviron` files.
+1. `~./.Renviron.d/` and then `./.Renviron.d/` to be processed as `.Renviron` files.
 
-2. `./.profile.d/` and `~./.Rprofile.d/` to be sourced as `.Rprofile` files.
+2. `~./.Rprofile.d/` and then `./.profile.d/` to be sourced as `.Rprofile` files.
 
 When done, the `startup` package will be unloaded again leaving no trace of itself.
 

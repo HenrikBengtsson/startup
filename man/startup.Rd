@@ -6,11 +6,11 @@
 \alias{startup}
 \title{Simplified Initialization at Start of an R Session}
 \usage{
-startup(paths = c(".", "~"), unload = TRUE, debug = NA)
+startup(paths = c("~", "."), unload = TRUE, debug = NA)
 
-renviron(paths = c(".", "~"), unload = FALSE, debug = NA)
+renviron(paths = c("~", "."), unload = FALSE, debug = NA)
 
-rprofile(paths = c(".", "~"), unload = FALSE, debug = NA)
+rprofile(paths = c("~", "."), unload = FALSE, debug = NA)
 }
 \arguments{
 \item{paths}{Character vector of paths where to locate the \file{.Renviron.d/} and \file{.Rprofile.d/} directories.}
@@ -21,13 +21,16 @@ rprofile(paths = c(".", "~"), unload = FALSE, debug = NA)
 }
 \description{
 Initiates R using all files under \file{.Renviron.d/}
-and / or \file{.Rprofile.d/} directories (or in subdirectories)
-thereof.  This is done in addition the \file{.Renviron} and
-\file{.Rprofile} files supported by the
-\link[base:Startup]{default R startup process}.
-Directories \file{.Renviron.d/} and \file{.Rprofile.d/} may
-be located in the current directory and / or the user's home
-directory.
+and / or \file{.Rprofile.d/} directories
+(or in subdirectories thereof).
+Any \file{.Renviron.d/} and \file{.Rprofile.d/} directories
+in user's home directory (`~`) are first processed followed
+by any in the in the current directory (`.`).
+}
+\details{
+The above is done in addition the \file{.Renviron} and
+\file{.Rprofile} files that re supported by the built-in
+\link[base:Startup]{startup process} of \R.
 }
 \section{Functions}{
 \itemize{
@@ -39,8 +42,12 @@ directory.
 }}
 \examples{
 \dontrun{
-# The most common way to use the package
+# The most common way to use the package is to add
+# the following call to the ~/.Rprofile file.
 startup::startup()
+
+# For finer control of on exactly what files are used
+# functions renviron() and rprofile() are also available:
 
 # Initiate any ./.Renviron.d/ and ~/.Renviron.d/ files
 startup::renviron()

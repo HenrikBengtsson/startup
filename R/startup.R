@@ -1,13 +1,15 @@
 #' Simplified Initialization at Start of an R Session
 #'
 #' Initiates R using all files under \file{.Renviron.d/}
-#' and / or \file{.Rprofile.d/} directories (or in subdirectories)
-#' thereof.  This is done in addition the \file{.Renviron} and
-#' \file{.Rprofile} files supported by the
-#' \link[base:Startup]{default R startup process}.
-#' Directories \file{.Renviron.d/} and \file{.Rprofile.d/} may
-#' be located in the current directory and / or the user's home
-#' directory.
+#' and / or \file{.Rprofile.d/} directories
+#' (or in subdirectories thereof).
+#' Any \file{.Renviron.d/} and \file{.Rprofile.d/} directories
+#' in user's home directory (`~`) are first processed followed
+#' by any in the in the current directory (`.`).
+#'
+#' The above is done in addition the \file{.Renviron} and
+#' \file{.Rprofile} files that re supported by the built-in
+#' \link[base:Startup]{startup process} of \R.
 #'
 #' @param paths Character vector of paths where to locate the \file{.Renviron.d/} and \file{.Rprofile.d/} directories.
 #' @param unload If \code{TRUE}, then the package is unloaded afterward, otherwise not.
@@ -15,8 +17,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' # The most common way to use the package
+#' # The most common way to use the package is to add
+#' # the following call to the ~/.Rprofile file.
 #' startup::startup()
+#'
+#' # For finer control of on exactly what files are used
+#' # functions renviron() and rprofile() are also available:
 #'
 #' # Initiate any ./.Renviron.d/ and ~/.Renviron.d/ files
 #' startup::renviron()
@@ -30,7 +36,7 @@
 #'
 #' @describeIn startup \code{renviron()} followed by \code{rprofile()} and then the package is unloaded
 #' @export
-startup <- function(paths = c(".", "~"), unload = TRUE, debug = NA) {
+startup <- function(paths = c("~", "."), unload = TRUE, debug = NA) {
   debug(debug)
   # (i) Load custom .Renviron.d/* files
   renviron(paths = paths)
@@ -44,7 +50,7 @@ startup <- function(paths = c(".", "~"), unload = TRUE, debug = NA) {
 
 #' @describeIn startup Initiate using \file{.Renviron.d/} files
 #' @export
-renviron <- function(paths = c(".", "~"), unload = FALSE, debug = NA) {
+renviron <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   debug(debug)
   # Load custom .Renviron.d/* files
   startup_apply(".Renviron.d", FUN = readRenviron, paths = paths)
@@ -55,7 +61,7 @@ renviron <- function(paths = c(".", "~"), unload = FALSE, debug = NA) {
 
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
 #' @export
-rprofile <- function(paths = c(".", "~"), unload = FALSE, debug = NA) {
+rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   debug(debug)
   # (a) Load custom .Rprofile.d/* files
   startup_apply(".Rprofile.d", FUN = source, paths = paths)
