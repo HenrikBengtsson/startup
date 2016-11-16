@@ -47,14 +47,14 @@ The below is a list of "real-world" example files:
  +-- os=windows
  +-- repos
  ```
- They are available as part of this package under `system.file("examples", package = "startup")`, e.g.
+ They are available as part of this package under `system.file(package = "startup")`, e.g.
  ```r
- > f <- system.file("examples", ".Rprofile.d", "repos", package = "startup")
+ > f <- system.file(".Rprofile.d", "repos", package = "startup")
  > file.show(f, type = "text")
 
 local({
   repos <- c(
-    CRAN="https://cloud.r-project.org",
+    CRAN = "https://cloud.r-project.org",
     CRANextra = if (.Platform$OS.type == "windows") {
       "https://www.stats.ox.ac.uk/pub/RWin"
     },
@@ -66,7 +66,7 @@ local({
   names <- names(repos)
   repos <- repos[!(nzchar(names) & duplicated(names))]
   
-  options(repos=repos)
+  options(repos = repos)
 })
 ```
 

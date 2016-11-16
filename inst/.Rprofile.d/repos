@@ -1,6 +1,6 @@
 local({
   repos <- c(
-    CRAN="https://cloud.r-project.org",
+    CRAN = "https://cloud.r-project.org",
     CRANextra = if (.Platform$OS.type == "windows") {
       "https://www.stats.ox.ac.uk/pub/RWin"
     },
@@ -12,5 +12,5 @@ local({
   names <- names(repos)
   repos <- repos[!(nzchar(names) & duplicated(names))]
   
-  options(repos=repos)
+  options(repos = repos)
 })
