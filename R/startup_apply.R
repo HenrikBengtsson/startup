@@ -1,4 +1,9 @@
 startup_apply <- function(dir, FUN, ..., paths = c(".", "~")) {
+  fileext <- function(x) {
+    pos <- regexpr("\\.([[:alnum:]]+)$", x)
+    ifelse(pos < 0, "", substring(x, pos + 1L))
+  }
+
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
@@ -22,7 +27,7 @@ startup_apply <- function(dir, FUN, ..., paths = c(".", "~")) {
   files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
 
   ## Drop files based on filename extension
-  files <- files[!is.element(file_ext(files), c("txt", "md"))]
+  files <- files[!is.element(fileext(files), c("txt", "md"))]
 
   ## Keep only existing files
   files <- files[file.exists(files)]
