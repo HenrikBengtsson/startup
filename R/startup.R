@@ -38,8 +38,10 @@
 #' @export
 startup <- function(paths = c("~", "."), unload = TRUE, debug = NA) {
   debug(debug)
+
   # (i) Load custom .Renviron.d/* files
   renviron(paths = paths)
+  
   # (ii) Load custom .Rprofile.d/* files
   rprofile(paths = paths)
 
@@ -63,10 +65,16 @@ renviron <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
 #' @export
 rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   debug(debug)
-  # (a) Load custom .Rprofile.d/* files
+  
+  # (i) Check and fix common errors
+  check(paths = paths, fix = TRUE)
+  
+  # (ii) Load custom .Rprofile.d/* files
   startup_apply(".Rprofile.d", FUN = source, paths = paths)
-  # (b) Validate .Rprofile
+  
+  # (iii) Validate .Rprofile encoding settings
   check_rprofile_encoding()
+  
   res <- api()
   if (unload) unload()
   invisible(res)
