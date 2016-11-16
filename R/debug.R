@@ -3,9 +3,13 @@ debug <- local({
   
   function(action = NA) {
     if (is.na(status)) {
+      args <- commandArgs()
       t <- as.logical(Sys.getenv("R_STARTUP_DEBUG", "FALSE"))
       t <- getOption("startup.debug", t)
-      status <<- isTRUE(t)
+      t <- isTRUE(t)
+      if (any(c("-q", "--quiet", "--silent", "--slave") %in% args)) t <- FALSE
+      if ("--verbose" %in% args) t <- TRUE
+      status <<- t
     }
     
     action <- as.logical(action)
@@ -16,7 +20,6 @@ debug <- local({
 
 log <- function(..., collapse = "\n") {
   if (!debug()) return()
-  if (is.element("--slave", commandArgs())) return()
   message(paste(..., collapse = collapse))
 }
 
