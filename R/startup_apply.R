@@ -1,6 +1,6 @@
 startup_apply <- function(dir, FUN, ..., paths = c(".", "~")) {
   fileext <- function(x) {
-    pos <- regexpr("\\.([[:alnum:]]+)$", x)
+    pos <- regexpr("[.]([[:alnum:]]+)$", x)
     ifelse(pos < 0, "", substring(x, pos + 1L))
   }
 
