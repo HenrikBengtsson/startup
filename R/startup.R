@@ -66,7 +66,7 @@ rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   # (a) Load custom .Rprofile.d/* files
   startup_apply(".Rprofile.d", FUN = source, paths = paths)
   # (b) Validate .Rprofile
-  check_rprofile()
+  check_rprofile_encoding()
   res <- api()
   if (unload) unload()
   invisible(res)
