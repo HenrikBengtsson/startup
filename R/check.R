@@ -29,17 +29,16 @@ check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, debug = FALSE) {
   for (kk in seq_along(files)) {
     file <- files[kk]
     if (!eof_ok(file)) {
-      ## Try to fix it
       if (fix) {
-        bfr <- readLines(file, warn = FALSE)
-        try(writeLines(bfr, con = file))
+        ## Try to fix it by appending a newline
+        try(cat(file = file, "\n", append = TRUE))
         if (eof_ok(file)) {
           msg <- sprintf("SYNTAX ISSUE FIXED: Added missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process.", file)
           warning(msg)
         } else {
           msg <- sprintf("SYNTAX ERROR: Tried to add missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process, but failed.", file)
+          stop(msg)
         }
-        warning(msg)
       } else {
         msg <- sprintf("SYNTAX ERROR: File %s is missing a newline at the end of the file, which most likely will cause R to silently ignore the file in the startup process.", file)
         stop(msg)

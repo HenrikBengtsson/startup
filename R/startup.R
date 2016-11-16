@@ -41,7 +41,6 @@ startup <- function(paths = c("~", "."), unload = TRUE, debug = NA) {
 
   # (i) Load custom .Renviron.d/* files
   renviron(paths = paths)
-  
   # (ii) Load custom .Rprofile.d/* files
   rprofile(paths = paths)
 
@@ -72,7 +71,7 @@ rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   # (ii) Load custom .Rprofile.d/* files
   startup_apply(".Rprofile.d", FUN = source, paths = paths)
   
-  # (iii) Validate .Rprofile encoding settings
+  # (iii) Validate .Rprofile encoding
   check_rprofile_encoding()
   
   res <- api()
