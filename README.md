@@ -1,20 +1,22 @@
 # startup: Friendly R Startup Configuration
 
-## Usage
+## Installation
 
 Add
 ```r
 startup::startup()
 ```
-to `~/.Rprofile` (or `./.Rprofile`).
+to `~/.Rprofile`.  This line can also be by calling `startup::install()`, which will append the above line at the end of the file.  The file together with directories `~/.Renviron.d/` and `~/.Rprofile.d/` will be created if missing.
 
-This will cause all files (found recursively) under
+## Usage
+Calling `startup::startup()` in `~/.Rprofile`, will cause all files under
 
 1. `~./.Renviron.d/` and then `./.Renviron.d/` to be processed as `.Renviron` files.
 
 2. `~./.Rprofile.d/` and then `./.profile.d/` to be sourced as `.Rprofile` files.
+3. When done, the `startup` package will be unloaded again leaving no trace of itself.
 
-When done, the `startup` package will be unloaded again leaving no trace of itself.
+All relevant files, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md`, `*.Rhistory` and `*.RData`.
 
 
 ## Conditional file names
