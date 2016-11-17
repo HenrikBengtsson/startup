@@ -5,12 +5,14 @@
 \alias{uninstall}
 \title{Install and uninstall startup to .Rprofile}
 \usage{
-install(path = "~", debug = FALSE)
+install(path = "~", backup = TRUE, debug = FALSE)
 
-uninstall(path = "~", debug = FALSE)
+uninstall(path = "~", backup = TRUE, debug = FALSE)
 }
 \arguments{
 \item{path}{The path where to create / update the \file{.Rprofile} file.}
+
+\item{backup}{If \code{TRUE}, a timestamped backup copy of the original file is created before modifying it, otherwise not.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }

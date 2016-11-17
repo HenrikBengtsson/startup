@@ -41,6 +41,7 @@ startup <- function(paths = c("~", "."), unload = TRUE, debug = NA) {
 
   # (i) Load custom .Renviron.d/* files
   renviron(paths = paths)
+  
   # (ii) Load custom .Rprofile.d/* files
   rprofile(paths = paths)
 

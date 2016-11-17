@@ -2,6 +2,7 @@
 #'
 #' @param paths Character vector of paths where to locate the \file{.Rprofile} files.
 #' @param fix If \code{TRUE}, detected issues will be tried to be automatically fixed, otherwise not.
+#' @param backup If \code{TRUE}, a timestamped backup copy of the original file is created before modifying it, otherwise not.
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
 #'
 #' @references
@@ -10,12 +11,12 @@
 #' }
 #'
 #' @export
-check <- function(paths = c("~", "."), fix = TRUE, debug = FALSE) {
-  check_rprofile_eof(paths = paths, fix = fix, debug = debug)
+check <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE) {
+  check_rprofile_eof(paths = paths, fix = fix, backup = backup, debug = debug)
 }
 
 
-check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, debug = FALSE) {
+check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE) {
   eof_ok <- function(file) {
     size <- file.info(file)$size
     bfr <- readBin(file, what = "raw", n = size)
@@ -30,6 +31,7 @@ check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, debug = FALSE) {
     file <- files[kk]
     if (!eof_ok(file)) {
       if (fix) {
+        if (backup) backup(file)
         ## Try to fix it by appending a newline
         try(cat(file = file, "\n", append = TRUE))
         if (eof_ok(file)) {

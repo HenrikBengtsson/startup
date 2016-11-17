@@ -4,12 +4,14 @@
 \alias{check}
 \title{Check for and fix common mistakes in .Rprofile}
 \usage{
-check(paths = c("~", "."), fix = TRUE, debug = FALSE)
+check(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE)
 }
 \arguments{
 \item{paths}{Character vector of paths where to locate the \file{.Rprofile} files.}
 
 \item{fix}{If \code{TRUE}, detected issues will be tried to be automatically fixed, otherwise not.}
+
+\item{backup}{If \code{TRUE}, a timestamped backup copy of the original file is created before modifying it, otherwise not.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
