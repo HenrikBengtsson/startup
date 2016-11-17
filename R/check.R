@@ -13,6 +13,7 @@
 #' @export
 check <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE) {
   check_rprofile_eof(paths = paths, fix = fix, backup = backup, debug = debug)
+  check_rprofile_update_packages(paths = paths, debug = debug)
 }
 
 
@@ -48,6 +49,26 @@ check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, d
     }
   }
 }
+
+
+check_rprofile_update_packages <- function(paths = c("~", "."), debug = FALSE) {
+  files <- file.path(paths, ".Rprofile")
+  files <- files[file.exists(files)]
+  files <- c(files, find_files(paths = paths, dir = ".Rprofile.d"))
+  if (length(files) == 0) return()
+  for (file in files) {
+    bfr <- readLines(file, warn = FALSE)
+    bfr <- gsub("#.*", "", bfr, fixed = FALSE)
+    pattern <- "update.packages[(][^)]*[)]"
+    if (any(grepl(pattern, bfr, fixed = FALSE))) {
+      msg <- sprintf("UNSAFE STARTUP CALL DETECTED: Calling update.packages() during R startup risks recursively spawning of an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", file)
+      stop(msg)
+    }
+  }
+  invisible()
+}
+
+
 
 
 check_rprofile_encoding <- function(debug = FALSE) {
