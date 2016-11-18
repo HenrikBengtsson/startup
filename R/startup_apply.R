@@ -1,4 +1,4 @@
-find_files <- function(paths = c("~", "."), dir) {
+find_d_files <- function(paths = c("~", "."), dir) {
   fileext <- function(x) {
     pos <- regexpr("[.]([[:alnum:]]+)$", x)
     ifelse(pos < 0, "", substring(x, pos + 1L))
@@ -38,11 +38,11 @@ find_files <- function(paths = c("~", "."), dir) {
   files <- unique(files)
 
   files
-} ## find_files()
+} ## find_d_files()
 
 
 startup_apply <- function(dir, FUN, ..., paths = c("~", ".")) {
-  files <- find_files(paths = paths, dir = dir)
+  files <- find_d_files(paths = paths, dir = dir)
 
   ## Parse <key>=<value> and keep only matching ones
   sysinfo <- sysinfo()
