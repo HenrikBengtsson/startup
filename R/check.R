@@ -54,7 +54,8 @@ check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, d
 check_rprofile_update_packages <- function(paths = c("~", "."), debug = FALSE) {
   files <- file.path(paths, ".Rprofile")
   files <- files[file.exists(files)]
-  files <- c(files, find_d_files(paths = paths, dir = ".Rprofile.d"))
+  paths <- file.path(paths, ".Rprofile.d")
+  files <- c(files, find_d_files(paths = paths))
   if (length(files) == 0) return()
   for (file in files) {
     bfr <- readLines(file, warn = FALSE)

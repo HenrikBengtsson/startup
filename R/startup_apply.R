@@ -1,4 +1,4 @@
-find_d_files <- function(paths = c("~", "."), dir) {
+find_d_files <- function(paths) {
   fileext <- function(x) {
     pos <- regexpr("[.]([[:alnum:]]+)$", x)
     ifelse(pos < 0, "", substring(x, pos + 1L))
@@ -7,9 +7,6 @@ find_d_files <- function(paths = c("~", "."), dir) {
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
-  
-  ## Directories to look for
-  paths <- file.path(paths, dir)
   
   ## Keep only the ones that exists
   paths <- paths[file.exists(paths)]
@@ -42,7 +39,8 @@ find_d_files <- function(paths = c("~", "."), dir) {
 
 
 startup_apply <- function(dir, FUN, ..., paths = c("~", ".")) {
-  files <- find_d_files(paths = paths, dir = dir)
+  paths <- file.path(paths, dir)
+  files <- find_d_files(paths = paths)
 
   ## Parse <key>=<value> and keep only matching ones
   sysinfo <- sysinfo()
