@@ -1,6 +1,6 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
 #' @export
-rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
+rprofile <- function(all = FALSE, unload = FALSE, debug = NA) {
   debug(debug)
 
   args <- commandArgs()
@@ -9,11 +9,11 @@ rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   skip <- ("--no-init-file" %in% args)
 
   # (i) Check and fix common errors
-  check(paths = paths, fix = TRUE)
+  check(all = all, fix = TRUE)
   
   if (!skip) {
     # (ii) Load custom .Rprofile.d/* files
-    startup_apply("Rprofile")
+    startup_apply("Rprofile", all = all)
   
     # (iii) Validate .Rprofile encoding
     check_rprofile_encoding()

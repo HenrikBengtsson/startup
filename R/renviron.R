@@ -1,6 +1,6 @@
 #' @describeIn startup Initiate using \file{.Renviron.d/} files
 #' @export
-renviron <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
+renviron <- function(all = FALSE, unload = FALSE, debug = NA) {
   debug(debug)
   
   args <- commandArgs()
@@ -10,7 +10,7 @@ renviron <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
 
   if (!skip) {
     # Load custom .Renviron.d/* files
-    startup_apply("Renviron")
+    startup_apply("Renviron", all = all)
   }
   
   res <- api()

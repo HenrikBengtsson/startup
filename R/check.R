@@ -1,6 +1,6 @@
 #' Check for and fix common mistakes in .Rprofile
 #'
-#' @param paths Character vector of paths where to locate the \file{.Rprofile} files.
+#' @param all Should all or only the first entry be checked?
 #' @param fix If \code{TRUE}, detected issues will be tried to be automatically fixed, otherwise not.
 #' @param backup If \code{TRUE}, a timestamped backup copy of the original file is created before modifying it, otherwise not.
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
@@ -11,13 +11,13 @@
 #' }
 #'
 #' @export
-check <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE) {
-  check_rprofile_eof(paths = paths, fix = fix, backup = backup, debug = debug)
-  check_rprofile_update_packages(paths = paths, debug = debug)
+check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
+  check_rprofile_eof(all = all, fix = fix, backup = backup, debug = debug)
+  check_rprofile_update_packages(all = all, debug = debug)
 }
 
 
-check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE) {
+check_rprofile_eof <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
   eof_ok <- function(file) {
     size <- file.info(file)$size
     bfr <- readBin(file, what = "raw", n = size)
@@ -25,8 +25,7 @@ check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, d
   }
 
   debug(debug)
-  files <- file.path(paths, ".Rprofile")
-  files <- files[file.exists(files)]
+  files <- find_rprofile(all = all)
 
   for (kk in seq_along(files)) {
     file <- files[kk]
@@ -51,11 +50,10 @@ check_rprofile_eof <- function(paths = c("~", "."), fix = TRUE, backup = TRUE, d
 }
 
 
-check_rprofile_update_packages <- function(paths = c("~", "."), debug = FALSE) {
-  files <- file.path(paths, ".Rprofile")
-  files <- files[file.exists(files)]
-  paths <- file.path(paths, ".Rprofile.d")
-  files <- c(files, find_d_files(paths = paths))
+check_rprofile_update_packages <- function(all = FALSE, debug = FALSE) {
+  files <- find_rprofile(all = all)
+  paths <- find_rprofile_d(all = all)
+  files <- c(files, find_d_files(paths))
   if (length(files) == 0) return()
   for (file in files) {
     bfr <- readLines(file, warn = FALSE)

@@ -12,7 +12,7 @@ message("*** rprofile()")
 res <- startup::rprofile()
 stopifnot(all.equal(res, api))
 
-res <- startup::rprofile(paths = "~")
+res <- startup::rprofile(all = TRUE)
 
 message("*** startup()")
 res <- startup::startup(debug = TRUE)

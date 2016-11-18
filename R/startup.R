@@ -11,7 +11,7 @@
 #' \file{.Rprofile} files that re supported by the built-in
 #' \link[base:Startup]{startup process} of \R.
 #'
-#' @param paths Character vector of paths where to locate the \file{.Renviron.d/} and \file{.Rprofile.d/} directories.
+#' @param all If \code{TRUE}, then all \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on the R startup search paths are processed, otherwise only the first ones found.
 #' @param unload If \code{TRUE}, then the package is unloaded afterward, otherwise not.
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
 #'
@@ -27,8 +27,8 @@
 #' # Initiate any ./.Renviron.d/ and ~/.Renviron.d/ files
 #' startup::renviron()
 #'
-#' # Initiate only ~/.Rprofile.d/ files
-#' startup::rprofile(paths = "~")
+#' # Initiate only the first .Rprofile.d/ directory of files
+#' startup::rprofile(all = FALSE)
 #'
 #' # Initiate .Renviron.d/ files then .Rprofile.d/ files
 #' startup::renviron()$rprofile()
@@ -36,14 +36,14 @@
 #'
 #' @describeIn startup \code{renviron()} followed by \code{rprofile()} and then the package is unloaded
 #' @export
-startup <- function(paths = c("~", "."), unload = TRUE, debug = NA) {
+startup <- function(all = FALSE, unload = TRUE, debug = NA) {
   debug(debug)
 
   # (i) Load custom .Renviron.d/* files
-  renviron(paths = paths)
+  renviron(all = all)
   
   # (ii) Load custom .Rprofile.d/* files
-  rprofile(paths = paths)
+  rprofile(all = all)
 
   res <- api()
   if (unload) unload()

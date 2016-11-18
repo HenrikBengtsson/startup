@@ -4,10 +4,10 @@
 \alias{check}
 \title{Check for and fix common mistakes in .Rprofile}
 \usage{
-check(paths = c("~", "."), fix = TRUE, backup = TRUE, debug = FALSE)
+check(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE)
 }
 \arguments{
-\item{paths}{Character vector of paths where to locate the \file{.Rprofile} files.}
+\item{all}{Should all or only the first entry be checked?}
 
 \item{fix}{If \code{TRUE}, detected issues will be tried to be automatically fixed, otherwise not.}
 

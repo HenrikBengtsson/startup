@@ -6,14 +6,14 @@
 \alias{startup}
 \title{Simplified Initialization at Start of an R Session}
 \usage{
-renviron(paths = c("~", "."), unload = FALSE, debug = NA)
+renviron(all = FALSE, unload = FALSE, debug = NA)
 
-rprofile(paths = c("~", "."), unload = FALSE, debug = NA)
+rprofile(all = FALSE, unload = FALSE, debug = NA)
 
-startup(paths = c("~", "."), unload = TRUE, debug = NA)
+startup(all = FALSE, unload = TRUE, debug = NA)
 }
 \arguments{
-\item{paths}{Character vector of paths where to locate the \file{.Renviron.d/} and \file{.Rprofile.d/} directories.}
+\item{all}{If \code{TRUE}, then all \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on the R startup search paths are processed, otherwise only the first ones found.}
 
 \item{unload}{If \code{TRUE}, then the package is unloaded afterward, otherwise not.}
 
@@ -52,8 +52,8 @@ startup::startup()
 # Initiate any ./.Renviron.d/ and ~/.Renviron.d/ files
 startup::renviron()
 
-# Initiate only ~/.Rprofile.d/ files
-startup::rprofile(paths = "~")
+# Initiate only the first .Rprofile.d/ directory of files
+startup::rprofile(all = FALSE)
 
 # Initiate .Renviron.d/ files then .Rprofile.d/ files
 startup::renviron()$rprofile()
