@@ -2,15 +2,15 @@
 #' @export
 rprofile <- function(all = FALSE, unload = FALSE, debug = NA) {
   debug(debug)
-
+  
   args <- commandArgs()
 
   ## Skip?
   skip <- ("--no-init-file" %in% args)
 
   # (i) Check and fix common errors
-  check(all = all, fix = TRUE)
-  
+  check(all = all, fix = TRUE, debug = debug)
+
   if (!skip) {
     # (ii) Load custom .Rprofile.d/* files
     startup_apply("Rprofile", all = all)

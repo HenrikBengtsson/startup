@@ -22,8 +22,21 @@ find_renviron <- function(all = FALSE) {
 #' @export
 #' @keywords internal
 find_rprofile_d <- function(all = FALSE) {
-  pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
+  if (all) {
+    pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
+  } else {
+    pathnames <- find_rprofile(all = FALSE)
+    if (length(pathnames) == 0) {
+      logf("Found no .Rprofile file on the R startup search path. Will search for .Rprofile.d directory located anywhere on the search path")
+      pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
+    } else {
+      logf("Found %s on the R startup search path. Will look for the .Rprofile.d directory in the same location only", pathnames)
+    }
+  }
+
+  pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
+  logf("Looking for %s", paste(sQuote(paths), collapse = ", "))
   find_d_dirs(paths, all = all)
 }
 
@@ -31,8 +44,20 @@ find_rprofile_d <- function(all = FALSE) {
 #' @export
 #' @keywords internal
 find_renviron_d <- function(all = FALSE) {
-  pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
+  if (all) {
+    pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
+  } else {
+    pathnames <- find_renviron(all = FALSE)
+    if (length(pathnames) == 0) {
+      logf("Found no .Renviron file on the R startup search path. Will search for .Renviron.d directory located anywhere on the search path")
+      pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
+    } else {
+      logf("Found %s on the R startup search path. Will look for the .Renviron.d directory in the same location only", pathnames)
+    }
+  }
+  pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
+  logf("Looking for %s", paste(sQuote(paths), collapse = ", "))
   find_d_dirs(paths, all = all)
 }
 
@@ -42,7 +67,7 @@ find_files <- function(pathnames, all = FALSE) {
   pathnames <- pathnames[file.exists(pathnames)]
   pathnames <- pathnames[!file.info(pathnames)$isdir]
 
-  if (all) {
+  if (!all) {
     pathnames <- if (length(pathnames) == 0) character(0L) else pathnames[1]
   }
 
@@ -50,12 +75,14 @@ find_files <- function(pathnames, all = FALSE) {
 } ## find_files()
 
 find_d_dirs <- function(paths, all = FALSE) {
+  if (length(paths) == 0) return(character(0))
+  
   paths <- lapply(paths, FUN = normalizePath, mustWork = FALSE)
   paths <- unlist(paths, use.names = FALSE)
   paths <- paths[file.exists(paths)]
   paths <- paths[file.info(paths)$isdir]
 
-  if (all) {
+  if (!all) {
     paths <- if (length(paths) == 0) character(0L) else paths[1]
   }
 
