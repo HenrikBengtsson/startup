@@ -54,8 +54,17 @@ startup <- function(paths = c("~", "."), unload = TRUE, debug = NA) {
 #' @export
 renviron <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   debug(debug)
-  # Load custom .Renviron.d/* files
-  startup_apply(".Renviron.d", FUN = readRenviron, paths = paths)
+  
+  args <- commandArgs()
+
+  ## Skip?
+  skip <- ("--no-environ" %in% args)
+
+  if (!skip) {
+    # Load custom .Renviron.d/* files
+    startup_apply(".Renviron.d", FUN = readRenviron, paths = paths)
+  }
+  
   res <- api()
   if (unload) unload()
   invisible(res)
