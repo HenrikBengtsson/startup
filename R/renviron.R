@@ -10,7 +10,7 @@ renviron <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
 
   if (!skip) {
     # Load custom .Renviron.d/* files
-    startup_apply(".Renviron.d", FUN = readRenviron, paths = paths)
+    startup_apply("Renviron")
   }
   
   res <- api()

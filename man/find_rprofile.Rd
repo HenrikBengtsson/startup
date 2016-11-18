@@ -5,9 +5,9 @@
 \alias{find_rprofile}
 \title{Locates the .Rprofile and .Renviron files used during the startup of R}
 \usage{
-find_rprofile(first_only = TRUE)
+find_rprofile(all = FALSE)
 
-find_renviron(first_only = TRUE)
+find_renviron(all = FALSE)
 }
 \description{
 Locates the .Rprofile and .Renviron files used during the startup of R

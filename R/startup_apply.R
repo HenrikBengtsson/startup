@@ -1,46 +1,14 @@
-find_d_files <- function(paths) {
-  fileext <- function(x) {
-    pos <- regexpr("[.]([[:alnum:]]+)$", x)
-    ifelse(pos < 0, "", substring(x, pos + 1L))
+startup_apply <- function(what = c("Renviron", "Rprofile"), all = FALSE) {
+  what <- match.arg(what)
+  if (what == "Renviron") {
+    paths <- find_renviron_d(all = all)
+    files <- find_d_files(paths)
+    FUN <- readRenviron
+  } else if (what == "Rprofile") {
+    paths <- find_rprofile_d(all = all)
+    files <- find_d_files(paths)
+    FUN <- source
   }
-
-  ol <- Sys.getlocale("LC_COLLATE")
-  on.exit(Sys.setlocale("LC_COLLATE", ol))
-  Sys.setlocale("LC_COLLATE", "C")
-  
-  ## Keep only the ones that exists
-  paths <- paths[file.exists(paths)]
-
-  ## Nothing to do?
-  if (length(paths) == 0) return(character(0L))
-  
-  ## For each directory, locate files of interest
-  files <- NULL
-  for (path in paths) {
-    files <- c(files, dir(path = path, pattern = "[^~]$", recursive = TRUE, all.files = TRUE, full.names = TRUE))
-  }
-
-  ## Drop stray files
-  files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
-
-  ## Drop files based on filename extension
-  files <- files[!is.element(fileext(files), c("txt", "md"))]
-
-  ## Keep only existing files
-  files <- files[file.exists(files)]
-  files <- files[!file.info(files)$isdir]
-
-  ## Drop duplicates
-  files <- normalizePath(files)
-  files <- unique(files)
-
-  files
-} ## find_d_files()
-
-
-startup_apply <- function(dir, FUN, ..., paths = c("~", ".")) {
-  paths <- file.path(paths, dir)
-  files <- find_d_files(paths = paths)
 
   ## Parse <key>=<value> and keep only matching ones
   sysinfo <- sysinfo()
@@ -57,10 +25,10 @@ startup_apply <- function(dir, FUN, ..., paths = c("~", ".")) {
 
   dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
   dryrun <- getOption("startup.dryrun", dryrun)
-  logf("startup: processing %d %s files", length(files), dir)
+  logf("startup: processing %d %s files", length(files), what)
   for (file in files) {
     logf(" - %s", file)
-    if (!dryrun) FUN(file, ...)
+    if (!dryrun) FUN(file)
   }
   if (dryrun) log("(all files were skipped because startup.dryrun = TRUE)")
 

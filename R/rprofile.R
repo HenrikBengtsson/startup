@@ -13,7 +13,7 @@ rprofile <- function(paths = c("~", "."), unload = FALSE, debug = NA) {
   
   if (!skip) {
     # (ii) Load custom .Rprofile.d/* files
-    startup_apply(".Rprofile.d", FUN = source, paths = paths)
+    startup_apply("Rprofile")
   
     # (iii) Validate .Rprofile encoding
     check_rprofile_encoding()
