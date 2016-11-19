@@ -1,12 +1,12 @@
 #' @describeIn startup Initiate using \file{.Renviron.d/} files
 #' @export
-renviron <- function(all = FALSE, unload = FALSE, debug = NA) {
+renviron <- function(all = FALSE, unload = FALSE, skip = NA, debug = NA) {
   debug(debug)
   
-  args <- commandArgs()
-
   ## Skip?
-  skip <- ("--no-environ" %in% args)
+  if (is.na(skip)) {
+    skip <- any(c("--no-environ", "--vanilla") %in% commandArgs())
+  }
 
   if (!skip) {
     # Load custom .Renviron.d/* files

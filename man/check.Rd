@@ -7,7 +7,7 @@
 check(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE)
 }
 \arguments{
-\item{all}{Should all or only the first entry be checked?}
+\item{all}{Should all or only the first entry on \link[base:Startup]{the R startup search path} be checked?}
 
 \item{fix}{If \code{TRUE}, detected issues will be tried to be automatically fixed, otherwise not.}
 
@@ -16,7 +16,7 @@ check(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE)
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
-Check for and fix common mistakes in .Rprofile
+Check for and fix common mistakes in \file{.Rprofile} files.
 }
 \references{
 \itemize{

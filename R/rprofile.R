@@ -1,12 +1,12 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
 #' @export
-rprofile <- function(all = FALSE, unload = FALSE, debug = NA) {
+rprofile <- function(all = FALSE, unload = FALSE, skip = NA, debug = NA) {
   debug <- debug(debug)
   
-  args <- commandArgs()
-
   ## Skip?
-  skip <- ("--no-init-file" %in% args)
+  if (is.na(skip)) {
+    skip <- any(c("--no-init-file", "--vanilla") %in% commandArgs())
+  }
 
   # (i) Check and fix common errors
   check(all = all, fix = TRUE, debug = FALSE)

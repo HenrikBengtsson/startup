@@ -97,11 +97,6 @@ find_d_dirs <- function(paths, all = FALSE) {
 
 
 find_d_files <- function(paths) {
-  fileext <- function(x) {
-    pos <- regexpr("[.]([[:alnum:]]+)$", x)
-    ifelse(pos < 0, "", substring(x, pos + 1L))
-  }
-
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
@@ -121,13 +116,16 @@ find_d_files <- function(paths) {
   ## Drop stray files
   files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
 
-  ## Drop files based on filename extension
-  files <- files[!is.element(fileext(files), c("txt", "md"))]
+  ## Drop files based on filename endings
+  files <- grep("([.]md|[.]txt|~)$", files, value = TRUE, invert = TRUE)
+
+  ## Nothing to do?
+  if (length(files) == 0) return(character(0))
 
   ## Keep only existing files
   files <- files[file.exists(files)]
   files <- files[!file.info(files)$isdir]
-
+    
   ## Drop duplicates
   filesN <- normalizePath(files)
   files <- files[!duplicated(filesN)]

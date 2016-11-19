@@ -1,13 +1,13 @@
 ## Introduction
 
-Calling `startup::startup()` in `~/.Rprofile`, will cause all files under
+Calling `startup::startup()` in `~/.Rprofile`, will cause files under one of the
 
-1. `~./.Renviron.d/` and then `./.Renviron.d/` to be processed as `.Renviron` files.
+1. `~./.Renviron.d/` and `./.Renviron.d/` directories to be processed as `.Renviron` files.
 
-2. `~./.Rprofile.d/` and then `./.profile.d/` to be sourced as `.Rprofile` files.
+2. `~./.Rprofile.d/` and `./.profile.d/` directories to be sourced as `.Rprofile` files.
 3. If there are no errors, the `startup` package will be unloaded again leaving no trace of itself behind.
 
-All relevant files, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md`, `*.Rhistory` and `*.RData`.
+All relevant files, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
 
 
 ## Installation
