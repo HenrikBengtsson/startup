@@ -1,4 +1,6 @@
-#' Install and uninstall startup to .Rprofile
+#' Install and uninstall support for .Renviron.d and .Rprofile.d startup directories
+#'
+#' Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d} startup directories by appending / removing one line of code to the \file{~/.Rprofile} file.
 #'
 #' @param path The path where to create / update the \file{.Rprofile} file.
 #' @param backup If \code{TRUE}, a timestamped backup copy of the original file is created before modifying it, otherwise not.

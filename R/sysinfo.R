@@ -1,4 +1,4 @@
-#' Information on the current R Session
+#' Information on the current R session
 #'
 #' @return A named list.
 #'

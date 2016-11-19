@@ -1,6 +1,6 @@
-#' Simplified Initialization at Start of an R Session
+#' Load .Renviron.d and .Rprofile.d directories during the R startup process
 #'
-#' Initiates R using all files under \file{.Renviron.d/}
+#' Initiates \R using all files under \file{.Renviron.d/}
 #' and / or \file{.Rprofile.d/} directories
 #' (or in subdirectories thereof).
 #'

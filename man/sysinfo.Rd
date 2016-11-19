@@ -2,7 +2,7 @@
 % Please edit documentation in R/sysinfo.R
 \name{sysinfo}
 \alias{sysinfo}
-\title{Information on the current R Session}
+\title{Information on the current R session}
 \usage{
 sysinfo()
 }
@@ -10,7 +10,7 @@ sysinfo()
 A named list.
 }
 \description{
-Information on the current R Session
+Information on the current R session
 }
 \examples{
 startup::sysinfo()

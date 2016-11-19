@@ -4,7 +4,7 @@
 \alias{renviron}
 \alias{rprofile}
 \alias{startup}
-\title{Simplified Initialization at Start of an R Session}
+\title{Load .Renviron.d and .Rprofile.d directories during the R startup process}
 \usage{
 renviron(all = FALSE, unload = FALSE, skip = NA, debug = NA)
 
@@ -22,7 +22,7 @@ startup(all = FALSE, unload = TRUE, skip = NA, debug = NA)
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
-Initiates R using all files under \file{.Renviron.d/}
+Initiates \R using all files under \file{.Renviron.d/}
 and / or \file{.Rprofile.d/} directories
 (or in subdirectories thereof).
 }

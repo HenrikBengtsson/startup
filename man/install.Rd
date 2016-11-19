@@ -3,7 +3,7 @@
 \name{install}
 \alias{install}
 \alias{uninstall}
-\title{Install and uninstall startup to .Rprofile}
+\title{Install and uninstall support for .Renviron.d and .Rprofile.d startup directories}
 \usage{
 install(path = "~", backup = TRUE, debug = FALSE)
 
@@ -17,7 +17,7 @@ uninstall(path = "~", backup = TRUE, debug = FALSE)
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
-Install and uninstall startup to .Rprofile
+Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d} startup directories by appending / removing one line of code to the \file{~/.Rprofile} file.
 }
 \section{Functions}{
 \itemize{
