@@ -72,8 +72,6 @@ find_renviron_d <- function(all = FALSE) {
 }
 
 find_files <- function(pathnames, all = FALSE) {
-  pathnames <- lapply(pathnames, FUN = normalizePath, mustWork = FALSE)
-  pathnames <- unlist(pathnames, use.names = FALSE)
   pathnames <- pathnames[file.exists(pathnames)]
   pathnames <- pathnames[!file.info(pathnames)$isdir]
 
@@ -87,8 +85,6 @@ find_files <- function(pathnames, all = FALSE) {
 find_d_dirs <- function(paths, all = FALSE) {
   if (length(paths) == 0) return(character(0))
   
-  paths <- lapply(paths, FUN = normalizePath, mustWork = FALSE)
-  paths <- unlist(paths, use.names = FALSE)
   paths <- paths[file.exists(paths)]
   paths <- paths[file.info(paths)$isdir]
 
@@ -133,8 +129,8 @@ find_d_files <- function(paths) {
   files <- files[!file.info(files)$isdir]
 
   ## Drop duplicates
-  files <- normalizePath(files)
-  files <- unique(files)
+  filesN <- normalizePath(files)
+  files <- files[!duplicated(filesN)]
 
   files
 } ## find_d_files()
