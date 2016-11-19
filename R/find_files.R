@@ -27,17 +27,22 @@ find_rprofile_d <- function(all = FALSE) {
   } else {
     pathnames <- find_rprofile(all = FALSE)
     if (length(pathnames) == 0) {
-      logf("Found no .Rprofile file on the R startup search path. Will search for .Rprofile.d directory located anywhere on the search path")
+      logf("Found no .Rprofile. Will search for .Rprofile.d directory located anywhere on the search path.")
       pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
     } else {
-      logf("Found %s on the R startup search path. Will look for the .Rprofile.d directory in the same location only", pathnames)
+      logf("Found startup file %s.", pathnames)
     }
   }
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
-  logf("Looking for %s", paste(sQuote(paths), collapse = ", "))
-  find_d_dirs(paths, all = all)
+  pathsD <- find_d_dirs(paths, all = all)
+  if (length(pathsD) == 0) {
+    logf("Found no corresponding startup directory %s.", paste(sQuote(paths), collapse = ", "))
+  } else {
+    logf("Found startup directory %s.", paste(sQuote(pathsD), collapse = ", "))
+  }
+  pathsD
 }
 
 #' @describeIn find_rprofile_d Locates the \file{.Renviron.d} directory used during \R startup.
@@ -49,16 +54,21 @@ find_renviron_d <- function(all = FALSE) {
   } else {
     pathnames <- find_renviron(all = FALSE)
     if (length(pathnames) == 0) {
-      logf("Found no .Renviron file on the R startup search path. Will search for .Renviron.d directory located anywhere on the search path")
+      logf("Found no .Renviron file. Will search for .Renviron.d directory located anywhere on the search path.")
       pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
     } else {
-      logf("Found %s on the R startup search path. Will look for the .Renviron.d directory in the same location only", pathnames)
+      logf("Found startup file %s.", pathnames)
     }
   }
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
-  logf("Looking for %s", paste(sQuote(paths), collapse = ", "))
-  find_d_dirs(paths, all = all)
+  pathsD <- find_d_dirs(paths, all = all)
+  if (length(pathsD) == 0) {
+    logf("Found no corresponding startup directory %s.", paste(sQuote(paths), collapse = ", "))
+  } else {
+    logf("Found startup directory %s.", paste(sQuote(pathsD), collapse = ", "))
+  }
+  pathsD
 }
 
 find_files <- function(pathnames, all = FALSE) {

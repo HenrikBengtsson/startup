@@ -1,7 +1,7 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
 #' @export
 rprofile <- function(all = FALSE, unload = FALSE, debug = NA) {
-  debug(debug)
+  debug <- debug(debug)
   
   args <- commandArgs()
 
@@ -9,7 +9,8 @@ rprofile <- function(all = FALSE, unload = FALSE, debug = NA) {
   skip <- ("--no-init-file" %in% args)
 
   # (i) Check and fix common errors
-  check(all = all, fix = TRUE, debug = debug)
+  check(all = all, fix = TRUE, debug = FALSE)
+  debug(debug)
 
   if (!skip) {
     # (ii) Load custom .Rprofile.d/* files

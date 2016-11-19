@@ -10,6 +10,9 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), all = FALSE) {
     FUN <- source
   }
 
+  ## Nothing to do?
+  if (length(files) == 0) return(invisible(character(0)))
+
   ## Parse <key>=<value> and keep only matching ones
   sysinfo <- sysinfo()
   for (key in names(sysinfo)) {
@@ -23,9 +26,12 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), all = FALSE) {
     }
   }
 
+  ## Nothing to do?
+  if (length(files) == 0) return(invisible(character(0)))
+  
   dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
   dryrun <- getOption("startup.dryrun", dryrun)
-  logf("startup: processing %d %s files", length(files), what)
+  logf("Processing %d %s files:", length(files), what)
   for (file in files) {
     logf(" - %s", file)
     if (!dryrun) FUN(file)
