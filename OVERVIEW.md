@@ -69,19 +69,11 @@ The below is a list of "real-world" example files:
  > file.show(f, type = "text")
 
 local({
-  repos <- c(
-    CRAN = "https://cloud.r-project.org",
-    CRANextra = if (.Platform$OS.type == "windows") {
-      "https://www.stats.ox.ac.uk/pub/RWin"
-    },
-    getOption("repos")
-  )
-
-  # Keep only unique existing ones
-  repos <- repos[!is.na(repos) && nzchar(repos)]
-  names <- names(repos)
-  repos <- repos[!(nzchar(names) & duplicated(names))]
-  
+  repos <- c(CRAN = "https://cloud.r-project.org")
+  if (.Platform$OS.type == "windows") {
+     repos["CRANextra"] <- "https://www.stats.ox.ac.uk/pub/RWin"
+  }
+  repos <- c(repos, getOption("repos"))
   options(repos = repos)
 })
 ```
