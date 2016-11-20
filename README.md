@@ -9,7 +9,7 @@ Similarly, you can use a `.Renviron.d` directory with multiple files defining di
 The advantages of this approach is that it gives a better overview when you list the files, it makes it easier to share certain settings (= certain files) with others, while keeping others completely private by setting the file privileges so only you can access those files.
 
 
-## Background
+## How the R startup process works
 
 When R starts, the following occurs:
 
