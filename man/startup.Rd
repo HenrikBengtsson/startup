@@ -6,14 +6,19 @@
 \alias{startup}
 \title{Load .Renviron.d and .Rprofile.d directories during the R startup process}
 \usage{
-renviron(all = FALSE, unload = FALSE, skip = NA, debug = NA)
+renviron(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
+  debug = NA)
 
-rprofile(all = FALSE, unload = FALSE, skip = NA, debug = NA)
+rprofile(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
+  debug = NA)
 
-startup(all = FALSE, unload = TRUE, skip = NA, debug = NA)
+startup(sibling = FALSE, all = FALSE, unload = TRUE, skip = NA,
+  debug = NA)
 }
 \arguments{
-\item{all}{If \code{TRUE}, then all \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on \link[base:Startup]{the R startup search path} are processed, otherwise only the first ones found.}
+\item{sibling}{If \code{TRUE}, then only \file{.Renviron.d/} and \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and \file{.Rprofile} in the same location will be considered.}
+
+\item{all}{If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on \link[base:Startup]{the R startup search path} are processed, otherwise only the \emph{first ones} found.}
 
 \item{unload}{If \code{TRUE}, then the package is unloaded afterward, otherwise not.}
 
