@@ -6,7 +6,7 @@ When you start R, it will by default source a `.Rprofile` file if it exists.  Th
 
 The [startup] package extends the default R startup process by allowing you to put multiple startup scripts in a common `.Rprofile.d` directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal [devtools] settings.
 Similarly, you can use a `.Renviron.d` directory with multiple files defining different environment variables.  For instance, one file may define environment variable `LANGUAGE`, whereas another file may contain your private `GITHUB_PAT` key.
-The advantages of this approach is that it gives a better overview when you list the files, it makes it easier to share certain settings (= certain files) with others, while keeping others completely private by setting the file privileges so only you can access those files.
+The advantages of this approach are that it gives a better overview when you list the files, it makes it easier to share certain settings (= certain files) with other users while keeping other files completely private by setting the file privileges so only you can access those files.
 
 
 ## How the R startup process works
@@ -38,7 +38,7 @@ once.  This will append
 ```r
 startup::startup()
 ```
-to your `~/.Rprofile`.  The file will be create if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
+to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
 
 
 ## Usage
@@ -107,9 +107,9 @@ source('http://callr.org/install#HenrikBengtsson/startup')
 
 ### Pre-release version
 
-To install the pre-release version that is available in branch `feature/anywhere`, use:
+To install the pre-release version that is available in branch `develop`, use:
 ```r
-source('http://callr.org/install#HenrikBengtsson/startup@feature/anywhere')
+source('http://callr.org/install#HenrikBengtsson/startup@develop')
 ```
 This will install the package from source.  
 
