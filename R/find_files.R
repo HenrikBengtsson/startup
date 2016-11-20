@@ -21,17 +21,13 @@ find_renviron <- function(all = FALSE) {
 #' @describeIn find_rprofile_d Locates the \file{.Rprofile.d} directory used during \R startup.
 #' @export
 #' @keywords internal
-find_rprofile_d <- function(all = FALSE) {
-  if (all) {
-    pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
+find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
+  ## Only include .Rprofile.d directories if a sibling .Rprofile file exists?
+  if (sibling) {
+    pathnames <- find_rprofile(all = all)
   } else {
-    pathnames <- find_rprofile(all = FALSE)
-    if (length(pathnames) == 0) {
-      logf("Found no .Rprofile. Will search for .Rprofile.d directory located anywhere on the search path.")
-      pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
-    } else {
-      logf("Found startup file %s.", pathnames)
-    }
+    ## The default R startup search path
+    pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
   }
 
   pathnames <- pathnames[nzchar(pathnames)]
@@ -48,18 +44,15 @@ find_rprofile_d <- function(all = FALSE) {
 #' @describeIn find_rprofile_d Locates the \file{.Renviron.d} directory used during \R startup.
 #' @export
 #' @keywords internal
-find_renviron_d <- function(all = FALSE) {
-  if (all) {
-    pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
+find_renviron_d <- function(sibling = FALSE, all = FALSE) {
+  ## Only include .Renviron.d directories if a sibling .Renviron file exists?
+  if (sibling) {
+    pathnames <- find_renviron(all = all)
   } else {
-    pathnames <- find_renviron(all = FALSE)
-    if (length(pathnames) == 0) {
-      logf("Found no .Renviron file. Will search for .Renviron.d directory located anywhere on the search path.")
-      pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
-    } else {
-      logf("Found startup file %s.", pathnames)
-    }
+    ## The default R startup search path
+    pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
   }
+
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
   pathsD <- find_d_dirs(paths, all = all)
