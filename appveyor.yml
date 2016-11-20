@@ -33,8 +33,9 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  ps: Bootstrap
-	
+  ps: |
+        Bootstrap
+  
 # Adapt as necessary starting from here
 
 build_script:
