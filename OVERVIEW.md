@@ -1,10 +1,11 @@
 ## Introduction
 
-Calling `startup::startup()` in `~/.Rprofile`, will cause files under _either_ of the
+Calling `startup::startup()` in `~/.Rprofile`, will cause the following to occurs:
 
-1. `~./.Renviron.d/` or `./.Renviron.d/` directory to be processed as `.Renviron` files.
+1. Files in the first existing directory of `paste0(Sys.genenv("R_ENVIRON_USER"), ".d")`, `~./.Renviron.d/` or `./.Renviron.d/` will be processes as .Renviron files.
 
-2. `~./.Rprofile.d/` or `./.profile.d/` directory to be sourced as `.Rprofile` files.
+2. Files in the first existing directory of `paste0(Sys.genenv("R_ENVIRON_USER"), ".d")`, `~./.Rprofile.d/` or `./.profile.d/` will be sourced as .Rprofile files.
+
 3. If there are no errors, the `startup` package will be unloaded again leaving no trace of itself behind.
 
 All relevant files, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
@@ -31,6 +32,12 @@ to your `~/.Rprofile`.  The file will be create if missing.  This will also crea
 ## Usage
 
 Just start R :)
+
+To debug the startup process, use `startup::startup(debug = TRUE)` or set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux one can do:
+```r
+$ R_STARTUP_DEBUG=TRUE R
+```
+This is will give informative messages during startup on which files are included and why.
 
 
 ## Conditional file names
