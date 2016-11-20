@@ -1,5 +1,10 @@
 ## Introduction
 
+The [startup] package allows you to use separate startup scripts in a `.Rprofile.d` directory.  This way you can have one file to configure the package repository URLs (`options("repos")`) and another one to configure your [devtools] settings.  Similarly, you can use a `.Renviron.d` directory with multiple files defining different environment variables.  For instance, one file may define environment variable `LANGUAGE`, whereas another file may contain your private `GITHUB_PAT` key.  By setting the file privileges on the latter to only be accessible by you, you can then safely share the rest with other users on the same file system.
+
+
+## Background
+
 When R starts, the following occurs:
 
 1. The _first_ `.Renviron` file found on the R startup search path to be processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.
@@ -12,14 +17,14 @@ When R starts, the following occurs:
   
   b. The _first_ `.Rprofile.d` directory found on the R startup search path to be processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
   
-  c. If there are no errors, the `startup` package will be unloaded afterward leaving no trace of itself behind.
+  c. If there are no errors, the [startup] package will be unloaded afterward leaving no trace of itself behind.
 
 All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
 
 
 ## Installation
 
-After installing the `startup` packages (see instructions at the end), call
+After installing the startup packages (see instructions at the end), call
 ```r
 startup::install()
 ```
@@ -84,3 +89,6 @@ local({
   options(repos = c(repos, getOption("repos"))
 })
 ```
+
+[startup]: https://github.com/HenrikBengtsson/startup
+[devtools]: https://cran.r-project.org/package=devtools
