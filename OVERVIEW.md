@@ -46,7 +46,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
 * `sysname`     - (character) the system name (as of `Sys.info()[["sysname"]]`)
 * `user`        - (character) the user name (as of `Sys.info()[["user"]]`)
 
-To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. ``~/.Rprofile.d/work,interactive=TRUE,os=windows`.
+To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE` will process `work,interactive=TRUE` if running on Windows and in interactive mode.
 
 
 ## Examples
