@@ -4,23 +4,18 @@
 
 Calling `startup::startup()` in `~/.Rprofile`, will cause the following to occurs:
 
-1. Files in the first existing directory of `paste0(Sys.genenv("R_ENVIRON_USER"), ".d")`, `~./.Renviron.d/` or `./.Renviron.d/` will be processes as .Renviron files.
+1. Files in the first existing directory of `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `~./.Renviron.d/` or `./.Renviron.d/` will be processes as .Renviron files.
 
-2. Files in the first existing directory of `paste0(Sys.genenv("R_ENVIRON_USER"), ".d")`, `~./.Rprofile.d/` or `./.profile.d/` will be sourced as .Rprofile files.
+2. Files in the first existing directory of `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `~./.Rprofile.d/` or `./.profile.d/` will be sourced as .Rprofile files.
 
-3. If there are no errors, the `startup` package will be unloaded again leaving no trace of itself behind.
+3. If there are no errors, the `startup` package will be unloaded afterward leaving no trace of itself behind.
 
 All relevant files, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
 
 
 ## Installation
 
-Install `startup` using
-```r
-source('http://callr.org/install#HenrikBengtsson/startup')
-```
-
-Then call
+After installing the `startup` packages (see instructions at the end), call
 ```r
 startup::install()
 ```
@@ -36,7 +31,7 @@ to your `~/.Rprofile`.  The file will be create if missing.  This will also crea
 Just start R :)
 
 To debug the startup process, use `startup::startup(debug = TRUE)` or set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux one can do:
-```r
+```sh
 $ R_STARTUP_DEBUG=TRUE R
 ```
 This is will give informative messages during startup on which files are included and why.
@@ -82,8 +77,7 @@ local({
   if (.Platform$OS.type == "windows") {
      repos["CRANextra"] <- "https://www.stats.ox.ac.uk/pub/RWin"
   }
-  repos <- c(repos, getOption("repos"))
-  options(repos = repos)
+  options(repos = c(repos, getOption("repos"))
 })
 ```
 
