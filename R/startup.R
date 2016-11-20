@@ -8,7 +8,8 @@
 #' \file{.Rprofile} files that are supported by the built-in
 #' \link[base:Startup]{startup process} of \R.
 #'
-#' @param all If \code{TRUE}, then all \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on \link[base:Startup]{the R startup search path} are processed, otherwise only the first ones found.
+#' @param sibling If \code{TRUE}, then only \file{.Renviron.d/} and \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and \file{.Rprofile} in the same location will be considered.
+#' @param all If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on \link[base:Startup]{the R startup search path} are processed, otherwise only the \emph{first ones} found.
 #' @param unload If \code{TRUE}, then the package is unloaded afterward, otherwise not.
 #' @param skip If \code{TRUE}, startup directories will be skipped.  If \code{NA}, they will be skipped if command-line options \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ} were specified.
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
@@ -47,14 +48,14 @@
 #'
 #' @describeIn startup \code{renviron()} followed by \code{rprofile()} and then the package is unloaded
 #' @export
-startup <- function(all = FALSE, unload = TRUE, skip = NA, debug = NA) {
+startup <- function(sibling = FALSE, all = FALSE, unload = TRUE, skip = NA, debug = NA) {
   debug(debug)
 
   # (i) Load custom .Renviron.d/* files
-  renviron(all = all, skip = skip)
+  renviron(sibling = sibling, all = all, skip = skip)
   
   # (ii) Load custom .Rprofile.d/* files
-  rprofile(all = all, skip = skip)
+  rprofile(sibling = sibling, all = all, skip = skip)
 
   res <- api()
   if (unload) unload()

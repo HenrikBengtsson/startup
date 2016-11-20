@@ -1,11 +1,11 @@
-startup_apply <- function(what = c("Renviron", "Rprofile"), all = FALSE) {
+startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all = FALSE) {
   what <- match.arg(what)
   if (what == "Renviron") {
-    paths <- find_renviron_d(all = all)
+    paths <- find_renviron_d(sibling = sibling, all = all)
     files <- find_d_files(paths)
     FUN <- readRenviron
   } else if (what == "Rprofile") {
-    paths <- find_rprofile_d(all = all)
+    paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- find_d_files(paths)
     FUN <- source
   }

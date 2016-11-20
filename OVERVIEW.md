@@ -1,14 +1,20 @@
 ## Introduction
 
-Calling `startup::startup()` in `~/.Rprofile`, will cause the following to occurs:
+When R starts, the following occurs:
 
-1. Files in the first existing directory of `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `~./.Renviron.d/` or `./.Renviron.d/` will be processes as .Renviron files.
+1. The _first_ `.Renviron` file found on the R startup search path to be processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.  Such a file does not have to exists in order for the `startup` package to work.
 
-2. Files in the first existing directory of `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `~./.Rprofile.d/` or `./.profile.d/` will be sourced as .Rprofile files.
+2. The _first_ `.Rprofile` file found on the R startup search path to be processed.  The search path is (in order): `Sys.getenv("R_PROFILE_USER")`, `./.Rprofile`, and `~/.Rprofile`.  At least one such a file _has to exist_ in order for the `startup` package to work.
 
-3. If there are no errors, the `startup` package will be unloaded afterward leaving no trace of itself behind.
+3. If the `.Rprofile` file (in Step 2) calls `startup::startup()` then the following will also take place:
 
-All relevant files, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
+a. The _first_ `.Renviron.d` directory on the R startup search path to be processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.
+
+b. The _first_ `.Rprofile.d` directory found on the R startup search path to be processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
+
+c. If there are no errors, the `startup` package will be unloaded afterward leaving no trace of itself behind.
+
+All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
 
 
 ## Installation
