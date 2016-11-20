@@ -11,7 +11,7 @@ The advantages of this approach is that it gives a better overview when you list
 
 ## How the R startup process works
 
-When R starts, the following occurs:
+When R starts, the following _user-specific_ setup takes place:
 
 1. The _first_ `.Renviron` file found on the R startup search path to be processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.
 
