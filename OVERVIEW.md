@@ -1,6 +1,6 @@
 ## Introduction
 
-Calling `startup::startup()` in `~/.Rprofile`, will cause files under one of the
+Calling `startup::startup()` in `~/.Rprofile`, will cause files under _one_ of the
 
 1. `~./.Renviron.d/` and `./.Renviron.d/` directories to be processed as `.Renviron` files.
 
@@ -25,7 +25,7 @@ once.  This will append
 ```r
 startup::startup()
 ```
-to your `~/.Rprofile` and create it if missing.  It will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
+to your `~/.Rprofile`.  The file will be create if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
 
 
 ## Usage
