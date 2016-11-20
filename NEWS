@@ -1,5 +1,12 @@
 Package: startup
 ================
 
+Version: 0.1.0-9000 [2016-11-20]
+o Add arguments sibling = FALSE to startup().  If sibling = TRUE,
+  the corresponding startup file needs to exist in the same
+  location as the directory in order for the directory to be
+  processed.
+
+
 Version: 0.1.0 [2016-11-15]
 o Package created. Adopted from a specialized .Rprofile script.
