@@ -72,20 +72,20 @@ To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`
 The below is a list of "real-world" example files:
 ```
 .Renviron.d/
- +-- lang
- +-- libs
- +-- r_cmd_check
-
+  +-- lang
+  +-- libs
+  +-- r_cmd_check
+ 
 .Rprofile.d/
- +-- help,interactive=TRUE
- +-- interactive=TRUE
- +-- os=windows
- +-- repos
- ```
- They are available as part of this package under `system.file(package = "startup")`, e.g.
- ```r
- > f <- system.file(".Rprofile.d", "repos", package = "startup")
- > file.show(f, type = "text")
+  +-- help,interactive=TRUE
+  +-- interactive=TRUE
+  +-- os=windows
+  +-- repos
+```
+They are available as part of this package under `system.file(package = "startup")`, e.g.
+```r
+> f <- system.file(".Rprofile.d", "repos", package = "startup")
+> file.show(f, type = "text")
 
 local({
   repos <- c(CRAN = "https://cloud.r-project.org")
@@ -122,4 +122,3 @@ This will install the package from source.
 | _Platforms:_  | _Multiple_          | _Linux & macOS_ | _Windows_        |
 | R CMD check   |  | <a href="https://travis-ci.org/HenrikBengtsson/startup"><img src="https://travis-ci.org/HenrikBengtsson/startup.svg" alt="Build status"></a>   | <a href="https://ci.appveyor.com/project/HenrikBengtsson/startup"><img src="https://ci.appveyor.com/api/projects/status/github/HenrikBengtsson/startup?svg=true" alt="Build status"></a> |
 | Test coverage |                     | <a href="https://codecov.io/gh/HenrikBengtsson/startup"><img src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"/></a>     |                  |
-
