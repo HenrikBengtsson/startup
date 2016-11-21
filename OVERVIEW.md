@@ -94,5 +94,5 @@ local({
 })
 ```
 
-[startup]: https://github.com/HenrikBengtsson/startup
+[startup]: https://cran.r-project.org/package=startup
 [devtools]: https://cran.r-project.org/package=devtools
