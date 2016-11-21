@@ -70,20 +70,20 @@ To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`
 The below is a list of "real-world" example files:
 ```
 .Renviron.d/
- +-- lang
- +-- libs
- +-- r_cmd_check
-
+  +-- lang
+  +-- libs
+  +-- r_cmd_check
+ 
 .Rprofile.d/
- +-- help,interactive=TRUE
- +-- interactive=TRUE
- +-- os=windows
- +-- repos
- ```
- They are available as part of this package under `system.file(package = "startup")`, e.g.
- ```r
- > f <- system.file(".Rprofile.d", "repos", package = "startup")
- > file.show(f, type = "text")
+  +-- help,interactive=TRUE
+  +-- interactive=TRUE
+  +-- os=windows
+  +-- repos
+```
+They are available as part of this package under `system.file(package = "startup")`, e.g.
+```r
+> f <- system.file(".Rprofile.d", "repos", package = "startup")
+> file.show(f, type = "text")
 
 local({
   repos <- c(CRAN = "https://cloud.r-project.org")
@@ -94,5 +94,5 @@ local({
 })
 ```
 
-[startup]: https://github.com/HenrikBengtsson/startup
+[startup]: https://cran.r-project.org/package=startup
 [devtools]: https://cran.r-project.org/package=devtools

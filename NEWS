@@ -1,6 +1,10 @@
 Package: startup
 ================
 
+Version: 0.3.0 [2016-11-21]
+o No updates.  First submission to CRAN.
+
+
 Version: 0.2.0 [2016-11-20]
 o Add arguments sibling = FALSE to startup().  If sibling = TRUE,
   the corresponding startup file needs to exist in the same
