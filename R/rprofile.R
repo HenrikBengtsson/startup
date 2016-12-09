@@ -1,6 +1,6 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
 #' @export
-rprofile <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA) {
+rprofile <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA, on_error = c("error", "warning", "immediate.warning", "message", "ignore")) {
   debug <- debug(debug)
   
   ## Skip?
@@ -14,7 +14,7 @@ rprofile <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, de
 
   if (!skip) {
     # (ii) Load custom .Rprofile.d/* files
-    startup_apply("Rprofile", sibling = sibling, all = all)
+    startup_apply("Rprofile", sibling = sibling, all = all, on_error = on_error)
   
     # (iii) Validate .Rprofile encoding
     check_rprofile_encoding()

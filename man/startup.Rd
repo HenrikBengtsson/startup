@@ -10,9 +10,11 @@ renviron(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   debug = NA)
 
 rprofile(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
-  debug = NA)
+  debug = NA, on_error = c("error", "warning", "immediate.warning",
+  "message", "ignore"))
 
-startup(sibling = FALSE, all = FALSE, unload = TRUE, skip = NA,
+startup(sibling = FALSE, all = FALSE, on_error = c("error", "warning",
+  "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA,
   debug = NA)
 }
 \arguments{
@@ -25,6 +27,8 @@ startup(sibling = FALSE, all = FALSE, unload = TRUE, skip = NA,
 \item{skip}{If \code{TRUE}, startup directories will be skipped.  If \code{NA}, they will be skipped if command-line options \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ} were specified.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
+
+\item{on_error}{Action taken when an error is detected when sourcing an Rprofile file.  It is not possible to detect error in Renviron files; they are always ignored with a message that cannot be captured.}
 }
 \description{
 Initiates \R using all files under \file{.Renviron.d/}

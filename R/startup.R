@@ -10,6 +10,7 @@
 #'
 #' @param sibling If \code{TRUE}, then only \file{.Renviron.d/} and \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and \file{.Rprofile} in the same location will be considered.
 #' @param all If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on \link[base:Startup]{the R startup search path} are processed, otherwise only the \emph{first ones} found.
+#' @param on_error Action taken when an error is detected when sourcing an Rprofile file.  It is not possible to detect error in Renviron files; they are always ignored with a message that cannot be captured.
 #' @param unload If \code{TRUE}, then the package is unloaded afterward, otherwise not.
 #' @param skip If \code{TRUE}, startup directories will be skipped.  If \code{NA}, they will be skipped if command-line options \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ} were specified.
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
@@ -48,14 +49,14 @@
 #'
 #' @describeIn startup \code{renviron()} followed by \code{rprofile()} and then the package is unloaded
 #' @export
-startup <- function(sibling = FALSE, all = FALSE, unload = TRUE, skip = NA, debug = NA) {
+startup <- function(sibling = FALSE, all = FALSE, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA, debug = NA) {
   debug(debug)
 
   # (i) Load custom .Renviron.d/* files
   renviron(sibling = sibling, all = all, skip = skip)
   
   # (ii) Load custom .Rprofile.d/* files
-  rprofile(sibling = sibling, all = all, skip = skip)
+  rprofile(sibling = sibling, all = all, skip = skip, on_error = on_error)
 
   res <- api()
   if (unload) unload()

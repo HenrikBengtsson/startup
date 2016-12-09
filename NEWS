@@ -1,6 +1,15 @@
 Package: startup
 ================
 
+Version: 0.3.0-9000 [2016-12-08]
+o Errors occuring while sourcing an Rprofile file now also
+  contain information about in file the error occurred.
+  Lines with invalid syntax in Renviron files are ignored with
+  a message outputted saying so.  Due to limitations in how
+  base::readRenviron() works, it is not possible to detect these
+  errors nor capture the outputted message.
+  
+
 Version: 0.3.0 [2016-11-21]
 o No updates.  First submission to CRAN.
 
