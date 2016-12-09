@@ -56,7 +56,7 @@ This is will give informative messages during startup on which files are include
 
 If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
 
-The following `startup::sysinfo()` keys are available for conditional inclusion of files by their file names:
+The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
 * `interactive` - (logical) whether running interactively or not (as of `interactive()`)
 * `nodename`    - (character) the host name (as of `Sys.info()[["nodename"]]`)
@@ -65,7 +65,13 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
 * `sysname`     - (character) the system name (as of `Sys.info()[["sysname"]]`)
 * `user`        - (character) the user name (as of `Sys.info()[["user"]]`)
 
-To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE` will process `work,interactive=TRUE` if running on Windows and in interactive mode.
+In addition, one can also conditionally include files based on whether a package is installed and can be loaded:
+
+* `package`     - (character) a package name.
+
+Using the `package=<name>` specification makes it clear from the filename the startup file concerns settings specific to that package.
+
+To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE` will process `work,interactive=TRUE` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future` will only be used if both the devtools and the future packages are installed.
 
 
 ## Examples

@@ -33,19 +33,23 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   sysinfo <- sysinfo()
   for (key in c(names(sysinfo), "package")) {
     ## Identify files specifying this <key>=<value>
-    pattern <- sprintf(".*[^a-z]+%s=([^=,/]*).*", key)
+    pattern <- sprintf(".*[^a-z]*%s=([^=,/]*).*", key)
     idxs <- grep(pattern, files, fixed = FALSE)
     if (length(idxs) == 0) next
     
     if (key == "package") {
-      ## FIXME: Assumes a single package=<name> per file.  If more
-      ##        than one, then only the last match will be returned.
-      ##        /HB 2016-12-09
-      pkgs <- gsub(pattern, "\\1", files[idxs])
-      ## Check which packages are installed and can be loaded
-      avail <- lapply(pkgs, FUN = requireNamespace, quietly = TRUE)
-      avail <- unlist(avail, use.names = FALSE)
-      drop <- idxs[!avail]
+      ## There could be more than one package=<name> specification
+      ## per pathname.
+      files_tmp <- strsplit(files[idxs], split = ",", fixed = TRUE)
+      files_pkgs <- lapply(files_tmp, FUN = function(f) gsub(pattern, "\\1", f))
+      
+      files_ok <- lapply(files_pkgs, FUN = function(pkgs) {
+         ## Check which packages are installed and can be loaded
+         avail <- lapply(pkgs, FUN = requireNamespace, quietly = TRUE)
+	 all(unlist(avail, use.names = FALSE))
+      })
+      files_ok <- unlist(files_ok, use.names = FALSE)
+      drop <- idxs[!files_ok]
     } else {
       ## sysinfo() keys
       value <- sysinfo[[key]]
