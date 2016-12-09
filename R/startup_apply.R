@@ -31,16 +31,30 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
 
   ## Parse <key>=<value> and keep only matching ones
   sysinfo <- sysinfo()
-  for (key in names(sysinfo)) {
+  for (key in c(names(sysinfo), "package")) {
+    ## Identify files specifying this <key>=<value>
     pattern <- sprintf(".*[^a-z]+%s=([^=,/]*).*", key)
     idxs <- grep(pattern, files, fixed = FALSE)
-    if (length(idxs) > 0) {
+    if (length(idxs) == 0) next
+    
+    if (key == "package") {
+      ## FIXME: Assumes a single package=<name> per file.  If more
+      ##        than one, then only the last match will be returned.
+      ##        /HB 2016-12-09
+      pkgs <- gsub(pattern, "\\1", files[idxs])
+      ## Check which packages are installed and can be loaded
+      avail <- lapply(pkgs, FUN = requireNamespace, quietly = TRUE)
+      avail <- unlist(avail, use.names = FALSE)
+      drop <- idxs[!avail]
+    } else {
+      ## sysinfo() keys
       value <- sysinfo[[key]]
       values <- gsub(pattern, "\\1", files[idxs])
       drop <- idxs[values != value]
-      if (length(drop) > 0) files <- files[-drop]
     }
-  }
+    
+    if (length(drop) > 0) files <- files[-drop]
+  } ## for (key ...)
 
   ## Nothing to do?
   if (length(files) == 0) return(invisible(character(0)))
