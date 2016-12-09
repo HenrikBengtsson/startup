@@ -12,6 +12,8 @@ o Errors occuring while sourcing an Rprofile file now also
   a message outputted saying so.  Due to limitations in how
   base::readRenviron() works, it is not possible to detect these
   errors nor capture the outputted message.
+o BUG FIX: Now R_STARTUP_DEBUG=TRUE also works for Rscript.  Used
+  to only work for the R executable.
   
 
 Version: 0.3.0 [2016-11-21]

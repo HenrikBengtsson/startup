@@ -2,13 +2,20 @@ debug <- local({
   status <- NA
   
   function(action = NA) {
-    if (is.na(status)) {
-      args <- commandArgs()
-      t <- as.logical(Sys.getenv("R_STARTUP_DEBUG", "FALSE"))
+    if (is.na(status)) {     
+      t <- as.logical(Sys.getenv("R_STARTUP_DEBUG", NA))
       t <- getOption("startup.debug", t)
+      
+      ## If neither env var nor option is specified, then
+      ## look at command-line options
+      if (is.na(t)) {
+        args <- commandArgs()
+        if (any(c("-q", "--quiet", "--silent", "--slave") %in% args)) t <- FALSE
+        if ("--verbose" %in% args) t <- TRUE
+      }
+
       t <- isTRUE(t)
-      if (any(c("-q", "--quiet", "--silent", "--slave") %in% args)) t <- FALSE
-      if ("--verbose" %in% args) t <- TRUE
+      
       status <<- t
     }
     
