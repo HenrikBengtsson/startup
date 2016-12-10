@@ -1,7 +1,8 @@
 Package: startup
 ================
 
-Version: 0.3.0-9000 [2016-12-09]
+Version: 0.3.0-9000 [2016-12-10]
+o Added on_wine() to detected if R runs on Windows under Linux Wine.
 o New conditional <key>=<value> specification: Directory and file
   names containing a package=<name> specification will only be
   processed if and only if package <name> is installed and can be
