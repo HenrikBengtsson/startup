@@ -1,7 +1,9 @@
 Package: startup
 ================
 
-Version: 0.3.0-9000 [2016-12-10]
+Version: 0.3.0-9000 [2016-12-11]
+o Now it is possible to do negated filename specifications, e.g.
+  hpc,package=future/os!=windows.
 o Added on_wine() to detected if R runs on Windows under Linux Wine.
 o New conditional <key>=<value> specification: Directory and file
   names containing a package=<name> specification will only be
