@@ -6,7 +6,7 @@ message("*** filter_files() ...")
 
 filesets <- list(
   A = c("a" = TRUE, "b" = TRUE, "package=<non-existing-package>" = FALSE, "package=startup" = TRUE),
-  B = c("a,os=linux" = TRUE, "b,os=windows" = FALSE, "package=startup,os=linux" = TRUE)
+  B = c("a,os=linux" = TRUE, "b,os=windows" = FALSE, "os=linux,os=osx" = FALSE, "package=startup,os=linux" = TRUE)
 )
 
 for (kk in seq_along(filesets)) {
