@@ -1,8 +1,10 @@
 filter_files <- function(files, info = sysinfo()) {
+  op <- "="
+  
   ## Parse <key>=<value> and keep only matching ones
   for (key in c(names(info), "package")) {
     ## Identify files specifying this <key>=<value>
-    pattern <- sprintf(".*[^a-z]*%s=([^=,/]*).*", key)
+    pattern <- sprintf(".*[^a-z]*%s%s([^=,/]*).*", key, op)
     idxs <- grep(pattern, files, fixed = FALSE)
     if (length(idxs) == 0) next
 
@@ -16,7 +18,9 @@ filter_files <- function(files, info = sysinfo()) {
       files_ok <- lapply(files_values, FUN = function(values) {
         ## Check which packages are installed and can be loaded
         keep <- lapply(values, FUN = requireNamespace, quietly = TRUE)
-        all(unlist(keep, use.names = FALSE))
+	keep <- unlist(keep, use.names = FALSE)
+	if (op == "!=") keep <- !keep
+        all(keep)
       })
       files_ok <- unlist(files_ok, use.names = FALSE)
       drop <- idxs[!files_ok]
@@ -25,7 +29,8 @@ filter_files <- function(files, info = sysinfo()) {
       value <- info[[key]]
       files_ok <- lapply(files_values, FUN = function(values) {
         keep <- (values == value)
-        all(unlist(keep, use.names = FALSE))
+	if (op == "!=") keep <- !keep
+        all(keep)
       })
       files_ok <- unlist(files_ok, use.names = FALSE)
       drop <- idxs[!files_ok]
