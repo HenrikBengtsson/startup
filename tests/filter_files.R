@@ -15,7 +15,7 @@ for (kk in seq_along(filesets)) {
   files <- names(files)
   print(files)
 
-  filesF <- filter_files(files, sysinfo = sysinfo)
+  filesF <- filter_files(files, info = sysinfo)
   stopifnot(identical(filesF, files0))
 }
 

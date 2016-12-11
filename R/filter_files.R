@@ -1,6 +1,6 @@
-filter_files <- function(files, sysinfo = sysinfo()) {
+filter_files <- function(files, info = sysinfo()) {
   ## Parse <key>=<value> and keep only matching ones
-  for (key in c(names(sysinfo), "package")) {
+  for (key in c(names(info), "package")) {
     ## Identify files specifying this <key>=<value>
     pattern <- sprintf(".*[^a-z]*%s=([^=,/]*).*", key)
     idxs <- grep(pattern, files, fixed = FALSE)
@@ -22,13 +22,12 @@ filter_files <- function(files, sysinfo = sysinfo()) {
       drop <- idxs[!files_ok]
     } else {
       ## sysinfo() keys
-      value <- sysinfo[[key]]
+      value <- info[[key]]
       files_ok <- lapply(files_values, FUN = function(values) {
         keep <- (values == value)
         all(unlist(keep, use.names = FALSE))
       })
       files_ok <- unlist(files_ok, use.names = FALSE)
-      print(files_ok)
       drop <- idxs[!files_ok]
     }
     
