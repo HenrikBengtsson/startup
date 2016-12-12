@@ -71,6 +71,8 @@ Using the `package=<name>` specification makes it clear from the filename the st
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE` will process `work,interactive=TRUE` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future` will only be used if both the devtools and the future packages are installed.
 
+It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows` will be processed if package `doMC` is installed and if not running on Windows.
+
 
 ## Examples
 The below is a list of "real-world" example files:
