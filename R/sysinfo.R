@@ -7,10 +7,14 @@
 #'
 #' @export
 sysinfo <- function() {
+  ## Built-in information
   sysinfo <- as.list(Sys.info())
-  
   sysinfo$os <- .Platform$OS.type
   sysinfo$interactive <- interactive()
+
+  ## Additional information
+  sysinfo$rstudio <- is_rstudio()
+  sysinfo$wine <- is_wine()
   
   sysinfo
 }

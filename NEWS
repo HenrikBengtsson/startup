@@ -4,8 +4,8 @@ Package: startup
 Version: 0.3.0-9000 [2016-12-14]
 o Now it is possible to do negated filename specifications, e.g.
   hpc,package=future/os!=windows.
-o Added is_rstudio() to detected if R runs via RStudio.
-o Added is_wine() to detected if R runs on Windows under Linux Wine.
+o Added flags 'rstudio' and 'wine' to sysinfo() indicating whether
+  R runs via RStudio and via Linux Wine, respectively.
 o New conditional <key>=<value> specification: Directory and file
   names containing a package=<name> specification will only be
   processed if and only if package <name> is installed and can be
