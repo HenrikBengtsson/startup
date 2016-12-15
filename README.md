@@ -58,12 +58,17 @@ If the name of a file consists of a `<key>=<value>` specification, then that fil
 
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
-* `interactive` - (logical) whether running interactively or not (as of `interactive()`)
-* `nodename`    - (character) the host name (as of `Sys.info()[["nodename"]]`)
-* `machine`     - (character) the machine type (as of `Sys.info()[["machine"]]`)
-* `os`          - (character) the operating system (as of `.Platform$OS.type`)
-* `sysname`     - (character) the system name (as of `Sys.info()[["sysname"]]`)
-* `user`        - (character) the user name (as of `Sys.info()[["user"]]`)
+* Values:
+  - `nodename`    - (character) the host name (as of `Sys.info()[["nodename"]]`)
+  - `machine`     - (character) the machine type (as of `Sys.info()[["machine"]]`)
+  - `os`          - (character) the operating system (as of `.Platform$OS.type`)
+  - `sysname`     - (character) the system name (as of `Sys.info()[["sysname"]]`)
+  - `user`        - (character) the user name (as of `Sys.info()[["user"]]`)
+  
+* Flags:
+  - `interactive` - (logical) whether running interactively or not (as of `interactive()`)
+  - `rstudio`     - (logical) whether running in [RStudio] or not.
+  - `wine`        - (logical) whether running on Windows via [Linux Wine].
 
 In addition, one can also conditionally include files based on whether a package is installed and can be loaded:
 
@@ -106,6 +111,8 @@ local({
 
 [startup]: https://cran.r-project.org/package=startup
 [devtools]: https://cran.r-project.org/package=devtools
+[RStudio]: https://www.rstudio.com/products/RStudio/
+[Linux Wine]: https://www.winehq.org/
 
 ## Installation
 R package startup is available on [CRAN](https://cran.r-project.org/package=startup) and can be installed in R as:
