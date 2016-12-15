@@ -66,7 +66,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
 * Flags:
   - `interactive` - (logical) whether running interactively or not (as of `interactive()`)
   - `rstudio`     - (logical) whether running in [RStudio] or not.
-  - `wine`        - (logical) whether running on Windows via [Linux Wine].
+  - `wine`        - (logical) whether running on Windows via [Linux Wine] or not.
 
 In addition, one can also conditionally include files based on whether a package is installed and can be loaded:
 
