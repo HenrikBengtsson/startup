@@ -11,7 +11,7 @@
 #' }
 #'
 #' @export
-on_wine <- function() {
+is_wine <- function() {
   if (.Platform$OS.type != "windows") return(FALSE)
   any(grepl("^WINE", names(Sys.getenv())))
 }

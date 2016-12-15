@@ -1,4 +1,5 @@
 print(startup::sysinfo())
 
-print(startup::on_wine())
+print(startup::is_rstudio())
+print(startup::is_wine())
 
