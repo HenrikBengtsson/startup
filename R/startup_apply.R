@@ -37,11 +37,12 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   
   dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
   dryrun <- getOption("startup.dryrun", dryrun)
-  logf("Processing %d %s files:", length(files), what)
+  logf("Processing %d %s files ...", length(files), what)
   for (file in files) {
     logf(" - %s", file)
     if (!dryrun) FUN(file)
   }
+  logf("Processing %d %s files ... done", length(files), what)
   if (dryrun) log("(all files were skipped because startup.dryrun = TRUE)")
 
   invisible(files)

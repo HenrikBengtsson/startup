@@ -27,7 +27,9 @@ debug <- local({
 
 log <- function(..., collapse = "\n") {
   if (!debug()) return()
-  message(paste(..., collapse = collapse))
+  lines <- c(...)
+  lines <- sprintf("%s: %s", timestamp(), lines)
+  message(paste(lines, collapse = collapse))
 }
 
 logf <- function(..., collapse = "\n") {
@@ -37,3 +39,15 @@ logf <- function(..., collapse = "\n") {
 logp <- function(expr, ...) {
   log(utils::capture.output(print(expr)), ...)
 }
+
+timestamp <- local({
+  t0 <- NULL
+  function() {
+    if (is.null(t0)) {
+      t0 <<- Sys.time()
+    }
+    dt <-  difftime(Sys.time(), t0, units = "secs")
+    sprintf("%4.2fs", as.numeric(dt))
+  }
+})
+
