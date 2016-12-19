@@ -89,7 +89,7 @@ find_d_dirs <- function(paths, all = FALSE) {
 } ## find_d_dirs()
 
 
-find_d_files <- function(paths) {
+find_d_files <- function(paths, recursive = TRUE) {
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
@@ -103,7 +103,7 @@ find_d_files <- function(paths) {
   ## For each directory, locate files of interest
   files <- NULL
   for (path in paths) {
-    files <- c(files, dir(path = path, pattern = "[^~]$", recursive = TRUE, all.files = TRUE, full.names = TRUE))
+    files <- c(files, dir(path = path, pattern = "[^~]$", recursive = recursive, all.files = TRUE, full.names = TRUE))
   }
 
   ## Drop stray files
