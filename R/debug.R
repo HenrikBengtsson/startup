@@ -47,7 +47,7 @@ timestamp <- local({
       t0 <<- Sys.time()
     }
     dt <-  difftime(Sys.time(), t0, units = "secs")
-    sprintf("%4.2fs", as.numeric(dt))
+    sprintf("%5.3fs", as.numeric(dt))
   }
 })
 
