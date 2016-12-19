@@ -3,17 +3,11 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   on_error <- match.arg(on_error)
   if (what == "Renviron") {
     paths <- find_renviron_d(sibling = sibling, all = all)
-    files <- list_d_files(paths)
+    files <- list_d_files(paths, filter = filter_files)
   } else if (what == "Rprofile") {
     paths <- find_rprofile_d(sibling = sibling, all = all)
-    files <- list_d_files(paths)
+    files <- list_d_files(paths, filter = filter_files)
   }
-
-  ## Nothing to do?
-  if (length(files) == 0) return(invisible(character(0)))
-
-  ## Parse <key>=<value> and keep only matching ones
-  files <- filter_files(files)
 
   ## Nothing to do?
   if (length(files) == 0) return(invisible(character(0)))
