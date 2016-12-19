@@ -3,6 +3,7 @@ sysinfo <- startup:::sysinfo()
 sysinfo$os <- "linux"
 sysinfo$rstudio <- TRUE
 sysinfo$wine <- FALSE
+sysinfo$interactive <- FALSE
 
 message("*** filter_files() ...")
 
@@ -15,7 +16,9 @@ filesets <- list(
   F = c("a" = TRUE, "/home/alice/.Rprofile.d/package=foo" = FALSE),
   G = c("a" = TRUE, "/home/alice/.Rprofile.d/package!=foo" = TRUE),
   H = c("/home/alice/.Rprofile.d/rstudio=T/wine=0" = TRUE),
-  I = c("/home/alice/.Rprofile.d/rstudio!=f/wine!=1" = TRUE)
+  I = c("/home/alice/.Rprofile.d/rstudio!=f/wine!=1" = TRUE),
+  J = c("/home/alice/.Rprofile.d/interactive=TRUE" = FALSE, "/home/alice/.Rprofile.d/interactive=FALSE" = TRUE),
+  K = c("/home/alice/.Rprofile.d/interactive=TRUE/package=fortunes" = FALSE)
 )
 
 for (kk in seq_along(filesets)) {

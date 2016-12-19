@@ -30,7 +30,8 @@ filter_files <- function(files, info = sysinfo()) {
 	  files_values <- toupper(files_values)
 	  files_values[files_values == "1"] <- "TRUE"
 	  files_values[files_values == "0"] <- "FALSE"
-	  files_values <- isTRUE(as.logical(files_values))
+	  files_values <- as.logical(files_values)
+	  files_values[is.na(files_values)] <- FALSE
 	}
         files_ok <- lapply(files_values, FUN = function(values) {
           keep <- (values == value)
