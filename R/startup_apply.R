@@ -30,6 +30,7 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   if (length(files) == 0) return(invisible(character(0)))
 
   ## Parse <key>=<value> and keep only matching ones
+  nfiles <- length(files)
   files <- filter_files(files)
 
   ## Nothing to do?
@@ -37,12 +38,13 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   
   dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
   dryrun <- getOption("startup.dryrun", dryrun)
-  logf("Processing %d %s files ...", length(files), what)
+  nfiles <- length(files)
+  logf("Processing %d %s files ...", nfiles, what)
   for (file in files) {
     logf(" - %s", file)
     if (!dryrun) FUN(file)
   }
-  logf("Processing %d %s files ... done", length(files), what)
+  logf("Processing %d %s files ... done", nfiles, what)
   if (dryrun) log("(all files were skipped because startup.dryrun = TRUE)")
 
   invisible(files)

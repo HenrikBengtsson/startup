@@ -69,7 +69,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `rstudio`     - (logical) whether running in [RStudio] or not.
   - `wine`        - (logical) whether running on Windows via [Linux Wine] or not.
 
-In addition, one can also conditionally include files based on whether a package is installed and can be loaded:
+In addition, one can also conditionally include files based on whether a package is installed:
 
 * `package`     - (character) a package name.
 

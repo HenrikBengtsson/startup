@@ -16,7 +16,7 @@ filter_files <- function(files, info = sysinfo()) {
       if (key == "package") {
         files_ok <- lapply(files_values, FUN = function(values) {
           ## Check which packages are installed and can be loaded
-          keep <- lapply(values, FUN = requireNamespace, quietly = TRUE)
+          keep <- lapply(values, FUN = is_package_installed)
           keep <- unlist(keep, use.names = FALSE)
           if (op == "!=") keep <- !keep
           all(keep)
@@ -47,3 +47,16 @@ filter_files <- function(files, info = sysinfo()) {
 
   files
 } ## filter_files()
+
+
+is_package_installed <- local({
+  cache <- list()
+  function(pkg) {
+    res <- cache[[pkg]]
+    if (is.logical(res)) return(res)
+    res <- (length(find.package(package = pkg, quiet = TRUE)) > 0)
+    cache[[pkg]] <<- res
+    res
+  }
+})
+
