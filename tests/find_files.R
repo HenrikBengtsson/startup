@@ -1,3 +1,5 @@
+message("*** find_files() ...")
+
 pn <- startup:::find_rprofile()
 print(pn)
 
@@ -22,5 +24,4 @@ print(pn)
 pn <- startup:::find_renviron_d(all = TRUE)
 print(pn)
 
-
-
+message("*** find_files() ... DONE")

@@ -1,5 +1,7 @@
 options(startup.dryrun = TRUE)
 
+message("*** api() ...")
+
 message("*** api()")
 api <- startup:::api()
 stopifnot(is.list(api), length(api) > 0)
@@ -24,5 +26,7 @@ str(res)
 stopifnot(all.equal(res, api))
 
 options(startup.dryrun = FALSE)
+
+message("*** api() ... DONE")
 
 rm(list = c("api", "res"))
