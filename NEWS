@@ -21,6 +21,8 @@ o Errors occuring while sourcing an Rprofile file now also
 o Now objects are autoprinted to match the behavior of the R startup
   process.
 o startup(debug = TRUE) now outputs timestamps since start per entry.
+o DEPRECATED: renviron() and rprofile() were renamed to renviron_d()
+  and rprofile_d(), respectively.
 o BUG FIX: Now R_STARTUP_DEBUG=TRUE also works for Rscript.  Used
   to only work for the R executable.
   

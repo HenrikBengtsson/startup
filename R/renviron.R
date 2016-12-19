@@ -1,6 +1,7 @@
 #' @describeIn startup Initiate using \file{.Renviron.d/} files
+#' @aliases renviron
 #' @export
-renviron <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA) {
+renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA) {
   debug(debug)
   
   ## Skip?
@@ -16,4 +17,10 @@ renviron <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, de
   res <- api()
   if (unload) unload()
   invisible(res)
+}
+
+#' @export
+renviron <- function(...) {
+  .Deprecated(new = "startup::renviron_d()")
+  renviron_d(...)
 }

@@ -1,6 +1,7 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
+#' @aliases rprofile
 #' @export
-rprofile <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA, on_error = c("error", "warning", "immediate.warning", "message", "ignore")) {
+rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA, on_error = c("error", "warning", "immediate.warning", "message", "ignore")) {
   debug <- debug(debug)
   
   ## Skip?
@@ -24,3 +25,10 @@ rprofile <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, de
   if (unload) unload()
   invisible(res)
 }
+
+#' @export
+rprofile <- function(...) {
+  .Deprecated(new = "startup::rprofile_d()")
+  rprofile_d(...)
+}
+

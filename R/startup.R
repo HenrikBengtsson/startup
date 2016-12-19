@@ -38,25 +38,25 @@
 #' startup::startup()
 #'
 #' # For finer control of on exactly what files are used
-#' # functions renviron() and rprofile() are also available:
+#' # functions renviron_d() and rprofile_d() are also available:
 #'
 #' # Initiate first .Renviron.d/ found on search path
-#' startup::renviron()
+#' startup::renviron_d()
 #'
 #' # Initiate all .Rprofile.d/ directories found on the startup search path
-#' startup::rprofile(all = TRUE)
+#' startup::rprofile_d(all = TRUE)
 #' }
 #'
-#' @describeIn startup \code{renviron()} followed by \code{rprofile()} and then the package is unloaded
+#' @describeIn startup \code{renviron_d()} followed by \code{rprofile_d()} and then the package is unloaded
 #' @export
 startup <- function(sibling = FALSE, all = FALSE, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA, debug = NA) {
   debug(debug)
 
   # (i) Load custom .Renviron.d/* files
-  renviron(sibling = sibling, all = all, skip = skip)
+  renviron_d(sibling = sibling, all = all, skip = skip)
   
   # (ii) Load custom .Rprofile.d/* files
-  rprofile(sibling = sibling, all = all, skip = skip, on_error = on_error)
+  rprofile_d(sibling = sibling, all = all, skip = skip, on_error = on_error)
 
   res <- api()
   if (unload) unload()
