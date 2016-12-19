@@ -14,7 +14,7 @@ rprofile <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, de
 
   if (!skip) {
     # (ii) Load custom .Rprofile.d/* files
-    startup_apply("Rprofile", sibling = sibling, all = all, on_error = on_error)
+    startup_apply("Rprofile", sibling = sibling, all = all, print.eval = TRUE, on_error = on_error)
   
     # (iii) Validate .Rprofile encoding
     check_rprofile_encoding()

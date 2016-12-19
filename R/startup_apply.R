@@ -1,4 +1,4 @@
-startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all = FALSE, on_error = c("error", "warning", "immediate.warning", "message", "ignore")) {
+startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all = FALSE, print.eval = TRUE, on_error = c("error", "warning", "immediate.warning", "message", "ignore")) {
   what <- match.arg(what)
   on_error <- match.arg(on_error)
   if (what == "Renviron") {
@@ -8,8 +8,8 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   } else if (what == "Rprofile") {
     paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- find_d_files(paths)
-    FUN <- function(pathname, ...) {
-      res <- tryCatch(source(pathname, print.eval = TRUE, ...), error = identity)
+    FUN <- function(pathname) {
+      res <- tryCatch(source(pathname, print.eval = print.eval), error = identity)
       if (inherits(res, "error")) {
         msg <- conditionMessage(res)
 	msg <- sprintf("Failure running startup script %s: %s", sQuote(pathname), msg)
