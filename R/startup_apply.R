@@ -9,7 +9,7 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
     paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- find_d_files(paths)
     FUN <- function(pathname, ...) {
-      res <- tryCatch(source(pathname, ...), error = identity)
+      res <- tryCatch(source(pathname, print.eval = TRUE, ...), error = identity)
       if (inherits(res, "error")) {
         msg <- conditionMessage(res)
 	msg <- sprintf("Failure running startup script %s: %s", sQuote(pathname), msg)
