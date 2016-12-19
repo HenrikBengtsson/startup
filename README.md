@@ -71,11 +71,11 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `rstudio`     - (logical) whether running in [RStudio] or not.
   - `wine`        - (logical) whether running on Windows via [Linux Wine] or not.
 
-In addition, one can also conditionally include files based on whether a package is installed:
+In addition, one can also conditionally include files based on availability of a package:
 
-* `package`     - (character) a package name.
+* `package`     - (character) whether a package is installed or not.
 
-Using the `package=<name>` specification makes it clear from the filename the startup file concerns settings specific to that package.
+In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE` will process `work,interactive=TRUE` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future` will only be used if both the devtools and the future packages are installed.
 
