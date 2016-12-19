@@ -26,7 +26,7 @@ print(pn)
 
 path <- system.file(package = "startup")
 paths <- file.path(path, c(".Renviron.d", ".Rprofile.d"))
-pn <- startup:::find_d_files(paths = paths)
+pn <- startup:::list_d_files(paths = paths)
 print(pn)
 
 message("*** find_files() ... DONE")

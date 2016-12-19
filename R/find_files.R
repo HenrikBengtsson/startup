@@ -89,7 +89,7 @@ find_d_dirs <- function(paths, all = FALSE) {
 } ## find_d_dirs()
 
 
-find_d_files <- function(paths, recursive = TRUE) {
+list_d_files <- function(paths, recursive = TRUE) {
   ol <- Sys.getlocale("LC_COLLATE")
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
@@ -124,4 +124,4 @@ find_d_files <- function(paths, recursive = TRUE) {
   files <- files[!duplicated(filesN)]
 
   files
-} ## find_d_files()
+} ## list_d_files()

@@ -3,11 +3,11 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   on_error <- match.arg(on_error)
   if (what == "Renviron") {
     paths <- find_renviron_d(sibling = sibling, all = all)
-    files <- find_d_files(paths)
+    files <- list_d_files(paths)
     FUN <- readRenviron
   } else if (what == "Rprofile") {
     paths <- find_rprofile_d(sibling = sibling, all = all)
-    files <- find_d_files(paths)
+    files <- list_d_files(paths)
     FUN <- function(pathname) {
       res <- tryCatch(source(pathname, print.eval = print.eval), error = identity)
       if (inherits(res, "error")) {
