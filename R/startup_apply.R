@@ -13,7 +13,11 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
   if (length(files) == 0) return(invisible(character(0)))
 
   ## How should the files be processed?
-  if (what == "Renviron") {
+  dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
+  dryrun <- getOption("startup.dryrun", dryrun)
+  if (isTRUE(dryrun)) {
+    FUN <- function(pathname) NULL
+  } else if (what == "Renviron") {
     FUN <- readRenviron
   } else if (what == "Rprofile") {
     FUN <- function(pathname) {
@@ -34,13 +38,10 @@ startup_apply <- function(what = c("Renviron", "Rprofile"), sibling = FALSE, all
     }
   }
 
-  dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
-  dryrun <- getOption("startup.dryrun", dryrun)
-
   logf("Processing %d %s files ...", length(files), what)
   for (file in files) {
     logf(" - %s", file)
-    if (!dryrun) FUN(file)
+    FUN(file)
   }
   logf("Processing %d %s files ... done", length(files), what)
   if (dryrun) log("(all files were skipped because startup.dryrun = TRUE)")
