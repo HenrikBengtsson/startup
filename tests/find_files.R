@@ -1,5 +1,6 @@
 message("*** find_files() ...")
 
+
 pn <- startup:::find_rprofile()
 print(pn)
 
@@ -18,10 +19,16 @@ print(pn)
 pn <- startup:::find_rprofile_d(all = TRUE)
 print(pn)
 
+pn <- startup:::find_rprofile_d(sibling = TRUE, all = TRUE)
+print(pn)
+
 pn <- startup:::find_renviron_d()
 print(pn)
 
 pn <- startup:::find_renviron_d(all = TRUE)
+print(pn)
+
+pn <- startup:::find_renviron_d(sibling = TRUE, all = TRUE)
 print(pn)
 
 path <- system.file(package = "startup")

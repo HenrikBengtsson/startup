@@ -6,7 +6,7 @@ local({
 })
 
 # Try to start HTML help server
-try(tools::startDynamicHelp())
+try(tools::startDynamicHelp(), silent = TRUE)
 
 options(help_type = "html")
 

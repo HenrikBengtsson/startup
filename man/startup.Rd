@@ -9,15 +9,15 @@
 \title{Load .Renviron.d and .Rprofile.d directories during the R startup process}
 \usage{
 renviron_d(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
-  debug = NA, paths = NULL)
+  dryrun = NA, debug = NA, paths = NULL)
 
 rprofile_d(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
-  debug = NA, on_error = c("error", "warning", "immediate.warning",
-  "message", "ignore"), paths = NULL)
+  on_error = c("error", "warning", "immediate.warning", "message", "ignore"),
+  dryrun = NA, debug = NA, paths = NULL)
 
 startup(sibling = FALSE, all = FALSE, on_error = c("error", "warning",
   "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA,
-  debug = NA)
+  dryrun = NA, debug = NA)
 }
 \arguments{
 \item{sibling}{If \code{TRUE}, then only \file{.Renviron.d/} and \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and \file{.Rprofile} in the same location will be considered.}
@@ -27,6 +27,8 @@ startup(sibling = FALSE, all = FALSE, on_error = c("error", "warning",
 \item{unload}{If \code{TRUE}, then the package is unloaded afterward, otherwise not.}
 
 \item{skip}{If \code{TRUE}, startup directories will be skipped.  If \code{NA}, they will be skipped if command-line options \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ} were specified.}
+
+\item{dryrun}{If \code{TRUE}, everything is done except the processing of the startup files.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 

@@ -2,7 +2,7 @@
 #' @param paths (internal) character vector of directories.
 #' @aliases renviron
 #' @export
-renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA, paths = NULL) {
+renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, dryrun = NA, debug = NA, paths = NULL) {
   debug(debug)
   
   ## Skip?
@@ -14,7 +14,7 @@ renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, 
     # Load custom .Renviron.d/* files
     if (is.null(paths)) paths <- find_renviron_d(sibling = sibling, all = all)
     files <- list_d_files(paths, filter = filter_files)
-    files_apply(files, FUN = readRenviron, what = "Renviron")
+    files_apply(files, FUN = readRenviron, dryrun = dryrun, what = "Renviron")
   }
   
   res <- api()

@@ -1,4 +1,4 @@
-files_apply <- function(files, FUN, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), what = "startup") {
+files_apply <- function(files, FUN, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), dryrun = NA, what = "startup") {
   stopifnot(is.function(FUN))
   on_error <- match.arg(on_error)
   
@@ -6,8 +6,11 @@ files_apply <- function(files, FUN, on_error = c("error", "warning", "immediate.
   if (length(files) == 0) return(invisible(character(0)))
 
   ## How should the files be processed?
-  dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
-  dryrun <- getOption("startup.dryrun", dryrun)
+  if (is.na(dryrun)) {
+    dryrun <- as.logical(Sys.getenv("R_STARTUP_DRYRUN", "FALSE"))
+    dryrun <- getOption("startup.dryrun", dryrun)
+  }
+  
   if (isTRUE(dryrun)) {
     call_FUN <- function(pathname) NULL
   } else {

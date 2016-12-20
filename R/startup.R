@@ -13,6 +13,7 @@
 #' @param on_error Action taken when an error is detected when sourcing an Rprofile file.  It is not possible to detect error in Renviron files; they are always ignored with a message that cannot be captured.
 #' @param unload If \code{TRUE}, then the package is unloaded afterward, otherwise not.
 #' @param skip If \code{TRUE}, startup directories will be skipped.  If \code{NA}, they will be skipped if command-line options \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ} were specified.
+#' @param dryrun If \code{TRUE}, everything is done except the processing of the startup files.
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
 #'
 #' @section User-specific installation:
@@ -49,14 +50,14 @@
 #'
 #' @describeIn startup \code{renviron_d()} followed by \code{rprofile_d()} and then the package is unloaded
 #' @export
-startup <- function(sibling = FALSE, all = FALSE, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA, debug = NA) {
+startup <- function(sibling = FALSE, all = FALSE, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA, dryrun = NA, debug = NA) {
   debug(debug)
 
   # (i) Load custom .Renviron.d/* files
-  renviron_d(sibling = sibling, all = all, skip = skip)
+  renviron_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun)
   
   # (ii) Load custom .Rprofile.d/* files
-  rprofile_d(sibling = sibling, all = all, skip = skip, on_error = on_error)
+  rprofile_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun, on_error = on_error)
 
   res <- api()
   if (unload) unload()
