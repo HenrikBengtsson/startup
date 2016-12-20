@@ -19,7 +19,7 @@ check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
 }
 
 
-check_rprofile_eof <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
+check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
   eof_ok <- function(file) {
     size <- file.info(file)$size
     bfr <- readBin(file, what = "raw", n = size)
@@ -27,7 +27,7 @@ check_rprofile_eof <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = F
   }
 
   debug(debug)
-  files <- find_rprofile(all = all)
+  if (is.null(files)) files <- find_rprofile(all = all)
 
   for (kk in seq_along(files)) {
     file <- files[kk]
@@ -52,10 +52,12 @@ check_rprofile_eof <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = F
 }
 
 
-check_rprofile_update_packages <- function(all = FALSE, debug = FALSE) {
-  files <- find_rprofile(all = all)
-  paths <- find_rprofile_d(all = all)
-  files <- c(files, list_d_files(paths))
+check_rprofile_update_packages <- function(files = NULL, all = FALSE, debug = FALSE) {
+  if (is.null(files)) {
+    files <- find_rprofile(all = all)
+    paths <- find_rprofile_d(all = all)
+    files <- c(files, list_d_files(paths))
+  }
   if (length(files) == 0) return()
   for (file in files) {
     bfr <- readLines(file, warn = FALSE)
