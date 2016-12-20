@@ -2,7 +2,7 @@
 
 When you start R, it will by default source a `.Rprofile` file if it exists.  This allows you to automatically tweak your R settings to meet your everyday needs.  For instance, you may want to set the default CRAN repository (`options("repos")`) so you don't have to choose one every time you install a package.
 
-The [startup] package extends the default R startup process by allowing you to put multiple startup scripts in a common `.Rprofile.d` directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal [devtools] settings.
+The [startup] package extends the default R startup process by allowing you to put multiple startup scripts in a common `.Rprofile.d` directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings.
 Similarly, you can use a `.Renviron.d` directory with multiple files defining different environment variables.  For instance, one file may define environment variable `LANGUAGE`, whereas another file may contain your private `GITHUB_PAT` key.
 The advantages of this approach are that it gives a better overview when you list the files, it makes it easier to share certain settings (= certain files) with other users, and you can keeping specific files completely private by setting the file privileges so only you can access those settings.
 
@@ -111,6 +111,5 @@ local({
 ```
 
 [startup]: https://cran.r-project.org/package=startup
-[devtools]: https://cran.r-project.org/package=devtools
 [RStudio]: https://www.rstudio.com/products/RStudio/
 [Linux Wine]: https://www.winehq.org/
