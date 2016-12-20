@@ -49,7 +49,7 @@ To debug the startup process, use `startup::startup(debug = TRUE)` or set enviro
 ```sh
 $ R_STARTUP_DEBUG=TRUE R
 ```
-This is will give informative messages during startup on which files are included and why.
+This is will give timestamped messages during startup on which files are included.
 
 
 ## Conditional file names
