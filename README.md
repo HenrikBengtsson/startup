@@ -91,8 +91,9 @@ The below is a list of "real-world" example files:
   +-- r_cmd_check
  
 .Rprofile.d/
-  +-- help,interactive=TRUE
   +-- interactive=TRUE
+      +-- help.start
+      +-- misc
   +-- os=windows
   +-- repos
 ```
