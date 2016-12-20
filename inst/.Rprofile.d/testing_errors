@@ -1,3 +1,0 @@
-if (getOption("startup.tests.error", FALSE)) {
-  stop("An (emulated) error")
-}

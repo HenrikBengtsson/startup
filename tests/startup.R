@@ -26,32 +26,6 @@ rprofile_d(paths = paths, skip = FALSE, dryrun = TRUE)
 message("*** rprofile_d() ... DONE")
 
 
-message("*** startup() - exceptions ...")
-
-options(startup.tests.error = TRUE)
-
-paths <- system.file(".Rprofile.d", package = "startup")
-
-res <- tryCatch(rprofile_d(paths = paths, skip = FALSE, on_error = "warning"), warning = identity)
-stopifnot(inherits(res, "simpleWarning"))
-
-res <- tryCatch(rprofile_d(paths = paths, skip = FALSE, on_error = "immediate.warning"), warning = identity)
-stopifnot(inherits(res, "simpleWarning"))
-
-res <- tryCatch(rprofile_d(paths = paths, skip = FALSE, on_error = "error"), error = identity)
-stopifnot(inherits(res, "simpleError"))
-
-res <- rprofile_d(paths = paths, skip = FALSE, on_error = "message")
-stopifnot(is.list(res))
-
-res <- rprofile_d(paths = paths, skip = FALSE, on_error = "ignore")
-stopifnot(is.list(res))
-
-options(startup.tests.error = FALSE)
-
-message("*** startup() - exceptions ... DONE")
-
-
 message("*** startup() - deprecated ...")
 
 paths <- system.file(".Renviron.d", package = "startup")
@@ -65,6 +39,37 @@ stopifnot(inherits(res, "simpleWarning"))
 rprofile(paths = paths, skip = FALSE, dryrun = TRUE)
 
 message("*** startup() - deprecated ... DONE")
+
+
+message("*** startup() - exceptions ...")
+
+path <- system.file("Rprofile.d,checks", package = "startup")
+pathT <- tempdir()
+file.copy(path, pathT, recursive = TRUE, overwrite = TRUE)
+
+oopts <- options(encoding = "native.enc")
+res <- tryCatch(rprofile_d(paths = pathT, skip = FALSE, on_error = "warning"), warning = identity)
+stopifnot(inherits(res, "simpleWarning"))
+
+options(encoding = "native.enc")
+res <- tryCatch(rprofile_d(paths = pathT, skip = FALSE, on_error = "immediate.warning"), warning = identity)
+stopifnot(inherits(res, "simpleWarning"))
+
+options(encoding = "native.enc")
+res <- tryCatch(rprofile_d(paths = pathT, skip = FALSE, on_error = "error"), error = identity)
+stopifnot(inherits(res, "simpleError"))
+
+options(encoding = "native.enc")
+res <- rprofile_d(paths = pathT, skip = FALSE, on_error = "message")
+stopifnot(is.list(res))
+
+options(encoding = "native.enc")
+res <- rprofile_d(paths = pathT, skip = FALSE, on_error = "ignore")
+stopifnot(is.list(res))
+
+options(oopts)
+
+message("*** startup() - exceptions ... DONE")
 
 
 message("*** startup() ... DONE")

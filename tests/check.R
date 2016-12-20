@@ -11,15 +11,37 @@ startup:::check_rprofile_update_packages(all = TRUE)
 
 startup:::check_rprofile_encoding()
 
+oopts <- options(encoding = "C")
+res <- tryCatch({
+  startup:::check_rprofile_encoding()
+}, warning = identity)
+if (!interactive()) stopifnot(inherits(res, "simpleWarning"))
+options(oopts)
+
 message("*** Checks - test files ...")
 
-paths <- system.file(".Rprofile.d", package = "startup")
-files <- startup:::list_d_files(paths)
-startup:::check_rprofile_eof(files = files)
-startup:::check_rprofile_update_packages(files = files)
-oopts <- options(encoding = "C")
-startup:::check_rprofile_encoding()
-options(oopts)
+path <- system.file("Rprofile.d,checks", package = "startup")
+pathT <- tempdir()
+file.copy(path, pathT, recursive = TRUE, overwrite = TRUE)
+
+files <- startup:::list_d_files(pathT)
+print(files)
+
+res <- tryCatch({
+  startup:::check_rprofile_eof(files = files, fix = FALSE)
+}, error = identity)
+stopifnot(inherits(res, "simpleError"))
+
+res <- tryCatch({
+  startup:::check_rprofile_eof(files = files)
+}, warning = identity)
+stopifnot(inherits(res, "simpleWarning"))
+
+res <- tryCatch({
+  startup:::check_rprofile_update_packages(files = files)
+}, error = identity)
+stopifnot(inherits(res, "simpleError"))
+ 
 
 message("*** Checks - test files ... DONE")
 
