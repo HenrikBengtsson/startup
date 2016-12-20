@@ -104,7 +104,7 @@ local({
   if (.Platform$OS.type == "windows") {
      repos["CRANextra"] <- "https://www.stats.ox.ac.uk/pub/RWin"
   }
-  options(repos = c(repos, getOption("repos"))
+  options(repos = c(repos, getOption("repos")))
 })
 ```
 

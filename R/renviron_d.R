@@ -1,7 +1,8 @@
 #' @describeIn startup Initiate using \file{.Renviron.d/} files
+#' @param paths (internal) character vector of directories.
 #' @aliases renviron
 #' @export
-renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA) {
+renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, debug = NA, paths = NULL) {
   debug(debug)
   
   ## Skip?
@@ -11,7 +12,7 @@ renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, 
 
   if (!skip) {
     # Load custom .Renviron.d/* files
-    paths <- find_renviron_d(sibling = sibling, all = all)
+    if (is.null(paths)) paths <- find_renviron_d(sibling = sibling, all = all)
     files <- list_d_files(paths, filter = filter_files)
     files_apply(files, FUN = readRenviron, what = "Renviron")
   }
