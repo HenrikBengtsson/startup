@@ -23,7 +23,7 @@ When R starts, the following _user-specific_ setup takes place:
   
   c. If there are no errors, the [startup] package will be unloaded afterward leaving no trace of itself behind.
 
-All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d`, you may use file names with and without extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an Rscript, is that it cmakes it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` and names `.Rhistory` and `.RData` are always ignored.
+All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d`, you may use file names with and without extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an Rscript, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` and names `.Rhistory` and `.RData` are always ignored.
 
 
 
