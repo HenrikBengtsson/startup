@@ -25,6 +25,8 @@ When R starts, the following _user-specific_ setup takes place:
 
 All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed, except for those with file endings `*.txt`, `*.md` and `*~`.  Files such as `.Rhistory` and `.RData` are also ignored.
 
+There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d`, you may use file names with and without extension `*.R`.
+
 
 ## Installation
 
@@ -52,7 +54,7 @@ This is will give timestamped messages during startup on which files are include
 
 ## Conditional file names
 
-If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
+If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows.R` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
 
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
@@ -75,9 +77,9 @@ In addition, one can also conditionally include files based on availability of a
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE` will process `work,interactive=TRUE` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future` will only be used if both the devtools and the future packages are installed.
+To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will process `work,interactive=TRUE.R` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will only be used if both the devtools and the future packages are installed.
 
-It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows` will be processed if package `doMC` is installed and if not running on Windows.
+It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and if not running on Windows.
 
 
 ## Examples
