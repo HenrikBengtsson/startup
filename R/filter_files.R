@@ -9,7 +9,9 @@ filter_files <- function(files, info = sysinfo()) {
   
       ## There could be more than one <key>=<name> specification
       ## per pathname that use the same <key>, e.g. package=nnn.
-      files_tmp <- strsplit(files[idxs], split = ",", fixed = TRUE)
+      files_tmp <- files[idxs]
+      files_tmp <- gsub("[.](r|R)$", "", files_tmp)
+      files_tmp <- strsplit(files_tmp, split = ",", fixed = TRUE)
       files_tmp <- lapply(files_tmp, FUN = function(f) grep(pattern, f, value = TRUE))
       files_values <- lapply(files_tmp, FUN = function(f) gsub(pattern, "\\1", f))
   
