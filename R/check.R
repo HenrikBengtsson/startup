@@ -68,7 +68,6 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE, debug = FA
       stop(msg)
     }
   }
-  invisible()
 }
 
 
