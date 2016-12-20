@@ -21,6 +21,12 @@ filesets <- list(
   K = c("/home/alice/.Rprofile.d/interactive=TRUE/package=fortunes" = FALSE)
 )
 
+## Test with filename extensions *.R as well
+filesets2 <- sprintf("%s.R", filesets)
+names(filesets2) <- sprintf("%s.R", names(filesets))
+filesets <- c(filesets, filesets2)
+
+
 for (kk in seq_along(filesets)) {
   message(sprintf("File set #%d (%s) ...", kk, names(filesets)[kk]))
   
