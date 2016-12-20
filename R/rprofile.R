@@ -14,8 +14,11 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA, 
   debug(debug)
 
   if (!skip) {
-    # (ii) Load custom .Rprofile.d/* files
-    startup_apply("Rprofile", sibling = sibling, all = all, print.eval = TRUE, on_error = on_error)
+    # (ii) Source custom .Rprofile.d/* files
+    paths <- find_rprofile_d(sibling = sibling, all = all)
+    files <- list_d_files(paths, filter = filter_files)
+    FUN <- function(pathname) source(pathname, print.eval = TRUE)
+    files_apply(files, FUN = FUN, on_error = on_error, what = "Rprofile")
   
     # (iii) Validate .Rprofile encoding
     check_rprofile_encoding()
