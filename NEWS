@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.3.0-9000 [2016-12-20]
+Version: 0.4.0 [2016-12-20]
 o Now it is possible to do negated filename specifications, e.g.
   hpc,package=future/os!=windows.
 o Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0
