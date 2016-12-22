@@ -1,6 +1,10 @@
 Package: startup
 ================
 
+Version: 0.4.0-9000 [2016-12-20]
+o ...
+
+
 Version: 0.4.0 [2016-12-20]
 o Now it is possible to do negated filename specifications, e.g.
   hpc,package=future/os!=windows.
