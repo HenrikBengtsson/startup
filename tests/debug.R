@@ -1,3 +1,5 @@
+message("*** debug() ...")
+
 debug <- startup:::debug
 
 print(debug())
@@ -11,5 +13,7 @@ startup:::logp(str(1:10))
 
 print(debug(FALSE))
 stopifnot(!debug())
+
+message("*** debug() ... DONE")
 
 rm(list = "debug")
