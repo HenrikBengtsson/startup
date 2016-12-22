@@ -92,15 +92,15 @@ The below is a list of "real-world" example files:
   +-- r_cmd_check
  
 .Rprofile.d/
-  +-- interactive=TRUE
-      +-- help.start
-      +-- misc
-  +-- os=windows
-  +-- repos
+  +-- interactive=TRUE/
+      +-- help.start.R
+      +-- misc.R
+  +-- os=windows.R
+  +-- repos.R
 ```
 They are available as part of this package under `system.file(package = "startup")`, e.g.
 ```r
-> f <- system.file(".Rprofile.d", "repos", package = "startup")
+> f <- system.file(".Rprofile.d", "repos.R", package = "startup")
 > file.show(f, type = "text")
 
 local({
