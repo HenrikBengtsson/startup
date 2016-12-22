@@ -88,11 +88,13 @@ The below is a list of "real-world" example files:
   +-- lang
   +-- libs
   +-- r_cmd_check
+  +-- secrets
  
 .Rprofile.d/
   +-- interactive=TRUE/
       +-- help.start.R
       +-- misc.R
+	  +-- package=fortunes.R
   +-- os=windows.R
   +-- repos.R
 ```
