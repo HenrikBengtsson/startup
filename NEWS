@@ -1,8 +1,8 @@
 Package: startup
 ================
 
-Version: 0.4.0-9000 [2016-12-20]
-o ...
+Version: 0.4.0-9000 [2016-12-21]
+o Now startup() ignores also .DS_Store files (common in macOS).
 
 
 Version: 0.4.0 [2016-12-20]

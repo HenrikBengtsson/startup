@@ -107,7 +107,7 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   }
 
   ## Drop stray files
-  files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
+  files <- files[!is.element(basename(files), c(".Rhistory", ".RData", ".DS_Store"))]
 
   ## Drop files based on filename endings
   files <- grep("([.]md|[.]txt|~)$", files, value = TRUE, invert = TRUE)
