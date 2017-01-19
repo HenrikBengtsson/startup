@@ -64,7 +64,7 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE, debug = FA
     bfr <- gsub("#.*", "", bfr, fixed = FALSE)
     pattern <- "update.packages[(][^)]*[)]"
     if (any(grepl(pattern, bfr, fixed = FALSE))) {
-      msg <- sprintf("UNSAFE STARTUP CALL DETECTED: Calling update.packages() during R startup risks recursively spawning off an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", file)
+      msg <- sprintf("UNSAFE STARTUP CALL DETECTED: Calling update.packages() during R startup risks spawning off an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", file)
       stop(msg)
     }
   }
