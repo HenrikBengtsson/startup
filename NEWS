@@ -16,7 +16,7 @@ NEW FEATURES:
 BUG FIXES:
 
  o startup() would give an error on "Failure processing startup file: [...]
-   unexpected $end" if there were hidden `__MACOS` directories / files in
+   unexpected $end" if there were hidden `__MACOSX` directories / files in
    the startup directory.  Such directories are now skipped.
  
 
