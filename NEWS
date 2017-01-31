@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.4.0-9000 [2017-01-30]
+Version: 0.4.0-9000 [2017-01-31]
 
 NEW FEATURES:
 
@@ -13,6 +13,12 @@ NEW FEATURES:
  
  o Now startup() ignores also .DS_Store files (common in macOS).
 
+BUG FIXES:
+
+ o startup() would give an error on "Failure processing startup file: [...]
+   unexpected $end" if there were hidden `__MACOS` directories / files in
+   the startup directory.  Such directories are now skipped.
+ 
 
 Version: 0.4.0 [2016-12-20]
 

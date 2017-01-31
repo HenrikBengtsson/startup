@@ -107,12 +107,16 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   }
 
   ## Drop stray files
-  files <- files[!is.element(basename(files), c(".Rhistory", ".RData", ".DS_Store"))]
+  files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
+
+  ## Drop stray directories and files created by macOS
+  files <- files[!is.element(basename(files), ".DS_Store")]
+  files <- grep("/__MACOSX/", files, value = TRUE, fixed = TRUE, invert = TRUE)
 
   ## Drop files based on filename endings
   files <- grep("([.]md|[.]txt|~)$", files, value = TRUE, invert = TRUE)
 
-  ## Drop private private files and private private directories
+  ## Drop "hidden" private files and "hidden" private directories (double period)
   files <- grep("(^|/)[.][.]", files, value = TRUE, invert = TRUE)
 
   ## Nothing to do?
