@@ -7,7 +7,10 @@ NEW FEATURES:
 
  o Startup directory or file names that start with two or more periods
    are now excluded, e.g. ~/.Rprofile.d/..hide/test.R.
-   
+
+ o startup() protects against attempts to update R packages also via
+   pacman::p_up() in addition to utils::update.packages().
+ 
  o Now startup() ignores also .DS_Store files (common in macOS).
 
 
