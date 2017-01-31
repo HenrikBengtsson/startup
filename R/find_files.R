@@ -112,6 +112,9 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   ## Drop files based on filename endings
   files <- grep("([.]md|[.]txt|~)$", files, value = TRUE, invert = TRUE)
 
+  ## Drop private private files and private private directories
+  files <- grep("(^|/)[.][.]", files, value = TRUE, invert = TRUE)
+
   ## Nothing to do?
   if (length(files) == 0) return(character(0))
 

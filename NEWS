@@ -1,7 +1,9 @@
 Package: startup
 ================
 
-Version: 0.4.0-9000 [2016-12-21]
+Version: 0.4.0-9000 [2017-01-30]
+o Startup directory or file names that start with two or more periods
+  are now excluded, e.g. ~/.Rprofile.d/..hide/test.R.
 o Now startup() ignores also .DS_Store files (common in macOS).
 
 
