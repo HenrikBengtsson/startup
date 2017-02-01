@@ -10,14 +10,15 @@ NEW FEATURES:
 
  o startup() protects against attempts to update R packages also via
    pacman::p_up() in addition to utils::update.packages().
- 
- o Now startup() ignores also .DS_Store files (common in macOS).
+
+ o Added flag 'ess' to sysinfo() indicating whether R runs under Emacs
+   Speaks Statistics (ESS) or not.
 
 BUG FIXES:
 
- o startup() would give an error on "Failure processing startup file: [...]
-   unexpected $end" if there were hidden `__MACOSX` directories / files in
-   the startup directory.  Such directories are now skipped.
+ o Now startup() ignores macOS files name .DS_Store and directories named
+   `__MACOSX` (and their content).  Previously, such files could result
+   in startup errors.
  
 
 Version: 0.4.0 [2016-12-20]
