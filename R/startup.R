@@ -58,7 +58,7 @@ startup <- function(sibling = FALSE, all = FALSE, on_error = c("error", "warning
     if (nzchar(f)) {
       logf("Detected R_TESTS=%s.", sQuote(f))
       logf("The %s package has already processed 1 file:", sQuote("base"))
-      logf(" - %s%s", normalizePath(f), if (file.exists(f)) "" else "(not found)")
+      logf(" - %s%s", normalizePath(f, mustWork = FALSE), if (file.exists(f)) "" else " (not found)")
     }
   }
 
