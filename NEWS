@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.4.0-9000 [2017-01-31]
+Version: 0.4.0-9000 [2017-02-07]
 
 NEW FEATURES:
 
@@ -13,6 +13,10 @@ NEW FEATURES:
 
  o Added flag 'ess' to sysinfo() indicating whether R runs under Emacs
    Speaks Statistics (ESS) or not.
+
+ o startup(debug = TRUE) detects if R_TESTS is set and reports which the
+   file is and that the base package has already processed it.
+   
 
 BUG FIXES:
 

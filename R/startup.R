@@ -53,6 +53,15 @@
 startup <- function(sibling = FALSE, all = FALSE, on_error = c("error", "warning", "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA, dryrun = NA, debug = NA) {
   debug(debug)
 
+  if (debug()) {
+    f <- Sys.getenv("R_TESTS")
+    if (nzchar(f)) {
+      logf("Detected R_TESTS=%s.", sQuote(f))
+      logf("The %s package has already processed 1 file:", sQuote("base"))
+      logf(" - %s%s", normalizePath(f), if (file.exists(f)) "" else "(not found)")
+    }
+  }
+
   # (i) Load custom .Renviron.d/* files
   renviron_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun)
   
