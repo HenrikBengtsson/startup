@@ -20,4 +20,3 @@ Checks whether running R on Windows using Wine or not
   \url{https://www.winehq.org/pipermail/wine-devel/2008-September/069387.html}
 }
 }
-

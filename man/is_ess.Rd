@@ -12,4 +12,3 @@ A logical
 \description{
 Checks whether running R via Emacs Spekas Statistics (ESS) or not
 }
-
