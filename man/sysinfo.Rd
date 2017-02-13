@@ -16,4 +16,3 @@ Information on the current R session
 startup::sysinfo()
 
 }
-

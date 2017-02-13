@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.4.0-9000 [2017-02-07]
+Version: 0.5.0 [2017-02-12]
 
 NEW FEATURES:
 
@@ -16,7 +16,6 @@ NEW FEATURES:
 
  o startup(debug = TRUE) detects if R_TESTS is set and reports which the
    file is and that the base package has already processed it.
-   
 
 BUG FIXES:
 
