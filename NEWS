@@ -24,7 +24,7 @@ NEW FEATURES:
 
 BUG FIXES:
 
- o Now startup() ignores macOS files name .DS_Store and directories named
+ o Now startup() ignores macOS files named .DS_Store and directories named
    `__MACOSX` (and their content).  Previously, such files could result
    in startup errors.
  
