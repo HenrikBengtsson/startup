@@ -1,44 +1,89 @@
 Package: startup
 ================
 
+Version: 0.5.0 [2017-02-12]
+
+NEW FEATURES:
+
+ o Startup directory or file names that start with two or more periods
+   are now excluded, e.g. ~/.Rprofile.d/..hide/test.R.
+
+ o startup() protects against attempts to update R packages also via
+   pacman::p_up() in addition to utils::update.packages().
+
+ o Added flag 'ess' to sysinfo() indicating whether R runs under Emacs
+   Speaks Statistics (ESS) or not.
+
+ o startup(debug = TRUE) detects if R_TESTS is set and reports which the
+   file is and that the base package has already processed it.
+
+BUG FIXES:
+
+ o Now startup() ignores macOS files name .DS_Store and directories named
+   `__MACOSX` (and their content).  Previously, such files could result
+   in startup errors.
+ 
+
 Version: 0.4.0 [2016-12-20]
-o Now it is possible to do negated filename specifications, e.g.
-  hpc,package=future/os!=windows.
-o Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0
-  (non-case sensitive), e.g. interactive=false and interactive=0.
-o Added element 'gui' to sysinfo().
-o Added flags 'rstudio' and 'wine' to sysinfo() indicating whether
-  R runs via RStudio and via Linux Wine, respectively.
-o New conditional <key>=<value> specification: Directory and file
-  names containing a package=<name> specification will only be
-  processed if and only if package <name> is installed.
-o Errors occuring while sourcing an Rprofile file now also
-  contain information about in file the error occurred.
-  Lines with invalid syntax in Renviron files are ignored with
-  a message outputted saying so.  Due to limitations in how
-  base::readRenviron() works, it is not possible to detect these
-  errors nor capture the outputted message.
-o Now objects are autoprinted to match the behavior of the R startup
-  process.
-o startup(debug = TRUE) now outputs timestamps since start per entry.
-o DEPRECATED: renviron() and rprofile() were renamed to renviron_d()
-  and rprofile_d(), respectively.
-o BUG FIX: A file extension *.R would incorrectly become part of
-  the <value> in a trailing <key>=<value> specification.
-o BUG FIX: Now R_STARTUP_DEBUG=TRUE also works for Rscript.  Used
-  to only work for the R executable.
+
+NEW FEATURES:
+
+ o Now it is possible to do negated filename specifications, e.g.
+   hpc,package=future/os!=windows.
+   
+ o Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0
+   (non-case sensitive), e.g. interactive=false and interactive=0.
+   
+ o Added element 'gui' to sysinfo().
+ 
+ o Added flags 'rstudio' and 'wine' to sysinfo() indicating whether
+   R runs via RStudio and via Linux Wine, respectively.
+   
+ o New conditional <key>=<value> specification: Directory and file
+   names containing a package=<name> specification will only be
+   processed if and only if package <name> is installed.
+   
+ o Errors occuring while sourcing an Rprofile file now also
+   contain information about in file the error occurred.
+   Lines with invalid syntax in Renviron files are ignored with
+   a message outputted saying so.  Due to limitations in how
+   base::readRenviron() works, it is not possible to detect these
+   errors nor capture the outputted message.
+  
+ o Now objects are autoprinted to match the behavior of the R startup
+   process.
+  
+ o startup(debug = TRUE) now outputs timestamps since start per entry.
+
+DEPRECATED AND DEFUNCT:
+
+ o DEPRECATED: renviron() and rprofile() were renamed to renviron_d()
+   and rprofile_d(), respectively.
+
+BUG FIXES:
+
+ o BUG FIX: A file extension *.R would incorrectly become part of
+   the <value> in a trailing <key>=<value> specification.
+  
+ o BUG FIX: Now R_STARTUP_DEBUG=TRUE also works for Rscript.  Used
+   to only work for the R executable.
   
 
 Version: 0.3.0 [2016-11-21]
-o No updates.  First submission to CRAN.
+
+ o No updates.  First submission to CRAN.
 
 
 Version: 0.2.0 [2016-11-20]
-o Add arguments sibling = FALSE to startup().  If sibling = TRUE,
-  the corresponding startup file needs to exist in the same
-  location as the directory in order for the directory to be
-  processed.
+
+NEW FEATURES:
+
+ o Add arguments sibling = FALSE to startup().  If sibling = TRUE,
+   the corresponding startup file needs to exist in the same
+   location as the directory in order for the directory to be
+   processed.
 
 
 Version: 0.1.0 [2016-11-15]
-o Package created. Adopted from a specialized .Rprofile script.
+
+ o Package created. Adopted from a specialized .Rprofile script.

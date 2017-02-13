@@ -23,7 +23,7 @@ When R starts, the following _user-specific_ setup takes place:
   
   c. If there are no errors, the [startup] package will be unloaded afterward leaving no trace of itself behind.
 
-All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d`, you may use file names with and without extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an Rscript, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` and names `.Rhistory` and `.RData` are always ignored.
+All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d`, you may use file names with and without extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an Rscript, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
 
 
 
@@ -67,6 +67,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   
 * Flags:
   - `interactive` - (logical) whether running interactively or not (= `interactive()`)
+  - `ess`         - (logical) whether running in [Emacs Speaks Statistics (ESS)] or not.
   - `rstudio`     - (logical) whether running in [RStudio] or not.
   - `wine`        - (logical) whether running on Windows via [Linux Wine] or not.
 
@@ -113,5 +114,6 @@ local({
 ```
 
 [startup]: https://cran.r-project.org/package=startup
+[Emacs Speaks Statistics (ESS)]: https://ess.r-project.org/
 [RStudio]: https://www.rstudio.com/products/RStudio/
 [Linux Wine]: https://www.winehq.org/

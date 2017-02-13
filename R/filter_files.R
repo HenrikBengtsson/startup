@@ -56,8 +56,8 @@ is_package_installed <- local({
   cache <- list()
   function(pkg) {
     res <- cache[[pkg]]
-    if (is.logical(res)) return(res)
-    res <- (length(find.package(package = pkg, quiet = TRUE)) > 0)
+    if (is.logical(res)) return(res)    
+    res <- (length(find.package(package = pkg, lib.loc = .libPaths(), quiet = TRUE)) > 0)
     cache[[pkg]] <<- res
     res
   }

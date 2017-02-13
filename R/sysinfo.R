@@ -14,6 +14,7 @@ sysinfo <- function() {
   sysinfo$interactive <- interactive()
 
   ## Additional information
+  sysinfo$ess <- is_ess()
   sysinfo$rstudio <- is_rstudio()
   sysinfo$wine <- is_wine()
   

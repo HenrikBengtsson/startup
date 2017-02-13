@@ -59,13 +59,22 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE, debug = FA
     files <- c(files, list_d_files(paths))
   }
   if (length(files) == 0) return()
+
+  patterns <- c(
+    "utils::update.packages()" = "update.packages[(][^)]*[)]",
+    "pacman::p_up()" = "p_up[(][^)]*[)]"
+  )
+  
   for (file in files) {
     bfr <- readLines(file, warn = FALSE)
     bfr <- gsub("#.*", "", bfr, fixed = FALSE)
-    pattern <- "update.packages[(][^)]*[)]"
-    if (any(grepl(pattern, bfr, fixed = FALSE))) {
-      msg <- sprintf("UNSAFE STARTUP CALL DETECTED: Calling update.packages() during R startup risks recursively spawning of an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", file)
-      stop(msg)
+
+    for (name in names(patterns)) {
+      pattern <- patterns[name]
+      if (any(grepl(pattern, bfr, fixed = FALSE))) {
+        msg <- sprintf("UNSAFE STARTUP CALL DETECTED (%s): Updating or installing R packages during R startup will recursively spawn off an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", name, file)
+        stop(msg)
+      }
     }
   }
 }
