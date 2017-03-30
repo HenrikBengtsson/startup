@@ -17,8 +17,6 @@ sysinfo <- function() {
   sysinfo$ess <- is_ess()
   sysinfo$rstudio <- is_rstudio()
   sysinfo$wine <- is_wine()
-  
+
   sysinfo
 }
-
-

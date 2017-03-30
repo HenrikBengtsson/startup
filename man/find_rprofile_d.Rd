@@ -3,20 +3,24 @@
 \name{find_rprofile_d}
 \alias{find_rprofile_d}
 \alias{find_renviron_d}
-\title{Locates the .Rprofile.d and .Renviron.d directories used during the startup of R}
+\title{Locates the .Rprofile.d and .Renviron.d directories used during the
+startup of R}
 \usage{
 find_rprofile_d(sibling = FALSE, all = FALSE)
 
 find_renviron_d(sibling = FALSE, all = FALSE)
 }
 \description{
-Locates the .Rprofile.d and .Renviron.d directories used during the startup of R
+Locates the .Rprofile.d and .Renviron.d directories used during the
+startup of R
 }
 \section{Functions}{
 \itemize{
-\item \code{find_rprofile_d}: Locates the \file{.Rprofile.d} directory used during \R startup.
+\item \code{find_rprofile_d}: Locates the \file{.Rprofile.d} directory used
+during \R startup.
 
-\item \code{find_renviron_d}: Locates the \file{.Renviron.d} directory used during \R startup.
+\item \code{find_renviron_d}: Locates the \file{.Renviron.d} directory used
+during \R startup.
 }}
 
 \keyword{internal}

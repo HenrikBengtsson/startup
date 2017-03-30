@@ -21,10 +21,10 @@ options(oopts)
 message("*** Checks - test files ...")
 
 path <- system.file("Rprofile.d,checks", package = "startup")
-pathT <- tempdir()
-file.copy(path, pathT, recursive = TRUE, overwrite = TRUE)
+path_tmp <- tempdir()
+file.copy(path, path_tmp, recursive = TRUE, overwrite = TRUE)
 
-files <- startup:::list_d_files(pathT)
+files <- startup:::list_d_files(path_tmp)
 print(files)
 
 res <- tryCatch({
@@ -41,9 +41,8 @@ res <- tryCatch({
   startup:::check_rprofile_update_packages(files = files)
 }, error = identity)
 stopifnot(inherits(res, "simpleError"))
- 
+
 
 message("*** Checks - test files ... DONE")
 
 message("*** Checks ... DONE")
-
