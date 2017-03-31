@@ -48,17 +48,17 @@ NEW FEATURES:
    names containing a package=<name> specification will only be
    processed if and only if package <name> is installed.
    
- o Errors occuring while sourcing an Rprofile file now also
+ o Errors occurring while sourcing an Rprofile file now also
    contain information about in file the error occurred.
    Lines with invalid syntax in Renviron files are ignored with
    a message outputted saying so.  Due to limitations in how
    base::readRenviron() works, it is not possible to detect these
    errors nor capture the outputted message.
   
- o Now objects are autoprinted to match the behavior of the R startup
+ o Now objects are auto printed to match the behavior of the R startup
    process.
   
- o startup(debug = TRUE) now outputs timestamps since start per entry.
+ o startup(debug = TRUE) now outputs time stamps since start per entry.
 
 DEPRECATED AND DEFUNCT:
 
