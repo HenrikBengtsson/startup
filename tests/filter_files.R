@@ -4,6 +4,8 @@ sysinfo$os <- "linux"
 sysinfo$rstudio <- TRUE
 sysinfo$wine <- FALSE
 sysinfo$interactive <- FALSE
+Sys.setenv(FOO = "abc")
+Sys.setenv(BAR = "123")
 
 message("*** filter_files() ...")
 
@@ -24,7 +26,10 @@ filesets <- list(
         "/home/alice/.Rprofile.d/interactive=FALSE" = TRUE),
   K = c("/home/alice/.Rprofile.d/interactive=TRUE/package=fortunes" = FALSE),
   L = c("/home/alice/.Rprofile.d/package=startup,package=base" = TRUE),
-  M = c("/home/alice/.Rprofile.d/package=startup,package!=base" = FALSE)
+  M = c("/home/alice/.Rprofile.d/package=startup,package!=base" = FALSE),
+  N = c("/home/alice/.Rprofile.d/FOO=abc,BAR=123" = TRUE),
+  O = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=321" = TRUE),
+  P = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=123" = FALSE)
 )
 
 ## Test with filename extensions *.R as well
