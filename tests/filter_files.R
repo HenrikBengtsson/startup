@@ -29,11 +29,15 @@ filesets <- list(
   M = c("/home/alice/.Rprofile.d/package=startup,package!=base" = FALSE),
   N = c("/home/alice/.Rprofile.d/FOO=abc,BAR=123" = TRUE),
   O = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=321" = TRUE),
-  P = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=123" = FALSE)
+  P = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=123" = FALSE),
+  Q = c("/home/alice/.Rprofile.d/FOO=abc/BAR=123/help" = TRUE)
 )
 
 ## Test with filename extensions *.R as well
-filesets2 <- sprintf("%s.R", filesets)
+filesets2 <- lapply(filesets, FUN = function(f) {
+  names(f) <- sprintf("%s.R", names(f))
+  f
+})
 names(filesets2) <- sprintf("%s.R", names(filesets))
 filesets <- c(filesets, filesets2)
 
@@ -42,13 +46,13 @@ for (kk in seq_along(filesets)) {
   message(sprintf("File set #%d (%s) ...", kk, names(filesets)[kk]))
 
   files <- filesets[[kk]]
-  files0 <- names(files)[files]
+  files_truth <- names(files)[files]
   files <- names(files)
   print(files)
 
   files_filtered <- filter_files(files, info = sysinfo)
   print(files_filtered)
-  stopifnot(identical(files_filtered, files0))
+  stopifnot(identical(files_filtered, files_truth))
 
   message(sprintf("File set #%d (%s) ... DONE", kk, names(filesets)[kk]))
 }

@@ -1,7 +1,7 @@
 list_of_values <- function(files, pattern, names = FALSE) {
   if (length(files) == 0) return(list())
   files <- gsub("[.](r|R)$", "", files)
-  files <- strsplit(files, split = ",", fixed = TRUE)
+  files <- strsplit(files, split = "[,/]", fixed = FALSE)
   files <- lapply(files, FUN = function(f) grep(pattern, f, value = TRUE))
   if (names) {
     lapply(files, FUN = function(f) {
@@ -89,7 +89,7 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
 
   for (op in c("=", "!=")) {
     ## Identify files specifying this <key>=<value>
-    pattern <- sprintf("^([a-zA-Z_][a-zA-Z0-9_]*)%s(.*)", op)
+    pattern <- sprintf("^([a-zA-Z_][a-zA-Z0-9_]*)%s([^=,/]*).*", op)
     files_values <- list_of_values(files, pattern = pattern, names = TRUE)
 
     ## Drop <key>=<value> elements that refers to sysinfo() or packages
