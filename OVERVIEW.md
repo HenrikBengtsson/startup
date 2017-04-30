@@ -77,6 +77,8 @@ In addition, one can also conditionally include files based on availability of a
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
+Any further `<key>=<value>` specification with keys not matching any of the above are interpreted as system environment variables.  For instance, a startup file or directory containing `LANGUAGE=fr` will only be processes if the environment variable `LANGUAGE` is set and equals `fr`.
+
 To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will process `work,interactive=TRUE.R` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will only be used if both the devtools and the future packages are installed.
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and if not running on Windows.
