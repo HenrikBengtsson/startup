@@ -18,6 +18,9 @@ file is created before modifying it, otherwise not.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
+\value{
+The pathname of the R startup file modified.
+}
 \description{
 Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d}
 startup directories by appending / removing one line of code to the
