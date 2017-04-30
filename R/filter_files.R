@@ -91,21 +91,18 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
     ## Identify files specifying this <key>=<value>
     pattern <- sprintf("^([a-zA-Z_][a-zA-Z0-9_]*)%s(.*)", op)
     files_values <- list_of_values(files, pattern = pattern, names = TRUE)
-    
+
     ## Drop <key>=<value> elements that refers to sysinfo() or packages
     files_values <- lapply(files_values, FUN = function(x) {
       x[!names(x) %in% ignore]
     })
-    
+
     idxs <- which(sapply(files_values, FUN = length) > 0)
     if (length(idxs) == 0) next
 
     ## There could be more than one <key>=<name> specification
     ## per pathname that use the same <key>, e.g. package=nnn.
-    files_tmp <- files[idxs]
-    files_values <- files_values[idxs]
-
-    files_ok <- lapply(files_values, FUN = function(values) {
+    files_ok <- lapply(files_values[idxs], FUN = function(values) {
       keys <- names(values)
       keep <- which(keys %in% names(envs))
       if (length(keep) == 0) return(TRUE)

@@ -1,7 +1,7 @@
 backup <- function(file) {
   ## base::file.size() was only introduced in R 3.2.0
   file_size <- function(...) file.info(..., extra_cols = FALSE)$size
-    
+
   stopifnot(file.exists(file))
   timestamp <- format(Sys.time(), "%Y%m%d-%H%M%S")
   file_backup <- sprintf("%s.bak.%s", file, timestamp)
