@@ -25,7 +25,7 @@ startup directories by appending / removing one line of code to the
 }
 \section{Functions}{
 \itemize{
-\item \code{install}: Appends a \code{startup::startup()} call to the
+\item \code{install}: Appends a \code{try(startup::startup())} call to the
 \file{.Rprofile}.
 
 \item \code{uninstall}: Remove calls to \code{startup::startup()} and similar.

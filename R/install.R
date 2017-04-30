@@ -12,7 +12,7 @@
 #'
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
 #'
-#' @describeIn install Appends a \code{startup::startup()} call to the
+#' @describeIn install Appends a \code{try(startup::startup())} call to the
 #' \file{.Rprofile}.
 #' @export
 install <- function(path = "~", backup = TRUE, debug = FALSE) {
@@ -28,7 +28,7 @@ install <- function(path = "~", backup = TRUE, debug = FALSE) {
 
   file <- file.path(path, ".Rprofile")
   if (backup && file.exists(file)) backup(file)
-  cat("startup::startup()\n", file = file, append = TRUE)
+  cat("try(startup::startup())\n", file = file, append = TRUE)
   TRUE
 }
 

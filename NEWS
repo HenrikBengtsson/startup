@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.5.0-9000 [2017-04-03]
+Version: 0.5.0-9000 [2017-04-30]
 
 SIGNIFICANT CHANGES:
 
@@ -9,7 +9,9 @@ SIGNIFICANT CHANGES:
 
 NEW FEATURES:
 
- o ...
+ o startup::install() now injects 'try(startup::startup())' such that 
+   install.packages("startup") will work even when 'startup' is not installed,
+   e.g. after a major-version R update.
 
 
 Version: 0.5.0 [2017-02-12]
