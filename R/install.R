@@ -16,16 +16,17 @@
 #' (default) appends the startup code to the end of the file.
 #' is overwritten.  If \code{TRUE}, any pre-existing R startup file is
 #' overwritten.
-#' 
+#'
 #' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
 #'
 #' @return The pathname of the R startup file modified.
 #'
 #' @describeIn install injects a \code{try(startup::startup())} call to the
 #' \file{.Rprofile}.
-#' 
+#'
 #' @export
-install <- function(path = "~", backup = TRUE, overwrite = FALSE, debug = FALSE) {
+install <- function(path = "~", backup = TRUE, overwrite = FALSE,
+                    debug = FALSE) {
   debug(debug)
 
   dir <- file.path(path, ".Rprofile.d")
@@ -59,7 +60,7 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE, debug = FALSE)
     logf("Created new R startup file with 'try(startup::startup())': %s",
          sQuote(file))
   }
-  
+
   file
 }
 
@@ -76,7 +77,7 @@ uninstall <- function(path = "~", backup = TRUE, debug = FALSE) {
     log(msg)
     return(file)
   }
-  
+
   bfr <- readLines(file, warn = FALSE)
   pattern <- "startup::(startup|renviron|rprofile)[(].*[)]"
   bfr2 <- grep(pattern, bfr, value = TRUE, invert = TRUE)
@@ -90,7 +91,7 @@ uninstall <- function(path = "~", backup = TRUE, debug = FALSE) {
   if (backup) backup(file)
   writeLines(bfr2, con = file)
   logf("R startup file updated: %s", sQuote(file))
-  
+
   file
 }
 
