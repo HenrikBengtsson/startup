@@ -22,7 +22,9 @@ filesets <- list(
   I = c("/home/alice/.Rprofile.d/rstudio!=f/wine!=1" = TRUE),
   J = c("/home/alice/.Rprofile.d/interactive=TRUE" = FALSE,
         "/home/alice/.Rprofile.d/interactive=FALSE" = TRUE),
-  K = c("/home/alice/.Rprofile.d/interactive=TRUE/package=fortunes" = FALSE)
+  K = c("/home/alice/.Rprofile.d/interactive=TRUE/package=fortunes" = FALSE),
+  L = c("/home/alice/.Rprofile.d/package=startup,package=base" = TRUE),
+  M = c("/home/alice/.Rprofile.d/package=startup,package!=base" = FALSE)
 )
 
 ## Test with filename extensions *.R as well

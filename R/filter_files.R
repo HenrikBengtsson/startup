@@ -1,3 +1,11 @@
+list_of_values <- function(files, pattern) {
+  if (length(files) == 0) return(list())
+  files <- gsub("[.](r|R)$", "", files)
+  files <- strsplit(files, split = ",", fixed = TRUE)
+  files <- lapply(files, FUN = function(f) grep(pattern, f, value = TRUE))
+  lapply(files, FUN = function(f) gsub(pattern, "\\1", f))
+}
+
 filter_files <- function(files, info = sysinfo()) {
   for (op in c("=", "!=")) {
     ## Parse <key>=<value> and keep only matching ones
@@ -9,15 +17,7 @@ filter_files <- function(files, info = sysinfo()) {
 
       ## There could be more than one <key>=<name> specification
       ## per pathname that use the same <key>, e.g. package=nnn.
-      files_tmp <- files[idxs]
-      files_tmp <- gsub("[.](r|R)$", "", files_tmp)
-      files_tmp <- strsplit(files_tmp, split = ",", fixed = TRUE)
-      files_tmp <- lapply(files_tmp, FUN = function(f) {
-        grep(pattern, f, value = TRUE)
-      })
-      files_values <- lapply(files_tmp, FUN = function(f) {
-        gsub(pattern, "\\1", f)
-      })
+      files_values <- list_of_values(files[idxs], pattern = pattern)
 
       if (key == "package") {
         files_ok <- lapply(files_values, FUN = function(values) {
@@ -33,6 +33,7 @@ filter_files <- function(files, info = sysinfo()) {
         ## sysinfo() keys
         value <- info[[key]]
         if (is.logical(value)) {
+          files_values <- unlist(files_values, use.names = FALSE)
           files_values <- toupper(files_values)
           files_values[files_values == "1"] <- "TRUE"
           files_values[files_values == "0"] <- "FALSE"
