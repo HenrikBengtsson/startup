@@ -41,7 +41,7 @@ filter_files <- function(files, info = sysinfo()) {
         }
         files_ok <- lapply(files_values, FUN = function(values) {
           keep <- (values == value)
-        if (op == "!=") keep <- !keep
+          if (op == "!=") keep <- !keep
           all(keep)
         })
         files_ok <- unlist(files_ok, use.names = FALSE)
