@@ -89,8 +89,6 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
 }
 
 
-
-
 check_rprofile_encoding <- function(debug = FALSE) {
   if (isTRUE(getOption(".Rprofile.check.encoding", TRUE) &&
              !interactive() &&
