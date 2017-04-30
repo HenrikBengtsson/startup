@@ -7,6 +7,10 @@
 #'
 #' @param path The path where to create / update the \file{.Rprofile} file.
 #'
+#' @param append If \code{TRUE}, the injected startup code is appended to
+#' an existing R startup file, if it already exists.  If \code{FALSE}, an
+#' existing R startup file is overwritten.
+#' 
 #' @param backup If \code{TRUE}, a timestamped backup copy of the original
 #' file is created before modifying it, otherwise not.
 #'
@@ -14,11 +18,11 @@
 #'
 #' @return The pathname of the R startup file modified.
 #'
-#' @describeIn install Appends a \code{try(startup::startup())} call to the
+#' @describeIn install injects a \code{try(startup::startup())} call to the
 #' \file{.Rprofile}.
 #' 
 #' @export
-install <- function(path = "~", backup = TRUE, debug = FALSE) {
+install <- function(path = "~", append = TRUE, backup = TRUE, debug = FALSE) {
   debug(debug)
 
   dir <- file.path(path, ".Rprofile.d")
@@ -41,9 +45,17 @@ install <- function(path = "~", backup = TRUE, debug = FALSE) {
     return(file)
   }
 
-  if (backup && file.exists(file)) backup(file)
-  cat("try(startup::startup())\n", file = file, append = TRUE)
-  logf("Appended 'try(startup::startup())' to R startup file: %s", sQuote(file))
+
+  file_exists <- file.exists(file)
+  if (backup && file_exists) backup(file)
+  cat("try(startup::startup())\n", file = file, append = append)
+  if (file_exists) {
+    logf("%s 'try(startup::startup())' to already existing R startup file: %s",
+         if (append) "Appended" else "Added", sQuote(file))
+  } else {
+    logf("Created new R startup file with 'try(startup::startup())': %s",
+         sQuote(file))
+  }
   
   file
 }

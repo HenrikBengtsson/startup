@@ -17,6 +17,9 @@ NEW FEATURES:
    modified. They also produce a warning if startup is already installed or
    uninstalled, respectively.
 
+ o startup::install() gained argument 'append' to control whether to append to
+   a pre-existing R startup file or to overwrite it.
+
 
 Version: 0.5.0 [2017-02-12]
 
