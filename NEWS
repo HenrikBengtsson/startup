@@ -17,8 +17,11 @@ NEW FEATURES:
    modified. They also produce a warning if startup is already installed or
    uninstalled, respectively.
 
- o startup::install() gained argument 'append' to control whether to append to
-   a pre-existing R startup file or to overwrite it.
+ o startup::install() gained argument 'overwrite' to control whether to append
+   (default) to a pre-existing R startup file or to overwrite it.
+
+ o ROBUSTNESS: Backups now not only assert that the backup files are created,
+   but also that they have the same file size as the original file.
 
 
 Version: 0.5.0 [2017-02-12]

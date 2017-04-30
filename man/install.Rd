@@ -6,19 +6,22 @@
 \title{Install and uninstall support for .Renviron.d and .Rprofile.d startup
 directories}
 \usage{
-install(path = "~", append = TRUE, backup = TRUE, debug = FALSE)
+install(path = "~", backup = TRUE, overwrite = FALSE, debug = FALSE)
 
 uninstall(path = "~", backup = TRUE, debug = FALSE)
 }
 \arguments{
 \item{path}{The path where to create / update the \file{.Rprofile} file.}
 
-\item{append}{If \code{TRUE}, the injected startup code is appended to
-an existing R startup file, if it already exists.  If \code{FALSE}, an
-existing R startup file is overwritten.}
-
 \item{backup}{If \code{TRUE}, a timestamped backup copy of the original
-file is created before modifying it, otherwise not.}
+file is created before modifying / overwriting it, otherwise not.
+If the backup fails, then an error is produced and the R startup file is
+unmodified.}
+
+\item{overwrite}{If the R startup file already exist, then \code{FALSE}
+(default) appends the startup code to the end of the file.
+is overwritten.  If \code{TRUE}, any pre-existing R startup file is
+overwritten.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
