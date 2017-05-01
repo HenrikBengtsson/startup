@@ -52,3 +52,7 @@ timestamp <- local({
     sprintf("%5.3fs", as.numeric(dt))
   }
 })
+
+notef <- function(..., quiet = FALSE) {
+  if (!quiet) message(sprintf(...))
+}

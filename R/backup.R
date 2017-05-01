@@ -1,6 +1,8 @@
-backup <- function(file) {
+backup <- function(file, quiet = FALSE) {
   ## base::file.size() was only introduced in R 3.2.0
   file_size <- function(...) file.info(..., extra_cols = FALSE)$size
+
+  if (quiet) notef <- function(...) NULL
 
   stopifnot(file.exists(file))
   timestamp <- format(Sys.time(), "%Y%m%d-%H%M%S")
@@ -8,8 +10,8 @@ backup <- function(file) {
   file.copy(file, file_backup)
   size <- file_size(file)
   backup_size <- file_size(file_backup)
-  logf("Backed up R startup file: %s (%d bytes) -> %s (%d bytes)",
-       sQuote(file), size, sQuote(file_backup), backup_size)
+  notef("Backed up R startup file: %s -> %s (%d bytes)",
+        sQuote(file), sQuote(file_backup), size)
   stopifnot(file.exists(file_backup), identical(backup_size, size))
   file_backup
 }

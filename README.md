@@ -37,7 +37,7 @@ startup::install()
 ```
 once.  This will append
 ```r
-startup::startup()
+try(startup::startup())
 ```
 to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
 

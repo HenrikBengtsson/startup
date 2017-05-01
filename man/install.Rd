@@ -6,9 +6,9 @@
 \title{Install and uninstall support for .Renviron.d and .Rprofile.d startup
 directories}
 \usage{
-install(path = "~", backup = TRUE, overwrite = FALSE, debug = FALSE)
+install(path = "~", backup = TRUE, overwrite = FALSE, quiet = FALSE)
 
-uninstall(path = "~", backup = TRUE, debug = FALSE)
+uninstall(path = "~", backup = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{path}{The path where to create / update the \file{.Rprofile} file.}
@@ -23,7 +23,8 @@ unmodified.}
 is overwritten.  If \code{TRUE}, any pre-existing R startup file is
 overwritten.}
 
-\item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
+\item{quiet}{If \code{FALSE} (default), detailed messages are generated,
+otherwise not.}
 }
 \value{
 The pathname of the R startup file modified.

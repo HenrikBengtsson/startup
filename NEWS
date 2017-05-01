@@ -19,9 +19,10 @@ NEW FEATURES:
    install.packages("startup") will work even when 'startup' is not installed,
    e.g. after a major-version R update.
 
- o startup::install() and startup::uninstall() now returns the R startup file
-   modified. They also produce a warning if startup is already installed or
-   uninstalled, respectively.
+ o startup::install() and startup::uninstall() now output messages on what is
+   done and why, and they now return the R startup file modified. They also
+   produce a warning if startup is already installed or uninstalled,
+   respectively.
 
  o startup::install() gained argument 'overwrite' to control whether to append
    (default) to a pre-existing R startup file or to overwrite it.

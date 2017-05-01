@@ -17,7 +17,8 @@
 #' is overwritten.  If \code{TRUE}, any pre-existing R startup file is
 #' overwritten.
 #'
-#' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
+#' @param quiet If \code{FALSE} (default), detailed messages are generated,
+#' otherwise not.
 #'
 #' @return The pathname of the R startup file modified.
 #'
@@ -26,39 +27,39 @@
 #'
 #' @export
 install <- function(path = "~", backup = TRUE, overwrite = FALSE,
-                    debug = FALSE) {
-  debug(debug)
-
+                    quiet = FALSE) {
+  if (quiet) notef <- function(...) NULL
+  
   dir <- file.path(path, ".Rprofile.d")
   if (!file.exists(dir)) {
-    logf("Creating R profile directory: %s", sQuote(dir))
+    notef("Creating R profile directory: %s", sQuote(dir))
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)
   }
 
   dir <- file.path(path, ".Renviron.d")
   if (!file.exists(dir)) {
-    logf("Creating R environment directory: %s", sQuote(dir))
+    notef("Creating R environment directory: %s", sQuote(dir))
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)
   }
 
   file <- file.path(path, ".Rprofile")
   if (is_installed(file)) {
     msg <- sprintf("startup::startup() already installed: %s", sQuote(file))
+    notef(msg)
     warning(msg)
-    log(msg)
     return(file)
   }
 
 
   file_exists <- file.exists(file)
-  if (backup && file_exists) backup(file)
+  if (backup && file_exists) backup(file, quiet = quiet)
   cat("try(startup::startup())\n", file = file, append = !overwrite)
   if (file_exists) {
-    logf("%s 'try(startup::startup())' to already existing R startup file: %s",
-         if (overwrite) "Appended" else "Added", sQuote(file))
+    notef("%s 'try(startup::startup())' to already existing R startup file: %s",
+          if (overwrite) "Appended" else "Added", sQuote(file))
   } else {
-    logf("Created new R startup file with 'try(startup::startup())': %s",
-         sQuote(file))
+    notef("Created new R startup file with 'try(startup::startup())': %s",
+          sQuote(file))
   }
 
   file
@@ -67,14 +68,14 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
 
 #' @describeIn install Remove calls to \code{startup::startup()} and similar.
 #' @export
-uninstall <- function(path = "~", backup = TRUE, debug = FALSE) {
-  debug(debug)
-
+uninstall <- function(path = "~", backup = TRUE, quiet = FALSE) {
+  if (quiet) notef <- function(...) NULL
+  
   file <- file.path(path, ".Rprofile")
   if (!is_installed(file)) {
     msg <- sprintf("startup::startup() not installed: %s", sQuote(file))
+    notef(msg)
     warning(msg)
-    log(msg)
     return(file)
   }
 
@@ -84,13 +85,13 @@ uninstall <- function(path = "~", backup = TRUE, debug = FALSE) {
   ## Nothing to do?
   if (isTRUE(all.equal(bfr2, bfr))) {
     msg <- sprintf("startup::startup() not installed: %s", sQuote(file))
+    notef(msg)
     warning(msg)
-    log(msg)
     return(file)
   }
-  if (backup) backup(file)
+  if (backup) backup(file, quiet = quiet)
   writeLines(bfr2, con = file)
-  logf("R startup file updated: %s", sQuote(file))
+  notef("R startup file updated: %s", sQuote(file))
 
   file
 }
