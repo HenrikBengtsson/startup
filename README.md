@@ -53,7 +53,7 @@ $ R_STARTUP_DEBUG=TRUE R
 This is will give timestamped messages during startup on which files are included.
 
 
-## Conditional file names
+## Conditional file and directory names
 
 If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows.R` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
 
