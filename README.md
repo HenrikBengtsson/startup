@@ -6,7 +6,7 @@ When you start R, it will by default source a `.Rprofile` file if it exists.  Th
 
 The [startup] package extends the default R startup process by allowing you to put multiple startup scripts in a common `.Rprofile.d` directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings.
 Similarly, you can use a `.Renviron.d` directory with multiple files defining different environment variables.  For instance, one file may define environment variable `LANGUAGE`, whereas another file may contain your private `GITHUB_PAT` key.
-The advantages of this approach are that it gives a better overview when you list the files, it makes it easier to share certain settings (= certain files) with other users, and you can keeping specific files completely private by setting the file privileges so only you can access those settings.
+The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).
 
 
 ## How the R startup process works
@@ -39,7 +39,7 @@ once.  This will append
 ```r
 try(startup::startup())
 ```
-to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
+to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R fails to install startup (or any other package) because the R profile startup script produces an error complaining about startup not being available.
 
 
 ## Usage
@@ -79,7 +79,7 @@ In addition, one can also conditionally include files based on availability of a
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specification with keys not matching any of the above known keys are interpreted as system environment variables and check against them.  If `<key>` does not correspond to a known environment variables, then the condition is ignored.  For instance, a startup file or directory containing `LANGUAGE=fr` will only be processed if the environment variable `LANGUAGE` equals `fr` (or is not set).
+Any further `<key>=<value>` specifications with keys not matching any of the above known keys are interpreted as system environment variables and startup will check such conditions against them.  If `<key>` does not correspond to a known environment variables, then the condition is ignored.  For instance, a startup file or directory containing `LANGUAGE=fr` will only be processed if the environment variable `LANGUAGE` equals `fr` (or is not set).
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will process `work,interactive=TRUE.R` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will only be used if both the devtools and the future packages are installed.
 
