@@ -20,21 +20,33 @@ startup(sibling = FALSE, all = FALSE, on_error = c("error", "warning",
   dryrun = NA, debug = NA)
 }
 \arguments{
-\item{sibling}{If \code{TRUE}, then only \file{.Renviron.d/} and \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and \file{.Rprofile} in the same location will be considered.}
+\item{sibling}{If \code{TRUE}, then only \file{.Renviron.d/} and
+\file{.Rprofile.d/} directories with a sibling \file{.Renviron} and
+\file{.Rprofile} in the same location will be considered.}
 
-\item{all}{If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and \file{.Rprofile.d/} directories found on \link[base:Startup]{the R startup search path} are processed, otherwise only the \emph{first ones} found.}
+\item{all}{If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and
+\file{.Rprofile.d/} directories found on
+\link[base:Startup]{the R startup search path} are processed,
+otherwise only the \emph{first ones} found.}
 
-\item{unload}{If \code{TRUE}, then the package is unloaded afterward, otherwise not.}
+\item{unload}{If \code{TRUE}, then the package is unloaded afterward,
+otherwise not.}
 
-\item{skip}{If \code{TRUE}, startup directories will be skipped.  If \code{NA}, they will be skipped if command-line options \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ} were specified.}
+\item{skip}{If \code{TRUE}, startup directories will be skipped.
+If \code{NA}, they will be skipped if command-line options
+\code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ}
+were specified.}
 
-\item{dryrun}{If \code{TRUE}, everything is done except the processing of the startup files.}
+\item{dryrun}{If \code{TRUE}, everything is done except the processing
+of the startup files.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 
 \item{paths}{(internal) character vector of directories.}
 
-\item{on_error}{Action taken when an error is detected when sourcing an Rprofile file.  It is not possible to detect error in Renviron files; they are always ignored with a message that cannot be captured.}
+\item{on_error}{Action taken when an error is detected when sourcing an
+Rprofile file.  It is not possible to detect error in Renviron files;
+they are always ignored with a message that cannot be captured.}
 }
 \description{
 Initiates \R using all files under \file{.Renviron.d/}
@@ -52,7 +64,8 @@ The above is done in addition the \file{.Renviron} and
 
 \item \code{rprofile_d}: Initiate using \file{.Rprofile.d/} files
 
-\item \code{startup}: \code{renviron_d()} followed by \code{rprofile_d()} and then the package is unloaded
+\item \code{startup}: \code{renviron_d()} followed by \code{rprofile_d()}
+and then the package is unloaded
 }}
 
 \section{User-specific installation}{
@@ -60,7 +73,8 @@ The above is done in addition the \file{.Renviron} and
 In order for \file{.Rprofile.d} and \file{.Renviron.d} directories
 to be included during the \R startup process, a user needs to add
 \code{startup::startup()} to \file{~/.Rprofile}.  Adding this can
-also be done by calling \code{\link[startup:install]{startup::install()}} once.
+also be done by calling \code{\link[startup:install]{startup::install()}}
+once.
 }
 
 \section{Site-wide installation}{

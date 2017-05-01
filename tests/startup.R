@@ -44,27 +44,33 @@ message("*** startup() - deprecated ... DONE")
 message("*** startup() - exceptions ...")
 
 path <- system.file("Rprofile.d,checks", package = "startup")
-pathT <- tempdir()
-file.copy(path, pathT, recursive = TRUE, overwrite = TRUE)
+path_tmp <- tempdir()
+file.copy(path, path_tmp, recursive = TRUE, overwrite = TRUE)
 
 oopts <- options(encoding = "native.enc")
-res <- tryCatch(rprofile_d(paths = pathT, skip = FALSE, on_error = "warning"), warning = identity)
+res <- tryCatch({
+  rprofile_d(paths = path_tmp, skip = FALSE, on_error = "warning")
+}, warning = identity)
 stopifnot(inherits(res, "simpleWarning"))
 
 options(encoding = "native.enc")
-res <- tryCatch(rprofile_d(paths = pathT, skip = FALSE, on_error = "immediate.warning"), warning = identity)
+res <- tryCatch({
+  rprofile_d(paths = path_tmp, skip = FALSE, on_error = "immediate.warning")
+}, warning = identity)
 stopifnot(inherits(res, "simpleWarning"))
 
 options(encoding = "native.enc")
-res <- tryCatch(rprofile_d(paths = pathT, skip = FALSE, on_error = "error"), error = identity)
+res <- tryCatch({
+  rprofile_d(paths = path_tmp, skip = FALSE, on_error = "error")
+}, error = identity)
 stopifnot(inherits(res, "simpleError"))
 
 options(encoding = "native.enc")
-res <- rprofile_d(paths = pathT, skip = FALSE, on_error = "message")
+res <- rprofile_d(paths = path_tmp, skip = FALSE, on_error = "message")
 stopifnot(is.list(res))
 
 options(encoding = "native.enc")
-res <- rprofile_d(paths = pathT, skip = FALSE, on_error = "ignore")
+res <- rprofile_d(paths = path_tmp, skip = FALSE, on_error = "ignore")
 stopifnot(is.list(res))
 
 options(oopts)

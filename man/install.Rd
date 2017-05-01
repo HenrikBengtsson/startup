@@ -3,25 +3,41 @@
 \name{install}
 \alias{install}
 \alias{uninstall}
-\title{Install and uninstall support for .Renviron.d and .Rprofile.d startup directories}
+\title{Install and uninstall support for .Renviron.d and .Rprofile.d startup
+directories}
 \usage{
-install(path = "~", backup = TRUE, debug = FALSE)
+install(path = "~", backup = TRUE, overwrite = FALSE, quiet = FALSE)
 
-uninstall(path = "~", backup = TRUE, debug = FALSE)
+uninstall(path = "~", backup = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{path}{The path where to create / update the \file{.Rprofile} file.}
 
-\item{backup}{If \code{TRUE}, a timestamped backup copy of the original file is created before modifying it, otherwise not.}
+\item{backup}{If \code{TRUE}, a timestamped backup copy of the original
+file is created before modifying / overwriting it, otherwise not.
+If the backup fails, then an error is produced and the R startup file is
+unmodified.}
 
-\item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
+\item{overwrite}{If the R startup file already exist, then \code{FALSE}
+(default) appends the startup code to the end of the file.
+is overwritten.  If \code{TRUE}, any pre-existing R startup file is
+overwritten.}
+
+\item{quiet}{If \code{FALSE} (default), detailed messages are generated,
+otherwise not.}
+}
+\value{
+The pathname of the R startup file modified.
 }
 \description{
-Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d} startup directories by appending / removing one line of code to the \file{~/.Rprofile} file.
+Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d}
+startup directories by appending / removing one line of code to the
+\file{~/.Rprofile} file.
 }
 \section{Functions}{
 \itemize{
-\item \code{install}: Appends a \code{startup::startup()} call to the \file{.Rprofile}.
+\item \code{install}: injects a \code{try(startup::startup())} call to the
+\file{.Rprofile}.
 
 \item \code{uninstall}: Remove calls to \code{startup::startup()} and similar.
 }}

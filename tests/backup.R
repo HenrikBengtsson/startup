@@ -1,10 +1,10 @@
 message("*** backup() ...")
 
-pn <- tempfile()
-cat("Hello", file = pn)
-stopifnot(file.exists(pn))
-pnB <- startup:::backup(pn)
-print(pnB)
-stopifnot(file.exists(pn), file.exists(pnB))
+pathname <- tempfile()
+cat("Hello", file = pathname)
+stopifnot(file.exists(pathname))
+pathname_backup <- startup:::backup(pathname)
+print(pathname_backup)
+stopifnot(file.exists(pathname), file.exists(pathname_backup))
 
 message("*** backup() ... DONE")
