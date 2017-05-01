@@ -37,7 +37,7 @@ once.  This will append
 ```r
 try(startup::startup())
 ```
-to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `startup::startup()` to your `~/.Rprofile` file manually.
+to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R fails to install startup (or any other package) because the R profile startup script produces an error complaining about startup not being available.
 
 
 ## Usage
