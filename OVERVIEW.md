@@ -11,19 +11,19 @@ The advantages of this approach are that it gives a better overview when you lis
 
 When R starts, the following _user-specific_ setup takes place:
 
-1. The _first_ `.Renviron` file found on the R startup search path to be processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.
+1. The _first_ `.Renviron` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.
 
-2. The _first_ `.Rprofile` file found on the R startup search path to be processed.  The search path is (in order): `Sys.getenv("R_PROFILE_USER")`, `./.Rprofile`, and `~/.Rprofile`.
+2. The _first_ `.Rprofile` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_PROFILE_USER")`, `./.Rprofile`, and `~/.Rprofile`.
 
 3. If the `.Rprofile` file (in Step 2) calls `startup::startup()` then the following will also take place:
 
-  a. The _first_ `.Renviron.d` directory on the R startup search path to be processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.
+  a. The _first_ `.Renviron.d` directory on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.
   
-  b. The _first_ `.Rprofile.d` directory found on the R startup search path to be processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
+  b. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
   
-  c. If there are no errors, the [startup] package will be unloaded afterward leaving no trace of itself behind.
+  c. If no errors occur, the [startup] package will be unloaded, leaving no trace of itself behind.
 
-All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d`, you may use file names with and without extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an Rscript, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
+All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d` you may use file names with and without the extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an R script, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
 
 
 
@@ -44,16 +44,16 @@ to your `~/.Rprofile`.  The file will be created if missing.  This will also cre
 
 Just start R :)
 
-To debug the startup process, use `startup::startup(debug = TRUE)` or set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux one can do:
+To debug the startup process, use `startup::startup(debug = TRUE)` or set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux you can do:
 ```sh
 $ R_STARTUP_DEBUG=TRUE R
 ```
-This is will give timestamped messages during startup on which files are included.
+This will produce time-stamped messages during startup specifying which files are included.
 
 
 ## Conditional file and directory names
 
-If the name of a file consists of a `<key>=<value>` specification, then that file will only be included / used if the specification is fulfilled on the current system with the current R setup.  For instance, a file `~/.Rprofile.d/os=windows.R` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
+If the name of a file consists of a `<key>=<value>` specification, then that file will be included / used only if the specification is fulfilled (on the current system with the current R setup).  For instance, a file `~/.Rprofile.d/os=windows.R` will be ignored unless `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a Windows system.
 
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
@@ -67,25 +67,25 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   
 * Flags:
   - `interactive` - (logical) whether running interactively or not (= `interactive()`)
-  - `ess`         - (logical) whether running in [Emacs Speaks Statistics (ESS)] or not.
-  - `rstudio`     - (logical) whether running in [RStudio] or not.
-  - `wine`        - (logical) whether running on Windows via [Linux Wine] or not.
+  - `ess`         - (logical) whether running in [Emacs Speaks Statistics (ESS)] or not
+  - `rstudio`     - (logical) whether running in [RStudio] or not
+  - `wine`        - (logical) whether running on Windows via [Linux Wine] or not
 
-In addition, one can also conditionally include files based on availability of a package:
+You can also include files conditionally on whether a package is installed or not:
 
-* `package`     - (character) whether a package is installed or not.
+  - `package`     - (character) whether a package is installed or not
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specifications with keys not matching any of the above known keys are interpreted as system environment variables and startup will check such conditions against them.  If `<key>` does not correspond to a known environment variables, then the condition is ignored.  For instance, a startup file or directory containing `LANGUAGE=fr` will only be processed if the environment variable `LANGUAGE` equals `fr` (or is not set).
+Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  If `<key>` does not correspond to a known environment variable, then the condition is ignored.  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
 
-To condition on more than one key, separate `<key>=<value>` pairs by commas (`,`), e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will process `work,interactive=TRUE.R` if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will only be used if both the devtools and the future packages are installed.
+To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
-It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and if not running on Windows.
+It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
 
 
 ## Examples
-The below is a list of "real-world" example files:
+Below is a list of "real-world" example files:
 ```
 .Renviron.d/
   +-- lang
