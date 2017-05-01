@@ -29,7 +29,7 @@
 install <- function(path = "~", backup = TRUE, overwrite = FALSE,
                     quiet = FALSE) {
   if (quiet) notef <- function(...) NULL
-  
+
   dir <- file.path(path, ".Rprofile.d")
   if (!file.exists(dir)) {
     notef("Creating R profile directory: %s", sQuote(dir))
@@ -70,7 +70,7 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
 #' @export
 uninstall <- function(path = "~", backup = TRUE, quiet = FALSE) {
   if (quiet) notef <- function(...) NULL
-  
+
   file <- file.path(path, ".Rprofile")
   if (!is_installed(file)) {
     msg <- sprintf("startup::startup() not installed: %s", sQuote(file))

@@ -13,7 +13,7 @@ NEW FEATURES:
    that is not one of the known sysinfo() fields or 'package') will be
    interpreted as the name of an environment variable.  For instance, files
    path/LANGUAGE=en/*.R will only be included if system environment variable
-   LANGUAGE is set and equals 'en'.
+   LANGUAGE equals 'en' (or is not set).
 
  o startup::install() now injects 'try(startup::startup())' such that 
    install.packages("startup") will work even when 'startup' is not installed,
