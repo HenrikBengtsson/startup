@@ -8,6 +8,17 @@ and inst/.Rprofile.d. They were added for a reason and are not mistakes.
 Thanks in advance
 
 
+## Reply to "CRAN teams' auto-check service"
+
+Hi, just following up on the false negatives in the pre-check:
+
+As with previous submissions, and already known to CRAN, R CMD check
+produces NOTEs on hidden directories inst/.Renviron.d and
+inst/.Rprofile.d. They were added for a reason and are not mistakes.
+
+Thanks in advance
+
+
 ### R CMD check --as-cran validation
 
 The package has been verified using `R CMD check --as-cran` on:
