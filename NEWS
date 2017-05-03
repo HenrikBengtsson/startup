@@ -1,9 +1,11 @@
 Package: startup
 ================
 
-Version: 0.6.0 [2017-05-01]
+Version: 0.6.0 [2017-05-02]
 
- o ...
+BUG FIXES:
+
+ o startup() ignores more hidden files that macOS may create.
  
 
 Version: 0.6.0 [2017-04-30]
