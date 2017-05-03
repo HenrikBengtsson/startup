@@ -1,9 +1,14 @@
 Package: startup
 ================
 
-Version: 0.6.0 [2017-05-01]
+Version: 0.6.0 [2017-05-02]
 
- o ...
+BUG FIXES:
+
+ o startup() ignores more of the hidden files and folders that macOS may create
+   and which should not be sourced during startup.  For instance, when copying
+   a file 'foo.R' to a non-macOS file system, an auxillary file '._foo.R' may
+   be created as well.
  
 
 Version: 0.6.0 [2017-04-30]

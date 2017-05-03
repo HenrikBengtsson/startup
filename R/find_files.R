@@ -119,12 +119,26 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
                           full.names = TRUE))
   }
 
-  ## Drop stray files
-  files <- files[!is.element(basename(files), c(".Rhistory", ".RData"))]
+  ## Drop stray files created by R
+  ignores <- c(".Rhistory", ".RData")
+  files <- files[!is.element(basename(files), ignores)]
 
   ## Drop stray directories and files created by macOS
-  files <- files[!is.element(basename(files), ".DS_Store")]
-  files <- grep("/__MACOSX/", files, value = TRUE, fixed = TRUE, invert = TRUE)
+  ## Source: https://apple.stackexchange.com/questions/14980
+  ignores <- c(".DS_Store", ".Spotlight-V100", ".TemporaryItems",
+               ".VolumeIcon.icns", ".apDisk", ".fseventsd")
+  files <- files[!is.element(basename(files), ignores)]
+  files <- grep("/(__MACOSX|[.]Trash|[.]Trashes)/", files, value = TRUE,
+                fixed = FALSE, invert = TRUE)
+  hidden <- grep("._", basename(files), fixed = TRUE, value = FALSE)
+  if (length(hidden) > 0) {
+    hidden_files <- files[hidden]
+    hidden_names <- sub("^[.]_", "", basename(hidden_files))
+    hidden_siblings <- file.path(dirname(hidden_files), hidden_names)
+    drop <- is.element(hidden_siblings, files)
+    hidden_files <- hidden_files[drop]
+    files <- setdiff(files, hidden_files)
+  }
 
   ## Drop files based on filename endings
   files <- grep("([.]md|[.]txt|~)$", files, value = TRUE, invert = TRUE)
