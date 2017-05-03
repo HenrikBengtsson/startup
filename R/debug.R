@@ -32,6 +32,7 @@ log <- function(..., collapse = "\n") {
   lines <- c(...)
   lines <- sprintf("%s: %s", timestamp(), lines)
   message(paste(lines, collapse = collapse))
+  invisible()
 }
 
 logf <- function(..., collapse = "\n") {
