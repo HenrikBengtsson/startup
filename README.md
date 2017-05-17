@@ -128,13 +128,6 @@ R package startup is available on [CRAN](https://cran.r-project.org/package=star
 install.packages('startup')
 ```
 
-### Pre-release version
-
-To install the pre-release version that is available in Git branch `develop` on GitHub, use:
-```r
-source('http://callr.org/install#HenrikBengtsson/startup@develop')
-```
-This will install the package from source.  
 
 
 
