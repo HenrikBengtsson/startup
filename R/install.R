@@ -7,15 +7,13 @@
 #'
 #' @param path The path where to create / update the \file{.Rprofile} file.
 #'
-#' @param backup If `TRUE`, a timestamped backup copy of the original
-#' file is created before modifying / overwriting it, otherwise not.
-#' If the backup fails, then an error is produced and the R startup file is
-#' unmodified.
+#' @param backup If `TRUE`, a timestamped backup copy of the original file is
+#' created before modifying / overwriting it, otherwise not.  If the backup
+#' fails, then an error is produced and the R startup file is unmodified.
 #'
-#' @param overwrite If the R startup file already exist, then `FALSE`
-#' (default) appends the startup code to the end of the file.
-#' is overwritten.  If `TRUE`, any pre-existing R startup file is
-#' overwritten.
+#' @param overwrite If the R startup file already exist, then `FALSE` (default)
+#' appends the startup code to the end of the file. is overwritten.  If `TRUE`,
+#' any pre-existing R startup file is overwritten.
 #'
 #' @param quiet If `FALSE` (default), detailed messages are generated,
 #' otherwise not.

@@ -1,21 +1,19 @@
 #' Load .Renviron.d and .Rprofile.d directories during the R startup process
 #'
-#' Initiates \R using all files under \file{.Renviron.d/}
-#' and / or \file{.Rprofile.d/} directories
-#' (or in subdirectories thereof).
+#' Initiates \R using all files under \file{.Renviron.d/} and / or
+#' \file{.Rprofile.d/} directories (or in subdirectories thereof).
 #'
-#' The above is done in addition the \file{.Renviron} and
-#' \file{.Rprofile} files that are supported by the built-in
-#' [startup process][base::Startup] of \R.
+#' The above is done in addition the \file{.Renviron} and \file{.Rprofile}
+#' files that are supported by the built-in [startup process][base::Startup]
+#' of \R.
 #'
 #' @param sibling If `TRUE`, then only \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and
 #' \file{.Rprofile} in the same location will be considered.
 #'
-#' @param all If `TRUE`, then _all_ \file{.Renviron.d/} and
-#' \file{.Rprofile.d/} directories found on
-#' [the R startup search path][base::Startup] are processed,
-#' otherwise only the _first ones_ found.
+#' @param all If `TRUE`, then _all_ \file{.Renviron.d/} and \file{.Rprofile.d/}
+#' directories found on [the R startup search path][base::Startup] are
+#' processed, otherwise only the _first ones_ found.
 #'
 #' @param on_error Action taken when an error is detected when sourcing an
 #' Rprofile file.  It is not possible to detect error in Renviron files;
@@ -25,32 +23,31 @@
 #' complete.  The default is to keep `startup.session.*` options
 #' as recorded by [startup_session_options()].
 #' 
-#' @param unload If `TRUE`, then the package is unloaded afterward,
-#' otherwise not.
+#' @param unload If `TRUE`, then the package is unloaded afterward, otherwise
+#' not.
 #'
-#' @param skip If `TRUE`, startup directories will be skipped.
-#' If `NA`, they will be skipped if command-line options
-#' `--vanilla`, `--no-init-file`, and / or `--no-environ`
-#' were specified.
+#' @param skip If `TRUE`, startup directories will be skipped.  If `NA`, they
+#' will be skipped if command-line options `--vanilla`, `--no-init-file`,
+#' and / or `--no-environ` were specified.
 #'
-#' @param dryrun If `TRUE`, everything is done except the processing
-#' of the startup files.
+#' @param dryrun If `TRUE`, everything is done except the processing of the
+#' startup files.
 #'
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
 #' @section User-specific installation:
-#' In order for \file{.Rprofile.d} and \file{.Renviron.d} directories
-#' to be included during the \R startup process, a user needs to add
-#' `startup::startup()` to \file{~/.Rprofile}.  Adding this can
-#' also be done by calling [startup::install()] once.
+#' In order for \file{.Rprofile.d} and \file{.Renviron.d} directories to be
+#' included during the \R startup process, a user needs to add
+#' `startup::startup()` to \file{~/.Rprofile}.  Adding this can also be done
+#' by calling [startup::install()] once.
 #'
 #' @section Site-wide installation:
-#' An alternative to having each user add `startup::startup()` in
-#' their own \file{~/.Rprofile} file, is to add it to the site-wide
-#' \file{Rprofile.site} file (see [?Startup][base::Startup]).
-#' The advantage of such a site-wide installation, is that the users
-#' do not have to have a \file{.Rprofile} file for \file{.Rprofile.d}
-#' and \file{.Renviron.d} directories to work.
+#' An alternative to having each user add `startup::startup()` in their own
+#' \file{~/.Rprofile} file, is to add it to the site-wide \file{Rprofile.site}
+#' file (see [?Startup][base::Startup]).
+#' The advantage of such a site-wide installation, is that the users do not
+#' have to have a \file{.Rprofile} file for \file{.Rprofile.d} and
+#' \file{.Renviron.d} directories to work.
 #' For this to work for all users automatically, the \pkg{startup} package
 #' should also be installed in the site-wide library.
 #'
@@ -70,8 +67,8 @@
 #' startup::rprofile_d(all = TRUE)
 #' }
 #'
-#' @describeIn startup `renviron_d()` followed by `rprofile_d()`
-#' and then the package is unloaded
+#' @describeIn startup `renviron_d()` followed by `rprofile_d()` and then the
+#' package is unloaded
 #' @export
 startup <- function(sibling = FALSE, all = FALSE,
                     on_error = c("error", "warning", "immediate.warning",

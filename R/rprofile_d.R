@@ -1,4 +1,5 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
+#' 
 #' @aliases rprofile
 #' @export
 rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,

@@ -1,21 +1,20 @@
 #' Record R session information as options
 #'
 #' @param action If `"update"` or `"overwrite"`, \R options
-#' `"startup.session.*"` are set.  If `"update"`, then such options
-#' that are not already set are updated.
-#' If `"erase"`, any existing `"startup.session.*"` options are
-#' removed.
+#' `"startup.session.*"` are set.  If `"update"`, then such options that are
+#' not already set are updated.  If `"erase"`, any existing
+#' `"startup.session.*"` options are removed.
 #' 
 #' @return Returns invisibly a named list of the options prefixed
 #' `"startup.session."`:
 #' \describe{
-#'   \item{`startup.session.startdir`}{(character) the directory where
-#'     the \R session was launched from}
-#'   \item{`startup.session.id`}{(character) a unique ID for the current
-#'     \R session}
-#'   \item{`startup.session.dumpto`}{(character) a value that can be used
-#'     for argument `dumpto` of [dump.frames()][utils::dump.frames]
-#'     (also for dumping to file)}
+#'   \item{`startup.session.startdir`}{(character) the directory where the \R
+#'     session was launched from}
+#'   \item{`startup.session.id`}{(character) a unique ID for the current \R
+#'     session}
+#'   \item{`startup.session.dumpto`}{(character) a value that can be used for
+#'     argument `dumpto` of [dump.frames()][utils::dump.frames] (also for
+#'     dumping to file)}
 #' }
 #'
 #' @examples

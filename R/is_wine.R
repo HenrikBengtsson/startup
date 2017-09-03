@@ -1,4 +1,3 @@
-
 #' Checks whether running R on Windows using Wine or not
 #'
 #' @return A logical
