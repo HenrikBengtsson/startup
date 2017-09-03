@@ -12,10 +12,10 @@
 #' \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and
 #' \file{.Rprofile} in the same location will be considered.
 #'
-#' @param all If `TRUE`, then \emph{all} \file{.Renviron.d/} and
+#' @param all If `TRUE`, then _all_ \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} directories found on
 #' [the R startup search path][base::Startup] are processed,
-#' otherwise only the \emph{first ones} found.
+#' otherwise only the _first ones_ found.
 #'
 #' @param on_error Action taken when an error is detected when sourcing an
 #' Rprofile file.  It is not possible to detect error in Renviron files;

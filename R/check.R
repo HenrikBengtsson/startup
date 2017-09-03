@@ -15,7 +15,7 @@
 #' @references
 #' \itemize{
 #' \item R-devel thread
-#'  \emph{Last line in .Rprofile must have newline (PR#4056)}, 2003-09-03,
+#'  _Last line in .Rprofile must have newline (PR#4056)_, 2003-09-03,
 #'  \url{https://stat.ethz.ch/pipermail/r-devel/2003-September/027457.html}
 #' }
 #'
