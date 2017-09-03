@@ -14,9 +14,8 @@
 #'   \item{`startup.session.id`}{(character) a unique ID for the current
 #'     \R session}
 #'   \item{`startup.session.dumpto`}{(character) a value that can be used
-#'     for argument `dumpto` of
-#'     \code{\link[utils:dump.frames]{dump.frames()}}}
-#'     (also for dumping to file)
+#'     for argument `dumpto` of [dump.frames()][utils::dump.frames]
+#'     (also for dumping to file)}
 #' }
 #'
 #' @examples
