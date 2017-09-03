@@ -5,10 +5,12 @@ Version: 0.6.1-9000 [2017-09-03]
 
 NEW FEATURES:
 
- o Add startup_session_info() for gathering convenient session details and
-   recording as R options, which then can be used during the R startup.
+ o Convenient session details are now gathered and recorded as R options
+   immediately after processing '.Renviron.d' files.  These options, prefixed
+   'startup.session.', are available while processing '.Rprofile.d' files and,
+   by default, also after startup::startup() has completed.  For information
+   on session details recorded, see help("startup_session_options").
  
-
 Version: 0.6.1 [2017-05-16]
 
 BUG FIXES:

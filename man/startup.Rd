@@ -16,8 +16,8 @@ rprofile_d(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   dryrun = NA, debug = NA, paths = NULL)
 
 startup(sibling = FALSE, all = FALSE, on_error = c("error", "warning",
-  "immediate.warning", "message", "ignore"), unload = TRUE, skip = NA,
-  dryrun = NA, debug = NA)
+  "immediate.warning", "message", "ignore"), keep = c("options"),
+  unload = TRUE, skip = NA, dryrun = NA, debug = NA)
 }
 \arguments{
 \item{sibling}{If \code{TRUE}, then only \file{.Renviron.d/} and
@@ -47,6 +47,10 @@ of the startup files.}
 \item{on_error}{Action taken when an error is detected when sourcing an
 Rprofile file.  It is not possible to detect error in Renviron files;
 they are always ignored with a message that cannot be captured.}
+
+\item{keep}{Specify what information should remain after this function
+complete.  The default is to keep \code{startup.session.*} options
+as recorded by \code{\link{startup_session_options}()}.}
 }
 \description{
 Initiates \R using all files under \file{.Renviron.d/}
