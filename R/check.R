@@ -5,12 +5,12 @@
 #' @param all Should all or only the first entry on
 #' [the R startup search path][base::Startup] be checked?
 #'
-#' @param fix If \code{TRUE}, detected issues will be tried to be
+#' @param fix If `TRUE`, detected issues will be tried to be
 #' automatically fixed, otherwise not.
 #'
-#' @param backup If \code{TRUE}, a timestamped backup copy of the original
+#' @param backup If `TRUE`, a timestamped backup copy of the original
 #' file is created before modifying it, otherwise not.
-#' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
+#' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
 #' @references
 #' \itemize{

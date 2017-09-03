@@ -8,11 +8,11 @@
 #' \file{.Rprofile} files that are supported by the built-in
 #' [startup process][base::Startup] of \R.
 #'
-#' @param sibling If \code{TRUE}, then only \file{.Renviron.d/} and
+#' @param sibling If `TRUE`, then only \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and
 #' \file{.Rprofile} in the same location will be considered.
 #'
-#' @param all If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and
+#' @param all If `TRUE`, then \emph{all} \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} directories found on
 #' [the R startup search path][base::Startup] are processed,
 #' otherwise only the \emph{first ones} found.
@@ -22,30 +22,30 @@
 #' they are always ignored with a message that cannot be captured.
 #'
 #' @param keep Specify what information should remain after this function
-#' complete.  The default is to keep \code{startup.session.*} options
+#' complete.  The default is to keep `startup.session.*` options
 #' as recorded by [startup_session_options()].
 #' 
-#' @param unload If \code{TRUE}, then the package is unloaded afterward,
+#' @param unload If `TRUE`, then the package is unloaded afterward,
 #' otherwise not.
 #'
-#' @param skip If \code{TRUE}, startup directories will be skipped.
-#' If \code{NA}, they will be skipped if command-line options
-#' \code{--vanilla}, \code{--no-init-file}, and / or \code{--no-environ}
+#' @param skip If `TRUE`, startup directories will be skipped.
+#' If `NA`, they will be skipped if command-line options
+#' `--vanilla`, `--no-init-file`, and / or `--no-environ`
 #' were specified.
 #'
-#' @param dryrun If \code{TRUE}, everything is done except the processing
+#' @param dryrun If `TRUE`, everything is done except the processing
 #' of the startup files.
 #'
-#' @param debug If \code{TRUE}, debug messages are outputted, otherwise not.
+#' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
 #' @section User-specific installation:
 #' In order for \file{.Rprofile.d} and \file{.Renviron.d} directories
 #' to be included during the \R startup process, a user needs to add
-#' \code{startup::startup()} to \file{~/.Rprofile}.  Adding this can
+#' `startup::startup()` to \file{~/.Rprofile}.  Adding this can
 #' also be done by calling [startup::install()] once.
 #'
 #' @section Site-wide installation:
-#' An alternative to having each user add \code{startup::startup()} in
+#' An alternative to having each user add `startup::startup()` in
 #' their own \file{~/.Rprofile} file, is to add it to the site-wide
 #' \file{Rprofile.site} file (see [?Startup][base::Startup]).
 #' The advantage of such a site-wide installation, is that the users
@@ -70,7 +70,7 @@
 #' startup::rprofile_d(all = TRUE)
 #' }
 #'
-#' @describeIn startup \code{renviron_d()} followed by \code{rprofile_d()}
+#' @describeIn startup `renviron_d()` followed by `rprofile_d()`
 #' and then the package is unloaded
 #' @export
 startup <- function(sibling = FALSE, all = FALSE,
