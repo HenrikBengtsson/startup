@@ -1,9 +1,12 @@
 Package: startup
 ================
 
-Version: 0.6.1-9000 [2017-05-17]
+Version: 0.6.1-9000 [2017-09-03]
 
- o ...
+NEW FEATURES:
+
+ o Add startup_session_info() for gathering convenient session details and
+   recording as R options, which then can be used during the R startup.
  
 
 Version: 0.6.1 [2017-05-16]
