@@ -6,7 +6,7 @@
 #'
 #' The above is done in addition the \file{.Renviron} and
 #' \file{.Rprofile} files that are supported by the built-in
-#' \link[base:Startup]{startup process} of \R.
+#' [startup process][base::Startup] of \R.
 #'
 #' @param sibling If \code{TRUE}, then only \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} directories with a sibling \file{.Renviron} and
@@ -14,7 +14,7 @@
 #'
 #' @param all If \code{TRUE}, then \emph{all} \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} directories found on
-#' \link[base:Startup]{the R startup search path} are processed,
+#' [the R startup search path][base::Startup] are processed,
 #' otherwise only the \emph{first ones} found.
 #'
 #' @param on_error Action taken when an error is detected when sourcing an
@@ -23,7 +23,7 @@
 #'
 #' @param keep Specify what information should remain after this function
 #' complete.  The default is to keep \code{startup.session.*} options
-#' as recorded by \code{\link{startup_session_options}()}.
+#' as recorded by [startup_session_options()].
 #' 
 #' @param unload If \code{TRUE}, then the package is unloaded afterward,
 #' otherwise not.
@@ -42,13 +42,12 @@
 #' In order for \file{.Rprofile.d} and \file{.Renviron.d} directories
 #' to be included during the \R startup process, a user needs to add
 #' \code{startup::startup()} to \file{~/.Rprofile}.  Adding this can
-#' also be done by calling \code{\link[startup:install]{startup::install()}}
-#' once.
+#' also be done by calling [startup::install()] once.
 #'
 #' @section Site-wide installation:
 #' An alternative to having each user add \code{startup::startup()} in
 #' their own \file{~/.Rprofile} file, is to add it to the site-wide
-#' \file{Rprofile.site} file (see \code{\link[base:Startup]{?Startup}}).
+#' \file{Rprofile.site} file (see [?Startup][base::Startup]).
 #' The advantage of such a site-wide installation, is that the users
 #' do not have to have a \file{.Rprofile} file for \file{.Rprofile.d}
 #' and \file{.Renviron.d} directories to work.

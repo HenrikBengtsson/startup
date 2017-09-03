@@ -17,14 +17,14 @@ removed.}
 Returns invisibly a named list of the options prefixed
 \code{"startup.session."}:
 \describe{
-  \item{\code{startup.session.startdir}}{(character) the directory where
-    the \R session was launched from}
-  \item{\code{startup.session.id}}{(character) a unique ID for the current
-    \R session}
-  \item{\code{startup.session.dumpto}}{(character) a value that can be used
-    for argument \code{dumpto} of
-    \code{\link[utils:dump.frames]{dump.frames()}}}
-    (also for dumping to file)
+\item{\code{startup.session.startdir}}{(character) the directory where
+the \R session was launched from}
+\item{\code{startup.session.id}}{(character) a unique ID for the current
+\R session}
+\item{\code{startup.session.dumpto}}{(character) a value that can be used
+for argument \code{dumpto} of
+\code{\link[utils:dump.frames]{dump.frames()}}}
+(also for dumping to file)
 }
 }
 \description{

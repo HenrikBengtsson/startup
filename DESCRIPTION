@@ -10,3 +10,4 @@ LazyLoad: TRUE
 URL: https://github.com/HenrikBengtsson/startup
 BugReports: https://github.com/HenrikBengtsson/startup/issues
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)

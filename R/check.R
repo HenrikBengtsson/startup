@@ -3,7 +3,7 @@
 #' Check for and fix common mistakes in \file{.Rprofile} files.
 #;
 #' @param all Should all or only the first entry on
-#' \link[base:Startup]{the R startup search path} be checked?
+#' [the R startup search path][base::Startup] be checked?
 #'
 #' @param fix If \code{TRUE}, detected issues will be tried to be
 #' automatically fixed, otherwise not.
