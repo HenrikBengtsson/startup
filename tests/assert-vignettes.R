@@ -4,8 +4,10 @@
 
 message("*** Assert that package vignettes exist ...")
 
-## WORKAROUND: On AppVeyor CI, vignettes are dropped / not built
-if (length(packageDescription("startup")$VignetteBuilder) > 0) {
+## WORKAROUND: On AppVeyor CI, vignettes are dropped / not built,
+## and when running covr, R_CMD is not used.
+if (length(packageDescription("startup")$VignetteBuilder) > 0 ||
+    "covr" %in% loadedNamespaces()) {
   vigns <- utils::vignette(package = "startup")
   print(vigns)
   str(vigns)
