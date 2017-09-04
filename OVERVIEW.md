@@ -27,7 +27,7 @@ When R starts, the following _user-specific_ setup takes place:
 
 
 All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the `C` locale).
-There are no restrictions on what the file names should be (except for the ones ignored as explained below).  However, for `.Rprofile.d` we recommend to use filename extension `*.R` to indicate that the files are regular R scripts.  For `.Renviron.d` we recommend to files without extensions (or `*.Renviron` for clarification).  To avoid confusions, do _not_ use an `*.R` extension for Renviron files because they are not R script per se (as some editors may warn you about).
+There are no restrictions on what the file names should be (except for the ones ignored as explained below).  However, for `.Rprofile.d` we recommend to use filename extension `*.R` to indicate that the files are regular R scripts.  For `.Renviron.d` we recommend to use files without extensions (or `*.Renviron` for clarification).  To avoid confusions, do _not_ use an `*.R` extension for Renviron files because they are not R script per se (as some editors may warn you about).
 
 Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
 
@@ -88,7 +88,7 @@ You can also include files conditionally on whether a package is installed or no
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  If `<key>` does not correspond to a known environment variable, then the condition is ignored.  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
+Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the condition is ignored._  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
