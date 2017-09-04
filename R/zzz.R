@@ -1,8 +1,6 @@
 register_vignette_engine_during_build_only <- function(pkgname) {
   ## HACK: Only register vignette engine startup::selfonly during R CMD build
   if (Sys.getenv("R_CMD") == "") return()
-#  pattern <- sprintf("(%s|buildVignettes)", pkgname)
-#  if (!any(grepl(pattern, commandArgs()))) return()
  
   tools::vignetteEngine("selfonly", package = "startup", pattern = "[.]md$",
     weave = function(file, ...) {
