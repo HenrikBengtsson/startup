@@ -21,7 +21,6 @@ When R starts, the following _user-specific_ setup takes place:
 
    a. The _first_ `.Renviron.d` directory on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
 
-
    b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `help("startup_session_options", package = "startup")` for details.
 
    c. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
@@ -87,6 +86,39 @@ Any further `<key>=<value>` specifications with keys matching none of the above 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
+
+
+## Known limitations
+
+### Setting environment variables during startup
+
+Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  An example(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
+
+* `LC_ALL` - locale settings used by R, cf. `?locales`
+* `R_LIBS_USER` - user's library path, cf. `?R_LIBS_USER`
+* `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
+
+Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
+
+Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  An example(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1):
+
+* `HOME` - the user's home directory
+* `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,
+  cf. `?tempdir`
+* `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of threads used by OpenMP etc, cf. _R Installation and Administration_
+* `R_MAX_NUM_DLLS`, cf. `?dyn.load`
+  
+In other words, these variables have to be set using methods specific to the operating system or the calling shell, e.g. in Unix shells
+```sh
+$ export TMPDIR=/path/to/tmp
+$ R
+```
+or per call as
+```sh
+R_MAX_NUM_DLLS=500 R
+```
+
+(*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `help.search("EnvVar")` and `help.search("Startup")`.
 
 
 ## Examples
