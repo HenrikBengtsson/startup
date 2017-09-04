@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.6.1-9000 [2017-09-03]
+Version: 0.6.1-9000 [2017-09-04]
 
 NEW FEATURES:
 
@@ -10,6 +10,9 @@ NEW FEATURES:
    'startup.session.', are available while processing '.Rprofile.d' files and,
    by default, also after startup::startup() has completed.  For information
    on session details recorded, see help("startup_session_options").
+
+ o Added a package vignette.
+ 
  
 Version: 0.6.1 [2017-05-16]
 
