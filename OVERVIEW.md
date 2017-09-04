@@ -11,21 +11,24 @@ The advantages of this approach are that it gives a better overview when you lis
 
 When R starts, the following _user-specific_ setup takes place:
 
-1. The _first_ `.Renviron` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.  _NOTE:_ Some environment variables must be set already here in order to be acknowledged by R, i.e. it is _too late_ to set some of them in Step 3a below.
+1. The _first_ `.Renviron` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.  The format of this file is one `ENV_VAR=VALUE` statement per line, cf. `?.Renviron`.  _NOTE:_ Some environment variables must be set already in this step in order to be acknowledged by R, i.e. it is _too late_ to set some of them in Step 3a below.
 
-2. The _first_ `.Rprofile` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_PROFILE_USER")`, `./.Rprofile`, and `~/.Rprofile`.
+2. The _first_ `.Rprofile` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_PROFILE_USER")`, `./.Rprofile`, and `~/.Rprofile`.  The format of this file must be a valid R script (with a trailing newline), cf. `?.Rprofile`.
 
 3. If the `.Rprofile` file (in Step 2) calls `startup::startup()` then the following will also take place:
 
-   a. The _first_ `.Renviron.d` directory on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
+   a. The _first_ `.Renviron.d` directory on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.  The format of these files should be the same as for `.Renviron`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
 
-   b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `help("startup_session_options", package = "startup")` for details.
+   b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
 
-   c. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
+   c. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
    d. If no errors occur, the [startup] package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
 
-All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d` you may use file names with and without the extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an R script, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
+All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the `C` locale).
+There are no restrictions on what the file names should be (except for the ones ignored as explained below).  For instance, for `.Renviron.d` you can use files without filename extensions whereas for `.Rprofile.d` you may want use files with filename extension `*.R`.  One advantage of using an `*.R` extension for Rprofile files, other than making it clear that it is an R script, is that it clarifies that it is a file and not a directory.  To avoid confusions, don't use an `*.R` extension for Renviron files because they are not R script per se (as some editors may warn you about).
+
+Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
 
 
 
@@ -116,7 +119,7 @@ or per call as
 R_MAX_NUM_DLLS=500 R
 ```
 
-(*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `help.search("EnvVar")` and `help.search("Startup")`.
+(*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `?EnvVar` and `?Startup`.
 
 
 ## Examples
