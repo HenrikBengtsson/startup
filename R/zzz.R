@@ -6,9 +6,30 @@ register_vignette_engine_during_build_only <- function(pkgname) {
     weave = function(file, ...) {
       output <- sprintf("%s.html", tools::file_path_sans_ext(basename(file)))
       md <- readLines(file)
+
+      title <- grep("%\\VignetteIndexEntry{", md, fixed = TRUE, value = TRUE)
+      title <- gsub(".*[{](.*)[}].*", "\\1", title)
+      
       md <- grep("%\\\\Vignette", md, invert = TRUE, value = TRUE)
+
+      ## Inject vignette title
+      md <- c(sprintf("# %s\n\n", title), md)
+      
       html <- commonmark::markdown_html(md, smart = FALSE, extensions = FALSE,
                                         normalize = FALSE)
+
+      ## Inject HTML environment
+      html <- c('<!DOCTYPE html>',
+                '<html lang="en">',
+                '<head>',
+                sprintf('<title>%s</title>', title),
+                '<style>',
+                readLines("incl/clean.css", warn = FALSE),
+                '</style>',
+                '</head>',
+                '<body>', html, '</body>',
+                '</html>')
+      
       writeLines(html, con = output)
       output
     },
