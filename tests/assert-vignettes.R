@@ -8,7 +8,8 @@ message(paste(Sys.getenv(), sep = "\n"))
 
 ## WORKAROUND: On AppVeyor CI, vignettes are dropped / not built,
 ## and when running covr, R_CMD is not used.
-if (length(packageDescription("startup")$VignetteBuilder) &&
+if (getRversion() >= "3.0.0" &&
+    length(packageDescription("startup")$VignetteBuilder) &&
     Sys.getenv("R_COVR") == "") {
   vigns <- utils::vignette(package = "startup")
   print(vigns)
