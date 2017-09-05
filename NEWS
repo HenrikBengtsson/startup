@@ -15,7 +15,7 @@ NEW FEATURES:
    by default, also after startup::startup() has completed.  For information
    on session details recorded, see help("startup_session_options").
 
- o Added a package vignette (available only in R >= 3.0.0).
+ o Added a package vignette (available only in R >= 3.0.2).
  
  
 Version: 0.6.1 [2017-05-16]
