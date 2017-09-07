@@ -1,4 +1,6 @@
-unload <- function(debug = FALSE) unloadNamespace("startup")
+unload <- function(debug = FALSE) {
+  unloadNamespace("startup")
+}
 
 api <- function() {
   list(

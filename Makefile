@@ -1,9 +1,7 @@
 include .make/Makefile
 
-vignettes/future-1-overview.md.rsp: inst/vignettes-static/future-1-overview.md.rsp.rsp
-	$(CD) $(@D); \
-	$(R_SCRIPT) -e "R.rsp::rfile" ../$< --postprocess=FALSE
-	$(RM) README.md
-	$(MAKE) README.md
+vignettes/startup-intro.md: OVERVIEW.md vignettes/incl/clean.css
+	sed -i '/%\\Vignette/!d' $@
+	cat $< >> $@
 
-vigs: vignettes/future-1-overview.md.rsp
+vigs: vignettes/startup-intro.md

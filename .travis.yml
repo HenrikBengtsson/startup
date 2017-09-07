@@ -22,7 +22,6 @@ matrix:
       r: release
       r_github_packages:
         - jimhester/covr
-        - jimhester/lintr
       after_success:
         - Rscript -e 'covr::codecov(quiet = FALSE)'
         - Rscript -e 'library(lintr); lint_package(linters = with_defaults(commented_code_linter = NULL, closed_curly_linter = closed_curly_linter(allow_single_line = TRUE), open_curly_linter = open_curly_linter(allow_single_line = TRUE)))'
@@ -35,8 +34,12 @@ matrix:
     - os: osx
       r: release
 
+r_packages:
+  - startup
+  
 before_install:
   - Rscript -e 'c(physical = parallel::detectCores(logical = FALSE), logical = parallel::detectCores())'
+  - export _R_CHECK_TIMINGS_=0
 
 
 notifications:

@@ -13,19 +13,25 @@ The advantages of this approach are that it gives a better overview when you lis
 
 When R starts, the following _user-specific_ setup takes place:
 
-1. The _first_ `.Renviron` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_ENVIRON_USER")`, `./.Renviron`, and `~/.Renviron`.
+1. The _first_ `.Renviron` file found on the R startup search path is processed.  The search path is (in order): (i) `Sys.getenv("R_ENVIRON_USER")`, (ii) `./.Renviron`, and (iii) `~/.Renviron`.  The format of this file is one `ENV_VAR=VALUE` statement per line, cf. `?.Renviron`.  _NOTE:_ Some environment variables must be set already in this step in order to be acknowledged by R, i.e. it is _too late_ to set some of them in Step 2 and Step 3 below.
 
-2. The _first_ `.Rprofile` file found on the R startup search path is processed.  The search path is (in order): `Sys.getenv("R_PROFILE_USER")`, `./.Rprofile`, and `~/.Rprofile`.
+2. The _first_ `.Rprofile` file found on the R startup search path is processed.  The search path is (in order): (i) `Sys.getenv("R_PROFILE_USER")`, (ii) `./.Rprofile`, and (iii) `~/.Rprofile`.  The format of this file must be a valid R script (with a trailing newline), cf. `?.Rprofile`.
 
 3. If the `.Rprofile` file (in Step 2) calls `startup::startup()` then the following will also take place:
 
-   a. The _first_ `.Renviron.d` directory on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, `./.Renviron.d`, and `~/.Renviron.d`.
+   a. The _first_ `.Renviron.d` directory on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, (ii) `./.Renviron.d`, and (iii) `~/.Renviron.d`.  The format of these files should be the same as for `.Renviron`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
 
-   b. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, `./.Rprofile.d`, and `~/.Rprofile.d`.
+   b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
 
-   c. If no errors occur, the [startup] package will be unloaded, leaving no trace of itself behind.
+   c. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, and (iii) `~/.Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
-All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed.  There are no restrictions on what the file names should be.  For instance, for `.Rprofile.d` you may use file names with and without the extension `*.R`.  One advantage of using an `*.R` extension, other than making it clear that it is an R script, is that it clarifies that it is a file and not a directory.  Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
+   d. If no errors occur above, the [startup] package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
+
+
+All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the `C` locale).
+There are no restrictions on what the file names should be (except for the ones ignored as explained below).  However, for `.Rprofile.d` we recommend to use filename extension `*.R` to indicate that the files are regular R scripts.  For `.Renviron.d` we recommend to use files without extensions (or `*.Renviron` for clarification).  To avoid confusions, do _not_ use an `*.R` extension for Renviron files because they are not R script per se (as some editors may warn you about).
+
+Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any files named `.Rhistory`, `.RData` and `.DS_Store`.  Directories named `__MACOSX` and their content are ignored.  Files and directories with names starting with two periods (`..`) are ignored, e.g. `~/.Rprofile.d/..my-tests/`.
 
 
 
@@ -39,14 +45,19 @@ once.  This will append
 ```r
 try(startup::startup())
 ```
-to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  Alternatively, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R fails to install startup (or any other package) because the R profile startup script produces an error complaining about startup not being available.
+to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  To find the location of these folder on Windows, use `normalizePath("~")` - it's often located under `C:\Users\Alice\Documents\`.
+
+
+Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fails to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.
+
+
 
 
 ## Usage
 
 Just start R :)
 
-To debug the startup process, use `startup::startup(debug = TRUE)` or set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux you can do:
+To debug the startup process, use `startup::startup(debug = TRUE)` or set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux you can do
 ```sh
 $ R_STARTUP_DEBUG=TRUE R
 ```
@@ -79,11 +90,44 @@ You can also include files conditionally on whether a package is installed or no
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  If `<key>` does not correspond to a known environment variable, then the condition is ignored.  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
+Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the condition is ignored._  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
+
+
+## Known limitations
+
+### Setting environment variables during startup
+
+Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  An example(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
+
+* `LC_ALL` - locale settings used by R, cf. `?locales`
+* `R_LIBS_USER` - user's library path, cf. `?R_LIBS_USER`
+* `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
+
+Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
+
+Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  An example(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1):
+
+* `HOME` - the user's home directory
+* `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,
+  cf. `?tempdir`
+* `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of threads used by OpenMP etc, cf. _R Installation and Administration_
+* `R_MAX_NUM_DLLS`, cf. `?dyn.load`
+  
+In other words, these variables have to be set using methods specific to the operating system or the calling shell, e.g. in Unix shells
+```sh
+$ export TMPDIR=/path/to/tmp
+$ R
+```
+or per call as
+```sh
+R_MAX_NUM_DLLS=500 R
+```
+
+(*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `?"environment variables"` and `?Startup`.
 
 
 ## Examples
@@ -128,6 +172,13 @@ R package startup is available on [CRAN](https://cran.r-project.org/package=star
 install.packages('startup')
 ```
 
+### Pre-release version
+
+To install the pre-release version that is available in Git branch `feature/vignettes` on GitHub, use:
+```r
+source('http://callr.org/install#HenrikBengtsson/startup@feature/vignettes')
+```
+This will install the package from source.  
 
 
 

@@ -13,15 +13,13 @@ uninstall(path = "~", backup = TRUE, quiet = FALSE)
 \arguments{
 \item{path}{The path where to create / update the \file{.Rprofile} file.}
 
-\item{backup}{If \code{TRUE}, a timestamped backup copy of the original
-file is created before modifying / overwriting it, otherwise not.
-If the backup fails, then an error is produced and the R startup file is
-unmodified.}
+\item{backup}{If \code{TRUE}, a timestamped backup copy of the original file is
+created before modifying / overwriting it, otherwise not.  If the backup
+fails, then an error is produced and the R startup file is unmodified.}
 
-\item{overwrite}{If the R startup file already exist, then \code{FALSE}
-(default) appends the startup code to the end of the file.
-is overwritten.  If \code{TRUE}, any pre-existing R startup file is
-overwritten.}
+\item{overwrite}{If the R startup file already exist, then \code{FALSE} (default)
+appends the startup code to the end of the file. is overwritten.  If \code{TRUE},
+any pre-existing R startup file is overwritten.}
 
 \item{quiet}{If \code{FALSE} (default), detailed messages are generated,
 otherwise not.}

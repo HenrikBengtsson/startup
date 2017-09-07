@@ -1,3 +1,11 @@
+%\VignetteIndexEntry{startup: Friendly R Startup Configuration}
+%\VignetteAuthor{Henrik Bengtsson}
+%\VignetteKeyword{R}
+%\VignetteKeyword{package}
+%\VignetteKeyword{vignette}
+%\VignetteKeyword{Rprofile}
+%\VignetteKeyword{Renviron}
+%\VignetteEngine{startup::selfonly}
 ## Introduction
 
 When you start R, it will by default source a `.Rprofile` file if it exists.  This allows you to automatically tweak your R settings to meet your everyday needs.  For instance, you may want to set the default CRAN repository (`options("repos")`) so you don't have to choose one every time you install a package.

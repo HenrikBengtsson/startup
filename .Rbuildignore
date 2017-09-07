@@ -27,6 +27,7 @@ CONDUCT[.]md
 #----------------------------
 # R related
 #----------------------------
+last.dump*
 Rplots.pdf$
 ^cran-comments[.].*$
 ^vignettes/.*[.](pdf|PDF)$
