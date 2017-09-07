@@ -33,6 +33,7 @@ The package has been verified using `R CMD check --as-cran` on:
   - R Under development (unstable) (2017-09-04 r73202)
 
 * Platform x86_64-pc-linux-gnu (64-bit) [r-hub]:
+  - R version 3.4.1 (2017-06-30)
   - R Under development (unstable) (2017-09-02 r73195)
 
 * Platform x86_64-pc-linux-gnu (64-bit):
