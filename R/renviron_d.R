@@ -1,7 +1,7 @@
 #' @describeIn startup Initiate using \file{.Renviron.d/} files
-#' 
+#'
 #' @param paths (internal) character vector of directories.
-#' 
+#'
 #' @aliases renviron
 #' @export
 renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,

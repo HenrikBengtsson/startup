@@ -10,12 +10,13 @@
 #'
 #' @param backup If `TRUE`, a timestamped backup copy of the original file is
 #' created before modifying it, otherwise not.
-#' 
+#'
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
 #' @references
 #' 1. R-devel thread 'Last line in .Rprofile must have newline (PR#4056)',
-#'    2003-09-03, \url{https://stat.ethz.ch/pipermail/r-devel/2003-September/027457.html}
+#'    2003-09-03,
+#'    \url{https://stat.ethz.ch/pipermail/r-devel/2003-September/027457.html}
 #'
 #' @export
 check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {

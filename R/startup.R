@@ -22,7 +22,7 @@
 #' @param keep Specify what information should remain after this function
 #' complete.  The default is to keep `startup.session.*` options
 #' as recorded by [startup_session_options()].
-#' 
+#'
 #' @param unload If `TRUE`, then the package is unloaded afterward, otherwise
 #' not.
 #'
@@ -76,7 +76,7 @@ startup <- function(sibling = FALSE, all = FALSE,
                     keep = c("options"), unload = TRUE, skip = NA, dryrun = NA,
                     debug = NA) {
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
-  
+
   debug(debug)
 
   if (debug()) {
@@ -94,18 +94,18 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   # (ii) Record useful session information
   startup_session_options(action = "update")
-  
+
   # (iii) Load custom .Rprofile.d/* files
   rprofile_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun,
              on_error = on_error)
 
   res <- api()
-  
+
   ## (iv) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
 
   # (v) Unload package?
   if (unload) unload()
-  
+
   invisible(res)
 }
