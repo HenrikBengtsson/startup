@@ -4,7 +4,12 @@ Package: startup
 Version: 0.7.0-9000 [2017-09-07]
 
  o ...
- 
+
+DEPRECATED AND DEFUNCT:
+
+ o DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
+   and api()$rprofile().  Use renviron_d() and rprofile_d() instead.
+
 
 Version: 0.7.0 [2017-09-04]
 

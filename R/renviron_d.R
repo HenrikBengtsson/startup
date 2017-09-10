@@ -26,7 +26,4 @@ renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
 }
 
 #' @export
-renviron <- function(...) {
-  .Deprecated(new = "startup::renviron_d()")
-  renviron_d(...)
-}
+renviron <- function(...) .Defunct(new = "startup::renviron_d()")

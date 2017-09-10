@@ -35,7 +35,4 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
 }
 
 #' @export
-rprofile <- function(...) {
-  .Deprecated(new = "startup::rprofile_d()")
-  rprofile_d(...)
-}
+rprofile <- function(...) .Defunct(new = "startup::rprofile_d()")
