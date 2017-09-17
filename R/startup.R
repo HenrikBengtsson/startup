@@ -195,7 +195,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_data) {
       if (is_file(f <- "./.RData")) {
-        logf("- %s", file_info(f))
+        logf("- %s", file_info(f, binary = TRUE))
       }
     }
 
