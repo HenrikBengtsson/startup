@@ -1,14 +1,15 @@
 Package: startup
 ================
 
-Version: 0.7.0-9000 [2017-09-10]
+Version: 0.7.0-9000 [2017-09-16]
 
 NEW FEATURES:
 
  o Added flag 'rice' to sysinfo() indicating whether R runs via Rice or not,
    meaning it can be used as a file and directory name tag, e.g. rice=TRUE.
  
- o ...
+ o startup(debug = TRUE) outputs much more information on what has and will
+   take place through R's startup process.
 
 DEPRECATED AND DEFUNCT:
 

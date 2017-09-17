@@ -79,13 +79,81 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   debug(debug)
 
-  if (debug()) {
+  debug <- debug()
+  if (debug) {
+    cmd_args <- commandArgs()
+    r_home <- R.home()
+    r_arch <- .Platform$r_arch
+    r_os <- .Platform$OS.type
+    
+    logf("startup::startup() ...")
+    logf("- R call: %s", paste(cmd_args, collapse = " "))
+
+    is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
+    nlines <- function(f) {
+      bfr <- readLines(f, warn = FALSE)
+      bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
+      bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
+      length(bfr)
+    }
+    file_info <- function(f) {
+      sprintf("%s (%d bytes; %d non-commented lines)", sQuote(f), file.size(f), nlines(f))
+    }
+    
+    logf("The following has already been processed by R:")
+
+    if (r_os == "unix") {
+      f <- file.path(r_home, "etc", "Renviron")
+      if (is_file(f)) logf("- %s", file_info(f))
+    }
+
+    no_environ <- any(c("--no-environ", "--vanilla") %in% cmd_args)
+    if (!no_environ) {
+      f <- Sys.getenv("R_ENVIRON")
+      if (nzchar(r_arch) && !is_file(f)) {
+        f <- file.path(r_home, "etc", r_arch, "Renviron.site")
+      }
+      if (!is_file(f)) f <- file.path(r_home, "etc", "Renviron.site")
+      if (is_file(f)) logf("- %s", file_info(f))
+  
+      f <- Sys.getenv("R_ENVIRON_USER")
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
+      if (!is_file(f)) f <- ".Renviron"
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
+      if (!is_file(f)) f <- "~/.Renviron"
+      if (is_file(f)) {
+        logf("- %s", file_info(f))
+      }
+    }
+
+    no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
+    if (!no_site_file) {
+      f <- Sys.getenv("R_PROFILE")
+      if (nzchar(r_arch) && !is_file(f)) {
+        f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
+      }
+      if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
+      if (is_file(f)) logf("- %s", file_info(f))
+    }
+    
+    no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
+    if (!no_init_file) {
+      f <- Sys.getenv("R_PROFILE_USER")
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Rprofile.%s", r_arch)
+      if (!is_file(f)) f <- ".Rprofile"
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
+      if (!is_file(f)) f <- "~/.Rprofile"
+      if (is_file(f)) {
+        logf("- %s", file_info(f))
+      }
+    }
+    
     f <- Sys.getenv("R_TESTS")
     if (nzchar(f)) {
       logf("Detected R_TESTS=%s.", sQuote(f))
       logf("The %s package has already processed 1 file:", sQuote("base"))
       logf(" - %s%s", normalizePath(f, mustWork = FALSE),
-           if (file.exists(f)) "" else " (not found)")
+           if (is_file(f)) "" else " (not found)")
     }
   }
 
@@ -104,8 +172,44 @@ startup <- function(sibling = FALSE, all = FALSE,
   ## (iv) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
 
+
+  ## Needed because we might unload package below and then we will
+  ## lose timestamp() and logf()
+  if (debug) {
+    t0 <- timestamp(get_t0 = TRUE)
+    timestamp <- get("timestamp", mode = "function",
+                     envir = asNamespace("startup"))
+    environment(timestamp) <- environment()
+    
+    logf <- function(fmt, ...) {
+      fmt <- paste0(timestamp(), ": ", fmt)
+      message(sprintf(fmt, ...))
+    }
+  }
+
   # (v) Unload package?
-  if (unload) unload()
+  if (unload) unload(debug = debug)
+
+  interactive <- interactive()
+  if (debug) {
+    logf("The following may happen after \"bye\" below:")
+
+    no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
+    if (!no_restore_data) {
+      if (is_file(f <- ".RData")) {
+        logf("- restore user workspace from %s", file_info(f))
+      }
+    }
+
+    no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
+    if (!no_restore_history && interactive) {
+      if (is_file(f <- Sys.getenv("R_HISTFILE", ".Rhistory"))) {
+        logf("- restore command-line history from %s", file_info(f))
+      }
+    }
+
+    logf("startup::startup() ... bye")
+  }
 
   invisible(res)
 }

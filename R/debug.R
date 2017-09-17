@@ -45,7 +45,8 @@ logp <- function(expr, ...) {
 
 timestamp <- local({
   t0 <- NULL
-  function() {
+  function(get_t0 = FALSE) {
+    if (get_t0) return(t0)
     if (is.null(t0)) {
       t0 <<- Sys.time()
     }
@@ -56,4 +57,17 @@ timestamp <- local({
 
 notef <- function(..., quiet = FALSE) {
   if (!quiet) message(sprintf(...))
+}
+
+is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
+
+nlines <- function(f) {
+  bfr <- readLines(f, warn = FALSE)
+  bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
+  bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
+  length(bfr)
+}
+
+file_info <- function(f) {
+  sprintf("%s (%d bytes; %d non-commented lines)", sQuote(f), file.size(f), nlines(f))
 }

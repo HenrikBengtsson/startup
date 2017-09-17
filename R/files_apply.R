@@ -38,7 +38,7 @@ files_apply <- function(files, fun,
 
   logf("Processing %d %s files ...", length(files), what)
   for (file in files) {
-    logf(" - %s", file)
+    logf(" - %s", file_info(file))
     call_fun(file)
   }
   logf("Processing %d %s files ... done", length(files), what)
