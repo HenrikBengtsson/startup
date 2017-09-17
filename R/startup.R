@@ -86,20 +86,12 @@ startup <- function(sibling = FALSE, all = FALSE,
     r_arch <- .Platform$r_arch
     r_os <- .Platform$OS.type
     
-    logf("startup::startup() ...")
+    logf("System information:")
     logf("- R call: %s", paste(cmd_args, collapse = " "))
+    logf("- Current directory: %s", sQuote(getwd()))
+    logf("- User's home directory (%s): %s",
+         sQuote("~"), sQuote(normalizePath("~", mustWork = FALSE)))
 
-    is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
-    nlines <- function(f) {
-      bfr <- readLines(f, warn = FALSE)
-      bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
-      bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
-      length(bfr)
-    }
-    file_info <- function(f) {
-      sprintf("%s (%d bytes; %d non-commented lines)", sQuote(f), file.size(f), nlines(f))
-    }
-    
     logf("The following has already been processed by R:")
 
     if (r_os == "unix") {
@@ -121,9 +113,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (!is_file(f)) f <- ".Renviron"
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
       if (!is_file(f)) f <- "~/.Renviron"
-      if (is_file(f)) {
-        logf("- %s", file_info(f))
-      }
+      if (is_file(f)) logf("- %s", file_info(f))
     }
 
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
@@ -143,9 +133,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (!is_file(f)) f <- ".Rprofile"
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
       if (!is_file(f)) f <- "~/.Rprofile"
-      if (is_file(f)) {
-        logf("- %s", file_info(f))
-      }
+      if (is_file(f)) logf("- %s", file_info(f))
     }
     
     f <- Sys.getenv("R_TESTS")
@@ -157,6 +145,8 @@ startup <- function(sibling = FALSE, all = FALSE,
     }
   }
 
+  logf("startup::startup() specific processing ...")
+  
   # (i) Load custom .Renviron.d/* files
   renviron_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun)
 
@@ -176,39 +166,45 @@ startup <- function(sibling = FALSE, all = FALSE,
   ## Needed because we might unload package below and then we will
   ## lose timestamp() and logf()
   if (debug) {
+    copy_fcn <- function(names, env = parent.frame()) {
+      ns <- getNamespace("startup")
+      for (name in names) {
+        fcn <- get(name, mode = "function", envir = ns)
+        environment(fcn) <- env
+        assign(name, fcn, envir = env)
+      }
+    }
     t0 <- timestamp(get_t0 = TRUE)
-    timestamp <- get("timestamp", mode = "function",
-                     envir = asNamespace("startup"))
-    environment(timestamp) <- environment()
-    
+    copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
     logf <- function(fmt, ...) {
       fmt <- paste0(timestamp(), ": ", fmt)
       message(sprintf(fmt, ...))
     }
+
   }
 
   # (v) Unload package?
   if (unload) unload(debug = debug)
 
-  interactive <- interactive()
   if (debug) {
-    logf("The following may happen after \"bye\" below:")
+    interactive <- interactive()
+    
+    logf("startup::startup() specific processing ... done")
+    logf("The following will be processed next by R:")
 
     no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_data) {
-      if (is_file(f <- ".RData")) {
-        logf("- restore user workspace from %s", file_info(f))
+      if (is_file(f <- "./.RData")) {
+        logf("- %s", file_info(f))
       }
     }
 
     no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_history && interactive) {
-      if (is_file(f <- Sys.getenv("R_HISTFILE", ".Rhistory"))) {
-        logf("- restore command-line history from %s", file_info(f))
+      if (is_file(f <- Sys.getenv("R_HISTFILE", "./.Rhistory"))) {
+        logf("- %s", file_info(f))
       }
     }
-
-    logf("startup::startup() ... bye")
   }
 
   invisible(res)

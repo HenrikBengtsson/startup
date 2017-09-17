@@ -68,6 +68,8 @@ nlines <- function(f) {
   length(bfr)
 }
 
-file_info <- function(f) {
-  sprintf("%s (%d bytes; %d non-commented lines)", sQuote(f), file.size(f), nlines(f))
+file_info <- function(f, normalize = FALSE) {
+  if (normalize) f <- normalizePath(f, mustWork = FALSE)
+  sprintf("%s (%d code lines; %d bytes)",
+          sQuote(f), nlines(f), file.size(f))
 }
