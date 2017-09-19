@@ -21,7 +21,11 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
     # (ii) Source custom .Rprofile.d/* files
     if (is.null(paths)) paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- list_d_files(paths, filter = filter_files)
-    source_print_eval <- function(pathname) source(pathname, print.eval = TRUE)
+    source_print_eval <- function(pathname) {
+      current_script_pathname(pathname)
+      on.exit(current_script_pathname(NA_character_))
+      source(pathname, print.eval = TRUE)
+    }
     files_apply(files, fun = source_print_eval,
                 on_error = on_error, dryrun = dryrun, what = "Rprofile")
 

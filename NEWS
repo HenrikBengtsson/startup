@@ -1,10 +1,13 @@
 Package: startup
 ================
 
-Version: 0.7.0-9000 [2017-09-16]
+Version: 0.7.0-9000 [2017-09-19]
 
 NEW FEATURES:
 
+ o Added startup::current_script() which returns the pathname of the by
+   startup::startup() currently processed .Rprofile.d/ file.
+   
  o Added flag 'rice' to sysinfo() indicating whether R runs via Rice or not,
    meaning it can be used as a file and directory name tag, e.g. rice=TRUE.
  
