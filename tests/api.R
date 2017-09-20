@@ -21,10 +21,14 @@ res <- startup::startup(unload = FALSE)
 stopifnot(all.equal(res, api))
 
 message("*** startup(debug = TRUE)")
+## Fake some settings / calls to cover more code
 options(startup.debug.commandArgs = commandArgs()[1])
+save.image(file = ".RData")
 res <- startup::startup(debug = TRUE)
 str(res)
 stopifnot(all.equal(res, api))
+file.remove(".RData")
+options(startup.debug.commandArgs = NULL)
 
 options(startup.dryrun = FALSE)
 
