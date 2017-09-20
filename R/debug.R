@@ -68,12 +68,18 @@ nlines <- function(f) {
   length(bfr)
 }
 
-file_info <- function(f, binary = FALSE, normalize = FALSE) {
+file_info <- function(f, type = "txt", normalize = FALSE) {
   if (normalize) f <- normalizePath(f, mustWork = FALSE)
-  if (binary) {
-    sprintf("%s (%d bytes)", sQuote(f), file.size(f))
-  } else {
+  if (type == "binary") {
+    sprintf("%s (binary file; %d bytes)", sQuote(f), file.size(f))
+  } else if (type == "env") {
+    sprintf("%s (%d lines; %d bytes)",
+            sQuote(f), nlines(f), file.size(f))
+  } else if (type == "r") {
     sprintf("%s (%d code lines; %d bytes)",
+            sQuote(f), nlines(f), file.size(f))
+  } else {
+    sprintf("%s (%d lines; %d bytes)",
             sQuote(f), nlines(f), file.size(f))
   }
 }

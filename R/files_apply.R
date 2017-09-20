@@ -37,8 +37,15 @@ files_apply <- function(files, fun,
   }
 
   logf("Processing %d %s files ...", length(files), what)
+  if (what == "Renviron") {
+    type <- "env"
+  } else if (what == "Rprofile") {
+    type <- "r"
+  } else {
+    type <- "txt"
+  }
   for (file in files) {
-    logf(" - %s", file_info(file))
+    logf(" - %s", file_info(file, type = type))
     call_fun(file)
   }
   logf("Processing %d %s files ... done", length(files), what)

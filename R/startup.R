@@ -96,7 +96,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
-      if (is_file(f)) logf("- %s", file_info(f))
+      if (is_file(f)) logf("- %s", file_info(f, type = "env"))
     }
 
     no_environ <- any(c("--no-environ", "--vanilla") %in% cmd_args)
@@ -106,14 +106,14 @@ startup <- function(sibling = FALSE, all = FALSE,
         f <- file.path(r_home, "etc", r_arch, "Renviron.site")
       }
       if (!is_file(f)) f <- file.path(r_home, "etc", "Renviron.site")
-      if (is_file(f)) logf("- %s", file_info(f))
+      if (is_file(f)) logf("- %s", file_info(f, type = "env"))
   
       f <- Sys.getenv("R_ENVIRON_USER")
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
       if (!is_file(f)) f <- ".Renviron"
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
       if (!is_file(f)) f <- "~/.Renviron"
-      if (is_file(f)) logf("- %s", file_info(f))
+      if (is_file(f)) logf("- %s", file_info(f, type = "env"))
     }
 
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
@@ -123,7 +123,7 @@ startup <- function(sibling = FALSE, all = FALSE,
         f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
       }
       if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
-      if (is_file(f)) logf("- %s", file_info(f))
+      if (is_file(f)) logf("- %s", file_info(f, type = "r"))
     }
     
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
@@ -133,19 +133,18 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (!is_file(f)) f <- ".Rprofile"
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
       if (!is_file(f)) f <- "~/.Rprofile"
-      if (is_file(f)) logf("- %s", file_info(f))
+      if (is_file(f)) logf("- %s", file_info(f, type = "r"))
     }
     
     f <- Sys.getenv("R_TESTS")
     if (nzchar(f)) {
-      logf("Detected R_TESTS=%s.", sQuote(f))
-      logf("The %s package has already processed 1 file:", sQuote("base"))
+      logf(" Detected R_TESTS=%s:", sQuote(f))
       logf(" - %s%s", normalizePath(f, mustWork = FALSE),
            if (is_file(f)) "" else " (not found)")
     }
   }
 
-  logf("startup::startup() specific processing ...")
+  logf("startup::startup()-specific processing ...")
   
   # (i) Load custom .Renviron.d/* files
   renviron_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun)
@@ -189,20 +188,20 @@ startup <- function(sibling = FALSE, all = FALSE,
   if (debug) {
     interactive <- interactive()
     
-    logf("startup::startup() specific processing ... done")
+    logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
 
     no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_data) {
       if (is_file(f <- "./.RData")) {
-        logf("- %s", file_info(f, binary = TRUE))
+        logf("- %s", file_info(f, type = "binary"))
       }
     }
 
     no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_history && interactive) {
       if (is_file(f <- Sys.getenv("R_HISTFILE", "./.Rhistory"))) {
-        logf("- %s", file_info(f))
+        logf("- %s", file_info(f, type = "txt"))
       }
     }
   }
