@@ -18,13 +18,13 @@ print(res)
 stopifnot(res)
 
 res <- tryCatch({
-  startup:::install(path = path)
+  startup:::install(path = path, backup = FALSE)
 }, warning = identity)
 print(res)
 stopifnot(inherits(res, "warning"))
 
 cat("# Empty\n", file = file)
-print(startup:::install(path = path))
+print(startup:::install(path = path, backup = FALSE))
 res <- startup:::is_installed(file)
 print(res)
 stopifnot(res)

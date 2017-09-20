@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.7.0-9000 [2017-09-19]
+Version: 0.7.0-9000 [2017-09-20]
 
 NEW FEATURES:
 
@@ -13,6 +13,8 @@ NEW FEATURES:
  
  o startup(debug = TRUE) outputs much more information on what has and will
    take place through R's startup process.
+
+ o Now backup() guarantees that file is backed up, or an error is produced.
 
 DEPRECATED AND DEFUNCT:
 
