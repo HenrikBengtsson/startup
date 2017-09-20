@@ -81,7 +81,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   debug <- debug()
   if (debug) {
-    cmd_args <- commandArgs()
+    cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
     r_home <- R.home()
     r_arch <- .Platform$r_arch
     r_os <- .Platform$OS.type
