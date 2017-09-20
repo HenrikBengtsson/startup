@@ -14,13 +14,16 @@ NEW FEATURES:
  o startup(debug = TRUE) outputs much more information on what has and will
    take place through R's startup process.
 
- o Now backup() guarantees that file is backed up, or an error is produced.
-
 DEPRECATED AND DEFUNCT:
 
  o DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
    and api()$rprofile().  Use renviron_d() and rprofile_d() instead.
 
+BUG FIXES:
+
+ o Now install(backup = TRUE) guarantees that the .Rprofile file is backed up,
+   otherwise an error is produced.  Previously it could silently fail if a
+   backup file with the exact same name already existed.
 
 Version: 0.7.0 [2017-09-04]
 
