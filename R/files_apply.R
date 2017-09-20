@@ -1,7 +1,7 @@
 files_apply <- function(files, fun,
                         on_error = c("error", "warning", "immediate.warning",
                                      "message", "ignore"),
-                        dryrun = NA, what = "startup") {
+                        dryrun = NA, what = "Rprofile") {
   stopifnot(is.function(fun))
   on_error <- match.arg(on_error)
 
@@ -39,10 +39,8 @@ files_apply <- function(files, fun,
   logf("Processing %d %s files ...", length(files), what)
   if (what == "Renviron") {
     type <- "env"
-  } else if (what == "Rprofile") {
-    type <- "r"
   } else {
-    type <- "txt"
+    type <- "r"
   }
   for (file in files) {
     logf(" - %s", file_info(file, type = type))
