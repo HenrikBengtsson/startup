@@ -105,7 +105,10 @@ check_r_libs_env_vars <- function(debug = FALSE) {
   for (var in vars) {
     path <- Sys.getenv(var)
     if (nzchar(path)) {
-      if (!isTRUE(file.info(path)$isdir)) {
+      ## Don't check intential "dummy" specification, e.g.
+      ## non-existing-dummy-folder
+      is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
+      if (!is_dummy && !isTRUE(file.info(path)$isdir)) {
         msg <- sprintf("Environment variable %s specifies a non-existing path (%s) and will therefore not be used in .libPaths()",
                        sQuote(var), sQuote(path))
         warning(msg)
