@@ -2,11 +2,17 @@
 #'
 #' @aliases rprofile
 #' @export
-rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
+rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
+                       unload = FALSE, skip = NA,
                        on_error = c("error", "warning", "immediate.warning",
                                     "message", "ignore"),
                        dryrun = NA, debug = NA, paths = NULL) {
   debug <- debug(debug)
+
+  if (is.na(check)) {
+    check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
+    check <- getOption("startup.check", check)
+  }
 
   ## Skip?
   if (is.na(skip)) {
@@ -14,7 +20,10 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   }
 
   # (i) Check and fix common errors
-  check(all = all, fix = TRUE, debug = FALSE)
+  if (check) {
+    check(all = all, fix = TRUE, debug = FALSE)
+  }
+
   debug(debug)
 
   if (!skip) {

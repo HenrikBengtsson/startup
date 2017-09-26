@@ -23,6 +23,8 @@
 #' complete.  The default is to keep `startup.session.*` options
 #' as recorded by [startup_session_options()].
 #'
+#' @param check If `TRUE`, then the content of startup files are validated.
+#' 
 #' @param unload If `TRUE`, then the package is unloaded afterward, otherwise
 #' not.
 #'
@@ -73,8 +75,8 @@
 startup <- function(sibling = FALSE, all = FALSE,
                     on_error = c("error", "warning", "immediate.warning",
                                  "message", "ignore"),
-                    keep = c("options"), unload = TRUE, skip = NA, dryrun = NA,
-                    debug = NA) {
+                    keep = c("options"), check = NA, unload = TRUE, skip = NA,
+                    dryrun = NA, debug = NA) {
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
 
   debug(debug)
@@ -85,7 +87,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     r_home <- R.home()
     r_arch <- .Platform$r_arch
     r_os <- .Platform$OS.type
-    
+
     logf("System information:")
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", sQuote(getwd()))
@@ -107,7 +109,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
       if (!is_file(f)) f <- file.path(r_home, "etc", "Renviron.site")
       if (is_file(f)) logf("- %s", file_info(f, type = "env"))
-  
+
       f <- Sys.getenv("R_ENVIRON_USER")
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
       if (!is_file(f)) f <- ".Renviron"
@@ -125,7 +127,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
       if (is_file(f)) logf("- %s", file_info(f, type = "r"))
     }
-    
+
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
     if (!no_init_file) {
       f <- Sys.getenv("R_PROFILE_USER")
@@ -135,7 +137,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (!is_file(f)) f <- "~/.Rprofile"
       if (is_file(f)) logf("- %s", file_info(f, type = "r"))
     }
-    
+
     f <- Sys.getenv("R_TESTS")
     if (nzchar(f)) {
       logf(" Detected R_TESTS=%s:", sQuote(f))
@@ -145,7 +147,7 @@ startup <- function(sibling = FALSE, all = FALSE,
   }
 
   logf("startup::startup()-specific processing ...")
-  
+
   # (i) Load custom .Renviron.d/* files
   renviron_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun)
 
@@ -153,14 +155,13 @@ startup <- function(sibling = FALSE, all = FALSE,
   startup_session_options(action = "update")
 
   # (iii) Load custom .Rprofile.d/* files
-  rprofile_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun,
-             on_error = on_error)
+  rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
+             dryrun = dryrun, on_error = on_error)
 
   res <- api()
 
   ## (iv) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
-
 
   ## Needed because we might unload package below and then we will
   ## lose timestamp() and logf()
@@ -187,7 +188,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   if (debug) {
     interactive <- interactive()
-    
+
     logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
 

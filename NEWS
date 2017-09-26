@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.7.0-9000 [2017-09-20]
+Version: 0.7.0-9000 [2017-09-25]
 
 NEW FEATURES:
 
@@ -13,6 +13,9 @@ NEW FEATURES:
  
  o startup(debug = TRUE) outputs much more information on what has and will
    take place through R's startup process.
+
+ o startup() gained argument 'check' for controlling whether the content of
+   startup files should be validated or not.
 
 DEPRECATED AND DEFUNCT:
 
