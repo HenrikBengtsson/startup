@@ -22,6 +22,7 @@
 check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
   check_rprofile_eof(all = all, fix = fix, backup = backup, debug = debug)
   check_rprofile_update_packages(all = all, debug = debug)
+  check_r_libs_env_vars()
 }
 
 
@@ -94,5 +95,21 @@ check_rprofile_encoding <- function(debug = FALSE) {
              getOption("encoding", "native.enc") != "native.enc")) {
     msg <- sprintf("POTENTIAL STARTUP PROBLEM: Option 'encoding' seems to have been set (to '%s') during startup, cf. Startup.  Changing this from the default 'native.enc' is known to have caused problems, particularly in non-interactive sessions, e.g. installation of packages with non-ASCII characters (also in source code comments) fails. To disable this warning, set option '.Rprofile.check.encoding' to FALSE, or set the encoding conditionally, e.g. if (base::interactive()) options(encoding='UTF-8').", getOption("encoding"))  #nolint
     warning(msg)
+  }
+}
+
+
+
+check_r_libs_env_vars <- function(debug = FALSE) {
+  vars <- c("R_LIBS", "R_LIBS_SITE", "R_LIBS_USER")
+  for (var in vars) {
+    path <- Sys.getenv(var)
+    if (nzchar(path)) {
+      if (!isTRUE(file.info(path)$isdir)) {
+        msg <- sprintf("Environment variable %s specifies a non-existing path (%s) and will therefore not be used in .libPaths()",
+                       sQuote(var), sQuote(path))
+        warning(msg)
+      }
+    }
   }
 }
