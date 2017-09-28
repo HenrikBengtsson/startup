@@ -109,8 +109,9 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       ## non-existing-dummy-folder
       is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
       if (!is_dummy && !isTRUE(file.info(path)$isdir)) {
-        msg <- sprintf("Environment variable %s specifies a non-existing path (%s) and will therefore not be used in .libPaths()",
-                       sQuote(var), sQuote(path))
+        pathx <- normalizePath(path, mustWork = FALSE)
+        msg <- sprintf("Environment variable %s specifies a non-existing path %s (expands to %s) and will therefore not be used in .libPaths()",
+                       sQuote(var), sQuote(path), sQuote(pathx))
         warning(msg)
       }
     }
