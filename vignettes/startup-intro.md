@@ -121,7 +121,6 @@ Furthermore, some environment variables can not even be set in `.Renviron` (Step
 * `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,
   cf. `?tempdir`
 * `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of threads used by OpenMP etc, cf. _R Installation and Administration_
-* `R_MAX_NUM_DLLS`, cf. `?dyn.load`
   
 In other words, these variables have to be set using methods specific to the operating system or the calling shell, e.g. in Unix shells
 ```sh
@@ -130,7 +129,7 @@ $ R
 ```
 or per call as
 ```sh
-R_MAX_NUM_DLLS=500 R
+TMPDIR=/path/to/tmp R
 ```
 
 (*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `?"environment variables"` and `?Startup`.

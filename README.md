@@ -103,8 +103,8 @@ It is also possible to negate a conditional filename test by using the `<key>!=<
 
 Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  An example(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
 
-* `LC_ALL` - locale settings used by R, cf. `?locales`
-* `R_LIBS_USER` - user's library path, cf. `?R_LIBS_USER`
+* `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
+* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The The `%p` and `%v` parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
 
 Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
@@ -174,9 +174,9 @@ install.packages('startup')
 
 ### Pre-release version
 
-To install the pre-release version that is available in Git branch `feature/vignettes` on GitHub, use:
+To install the pre-release version that is available in Git branch `develop` on GitHub, use:
 ```r
-source('http://callr.org/install#HenrikBengtsson/startup@feature/vignettes')
+source('http://callr.org/install#HenrikBengtsson/startup@develop')
 ```
 This will install the package from source.  
 
