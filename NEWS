@@ -5,20 +5,20 @@ Version: 0.7.0-9000 [2017-09-25]
 
 NEW FEATURES:
 
- o Added startup::current_script() which returns the pathname of the by
-   startup::startup() currently processed .Rprofile.d/ file.
+ o Added startup::current_script() which returns the .Rprofile.d/ pathname
+   that is currently processed by startup::startup().
    
  o Added flag 'rice' to sysinfo() indicating whether R runs via Rice or not,
    meaning it can be used as a file and directory name tag, e.g. rice=TRUE.
  
- o startup(debug = TRUE) outputs much more information on what has and will
-   take place through R's startup process.
+ o startup(debug = TRUE) outputs much more information on what has taken place
+   and what will take place through R's startup process.
 
  o startup() gained argument 'check' for controlling whether the content of
    startup files should be validated or not.
 
  o check(), and therefore also startup(check = TRUE), warns if R_LIBS,
-   R_LIBS_SITE, or R_LIBS_USER does not specify an existing directory.
+   R_LIBS_SITE, or R_LIBS_USER specifies non-existing directory.
    
 
 DEPRECATED AND DEFUNCT:
