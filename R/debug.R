@@ -68,18 +68,21 @@ nlines <- function(f) {
   length(bfr)
 }
 
+## base::file.size() was only introduced in R 3.2.0
+file_size <- function(...) file.info(..., extra_cols = FALSE)$size
+
 file_info <- function(f, type = "txt", normalize = FALSE) {
   if (normalize) f <- normalizePath(f, mustWork = FALSE)
   if (type == "binary") {
-    sprintf("%s (binary file; %d bytes)", sQuote(f), file.size(f))
+    sprintf("%s (binary file; %d bytes)", sQuote(f), file_size(f))
   } else if (type == "env") {
     sprintf("%s (%d lines; %d bytes)",
-            sQuote(f), nlines(f), file.size(f))
+            sQuote(f), nlines(f), file_size(f))
   } else if (type == "r") {
     sprintf("%s (%d code lines; %d bytes)",
-            sQuote(f), nlines(f), file.size(f))
+            sQuote(f), nlines(f), file_size(f))
   } else {
     sprintf("%s (%d lines; %d bytes)",
-            sQuote(f), nlines(f), file.size(f))
+            sQuote(f), nlines(f), file_size(f))
   }
 }

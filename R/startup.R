@@ -177,7 +177,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     t0 <- timestamp(get_t0 = TRUE)
     copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
     logf <- function(fmt, ...) {
-      fmt <- paste0(timestamp(), ": ", fmt)
+      fmt <- paste(timestamp(), ": ", fmt, sep = "")
       message(sprintf(fmt, ...))
     }
 

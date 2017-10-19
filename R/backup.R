@@ -1,7 +1,4 @@
 backup <- function(file, quiet = FALSE) {
-  ## base::file.size() was only introduced in R 3.2.0
-  file_size <- function(...) file.info(..., extra_cols = FALSE)$size
-
   if (quiet) notef <- function(...) NULL
 
   stopifnot(file.exists(file))
