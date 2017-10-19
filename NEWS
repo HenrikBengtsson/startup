@@ -1,6 +1,37 @@
 Package: startup
 ================
 
+Version: 0.8.0 [2017-10-18]
+
+NEW FEATURES:
+
+ o Added startup::current_script() which returns the .Rprofile.d/ pathname
+   that is currently processed by startup::startup().
+   
+ o Added flag 'rice' to sysinfo() indicating whether R runs via Rice or not,
+   meaning it can be used as a file and directory name tag, e.g. rice=TRUE.
+ 
+ o startup(debug = TRUE) outputs much more information on what has taken place
+   and what will take place through R's startup process.
+
+ o startup() gained argument 'check' for controlling whether the content of
+   startup files should be validated or not.
+
+ o check(), and therefore also startup(check = TRUE), warns if R_LIBS,
+   R_LIBS_SITE, or R_LIBS_USER specifies non-existing directory.
+   
+
+DEPRECATED AND DEFUNCT:
+
+ o DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
+   and api()$rprofile().  Use renviron_d() and rprofile_d() instead.
+
+BUG FIXES:
+
+ o Now install(backup = TRUE) guarantees that the .Rprofile file is backed up,
+   otherwise an error is produced.  Previously it could silently fail if a
+   backup file with the exact same name already existed.
+
 Version: 0.7.0 [2017-09-04]
 
 SIGNIFICANT CHANGES:

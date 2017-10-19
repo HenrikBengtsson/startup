@@ -45,7 +45,8 @@ logp <- function(expr, ...) {
 
 timestamp <- local({
   t0 <- NULL
-  function() {
+  function(get_t0 = FALSE) {
+    if (get_t0) return(t0)
     if (is.null(t0)) {
       t0 <<- Sys.time()
     }
@@ -56,4 +57,32 @@ timestamp <- local({
 
 notef <- function(..., quiet = FALSE) {
   if (!quiet) message(sprintf(...))
+}
+
+is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
+
+nlines <- function(f) {
+  bfr <- readLines(f, warn = FALSE)
+  bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
+  bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
+  length(bfr)
+}
+
+## base::file.size() was only introduced in R 3.2.0
+file_size <- function(...) file.info(..., extra_cols = FALSE)$size
+
+file_info <- function(f, type = "txt", normalize = FALSE) {
+  if (normalize) f <- normalizePath(f, mustWork = FALSE)
+  if (type == "binary") {
+    sprintf("%s (binary file; %d bytes)", sQuote(f), file_size(f))
+  } else if (type == "env") {
+    sprintf("%s (%d lines; %d bytes)",
+            sQuote(f), nlines(f), file_size(f))
+  } else if (type == "r") {
+    sprintf("%s (%d code lines; %d bytes)",
+            sQuote(f), nlines(f), file_size(f))
+  } else {
+    sprintf("%s (%d lines; %d bytes)",
+            sQuote(f), nlines(f), file_size(f))
+  }
 }

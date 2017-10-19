@@ -1,12 +1,18 @@
 #' @describeIn startup Initiate using \file{.Rprofile.d/} files
-#' 
+#'
 #' @aliases rprofile
 #' @export
-rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
+rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
+                       unload = FALSE, skip = NA,
                        on_error = c("error", "warning", "immediate.warning",
                                     "message", "ignore"),
                        dryrun = NA, debug = NA, paths = NULL) {
   debug <- debug(debug)
+
+  if (is.na(check)) {
+    check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
+    check <- getOption("startup.check", check)
+  }
 
   ## Skip?
   if (is.na(skip)) {
@@ -14,14 +20,21 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   }
 
   # (i) Check and fix common errors
-  check(all = all, fix = TRUE, debug = FALSE)
+  if (check) {
+    check(all = all, fix = TRUE, debug = FALSE)
+  }
+
   debug(debug)
 
   if (!skip) {
     # (ii) Source custom .Rprofile.d/* files
     if (is.null(paths)) paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- list_d_files(paths, filter = filter_files)
-    source_print_eval <- function(pathname) source(pathname, print.eval = TRUE)
+    source_print_eval <- function(pathname) {
+      current_script_pathname(pathname)
+      on.exit(current_script_pathname(NA_character_))
+      source(pathname, print.eval = TRUE)
+    }
     files_apply(files, fun = source_print_eval,
                 on_error = on_error, dryrun = dryrun, what = "Rprofile")
 
@@ -35,7 +48,4 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
 }
 
 #' @export
-rprofile <- function(...) {
-  .Deprecated(new = "startup::rprofile_d()")
-  rprofile_d(...)
-}
+rprofile <- function(...) .Defunct(new = "startup::rprofile_d()")
