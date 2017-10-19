@@ -35,7 +35,10 @@ init:
 install:
   ps: |
         Bootstrap
-  
+
+cache:
+  - C:\RLibrary -> appveyor.yml
+
 # Adapt as necessary starting from here
 
 build_script:
