@@ -54,7 +54,7 @@ try(startup::startup())
 to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  To find the location of these folder on Windows, use `normalizePath("~")` - it's often located under `C:\Users\Alice\Documents\`.
 
 
-Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fails to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.
+Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fail to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.
 
 
 
