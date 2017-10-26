@@ -1,9 +1,14 @@
 Package: startup
 ================
 
-Version: 0.8.0-9000 [2017-10-19]
+Version: 0.8.0-9000 [2017-10-25]
 
- o ...
+NEW FEATURES:
+
+ o Added restart() for restarting the current R session using various
+   adjustments to command-line arguments and environment variables.
+   For instance, restart(as = "R CMD build") mimics the 'R CMD build' setup
+   as far as possible.
 
 
 Version: 0.8.0 [2017-10-18]
