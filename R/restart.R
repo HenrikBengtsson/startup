@@ -103,9 +103,9 @@ restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
   envir <- globalenv()
 
   ## Make sure to call existing .Last(), iff any
-  if (exists(".Last", envir = envir, inherits = FALSE)) {
+  has_last <- exists(".Last", envir = envir, inherits = FALSE)
+  if (has_last) {
     last_org <- get(".Last", envir = envir, inherits = FALSE)
-    logf("- existing .Last() will be acknowledged")
   } else {
     last_org <- function() NULL
   }
@@ -120,6 +120,7 @@ restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
   }, envir = envir)
 
   logf("- quitting current R session")
+  if (has_last) logf("- existing .Last() will be acknowledged")
   logf("Restarting R ... done")
   
   quit(save = "no", status = status, runLast = TRUE)
