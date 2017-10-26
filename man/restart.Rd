@@ -5,7 +5,8 @@
 \title{Restarts R}
 \usage{
 restart(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
-  as = NULL, debug = NA)
+  as = c("current", "specified", "R CMD build", "R CMD check",
+  "R CMD INSTALL"), debug = NA)
 }
 \arguments{
 \item{status}{An integer specifying the exit code of the current
@@ -16,31 +17,55 @@ The default is the same as used to launch the current \R session, i.e.
 \code{\link[base:commandArgs]{commandArgs()[1]}}.}
 
 \item{args}{A character vector specifying zero or more command-line
-arguments to be passed to the system call of \code{rcmd}.
-If \code{NULL}, then \code{\link[base:commandArgs]{commandArgs()[-1]}} is used.
-To not pass any arguments, use \code{args = character(0L)}.}
+arguments to be appended to the system call of \code{rcmd}.}
 
 \item{envvars}{A named character vector of environment variables to
-be set when calling \R.  Alternatively, if not named the strings must
-be of format \code{var=value}.}
+be set when calling \R.}
 
-\item{as}{A character string specify a predefined set of \code{rcmd}, \code{args},
-and \code{envvars}.  If \code{as = "R CMD build"}, then the \code{R CMD build} environment
-is emulated as far as possible.}
+\item{as}{A character string specify a predefined setups of \code{rcmd}, \code{args},
+and \code{envvars}.  For details, see below.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
 Restarts R by quitting the current \R session and launching a new one.
 }
+\section{Predefined setups}{
+
+Argument \code{as} may take the following values:
+\describe{
+\item{\code{"current"}:}{(Default) A setup that emulates the setup of the
+current \R session as far as possible by relaunching \R with the same
+command-line call (= \code{\link[base:commandArgs]{base::commandArgs()}}).
+}
+\item{\code{"specified"}:}{According to \code{rcmd}, \code{args}, and \code{envvars}.}
+\item{\code{"R CMD build"}:}{A setup that emulates
+\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/build}{R CMD build}
+as far as possible.
+}
+\item{\code{"R CMD check"}:}{A setup that emulates
+\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/check}{R CMD check}
+as far as possible, which happens to be identical to the
+\code{"R CMD build"} setup.
+}
+\item{\code{"R CMD INSTALL"}:}{A setup that emulates
+\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/INSTALL}{R CMD INSTALL}
+as far as possible.
+}
+}
+If specified, command-line arguments in \code{args} and environment variables
+in \code{envvars} are \emph{appended} accordingly.
+}
+
 \examples{
 \dontrun{
+  ## Relaunch R with debugging of startup::startup() enabled
   startup::restart(envvars = c(R_STARTUP_DEBUG = TRUE))
 
-  ## Mimic R CMD build
+  ## Mimic 'R CMD build' and 'R CMD check'
   startup::restart(as = "R CMD build")
-
-  ## ... which is short for
+  startup::restart(as = "R CMD check")
+  ## ... which are both short for
   startup::restart(args = c("--no-restore"),
                    envvars = c(R_DEFAULT_PACKAGES="", LC_COLLATE="C"))
 }
