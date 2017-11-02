@@ -28,7 +28,7 @@ and \code{envvars}.  For details, see below.}
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
 \description{
-Restarts R by quitting the current \R session and launching a new one.
+Restarts \R by quitting the current \R session and launching a new one.
 }
 \section{Predefined setups}{
 
@@ -55,6 +55,18 @@ as far as possible.
 }
 If specified, command-line arguments in \code{args} and environment variables
 in \code{envvars} are \emph{appended} accordingly.
+}
+
+\section{Known limitations}{
+
+It is \emph{not} possible to restart an \R session in RStudio using this
+function.
+Note, RStudio provides \code{.rs.restartR()} which will indeed restart the
+current \R session. However, it does not let you control how \R is
+restarted, e.g. with what command-line options and what environment
+variables.  Furthermore, the new \R session will have the same set of
+packages loaded as before, the same variables in the global environment,
+and so on.
 }
 
 \examples{

@@ -1,6 +1,6 @@
 #' Restarts R
 #'
-#' Restarts R by quitting the current \R session and launching a new one.
+#' Restarts \R by quitting the current \R session and launching a new one.
 #'
 #' @param status An integer specifying the exit code of the current
 #' \R session.
@@ -45,6 +45,16 @@
 #' If specified, command-line arguments in `args` and environment variables
 #' in `envvars` are _appended_ accordingly.
 #'
+#' @section Known limitations:
+#' It is _not_ possible to restart an \R session in RStudio using this
+#' function.
+#' Note, RStudio provides `.rs.restartR()` which will indeed restart the
+#' current \R session. However, it does not let you control how \R is
+#' restarted, e.g. with what command-line options and what environment
+#' variables.  Furthermore, the new \R session will have the same set of
+#' packages loaded as before, the same variables in the global environment,
+#' and so on.
+#'
 #' @examples
 #' \dontrun{
 #'   ## Relaunch R with debugging of startup::startup() enabled
@@ -66,6 +76,11 @@ restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
   debug(debug)
   logf("Restarting R ...")
 
+  ## RStudio cannot be restart this way
+  if (is_rstudio()) {
+    stop("R sessions run via RStudio cannot be restarted using startup::restart()")
+  }
+  
   cmdargs <- commandArgs()
 
   if (is.null(rcmd)) rcmd <- cmdargs[1]
