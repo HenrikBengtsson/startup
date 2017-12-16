@@ -59,6 +59,8 @@ notef <- function(..., quiet = FALSE) {
   if (!quiet) message(sprintf(...))
 }
 
+is_dir <- function(f) nzchar(f) && file.exists(f) && file.info(f)$isdir
+
 is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
 
 nlines <- function(f) {

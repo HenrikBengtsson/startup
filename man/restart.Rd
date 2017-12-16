@@ -4,13 +4,19 @@
 \alias{restart}
 \title{Restarts R}
 \usage{
-restart(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
-  as = c("current", "specified", "R CMD build", "R CMD check",
-  "R CMD INSTALL"), debug = NA)
+restart(status = 0L, workdir = NULL, rcmd = NULL, args = NULL,
+  envvars = NULL, as = c("current", "specified", "R CMD build",
+  "R CMD check", "R CMD INSTALL"), debug = NA)
 }
 \arguments{
 \item{status}{An integer specifying the exit code of the current
 \R session.}
+
+\item{workdir}{The working directory where the new \R session should
+be launched from.  If \code{NULL}, then the working directory that was in
+place when the \pkg{startup} package was first loaded.  If using
+\code{startup::startup()} in an \file{.Rprofile} startup file, then this
+is likely to record the directory from which \R itself was launched from.}
 
 \item{rcmd}{A character string specifying the command for launching \R.
 The default is the same as used to launch the current \R session, i.e.
@@ -22,8 +28,8 @@ arguments to be appended to the system call of \code{rcmd}.}
 \item{envvars}{A named character vector of environment variables to
 be set when calling \R.}
 
-\item{as}{A character string specify a predefined setups of \code{rcmd}, \code{args},
-and \code{envvars}.  For details, see below.}
+\item{as}{A character string specifying a predefined setups of \code{rcmd},
+\code{args}, and \code{envvars}.  For details, see below.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }

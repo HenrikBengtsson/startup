@@ -5,6 +5,12 @@
 #' @param status An integer specifying the exit code of the current
 #' \R session.
 #' 
+#' @param workdir The working directory where the new \R session should
+#' be launched from.  If `NULL`, then the working directory that was in
+#' place when the \pkg{startup} package was first loaded.  If using
+#' `startup::startup()` in an \file{.Rprofile} startup file, then this
+#' is likely to record the directory from which \R itself was launched from.
+#' 
 #' @param rcmd A character string specifying the command for launching \R.
 #' The default is the same as used to launch the current \R session, i.e.
 #' \code{\link[base:commandArgs]{commandArgs()[1]}}.
@@ -15,8 +21,8 @@
 #' @param envvars A named character vector of environment variables to
 #' be set when calling \R.
 #'
-#' @param as A character string specify a predefined setups of `rcmd`, `args`,
-#' and `envvars`.  For details, see below.
+#' @param as A character string specifying a predefined setups of `rcmd`,
+#' `args`, and `envvars`.  For details, see below.
 #' 
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
@@ -67,9 +73,11 @@
 #'   startup::restart(args = c("--no-restore"),
 #'                    envvars = c(R_DEFAULT_PACKAGES="", LC_COLLATE="C"))
 #' }
-#' 
+#'
 #' @export
-restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
+restart <- function(status = 0L,
+                    workdir = NULL,
+                    rcmd = NULL, args = NULL, envvars = NULL,
                     as = c("current", "specified",
                            "R CMD build", "R CMD check", "R CMD INSTALL"),
                     debug = NA) {
@@ -80,6 +88,13 @@ restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
   if (is_rstudio()) {
     stop("R sessions run via RStudio cannot be restarted using startup::restart()")
   }
+
+  if (is.null(workdir)) {
+    workdir <- startup_session_options()$startup.session.startdir
+  }
+  if (is_dir(workdir)) {
+    stop("Argument 'workdir' specifies a non-existing directory: ", sQuote(workdir))
+  }
   
   cmdargs <- commandArgs()
 
@@ -87,7 +102,7 @@ restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
   stopifnot(length(rcmd) == 1L, is.character(rcmd))
   rcmd_t <- Sys.which(rcmd)
   if (rcmd_t == "") {
-    stop("Argument 'rcmd' specify a non-existing command: ", sQuote(rcmd))
+    stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
   }
  
   as <- match.arg(as)
@@ -137,6 +152,7 @@ restart <- function(status = 0L, rcmd = NULL, args = NULL, envvars = NULL,
   logf("- quitting current R session")
   if (has_last) logf("- existing .Last() will be acknowledged")
   logf("Restarting R ... done")
-  
+
+  setwd(workdir)
   quit(save = "no", status = status, runLast = TRUE)
 }
