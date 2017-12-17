@@ -92,8 +92,9 @@ restart <- function(status = 0L,
   if (is.null(workdir)) {
     workdir <- startup_session_options()$startup.session.startdir
   }
-  if (is_dir(workdir)) {
-    stop("Argument 'workdir' specifies a non-existing directory: ", sQuote(workdir))
+  if (!is_dir(workdir)) {
+    stop("Argument 'workdir' specifies a non-existing directory: ",
+         sQuote(workdir))
   }
   
   cmdargs <- commandArgs()
