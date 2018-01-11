@@ -1,5 +1,5 @@
 Package: startup
-Version: 0.8.0-9000
+Version: 0.9.0
 Title: Friendly R Startup Configuration
 Depends: R (>= 2.14.0)
 Suggests: commonmark, tools
