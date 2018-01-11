@@ -1,7 +1,19 @@
+#' Checks whether startup debug is on or not
+#'
+#' @return Returns `TRUE` is debug is enabled and `FALSE` othewise.
+#'
+#' @details
+#' The debug mode is when [startup::startup()] is called, either explicitly
+#' via argument `debug` or via environment variable `R_STARTUP_DEBUG`.
+#' 
+#' @keywords internal
+#' @export
+is_debug_on <- function() debug()
+
 debug <- local({
   status <- NA
 
-  function(action = NA) {
+  function(new = NA) {
     if (is.na(status)) {
       t <- as.logical(Sys.getenv("R_STARTUP_DEBUG", NA))
       t <- getOption("startup.debug", t)
@@ -21,8 +33,8 @@ debug <- local({
       status <<- t
     }
 
-    action <- as.logical(action)
-    if (!is.na(action)) status <<- action
+    new <- as.logical(new)
+    if (!is.na(new)) status <<- new
     status
   }
 })
