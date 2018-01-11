@@ -86,7 +86,7 @@ restart <- function(status = 0L,
 
   ## RStudio cannot be restart this way
   if (is_rstudio()) {
-    stop("R sessions run via RStudio cannot be restarted using startup::restart()")
+    stop("R sessions run via RStudio cannot be restarted using startup::restart(). To restart an R session in the RStudio Console, use rstudioapi::restartSession().")
   }
 
   if (is.null(workdir)) {
