@@ -16,13 +16,17 @@ not already set are updated.  If \code{"erase"}, any existing
 Returns invisibly a named list of the options prefixed
 \code{"startup.session."}:
 \describe{
-\item{\code{startup.session.startdir}}{(character) the directory where the \R
-session was launched from}
+\item{\code{startup.session.startdir}}{(character) the working directory when
+the \pkg{startup} was first loaded.  If \code{startup::startup()} is called
+at the very beginning of the \file{.Rprofile} file, this is also the
+directory that the current \R session was launched from.}
+\item{\code{startup.session.starttime}}{(POSIXct) the time when the
+\pkg{startup} was first loaded.}
 \item{\code{startup.session.id}}{(character) a unique ID for the current \R
-session}
-\item{\code{startup.session.dumpto}}{(character) a value that can be used for
-argument \code{dumpto} of \link[utils:dump.frames]{dump.frames()} (also for
-dumping to file)}
+session.}
+\item{\code{startup.session.dumpto}}{(character) a session-specific name that
+can be used for argument \code{dumpto} of \link[utils:dump.frames]{dump.frames()}
+(also for dumping to file).}
 }
 }
 \description{

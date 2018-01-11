@@ -151,16 +151,13 @@ startup <- function(sibling = FALSE, all = FALSE,
   # (i) Load custom .Renviron.d/* files
   renviron_d(sibling = sibling, all = all, skip = skip, dryrun = dryrun)
 
-  # (ii) Record useful session information
-  startup_session_options(action = "update")
-
-  # (iii) Load custom .Rprofile.d/* files
+  # (ii) Load custom .Rprofile.d/* files
   rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
              dryrun = dryrun, on_error = on_error)
 
   res <- api()
 
-  ## (iv) Cleanup?
+  ## (iii) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
 
   ## Needed because we might unload package below and then we will
@@ -183,7 +180,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   }
 
-  # (v) Unload package?
+  # (iv) Unload package?
   if (unload) unload(debug = debug)
 
   if (debug) {

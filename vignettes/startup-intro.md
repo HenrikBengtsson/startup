@@ -54,7 +54,7 @@ try(startup::startup())
 to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  To find the location of these folder on Windows, use `normalizePath("~")` - it's often located under `C:\Users\Alice\Documents\`.
 
 
-Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fails to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.
+Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fail to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.
 
 
 
@@ -85,10 +85,11 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `user`        - (character) the user name (= `Sys.info()[["user"]]`)
   
 * Flags:
-  - `interactive` - (logical) whether running interactively or not (= `interactive()`)
-  - `ess`         - (logical) whether running in [Emacs Speaks Statistics (ESS)] or not
-  - `rstudio`     - (logical) whether running in [RStudio] or not
-  - `wine`        - (logical) whether running on Windows via [Linux Wine] or not
+  - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
+  - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
+  - `rice`        - (logical) whether running R in [rice] or not
+  - `rstudio`     - (logical) whether running R in [RStudio] or not
+  - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
 
 You can also include files conditionally on whether a package is installed or not:
 
@@ -110,8 +111,9 @@ It is also possible to negate a conditional filename test by using the `<key>!=<
 Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  An example(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
 
 * `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
-* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The The `%p` and `%v` parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
+* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The The `%p` and `%v` parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
+* `R_MAX_NUM_DLLS`, cf. `?dyn.load`
 
 Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
 
@@ -168,5 +170,6 @@ local({
 
 [startup]: https://cran.r-project.org/package=startup
 [Emacs Speaks Statistics (ESS)]: https://ess.r-project.org/
+[rice]: https://github.com/randy3k/rice
 [RStudio]: https://www.rstudio.com/products/RStudio/
 [Linux Wine]: https://www.winehq.org/

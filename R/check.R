@@ -111,9 +111,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       if (!is_dummy) {
         paths <- unlist(strsplit(path, split = ":", fixed = TRUE))
         paths <- unique(paths)
-        is_dir <- file.info(paths)$isdir
-        is_dir <- (!is.na(is_dir) & is_dir)
-        paths <- paths[!is_dir]
+        paths <- paths[!is_dir(paths)]
         npaths <- length(paths)
         if (npaths > 0) {
           pathsx <- normalizePath(paths, mustWork = FALSE)
