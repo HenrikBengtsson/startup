@@ -66,6 +66,9 @@
 #'   ## Relaunch R with debugging of startup::startup() enabled
 #'   startup::restart(envvars = c(R_STARTUP_DEBUG = TRUE))
 #'
+#'   ## Relaunch R without loading user Rprofile files
+#'   startup::restart(args = "--no-init-file")
+#'
 #'   ## Mimic 'R CMD build' and 'R CMD check'
 #'   startup::restart(as = "R CMD build")
 #'   startup::restart(as = "R CMD check")
