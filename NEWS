@@ -7,6 +7,15 @@ NEW FEATURES:
 
  * is_debug_on() returns true if the startup debug mode is on.  To control
    the debug mode, see ?startup::startup.
+
+ * Add flag 'rstudioterm' to sysinfo() indicating whether R runs in an
+   RStudio Terminal or not.  To test whether R runs via the RStudio Console,
+   use 'rstudio && !rstudioterm'.
+
+BUG FIX:
+
+ * startup::restart() would not work in the RStudio Terminal.  By design, it
+   does not work in the RStudio Console.
  
 
 Version: 0.9.0 [2018-01-09]
