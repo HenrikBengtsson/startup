@@ -88,7 +88,8 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
   - `rice`        - (logical) whether running R in [rice] or not
-  - `rstudio`     - (logical) whether running R in [RStudio] or not
+  - `rstudio`     - (logical) whether running R in [RStudio] Console or not
+  - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
 
 You can also include files conditionally on whether a package is installed or not:

@@ -16,8 +16,8 @@ sysinfo <- function() {
   ## Additional information
   sysinfo$ess <- is_ess()
   sysinfo$rice <- is_rice()
-  sysinfo$rstudio <- is_rstudio()
-  sysinfo$rstudioterm <- is_rstudio_term()
+  sysinfo$rstudio <- is_rstudio_console()
+  sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$wine <- is_wine()
 
   sysinfo

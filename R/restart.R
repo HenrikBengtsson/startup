@@ -88,7 +88,7 @@ restart <- function(status = 0L,
   logf("Restarting R ...")
 
   ## The RStudio Console cannot be restart this way
-  if (is_rstudio() && !is_rstudio_term()) {
+  if (is_rstudio_console()) {
     stop("R sessions run via the RStudio Console cannot be restarted using startup::restart(). It is possible to restart R in an RStudio Terminal. To restart an R session in the RStudio Console, use rstudioapi::restartSession().")
   }
 
