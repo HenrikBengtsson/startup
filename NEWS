@@ -8,9 +8,16 @@ NEW FEATURES:
  * is_debug_on() returns true if the startup debug mode is on.  To control
    the debug mode, see ?startup::startup.
 
- * Add flag 'rstudioterm' to sysinfo() indicating whether R runs in an
+ * Added flag 'rstudioterm' to sysinfo() indicating whether R runs in an
    RStudio Terminal or not.  To test whether R runs via the RStudio Console,
    use 'rstudio'.
+
+ * Added customizable field 'secrets' to sysinfo() which takes any non-empty
+   value of environment variable 'R_STARTUP_SECRETS' if set, otherwise "FALSE".
+   This can be used to filter out sensitive .Renviron.d/ files by default such
+   that they are only included if 'R_STARTUP_SECRETS' takes a matching value,
+   e.g. files under .Renviron.d/secrets=banana/ will only be included if
+   Sys.getenv("R_STARTUP_SECRETS") == "banana".
 
 BUG FIX:
 

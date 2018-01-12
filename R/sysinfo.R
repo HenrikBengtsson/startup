@@ -7,18 +7,21 @@
 #'
 #' @export
 sysinfo <- function() {
-  ## Built-in information
+  ## Built-in system information (character)
   sysinfo <- as.list(Sys.info())
   sysinfo$os <- .Platform$OS.type
   sysinfo$gui <- .Platform$GUI
   sysinfo$interactive <- interactive()
 
-  ## Additional information
+  ## Built-in system flags (logical)
   sysinfo$ess <- is_ess()
   sysinfo$rice <- is_rice()
   sysinfo$rstudio <- is_rstudio_console()
   sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$wine <- is_wine()
 
+  ## Built-in customizable values (character)
+  sysinfo$secrets <- Sys.getenv("R_STARTUP_SECRETS", "FALSE")
+    
   sysinfo
 }
