@@ -147,7 +147,6 @@ Below is a list of "real-world" example files:
 ```
 .Renviron.d/
   +-- lang
-  +-- libs
   +-- r_cmd_check
   +-- secrets=banana
  

@@ -76,7 +76,7 @@ If the name of a file consists of a `<key>=<value>` specification, then that fil
 
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
-* Values:
+* System values:
   - `gui`         - (character) the graphical user interface (= `.Platform$GUI`)
   - `nodename`    - (character) the host name (= `Sys.info()[["nodename"]]`)
   - `machine`     - (character) the machine type (= `Sys.info()[["machine"]]`)
@@ -84,12 +84,17 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `sysname`     - (character) the system name (= `Sys.info()[["sysname"]]`)
   - `user`        - (character) the user name (= `Sys.info()[["user"]]`)
   
-* Flags:
+* System flags:
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
   - `rice`        - (logical) whether running R in [rice] or not
-  - `rstudio`     - (logical) whether running R in [RStudio] or not
+  - `rstudio`     - (logical) whether running R in [RStudio] Console or not
+  - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
+
+* Customizable values:
+  - `secrets`     - (character) the value of environment variable `R_STARTUP_SECRETS` if set, otherwise `FALSE`
+
 
 You can also include files conditionally on whether a package is installed or not:
 
@@ -104,9 +109,9 @@ To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
 
 
-### Secrets
+### "Secrets"
 
-The `startup::sysinfo()` field `secrets` takes the (character) value of environment variable 'R_STARTUP_SECRETS'.  If the latter is not set or empty, then `secrets` is `"FALSE"`.  This can be used to automatically filter out files and folders for which the `secrets` does not take a specific value.  For instance, files under `~/.Renviron.d/secrets=banana/` will only be included if environment variable `R_STARTUP_SECRETS` equals `banana` when R starts, e.g.
+The `startup::sysinfo()` field `secrets` takes the (character) value of environment variable `R_STARTUP_SECRETS`.  If the latter is not set or empty, then `secrets` is `"FALSE"`.  This can be used to automatically filter out files and folders for which the `secrets` does not take a specific value.  For instance, files under `~/.Renviron.d/secrets=banana/` will only be included if environment variable `R_STARTUP_SECRETS` equals `banana` when R starts, e.g.
 ```sh
 $ R_STARTUP_SECRETS=banana R
 ```
@@ -150,9 +155,8 @@ Below is a list of "real-world" example files:
 ```
 .Renviron.d/
   +-- lang
-  +-- libs
   +-- r_cmd_check
-  +-- secrets
+  +-- secrets=banana
  
 .Rprofile.d/
   +-- interactive=TRUE/
