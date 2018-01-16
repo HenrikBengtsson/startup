@@ -108,15 +108,33 @@ restart <- function(status = 0L,
   if (rcmd_t == "") {
     stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
   }
- 
+
+  ## FIXME: Add as an argument to restart()? /HB 2018-01-16
+  quiet <- FALSE
+  
   as <- match.arg(as)
   if (as == "specified") {
   } else if (as == "current") {
     if (is.null(args)) args <- cmdargs[-1]
   } else if (as %in% c("R CMD build", "R CMD check")) {
+    ## Source:
+    ##  - src/scripts/build
+    ##  - src/scripts/check
+    
+    ## Use also '--slave', but we disable that for now to make it clear
+    ## that the session is restarted.
+    if (quiet) args <- c('--slave', args)
+    
     args <- c("--no-restore", args)
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
   } else if (as %in% c("R CMD INSTALL")) {
+    ## Source:
+    ##  - src/scripts/INSTALL
+    
+    ## Use also '--slave', but we disable that for now to make it clear
+    ## that the session is restarted.
+    if (quiet) args <- c('--slave', args)
+    
     vanilla_install <- nzchar(Sys.getenv("R_INSTALL_VANILLA"))
     if (vanilla_install) {
       args <- c("--vanilla", args)
