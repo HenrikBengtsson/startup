@@ -6,7 +6,7 @@
 \usage{
 restart(status = 0L, workdir = NULL, rcmd = NULL, args = NULL,
   envvars = NULL, as = c("current", "specified", "R CMD build",
-  "R CMD check", "R CMD INSTALL"), debug = NA)
+  "R CMD check", "R CMD INSTALL"), quiet = FALSE, debug = NA)
 }
 \arguments{
 \item{status}{An integer specifying the exit code of the current
@@ -30,6 +30,10 @@ be set when calling \R.}
 
 \item{as}{A character string specifying a predefined setups of \code{rcmd},
 \code{args}, and \code{envvars}.  For details, see below.}
+
+\item{quiet}{Should the restart be quiet or not?
+If \code{NA} and \code{as == "current"}, then \code{quiet} is \code{TRUE} if the current
+\R session was started quietly, otherwise \code{FALSE}.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }

@@ -24,6 +24,10 @@
 #' @param as A character string specifying a predefined setups of `rcmd`,
 #' `args`, and `envvars`.  For details, see below.
 #' 
+#' @param quiet Should the restart be quiet or not?
+#' If `NA` and `as == "current"`, then `quiet` is `TRUE` if the current
+#' \R session was started quietly, otherwise `FALSE`.
+#' 
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
 #' @section Predefined setups:
@@ -83,6 +87,7 @@ restart <- function(status = 0L,
                     rcmd = NULL, args = NULL, envvars = NULL,
                     as = c("current", "specified",
                            "R CMD build", "R CMD check", "R CMD INSTALL"),
+                    quiet = FALSE,
                     debug = NA) {
   debug(debug)
   logf("Restarting R ...")
@@ -109,31 +114,26 @@ restart <- function(status = 0L,
     stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
   }
 
-  ## FIXME: Add as an argument to restart()? /HB 2018-01-16
-  quiet <- FALSE
-  
   as <- match.arg(as)
   if (as == "specified") {
   } else if (as == "current") {
     if (is.null(args)) args <- cmdargs[-1]
+    ## Restart quietly if current session was start quietly?
+    if (is.na(quiet)) quiet <- any(args %in% c("--quiet", "-q"))
   } else if (as %in% c("R CMD build", "R CMD check")) {
     ## Source:
     ##  - src/scripts/build
     ##  - src/scripts/check
-    
-    ## Use also '--slave', but we disable that for now to make it clear
+    ## Also '--slave', but we disable that for now to make it clear
     ## that the session is restarted.
-    if (quiet) args <- c('--slave', args)
     
     args <- c("--no-restore", args)
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
   } else if (as %in% c("R CMD INSTALL")) {
     ## Source:
     ##  - src/scripts/INSTALL
-    
-    ## Use also '--slave', but we disable that for now to make it clear
+    ## Also '--slave', but we disable that for now to make it clear
     ## that the session is restarted.
-    if (quiet) args <- c('--slave', args)
     
     vanilla_install <- nzchar(Sys.getenv("R_INSTALL_VANILLA"))
     if (vanilla_install) {
@@ -144,6 +144,15 @@ restart <- function(status = 0L,
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
   } else {
     stop("Unknown value on argument 'as': ", sQuote(as))
+  }
+
+  ## Restart quietly or not?
+  if (as != "specified") {
+    if (quiet) {
+      args <- c("--quiet", args)
+    } else {
+      args <- setdiff(args, "--quiet")
+    }
   }
   
   if (!is.null(envvars) && length(envvars) > 0L) {
