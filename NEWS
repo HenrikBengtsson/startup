@@ -5,8 +5,8 @@ Version: 0.9.0-9000 [2018-01-17]
 
 NEW FEATURES:
 
- * is_debug_on() returns true if the startup debug mode is on.  To control
-   the debug mode, see ?startup::startup.
+ * Added is_debug_on() which returns TRUE if the startup debug mode is on.
+   To control the debug mode, see ?startup::startup.
 
  * Added flag 'rstudioterm' to sysinfo() indicating whether R runs in an
    RStudio Terminal or not.  To test whether R runs via the RStudio Console,
