@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.9.0-9000 [2018-01-17]
+Version: 0.9.0-9000 [2018-01-28]
 
 NEW FEATURES:
 
@@ -14,6 +14,8 @@ NEW FEATURES:
 
  * restart() gained argument 'quiet' for controlling whether the restart
    should be quiet or not.
+
+ * startup(debug = TRUE) reports on several R_* environment variables.
    
  * Added customizable field 'secrets' to sysinfo() which takes any non-empty
    value of environment variable 'R_STARTUP_SECRETS' if set, otherwise "FALSE".
