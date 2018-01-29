@@ -89,6 +89,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     r_os <- .Platform$OS.type
 
     logf("System information:")
+    logf("- R_HOME: %s", sQuote(Sys.getenv("R_HOME")))
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", sQuote(getwd()))
     logf("- User's home directory (%s): %s",
@@ -96,6 +97,9 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     logf("The following has already been processed by R:")
 
+    logf("- R_ENVIRON: %s", sQuote(Sys.getenv("R_ENVIRON")))
+    logf("- R_ENVIRON_USER: %s", sQuote(Sys.getenv("R_ENVIRON_USER")))
+    
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
       if (is_file(f)) logf("- %s", file_info(f, type = "env"))
@@ -118,6 +122,13 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env"))
     }
 
+    logf("- R_DEFAULT_PACKAGES: %s", sQuote(Sys.getenv("R_DEFAULT_PACKAGES")))
+    logf("- R_LIBS: %s", sQuote(Sys.getenv("R_LIBS")))
+    logf("- R_LIBS_SITE: %s", sQuote(Sys.getenv("R_LIBS_SITE")))
+    logf("- R_LIBS_USER: %s", sQuote(Sys.getenv("R_LIBS_USER")))
+
+    logf("- R_PROFILE: %s", sQuote(Sys.getenv("R_PROFILE")))
+    logf("- R_PROFILE_USER: %s", sQuote(Sys.getenv("R_PROFILE_USER")))
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
@@ -196,6 +207,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
     }
 
+    logf("- R_HISTFILE: %s", sQuote(Sys.getenv("R_HISTFILE")))
     no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_history && interactive) {
       if (is_file(f <- Sys.getenv("R_HISTFILE", "./.Rhistory"))) {
