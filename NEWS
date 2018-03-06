@@ -26,8 +26,8 @@ NEW FEATURES:
 
 BUG FIX:
 
- * startup::restart() would not work in the RStudio Terminal.  By design, it
-   does not work in the RStudio Console.
+ * startup::restart() would not work in the RStudio Terminal.  Note that it
+   does not work in the RStudio Console due to limitations in RStudio.
  
 
 Version: 0.9.0 [2018-01-09]
