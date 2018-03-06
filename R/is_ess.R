@@ -2,5 +2,5 @@
 #'
 #' @return A logical
 is_ess <- function() {
-  (Sys.getenv("EMACS") == "t")
+  is.element("ESSR", search())
 }

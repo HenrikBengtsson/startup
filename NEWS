@@ -31,6 +31,9 @@ NEW FEATURES:
    e.g. files under .Renviron.d/secrets=banana/ will only be included if
    Sys.getenv("R_STARTUP_SECRETS") == "banana".
 
+ * sysinfo()$ess now checks for "ESSR" in search() - used to check for
+   environment variable 'EMACS' equaling "t" or not.
+
 BUG FIX:
 
  * startup::restart() would not work in the RStudio Terminal.  Note that it
