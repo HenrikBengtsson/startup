@@ -8,6 +8,10 @@ NEW FEATURES:
  * Added is_debug_on() which returns TRUE if the startup debug mode is on.
    To control the debug mode, see ?startup::startup.
 
+ * Added flag 'rtichoke' to sysinfo() indicating whether R runs in rtichoke
+   (previously known as Rice) or not.  Please stop using the 'rice' flag and
+   start using the 'rtichoke' instead (both have identical values).
+ 
  * Added flag 'microsoftr' to sysinfo() indicating whether R runs in
    Microsoft R Open or not.
 

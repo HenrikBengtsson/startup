@@ -16,7 +16,8 @@ sysinfo <- function() {
   ## Built-in system flags (logical)
   sysinfo$ess <- is_ess()
   sysinfo$microsoftr <- is_microsoftr()
-  sysinfo$rice <- is_rice()
+  sysinfo$rtichoke <- is_rtichoke()
+  sysinfo$rice <- sysinfo$rtichoke  ## Renamed February 2018
   sysinfo$rstudio <- is_rstudio_console()
   sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$wine <- is_wine()
