@@ -8,34 +8,34 @@ NEW FEATURES:
  * Added is_debug_on() which returns TRUE if the startup debug mode is on.
    To control the debug mode, see ?startup::startup.
 
+ * startup(debug = TRUE) reports on several R_* environment variables.
+   
+ * restart() gained argument 'quiet' for controlling whether the restart
+   should be quiet or not.
+
+ * Added flag 'microsoftr' to sysinfo() indicating whether R runs in
+   Microsoft R Open or not.
+
  * Added flag 'pqr' to sysinfo() indicating whether running pqR ("A Pretty
    Quick Version of R"), or not.
+
+ * Added flag 'rstudioterm' to sysinfo() indicating whether R runs in an
+   RStudio Terminal or not.  To test whether R runs via the RStudio Console,
+   use the 'rstudio' flag.
 
  * Added flag 'rtichoke' to sysinfo() indicating whether R runs in rtichoke
    (previously known as Rice) or not.  Please stop using the 'rice' flag and
    start using the 'rtichoke' instead (both have identical values).
- 
- * Added flag 'microsoftr' to sysinfo() indicating whether R runs in
-   Microsoft R Open or not.
 
- * Added flag 'rstudioterm' to sysinfo() indicating whether R runs in an
-   RStudio Terminal or not.  To test whether R runs via the RStudio Console,
-   use 'rstudio'.
+ * The 'ess' flag of sysinfo() is now based on whether "ESSR" in search() or
+   not - used to check for environment variable 'EMACS' equaling "t" or not.
 
- * restart() gained argument 'quiet' for controlling whether the restart
-   should be quiet or not.
-
- * startup(debug = TRUE) reports on several R_* environment variables.
-   
  * Added customizable field 'secrets' to sysinfo() which takes any non-empty
    value of environment variable 'R_STARTUP_SECRETS' if set, otherwise "FALSE".
    This can be used to filter out sensitive .Renviron.d/ files by default such
    that they are only included if 'R_STARTUP_SECRETS' takes a matching value,
    e.g. files under .Renviron.d/secrets=banana/ will only be included if
    Sys.getenv("R_STARTUP_SECRETS") == "banana".
-
- * sysinfo()$ess now checks for "ESSR" in search() - used to check for
-   environment variable 'EMACS' equaling "t" or not.
 
 BUG FIX:
 
