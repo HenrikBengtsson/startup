@@ -109,7 +109,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       ## non-existing-dummy-folder
       is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
       if (!is_dummy) {
-        paths <- unlist(strsplit(path, split = ":", fixed = TRUE))
+        paths <- unlist(strsplit(path, split = .Platform$path.sep, fixed = TRUE))
         paths <- unique(paths)
         paths <- paths[!is_dir(paths)]
         npaths <- length(paths)

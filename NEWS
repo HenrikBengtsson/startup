@@ -41,7 +41,10 @@ BUG FIX:
 
  * startup::restart() would not work in the RStudio Terminal.  Note that it
    does not work in the RStudio Console due to limitations in RStudio.
- 
+
+ * On Windows, startup::startup() would produce a false warning on non-existing
+   'R_LIBS_USER' folders.
+
 
 Version: 0.9.0 [2018-01-09]
 
