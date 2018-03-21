@@ -128,14 +128,17 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   ignores <- c(".DS_Store", ".Spotlight-V100", ".TemporaryItems",
                ".VolumeIcon.icns", ".apDisk", ".fseventsd")
   files <- files[!is.element(basename(files), ignores)]
-  files <- grep("/(__MACOSX|[.]Trash|[.]Trashes)/", files, value = TRUE,
+  files <- grep("[/\\\\](__MACOSX|[.]Trash|[.]Trashes)[/\\\\]", files, value = TRUE,
                 fixed = FALSE, invert = TRUE)
   hidden <- grep("._", basename(files), fixed = TRUE, value = FALSE)
   if (length(hidden) > 0) {
     hidden_files <- files[hidden]
     hidden_names <- sub("^[.]_", "", basename(hidden_files))
     hidden_siblings <- file.path(dirname(hidden_files), hidden_names)
-    drop <- is.element(hidden_siblings, files)
+    ## Workaround for Windows (because mix of forward and backward slashes)
+    hidden_siblings <- normalizePath(hidden_siblings, mustWork = FALSE)
+    files_normalized <- normalizePath(files, mustWork = FALSE)
+    drop <- is.element(hidden_siblings, files_normalized)
     hidden_files <- hidden_files[drop]
     files <- setdiff(files, hidden_files)
   }
@@ -145,7 +148,7 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
 
   ## Drop "hidden" private files and "hidden" private directories
   ## (double period)
-  files <- grep("(^|/)[.][.]", files, value = TRUE, invert = TRUE)
+  files <- grep("(^|/|\\\\)[.][.]", files, value = TRUE, invert = TRUE)
 
   ## Nothing to do?
   if (length(files) == 0) return(character(0))
@@ -158,7 +161,7 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   if (length(files) == 0) return(character(0))
 
   ## Drop duplicates
-  files_normalized <- normalizePath(files)
+  files_normalized <- normalizePath(files, winslash = "/")
   files <- files[!duplicated(files_normalized)]
 
   ## Apply filter?

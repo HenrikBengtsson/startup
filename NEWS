@@ -205,12 +205,14 @@ DEPRECATED AND DEFUNCT:
 
 BUG FIXES:
 
- * BUG FIX: A file extension *.R would incorrectly become part of the <value>
-   in a trailing <key>=<value> specification.
+ * A file extension *.R would incorrectly become part of the <value> in a
+   trailing <key>=<value> specification.
   
- * BUG FIX: Now R_STARTUP_DEBUG=TRUE also works for Rscript; used to work only
-   for the R executable.
-  
+ * Now R_STARTUP_DEBUG=TRUE also works for Rscript; used to work only for the
+   R executable.
+
+ * Some macOS backup files would not be filtered out when running on Windows.
+ 
 
 Version: 0.3.0 [2016-11-21]
 
