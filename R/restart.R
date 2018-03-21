@@ -117,7 +117,16 @@ restart <- function(status = 0L,
   as <- match.arg(as)
   if (as == "specified") {
   } else if (as == "current") {
-    if (is.null(args)) args <- cmdargs[-1]
+    if (is.null(args)) {
+      ## WORKAROUND: When running 'rtichoke', commandArgs() does not
+      ## reflect how it was started.
+      ## https://github.com/randy3k/rtichoke/issues/23#issuecomment-375078246
+      if (is_rtichoke()) {  
+        args <- Sys.getenv("RTICHOKE_COMMAND_ARGS")
+      } else {
+        args <- cmdargs[-1]
+      }
+    }
     ## Restart quietly if current session was start quietly?
     if (is.na(quiet)) quiet <- any(args %in% c("--quiet", "-q"))
   } else if (as %in% c("R CMD build", "R CMD check")) {
@@ -126,6 +135,10 @@ restart <- function(status = 0L,
     ##  - src/scripts/check
     ## Also '--slave', but we disable that for now to make it clear
     ## that the session is restarted.
+
+    if (is_rtichoke()) {
+      stop(sprintf("startup::restart(as = %s) is not supported when running R via rtichoke", dQuote(as)))
+    }
     
     args <- c("--no-restore", args)
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
@@ -134,6 +147,10 @@ restart <- function(status = 0L,
     ##  - src/scripts/INSTALL
     ## Also '--slave', but we disable that for now to make it clear
     ## that the session is restarted.
+
+    if (is_rtichoke()) {
+      stop(sprintf("startup::restart(as = %s) is not supported when running R via rtichoke", dQuote(as)))
+    }
     
     vanilla_install <- nzchar(Sys.getenv("R_INSTALL_VANILLA"))
     if (vanilla_install) {
@@ -149,6 +166,9 @@ restart <- function(status = 0L,
   ## Restart quietly or not?
   if (as != "specified") {
     if (quiet) {
+      if (is_rtichoke()) {
+        stop("startup::restart(quiet = TRUE) is not supported when running R via rtichoke")
+      }
       args <- c("--quiet", args)
     } else {
       args <- setdiff(args, "--quiet")
