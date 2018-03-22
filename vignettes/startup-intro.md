@@ -94,9 +94,6 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
 
-* Customizable values:
-  - `secrets`     - (character) the value of environment variable `R_STARTUP_SECRETS` if set, otherwise `FALSE`
-
 
 You can also include files conditionally on whether a package is installed or not:
 
@@ -104,19 +101,39 @@ You can also include files conditionally on whether a package is installed or no
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the condition is ignored._  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
+Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped_.
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
 
+### Secrets (conditionally on an environment variable)
 
-### "Secrets"
+As of startup 0.10.0, Renviron and Rprofile startup files with a non-declared `<key>` in their file names are skipped.  A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.
 
-The `startup::sysinfo()` field `secrets` takes the (character) value of environment variable `R_STARTUP_SECRETS`.  If the latter is not set or empty, then `secrets` is `"FALSE"`.  This can be used to automatically filter out files and folders for which the `secrets` does not take a specific value.  For instance, files under `~/.Renviron.d/secrets=banana/` will only be included if environment variable `R_STARTUP_SECRETS` equals `banana` when R starts, e.g.
+This is useful, because it allows us to keep "secrets" in private files and only load them conditionally on the value of an environment variable.  For instance, we put all our secret Renviron files under `~/.Renviron.d/private/SECRET=banana/` such that they are only loaded if environment variable `SECRET` is set to exactly `banana`.  Moreover, by making sure the directory `~/.Renviron.d/private/` is only accessible by you, then it will be harder for someone else two know what your secret "password" (`banana`) is.  On a Unix system, you can set this up as:
 ```sh
-$ R_STARTUP_SECRETS=banana R
+$ mkdir -p ~/.Renviron.d/private/SECRET=banana/
+$ chmod go-rw ~/.Renviron.d/private
 ```
+Then go ahead an put your secret Renviron files in there, e.g.
+```sh
+.Renviron.d/private/SECRET=banana/
+  +-- amazon  ## AWS_* credential & settings
+  +-- github  ## GITHUB_TOKEN + GITHUB_PAT
+```
+
+Now, only if `SECRET` is set to exactly `banana` when you launch R, the above secret files will be processed and the corresponding environment variables will be available from withing R.  For instance, they will be loaded if you do:
+```r
+$ SECRET=banana R
+```
+but not if you do:
+```r
+$ SECRET=badguess R
+```
+or if `SECRET` is unset.
+
+_Comment:_ You can used whichever variable name you like, it does not have to be `SECRET`.  And, the "password" `banana` is obviously just an example.
 
 
 ## Known limitations

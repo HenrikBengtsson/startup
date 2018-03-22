@@ -23,8 +23,5 @@ sysinfo <- function() {
   sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$wine <- is_wine()
 
-  ## Built-in customizable values (character)
-  sysinfo$secrets <- Sys.getenv("R_STARTUP_SECRETS", "FALSE")
-    
   sysinfo
 }

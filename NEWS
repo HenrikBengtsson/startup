@@ -3,6 +3,14 @@ Package: startup
 
 Version: 0.9.0-9000 [2018-03-21]
 
+SIGNIFICANT CHANGES:
+
+ * Renviron and Rprofile startup files that use <key>=<value> filters with
+   non-declared keys are skipped.  Previously they were always processed.
+   This update makes it easier to include "secrets", e.g. files in folder
+   ~/.Renviron.d/private/SECRET=banana/ will only be included if the
+   environment variable 'SECRET' is set to exactly 'banana'.
+
 NEW FEATURES:
 
  * Added is_debug_on() which returns TRUE if the startup debug mode is on.
@@ -29,13 +37,6 @@ NEW FEATURES:
 
  * The 'ess' flag of sysinfo() is now based on whether "ESSR" in search() or
    not - used to check for environment variable 'EMACS' equaling "t" or not.
-
- * Added customizable field 'secrets' to sysinfo() which takes any non-empty
-   value of environment variable 'R_STARTUP_SECRETS' if set, otherwise "FALSE".
-   This can be used to filter out sensitive .Renviron.d/ files by default such
-   that they are only included if 'R_STARTUP_SECRETS' takes a matching value,
-   e.g. files under .Renviron.d/secrets=banana/ will only be included if
-   Sys.getenv("R_STARTUP_SECRETS") == "banana".
 
  * Now startup::restart() also work when running R via 'rtichoke'.
 
