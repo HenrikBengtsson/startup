@@ -9,7 +9,9 @@ SIGNIFICANT CHANGES:
    non-declared keys are skipped.  Previously they were always processed.
    This update makes it easier to include "secrets", e.g. files in folder
    ~/.Renviron.d/private/SECRET=banana/ will only be included if the
-   environment variable 'SECRET' is set to exactly 'banana'.
+   environment variable 'SECRET' is set to exactly 'banana'.  An informative
+   warning, which can be disabled, will be produced by startup 0.10.* until
+   startup 0.11.0 is released.
 
 NEW FEATURES:
 

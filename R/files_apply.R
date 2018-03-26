@@ -59,6 +59,9 @@ files_apply <- function(files, fun,
 ##    }
     unknown_keys <- sort(unique(unlist(unknown_keys)))
     logf(" [WARNING] skipped %d files with non-declared key names (%s)", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "))
+    if (getOption("startup.onskip", Sys.getenv("R_STARTUP_ONSKIP", "warn")) == "warn") {
+      warning(sprintf("The 'startup' package skipped %d files with non-declared key names (%s). This is a new behavior since startup (>= 0.10.0) - previously, these files would be processed also when those keys where undefined. This warning will disappear in startup (>= 0.11.0) - to disable it already now, set environment variable R_STARTUP_ONSKIP=ignore or option 'startup.onskip=\"ignore\"': %s", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "), paste(sQuote(unknown_files), collapse = ", ")), immediate. = TRUE)
+    }
   }
   
   logf("Processing %d %s files ... done", length(files), what)
