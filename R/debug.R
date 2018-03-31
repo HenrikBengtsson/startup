@@ -1,7 +1,19 @@
+#' Checks whether startup debug is on or not
+#'
+#' @return Returns `TRUE` is debug is enabled and `FALSE` othewise.
+#'
+#' @details
+#' The debug mode is when [startup::startup()] is called, either explicitly
+#' via argument `debug` or via environment variable `R_STARTUP_DEBUG`.
+#' 
+#' @keywords internal
+#' @export
+is_debug_on <- function() debug()
+
 debug <- local({
   status <- NA
 
-  function(action = NA) {
+  function(new = NA) {
     if (is.na(status)) {
       t <- as.logical(Sys.getenv("R_STARTUP_DEBUG", NA))
       t <- getOption("startup.debug", t)
@@ -21,8 +33,8 @@ debug <- local({
       status <<- t
     }
 
-    action <- as.logical(action)
-    if (!is.na(action)) status <<- action
+    new <- as.logical(new)
+    if (!is.na(new)) status <<- new
     status
   }
 })
@@ -73,18 +85,23 @@ nlines <- function(f) {
 ## base::file.size() was only introduced in R 3.2.0
 file_size <- function(...) file.info(..., extra_cols = FALSE)$size
 
-file_info <- function(f, type = "txt", normalize = FALSE) {
+file_info <- function(f, type = "txt", normalize = FALSE, extra = NULL) {
   if (normalize) f <- normalizePath(f, mustWork = FALSE)
-  if (type == "binary") {
-    sprintf("%s (binary file; %d bytes)", sQuote(f), file_size(f))
-  } else if (type == "env") {
-    sprintf("%s (%d lines; %d bytes)",
-            sQuote(f), nlines(f), file_size(f))
-  } else if (type == "r") {
-    sprintf("%s (%d code lines; %d bytes)",
-            sQuote(f), nlines(f), file_size(f))
+  if (!is.null(extra)) {
+    extra <- paste0("; ", extra)
   } else {
-    sprintf("%s (%d lines; %d bytes)",
-            sQuote(f), nlines(f), file_size(f))
+    extra <- ""
+  }
+  if (type == "binary") {
+    sprintf("%s (binary file; %d bytes%s)", sQuote(f), file_size(f), extra)
+  } else if (type == "env") {
+    sprintf("%s (%d lines; %d bytes%s)",
+            sQuote(f), nlines(f), file_size(f), extra)
+  } else if (type == "r") {
+    sprintf("%s (%d code lines; %d bytes%s)",
+            sQuote(f), nlines(f), file_size(f), extra)
+  } else {
+    sprintf("%s (%d lines; %d bytes%s)",
+            sQuote(f), nlines(f), file_size(f), extra)
   }
 }

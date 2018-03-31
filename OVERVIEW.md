@@ -68,7 +68,7 @@ If the name of a file consists of a `<key>=<value>` specification, then that fil
 
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
-* Values:
+* System values:
   - `gui`         - (character) the graphical user interface (= `.Platform$GUI`)
   - `nodename`    - (character) the host name (= `Sys.info()[["nodename"]]`)
   - `machine`     - (character) the machine type (= `Sys.info()[["machine"]]`)
@@ -76,12 +76,16 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `sysname`     - (character) the system name (= `Sys.info()[["sysname"]]`)
   - `user`        - (character) the user name (= `Sys.info()[["user"]]`)
   
-* Flags:
+* System flags:
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
-  - `rice`        - (logical) whether running R in [rice] or not
-  - `rstudio`     - (logical) whether running R in [RStudio] or not
+  - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
+  - `rtichoke`    - (logical) whether running R in [rtichoke] (formerly known as 'rice') or not
+  - `microsoftr`  - (logical) whether running R in [Microsoft R Open] or not
+  - `rstudio`     - (logical) whether running R in [RStudio] Console or not
+  - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
+
 
 You can also include files conditionally on whether a package is installed or not:
 
@@ -89,11 +93,39 @@ You can also include files conditionally on whether a package is installed or no
 
 In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the condition is ignored._  For instance, a startup file or directory containing `LANGUAGE=fr` will be processed only if the environment variable `LANGUAGE` equals `fr` (or is not set).
+Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped_.
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
+
+### Secrets (conditionally on an environment variable)
+
+As of startup 0.10.0, Renviron and Rprofile startup files with a non-declared `<key>` in their file names are skipped.  A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.
+
+This is useful, because it allows us to keep "secrets" in private files and only load them conditionally on the value of an environment variable.  For instance, we put all our secret Renviron files under `~/.Renviron.d/private/SECRET=banana/` such that they are only loaded if environment variable `SECRET` is set to exactly `banana`.  Moreover, by making sure the directory `~/.Renviron.d/private/` is only accessible by you, then it will be harder for someone else two know what your secret "password" (`banana`) is.  On a Unix system, you can set this up as:
+```sh
+$ mkdir -p ~/.Renviron.d/private/SECRET=banana/
+$ chmod go-rw ~/.Renviron.d/private
+```
+Then go ahead an put your secret Renviron files in there, e.g.
+```sh
+.Renviron.d/private/SECRET=banana/
+  +-- amazon  ## AWS_* credential & settings
+  +-- github  ## GITHUB_TOKEN + GITHUB_PAT
+```
+
+Now, only if `SECRET` is set to exactly `banana` when you launch R, the above secret files will be processed and the corresponding environment variables will be available from withing R.  For instance, they will be loaded if you do:
+```r
+$ SECRET=banana R
+```
+but not if you do:
+```r
+$ SECRET=badguess R
+```
+or if `SECRET` is unset.
+
+_Comment:_ You can used whichever variable name you like, it does not have to be `SECRET`.  And, the "password" `banana` is obviously just an example.
 
 
 ## Known limitations
@@ -134,9 +166,8 @@ Below is a list of "real-world" example files:
 ```
 .Renviron.d/
   +-- lang
-  +-- libs
   +-- r_cmd_check
-  +-- secrets
+  +-- secrets=banana
  
 .Rprofile.d/
   +-- interactive=TRUE/
@@ -162,6 +193,8 @@ local({
 
 [startup]: https://cran.r-project.org/package=startup
 [Emacs Speaks Statistics (ESS)]: https://ess.r-project.org/
-[rice]: https://github.com/randy3k/rice
+[Microsoft R Open]: https://mran.microsoft.com/open
+[pqR]: http://www.pqr-project.org/
+[rtichoke]: https://github.com/randy3k/rtichoke
 [RStudio]: https://www.rstudio.com/products/RStudio/
 [Linux Wine]: https://www.winehq.org/

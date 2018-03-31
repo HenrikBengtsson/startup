@@ -24,6 +24,10 @@
 #' @param as A character string specifying a predefined setups of `rcmd`,
 #' `args`, and `envvars`.  For details, see below.
 #' 
+#' @param quiet Should the restart be quiet or not?
+#' If `NA` and `as == "current"`, then `quiet` is `TRUE` if the current
+#' \R session was started quietly, otherwise `FALSE`.
+#' 
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
 #' @section Predefined setups:
@@ -52,12 +56,14 @@
 #' in `envvars` are _appended_ accordingly.
 #'
 #' @section Known limitations:
-#' It is _not_ possible to restart an \R session in RStudio using this
-#' function.
-#' Note, RStudio provides `.rs.restartR()` which will indeed restart the
-#' current \R session. However, it does not let you control how \R is
+#' It is _not_ possible to restart an \R session in the RStudio _Console_
+#' using this function.  However, it does work when running \R in the
+#' RStudio Terminal.
+#' 
+#' RStudio provides `rstudioapi::restartSession()` which will indeed restart
+#' the RStudio Console.  However, it does not let you control how \R is
 #' restarted, e.g. with what command-line options and what environment
-#' variables.  Furthermore, the new \R session will have the same set of
+#' variables.  Importantly, the new \R session will have the same set of
 #' packages loaded as before, the same variables in the global environment,
 #' and so on.
 #'
@@ -65,6 +71,9 @@
 #' \dontrun{
 #'   ## Relaunch R with debugging of startup::startup() enabled
 #'   startup::restart(envvars = c(R_STARTUP_DEBUG = TRUE))
+#'
+#'   ## Relaunch R without loading user Rprofile files
+#'   startup::restart(args = "--no-init-file")
 #'
 #'   ## Mimic 'R CMD build' and 'R CMD check'
 #'   startup::restart(as = "R CMD build")
@@ -80,13 +89,14 @@ restart <- function(status = 0L,
                     rcmd = NULL, args = NULL, envvars = NULL,
                     as = c("current", "specified",
                            "R CMD build", "R CMD check", "R CMD INSTALL"),
+                    quiet = FALSE,
                     debug = NA) {
   debug(debug)
   logf("Restarting R ...")
 
-  ## RStudio cannot be restart this way
-  if (is_rstudio()) {
-    stop("R sessions run via RStudio cannot be restarted using startup::restart()")
+  ## The RStudio Console cannot be restart this way
+  if (is_rstudio_console()) {
+    stop("R sessions run via the RStudio Console cannot be restarted using startup::restart(). It is possible to restart R in an RStudio Terminal. To restart an R session in the RStudio Console, use rstudioapi::restartSession().")
   }
 
   if (is.null(workdir)) {
@@ -105,15 +115,45 @@ restart <- function(status = 0L,
   if (rcmd_t == "") {
     stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
   }
- 
+
   as <- match.arg(as)
   if (as == "specified") {
   } else if (as == "current") {
-    if (is.null(args)) args <- cmdargs[-1]
+    if (is.null(args)) {
+      ## WORKAROUND: When running 'rtichoke', commandArgs() does not
+      ## reflect how it was started.
+      ## https://github.com/randy3k/rtichoke/issues/23#issuecomment-375078246
+      if (is_rtichoke()) {  
+        args <- Sys.getenv("RTICHOKE_COMMAND_ARGS")
+      } else {
+        args <- cmdargs[-1]
+      }
+    }
+    ## Restart quietly if current session was start quietly?
+    if (is.na(quiet)) quiet <- any(args %in% c("--quiet", "-q"))
   } else if (as %in% c("R CMD build", "R CMD check")) {
+    ## Source:
+    ##  - src/scripts/build
+    ##  - src/scripts/check
+    ## Also '--slave', but we disable that for now to make it clear
+    ## that the session is restarted.
+
+    if (is_rtichoke()) {
+      stop(sprintf("startup::restart(as = %s) is not supported when running R via rtichoke", dQuote(as)))
+    }
+    
     args <- c("--no-restore", args)
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
   } else if (as %in% c("R CMD INSTALL")) {
+    ## Source:
+    ##  - src/scripts/INSTALL
+    ## Also '--slave', but we disable that for now to make it clear
+    ## that the session is restarted.
+
+    if (is_rtichoke()) {
+      stop(sprintf("startup::restart(as = %s) is not supported when running R via rtichoke", dQuote(as)))
+    }
+    
     vanilla_install <- nzchar(Sys.getenv("R_INSTALL_VANILLA"))
     if (vanilla_install) {
       args <- c("--vanilla", args)
@@ -123,6 +163,18 @@ restart <- function(status = 0L,
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
   } else {
     stop("Unknown value on argument 'as': ", sQuote(as))
+  }
+
+  ## Restart quietly or not?
+  if (as != "specified") {
+    if (quiet) {
+      if (is_rtichoke()) {
+        stop("startup::restart(quiet = TRUE) is not supported when running R via rtichoke")
+      }
+      args <- c("--quiet", args)
+    } else {
+      args <- setdiff(args, "--quiet")
+    }
   }
   
   if (!is.null(envvars) && length(envvars) > 0L) {

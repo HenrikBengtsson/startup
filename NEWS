@@ -1,11 +1,61 @@
 Package: startup
 ================
 
+Version: 0.10.0 [2018-03-26]
+
+SIGNIFICANT CHANGES:
+
+ * Renviron and Rprofile startup files that use <key>=<value> filters with
+   non-declared keys are skipped.  Previously they were always processed.
+   This update makes it easier to include "secrets", e.g. files in folder
+   ~/.Renviron.d/private/SECRET=banana/ will only be included if the
+   environment variable 'SECRET' is set to exactly 'banana'.  An informative
+   warning, which can be disabled, will be produced by startup 0.10.* until
+   startup 0.11.0 is released.
+
+NEW FEATURES:
+
+ * Added is_debug_on() which returns TRUE if the startup debug mode is on.
+   To control the debug mode, see ?startup::startup.
+
+ * startup(debug = TRUE) reports on several R_* environment variables.
+   
+ * restart() gained argument 'quiet' for controlling whether the restart
+   should be quiet or not.
+
+ * Added flag 'microsoftr' to sysinfo() indicating whether R runs in
+   Microsoft R Open or not.
+
+ * Added flag 'pqr' to sysinfo() indicating whether running pqR ("A Pretty
+   Quick Version of R"), or not.
+
+ * Added flag 'rstudioterm' to sysinfo() indicating whether R runs in an
+   RStudio Terminal or not.  To test whether R runs via the RStudio Console,
+   use the 'rstudio' flag.
+
+ * Added flag 'rtichoke' to sysinfo() indicating whether R runs in rtichoke
+   (previously known as Rice) or not.  Please stop using the 'rice' flag and
+   start using the 'rtichoke' instead (both have identical values).
+
+ * The 'ess' flag of sysinfo() is now based on whether "ESSR" in search() or
+   not - used to check for environment variable 'EMACS' equaling "t" or not.
+
+ * Now startup::restart() also work when running R via 'rtichoke'.
+
+BUG FIX:
+
+ * startup::restart() would not work in the RStudio Terminal.  Note that it
+   does not work in the RStudio Console due to limitations in RStudio.
+
+ * On Windows, startup::startup() would produce a false warning on non-existing
+   'R_LIBS_USER' folders.
+
+
 Version: 0.9.0 [2018-01-09]
 
 NEW FEATURES:
 
- o Added restart() for restarting the current R session.  It can also be used
+ * Added restart() for restarting the current R session.  It can also be used
    to adjust various R command-line arguments and environment variables, e.g.
    restart(as = "R CMD build") mimics the 'R CMD build' setup as far as
    possible.
@@ -15,30 +65,30 @@ Version: 0.8.0 [2017-10-18]
 
 NEW FEATURES:
 
- o Added startup::current_script() which returns the .Rprofile.d/ pathname
+ * Added startup::current_script() which returns the .Rprofile.d/ pathname
    that is currently processed by startup::startup().
    
- o Added flag 'rice' to sysinfo() indicating whether R runs via Rice or not,
+ * Added flag 'rice' to sysinfo() indicating whether R runs via Rice or not,
    meaning it can be used as a file and directory name tag, e.g. rice=TRUE.
  
- o startup(debug = TRUE) outputs much more information on what has taken place
+ * startup(debug = TRUE) outputs much more information on what has taken place
    and what will take place through R's startup process.
 
- o startup() gained argument 'check' for controlling whether the content of
+ * startup() gained argument 'check' for controlling whether the content of
    startup files should be validated or not.
 
- o check(), and therefore also startup(check = TRUE), warns if R_LIBS,
+ * check(), and therefore also startup(check = TRUE), warns if R_LIBS,
    R_LIBS_SITE, or R_LIBS_USER specifies non-existing directory.
    
 
 DEPRECATED AND DEFUNCT:
 
- o DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
+ * DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
    and api()$rprofile().  Use renviron_d() and rprofile_d() instead.
 
 BUG FIXES:
 
- o Now install(backup = TRUE) guarantees that the .Rprofile file is backed up,
+ * Now install(backup = TRUE) guarantees that the .Rprofile file is backed up,
    otherwise an error is produced.  Previously it could silently fail if a
    backup file with the exact same name already existed.
 
@@ -46,24 +96,24 @@ Version: 0.7.0 [2017-09-04]
 
 SIGNIFICANT CHANGES:
 
- o Package requires R (>= 2.14.0; Oct 2011) - was R (>= 2.13.0; Apr 2011).
+ * Package requires R (>= 2.14.0; Oct 2011) - was R (>= 2.13.0; Apr 2011).
 
 NEW FEATURES:
 
- o Convenient session details are now gathered and recorded as R options
+ * Convenient session details are now gathered and recorded as R options
    immediately after processing '.Renviron.d' files.  These options, prefixed
    'startup.session.', are available while processing '.Rprofile.d' files and,
    by default, also after startup::startup() has completed.  For information
    on session details recorded, see help("startup_session_options").
 
- o Added a package vignette (available only in R >= 3.0.2).
+ * Added a package vignette (available only in R >= 3.0.2).
  
  
 Version: 0.6.1 [2017-05-16]
 
 BUG FIXES:
 
- o startup() ignores more of the hidden files and folders that macOS may create
+ * startup() ignores more of the hidden files and folders that macOS may create
    and which should not be sourced during startup.  For instance, when copying
    a file 'foo.R' to a non-macOS file system, an auxillary file '._foo.R' may
    be created as well.
@@ -73,29 +123,29 @@ Version: 0.6.0 [2017-04-30]
 
 SIGNIFICANT CHANGES:
 
- o Package requires R (>= 2.13.0; Apr 2011) - was R (>= 2.12.0; Oct 2010).
+ * Package requires R (>= 2.13.0; Apr 2011) - was R (>= 2.12.0; Oct 2010).
 
 NEW FEATURES:
 
- o New conditional <key>=<value> specification: an unknown '<key>' (i.e. one
+ * New conditional <key>=<value> specification: an unknown '<key>' (i.e. one
    that is not one of the known sysinfo() fields or 'package') will be
    interpreted as the name of an environment variable.  For instance, files
    path/LANGUAGE=en/*.R will be included only if system environment variable
    LANGUAGE equals 'en' (or is not set).
 
- o startup::install() now injects 'try(startup::startup())' such that 
+ * startup::install() now injects 'try(startup::startup())' such that 
    install.packages("startup") will work even when 'startup' is not installed,
    e.g. after a major-version R update.
 
- o startup::install() and startup::uninstall() now output messages on what is
+ * startup::install() and startup::uninstall() now output messages on what is
    done and why, and they now return the R startup file modified. They also
    produce a warning if startup is already installed or uninstalled,
    respectively.
 
- o startup::install() gained argument 'overwrite' to control whether to append
+ * startup::install() gained argument 'overwrite' to control whether to append
    (default) to a pre-existing R startup file or to overwrite it.
 
- o ROBUSTNESS: Backups now assert that not only the backup files are created,
+ * ROBUSTNESS: Backups now assert that not only the backup files are created,
    but also that they have the same file size as the original file.
 
 
@@ -103,21 +153,21 @@ Version: 0.5.0 [2017-02-12]
 
 NEW FEATURES:
 
- o Startup directory or file names that start with two or more periods are now
+ * Startup directory or file names that start with two or more periods are now
    excluded, e.g. ~/.Rprofile.d/..hide/test.R.
 
- o startup() protects against attempts to update R packages also via
+ * startup() protects against attempts to update R packages also via
    pacman::p_up() in addition to utils::update.packages().
 
- o Added flag 'ess' to sysinfo() indicating whether R runs under Emacs Speaks
+ * Added flag 'ess' to sysinfo() indicating whether R runs under Emacs Speaks
    Statistics (ESS) or not.
 
- o startup(debug = TRUE) detects if R_TESTS is set and reports which the file
+ * startup(debug = TRUE) detects if R_TESTS is set and reports which the file
    is and that the base package has already processed it.
 
 BUG FIXES:
 
- o Now startup() ignores macOS files named .DS_Store and directories named
+ * Now startup() ignores macOS files named .DS_Store and directories named
    __MACOSX (and their content).  Previously, such files could result
    in startup errors.
  
@@ -126,59 +176,61 @@ Version: 0.4.0 [2016-12-20]
 
 NEW FEATURES:
 
- o Now it is possible to do negated filename specifications, e.g.
+ * Now it is possible to do negated filename specifications, e.g.
    hpc,package=future/os!=windows.
    
- o Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0 (non-case
+ * Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0 (non-case
    sensitive), e.g. interactive=false and interactive=0.
    
- o Added element 'gui' to sysinfo().
+ * Added element 'gui' to sysinfo().
  
- o Added flags 'rstudio' and 'wine' to sysinfo() indicating whether R runs via
+ * Added flags 'rstudio' and 'wine' to sysinfo() indicating whether R runs via
    RStudio and via Linux Wine, respectively.
    
- o New conditional <key>=<value> specification: Directory and file names
+ * New conditional <key>=<value> specification: Directory and file names
    containing a package=<name> specification will be processed if and only if
    package <name> is installed.
    
- o Errors occurring while sourcing an Rprofile file now also contain
+ * Errors occurring while sourcing an Rprofile file now also contain
    information about in file the error occurred.  Lines with invalid syntax in
    Renviron files are ignored with a message outputted saying so.  Due to
    limitations in how base::readRenviron() works, it is not possible to detect
    these errors nor capture the outputted message.
   
- o Now objects are auto printed to match the behavior of the R startup process.
+ * Now objects are auto printed to match the behavior of the R startup process.
   
- o startup(debug = TRUE) now outputs time stamps since start per entry.
+ * startup(debug = TRUE) now outputs time stamps since start per entry.
 
 DEPRECATED AND DEFUNCT:
 
- o DEPRECATED: renviron() and rprofile() were renamed to renviron_d() and
+ * DEPRECATED: renviron() and rprofile() were renamed to renviron_d() and
    rprofile_d(), respectively.
 
 BUG FIXES:
 
- o BUG FIX: A file extension *.R would incorrectly become part of the <value>
-   in a trailing <key>=<value> specification.
+ * A file extension *.R would incorrectly become part of the <value> in a
+   trailing <key>=<value> specification.
   
- o BUG FIX: Now R_STARTUP_DEBUG=TRUE also works for Rscript; used to work only
-   for the R executable.
-  
+ * Now R_STARTUP_DEBUG=TRUE also works for Rscript; used to work only for the
+   R executable.
+
+ * Some macOS backup files would not be filtered out when running on Windows.
+ 
 
 Version: 0.3.0 [2016-11-21]
 
- o No updates.  First submission to CRAN.
+ * No updates.  First submission to CRAN.
 
 
 Version: 0.2.0 [2016-11-20]
 
 NEW FEATURES:
 
- o Add arguments sibling = FALSE to startup().  If sibling = TRUE, the
+ * Add arguments sibling = FALSE to startup().  If sibling = TRUE, the
    corresponding startup file needs to exist in the same location as the
    directory in order for the directory to be processed.
 
 
 Version: 0.1.0 [2016-11-15]
 
- o Package created. Adopted from a specialized .Rprofile script.
+ * Package created. Adopted from a specialized .Rprofile script.

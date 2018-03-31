@@ -42,10 +42,28 @@ files_apply <- function(files, fun,
   } else {
     type <- "r"
   }
+
   for (file in files) {
     logf(" - %s", file_info(file, type = type))
     call_fun(file)
   }
+
+  unknown_keys <- attr(files, "unknown_keys")
+  if (length(unknown_keys) > 0) {
+    unknown_files <- names(unknown_keys)
+##    for (file in unknown_files) {
+##      keys <- unknown_keys[[file]]
+##      reason <- sprintf("non-declared keys: %s",
+##                        paste(sQuote(keys), collapse = ", "))
+##      logf(" - [SKIPPED] %s", file_info(file, type = type, extra = reason))
+##    }
+    unknown_keys <- sort(unique(unlist(unknown_keys)))
+    logf(" [WARNING] skipped %d files with non-declared key names (%s)", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "))
+    if (getOption("startup.onskip", Sys.getenv("R_STARTUP_ONSKIP", "warn")) == "warn") {
+      warning(sprintf("The 'startup' package skipped %d files with non-declared key names (%s). This is a new behavior since startup (>= 0.10.0) - previously, these files would be processed also when those keys where undefined. This warning will disappear in startup (>= 0.11.0) - to disable it already now, set environment variable R_STARTUP_ONSKIP=ignore or option 'startup.onskip=\"ignore\"': %s", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "), paste(sQuote(unknown_files), collapse = ", ")), immediate. = TRUE)
+    }
+  }
+  
   logf("Processing %d %s files ... done", length(files), what)
   if (dryrun) log("(all files were skipped because startup.dryrun = TRUE)")
 

@@ -6,7 +6,7 @@
 \usage{
 restart(status = 0L, workdir = NULL, rcmd = NULL, args = NULL,
   envvars = NULL, as = c("current", "specified", "R CMD build",
-  "R CMD check", "R CMD INSTALL"), debug = NA)
+  "R CMD check", "R CMD INSTALL"), quiet = FALSE, debug = NA)
 }
 \arguments{
 \item{status}{An integer specifying the exit code of the current
@@ -30,6 +30,10 @@ be set when calling \R.}
 
 \item{as}{A character string specifying a predefined setups of \code{rcmd},
 \code{args}, and \code{envvars}.  For details, see below.}
+
+\item{quiet}{Should the restart be quiet or not?
+If \code{NA} and \code{as == "current"}, then \code{quiet} is \code{TRUE} if the current
+\R session was started quietly, otherwise \code{FALSE}.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
@@ -65,12 +69,14 @@ in \code{envvars} are \emph{appended} accordingly.
 
 \section{Known limitations}{
 
-It is \emph{not} possible to restart an \R session in RStudio using this
-function.
-Note, RStudio provides \code{.rs.restartR()} which will indeed restart the
-current \R session. However, it does not let you control how \R is
+It is \emph{not} possible to restart an \R session in the RStudio \emph{Console}
+using this function.  However, it does work when running \R in the
+RStudio Terminal.
+
+RStudio provides \code{rstudioapi::restartSession()} which will indeed restart
+the RStudio Console.  However, it does not let you control how \R is
 restarted, e.g. with what command-line options and what environment
-variables.  Furthermore, the new \R session will have the same set of
+variables.  Importantly, the new \R session will have the same set of
 packages loaded as before, the same variables in the global environment,
 and so on.
 }
@@ -79,6 +85,9 @@ and so on.
 \dontrun{
   ## Relaunch R with debugging of startup::startup() enabled
   startup::restart(envvars = c(R_STARTUP_DEBUG = TRUE))
+
+  ## Relaunch R without loading user Rprofile files
+  startup::restart(args = "--no-init-file")
 
   ## Mimic 'R CMD build' and 'R CMD check'
   startup::restart(as = "R CMD build")

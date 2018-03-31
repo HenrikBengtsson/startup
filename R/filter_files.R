@@ -87,6 +87,8 @@ filter_files_package <- function(files) {
 filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
   envs <- Sys.getenv()
 
+  unknown_keys <- NULL
+  
   for (op in c("=", "!=")) {
     ## Identify files specifying this <key>=<value>
     pattern <- sprintf("^([a-zA-Z_][a-zA-Z0-9_]*)%s([^=,/]*).*", op)
@@ -102,23 +104,37 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
 
     ## There could be more than one <key>=<name> specification
     ## per pathname that use the same <key>, e.g. package=nnn.
+    env_names <- names(envs)
     files_ok <- lapply(files_values[idxs], FUN = function(values) {
       keys <- names(values)
-      keep <- which(keys %in% names(envs))
-      if (length(keep) == 0) return(TRUE)
-      keys <- keys[keep]
-      values <- values[keep]
+      
+      ## Check for keys for which there exist *no* environment variable
+      missing <- keys[is.na(match(keys, env_names))]
+      if (length(missing) > 0) return(missing)
+      
       truth <- envs[keys]
       keep <- (values == truth)
       if (op == "!=") keep <- !keep
       all(keep)
     })
+    
+    ## Any files with un-declared 'key' in their pathnames?
+    has_unknown_keys <- which(unlist(lapply(files_ok, FUN = is.character)))
+    if (length(has_unknown_keys) > 0) {
+      unknown_keys_op <- files_ok[has_unknown_keys]
+      names(unknown_keys_op) <- files[idxs[has_unknown_keys]]
+      unknown_keys <- c(unknown_keys, unknown_keys_op)
+      files_ok[has_unknown_keys] <- FALSE
+    }
+    
     files_ok <- unlist(files_ok, use.names = FALSE)
     drop <- idxs[!files_ok]
 
     if (length(drop) > 0) files <- files[-drop]
   } ## for (op ...)
 
+  attr(files, "unknown_keys") <- unknown_keys
+  
   files
 } ## filter_files_env()
 
