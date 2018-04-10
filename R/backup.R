@@ -1,18 +1,18 @@
 backup <- function(file, quiet = FALSE) {
   if (quiet) notef <- function(...) NULL
 
-  stopifnot(file.exists(file))
+  stop_if_not(file.exists(file))
   size <- file_size(file)
   
   timestamp <- format(Sys.time(), "%Y%m%d-%H%M%S")
   backup_file <- sprintf("%s.bak.%s", file, timestamp)
-  stopifnot(!file.exists(backup_file))
+  stop_if_not(!file.exists(backup_file))
   res <- file.copy(file, backup_file, overwrite = FALSE)
 
   backup_size <- file_size(backup_file)
   notef("Backed up R startup file: %s (%d bytes) -> %s (%d bytes)",
         sQuote(file), size, sQuote(backup_file), backup_size)
-  stopifnot(file.exists(backup_file), identical(backup_size, size), res)
+  stop_if_not(file.exists(backup_file), identical(backup_size, size), res)
   
   backup_file
 }

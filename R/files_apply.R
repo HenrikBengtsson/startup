@@ -2,7 +2,7 @@ files_apply <- function(files, fun,
                         on_error = c("error", "warning", "immediate.warning",
                                      "message", "ignore"),
                         dryrun = NA, what = "Rprofile") {
-  stopifnot(is.function(fun))
+  stop_if_not(is.function(fun))
   on_error <- match.arg(on_error)
 
   ## Nothing to do?

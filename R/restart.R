@@ -110,7 +110,7 @@ restart <- function(status = 0L,
   cmdargs <- commandArgs()
 
   if (is.null(rcmd)) rcmd <- cmdargs[1]
-  stopifnot(length(rcmd) == 1L, is.character(rcmd))
+  stop_if_not(length(rcmd) == 1L, is.character(rcmd))
   rcmd_t <- Sys.which(rcmd)
   if (rcmd_t == "") {
     stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
@@ -178,7 +178,7 @@ restart <- function(status = 0L,
   }
   
   if (!is.null(envvars) && length(envvars) > 0L) {
-    stopifnot(!is.null(names(envvars)))
+    stop_if_not(!is.null(names(envvars)))
     envvars <- sprintf("%s=%s", names(envvars), shQuote(envvars))
   }
 
