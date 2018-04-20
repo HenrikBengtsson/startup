@@ -5,13 +5,13 @@
 #'
 #' @param name (optional) The name of the toolbox environment.
 #' 
+#' @param pos (optional) A numeric. If specified, the toolbox will be moved
+#' to this location on the search path.
+#' 
 #' @details
-#' Your tools will be kept first on the [search][base::search] path.
-#' For instance, if one of your tools have the same name as a function in
-#' an _attached_ package, your tool will be used.
-#' This is achieved by always moving the 'mytoolbox' environment (where your
-#' tools sits) to the front of the [search][base::search] path whenever the
-#' `startup::mytoolbox()` function is called.
+#' One or more of your tools in your toolbox may be masked by functions in
+#' _attached_ packages.  To avoid this, move your toolbox to the front of
+#' the [search][base::search] path by calling `startup::mytoolbox(pos = 2L)`.
 #' 
 #' @examples
 #' ## Add tools to the toolbox
@@ -30,17 +30,17 @@
 #'                               pkgs = ".", repos = NULL)
 #' })
 #'
-#' ## List all tools in the toolbox (and move toolbox to the front)
+#' ## List all tools in the toolbox
 #' startup::mytoolbox()
 #' 
 #' @export
-mytoolbox <- function(expr = ls(all.names = TRUE), name = "startup::mytoolbox") {
+mytoolbox <- function(expr = ls(all.names = TRUE), name = "startup::mytoolbox", pos = NULL) {
   expr <- substitute(expr)
   envir <- mytoolboxenv(name = name)
   res <- withVisible(eval(expr, envir = envir))
 
-  ## Move 'mytoolbox' to the front of the search path
-  mytoolboxenv(pos = 2L)
+  ## Move the toolbox on the search path?
+  if (is.numeric(pos)) mytoolboxenv(pos = pos, name = name)
 
   if (res$visible) res$value else invisible(res$value)
 }
