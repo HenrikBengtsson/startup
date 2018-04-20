@@ -11,7 +11,10 @@ NEW FEATURES:
    
  * Added partial() for creating tweaked version of existing functions by
    overriding one or more of the default arguments.
- 
+
+ * startup(debug = TRUE) reports on search path and loaded namespaces,
+   and what packages will be attached after startup finishes.
+   
 
 Version: 0.10.0 [2018-03-26]
 
