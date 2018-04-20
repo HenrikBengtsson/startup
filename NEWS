@@ -1,16 +1,17 @@
 Package: startup
 ================
 
-Version: 0.10.0-9000 [2018-04-19]
+Version: 0.10.0-9000 [2018-04-20]
 
 NEW FEATURES:
 
- * Added mytoolbox() for organizing personal tools in separate 'mytoolbox'
-   environment on the search path.  This way your customized functions and
-   variables won't be removed if the global environment is erased.
+ * Added mytoolbox() for organizing personal tools in separate "toolbox"
+   environments on the search path.  This way your customized functions
+   and variables won't be removed if the global environment is erased.
    
  * Added partial() for creating tweaked version of existing functions by
-   overriding one or more of the default arguments.
+   overriding one or more of the default arguments.  This is a utility
+   function to be used with mytoolbox().
 
  * startup(debug = TRUE) reports on search path and loaded namespaces,
    and what packages will be attached after startup finishes.
