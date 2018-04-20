@@ -1,4 +1,4 @@
-#' Organize Your Own Toolbox
+#' Organize Your Own Toolboxes
 #' 
 #' @param expr An \R expression to be evaluated inside an 'toolbox'
 #' environment.
@@ -38,6 +38,11 @@
 #'
 #' ## List all tools in all toolboxes
 #' startup::toolbox()
+#'
+#' ## Remove one of the tools
+#' startup::toolbox({
+#'   rm(list = "Q")
+#' })
 #'
 #' \dontrun{
 #' ## Remove toolbox by moving it to position zero

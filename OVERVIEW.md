@@ -99,6 +99,7 @@ To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
 
+
 ### Secrets (conditionally on an environment variable)
 
 As of startup 0.10.0, Renviron and Rprofile startup files with a non-declared `<key>` in their file names are skipped.  A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.
@@ -126,6 +127,46 @@ $ SECRET=badguess R
 or if `SECRET` is unset.
 
 _Comment:_ You can used whichever variable name you like, it does not have to be `SECRET`.  And, the "password" `banana` is obviously just an example.
+
+
+### Toolboxes for your very own tools
+
+Many users have their own customied functions that simplify everyday life.
+Such functions can be easily be defined in Rprofile startup files.
+For instance, a user may define a function `Q()` to quickly quit R without
+prompting whether to save the workspace or not;
+
+```r
+Q <- function() quit(save = "no")
+```
+
+However, such assignments are done to the global environment, which means
+they may be overwritten or removed by mistake.  A better approach is to
+assign them to a separate environment on R's search path using the `toolbox()`
+function:
+
+```r
+startup::toolbox(
+  Q <- function() quit(save = "no")
+)
+```
+
+You can add multiple functions in a single `toolbox()` call, or via multiple
+calls;
+
+```r
+startup::toolbox(
+  ll <- startup::partial(ls, all.names = TRUE)
+)
+```
+
+To list the content of all your toolboxes, use:
+
+```r
+> startup::toolbox()
+$ default
+[1] "ll" "Q"
+```
 
 
 ## Known limitations

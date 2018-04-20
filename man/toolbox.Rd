@@ -2,7 +2,7 @@
 % Please edit documentation in R/toolbox.R
 \name{toolbox}
 \alias{toolbox}
-\title{Organize Your Own Toolbox}
+\title{Organize Your Own Toolboxes}
 \usage{
 toolbox(expr = NULL, name = "default", pos = NULL)
 }
@@ -20,7 +20,7 @@ The value of the evaluated expression.  If \code{expr} is \code{NULL}
 (default), then a named list of the content of all toolboxes.
 }
 \description{
-Organize Your Own Toolbox
+Organize Your Own Toolboxes
 }
 \details{
 One or more of your tools in your toolbox may be masked by functions in
@@ -49,6 +49,11 @@ startup::toolbox({
 
 ## List all tools in all toolboxes
 startup::toolbox()
+
+## Remove one of the tools
+startup::toolbox({
+  rm(list = "Q")
+})
 
 \dontrun{
 ## Remove toolbox by moving it to position zero
