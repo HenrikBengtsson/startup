@@ -6,7 +6,7 @@
 #' @param name (optional) The name of the toolbox environment.
 #' 
 #' @param pos (optional) A numeric. If specified, the toolbox will be moved
-#' to this location on the search path.
+#' to this location on the search path.  If `pos = 0`, the toolbox is removed.
 #'
 #' @return The value of the evaluated expression.  If `expr` is `NULL`
 #' (default), then a named list of the content of all toolboxes.

@@ -13,7 +13,7 @@ environment.}
 \item{name}{(optional) The name of the toolbox environment.}
 
 \item{pos}{(optional) A numeric. If specified, the toolbox will be moved
-to this location on the search path.}
+to this location on the search path.  If \code{pos = 0}, the toolbox is removed.}
 }
 \value{
 The value of the evaluated expression.  If \code{expr} is \code{NULL}
