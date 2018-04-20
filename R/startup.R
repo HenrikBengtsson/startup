@@ -216,5 +216,10 @@ startup <- function(sibling = FALSE, all = FALSE,
     }
   }
 
+  if (is.element("startup::mytoolbox", search())) {
+    logf("- Moving 'startup::mytoolbox' to the front of the search path")
+    mytoolboxenv(2L)
+  }
+  
   invisible(res)
 }

@@ -4,14 +4,24 @@
 \alias{mytoolbox}
 \title{Organize Your Toolbox}
 \usage{
-mytoolbox(expr = ls(all.names = TRUE))
+mytoolbox(expr = ls(all.names = TRUE), name = "startup::mytoolbox")
 }
 \arguments{
 \item{expr}{An \R expression to be evaluated inside the 'mytoolbox'
 environment.  The default is to list all tools in the toolbox.}
+
+\item{name}{(optional) The name of the toolbox environment.}
 }
 \description{
 Organize Your Toolbox
+}
+\details{
+Your tools will be kept first on the \link[base:search]{search} path.
+For instance, if one of your tools have the same name as a function in
+an \emph{attached} package, your tool will be used.
+This is achieved by always moving the 'mytoolbox' environment (where your
+tools sits) to the front of the \link[base:search]{search} path whenever the
+\code{startup::mytoolbox()} function is called.
 }
 \examples{
 ## Add tools to the toolbox
@@ -30,7 +40,7 @@ startup::mytoolbox({
                               pkgs = ".", repos = NULL)
 })
 
-## List all tools in the toolbox
+## List all tools in the toolbox (and move toolbox to the front)
 startup::mytoolbox()
 
 }
