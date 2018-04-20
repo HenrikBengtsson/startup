@@ -23,6 +23,9 @@ Organize Your Toolbox
 One or more of your tools in your toolbox may be masked by functions in
 \emph{attached} packages.  To avoid this, move your toolbox to the front of
 the \link[base:search]{search} path by calling \code{startup::mytoolbox(pos = 2L)}.
+
+An empty toolbox environment is removed automatically.  To empty one, use
+\code{startup::mytoolbox(rm(list = ls(all.names = TRUE)))}.
 }
 \examples{
 ## Add tools to the toolbox

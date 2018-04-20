@@ -12,6 +12,9 @@
 #' One or more of your tools in your toolbox may be masked by functions in
 #' _attached_ packages.  To avoid this, move your toolbox to the front of
 #' the [search][base::search] path by calling `startup::mytoolbox(pos = 2L)`.
+#'
+#' An empty toolbox environment is removed automatically.  To empty one, use
+#' `startup::mytoolbox(rm(list = ls(all.names = TRUE)))`.
 #' 
 #' @examples
 #' ## Add tools to the toolbox
@@ -32,6 +35,11 @@
 #'
 #' ## List all tools in the toolbox
 #' startup::mytoolbox()
+#'
+#' \dontrun{
+#' ## Remove toolbox by emptying it
+#' startup::mytoolbox(rm(list = ls(all.names = TRUE)))
+#' }
 #' 
 #' @export
 mytoolbox <- function(expr = ls(all.names = TRUE), name = "startup::mytoolbox", pos = NULL) {
@@ -42,6 +50,10 @@ mytoolbox <- function(expr = ls(all.names = TRUE), name = "startup::mytoolbox", 
   ## Move the toolbox on the search path?
   if (is.numeric(pos)) mytoolboxenv(pos = pos, name = name)
 
+  ## Remove toolbox iff it's empty
+  if (length(ls(envir = envir, all.names = TRUE, sorted = FALSE)) == 0L)
+    mytoolboxenv(remove = TRUE, name = name)
+  
   if (res$visible) res$value else invisible(res$value)
 }
 
