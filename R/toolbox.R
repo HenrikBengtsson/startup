@@ -1,24 +1,27 @@
-#' Organize Your Toolbox
+#' Organize Your Own Toolbox
 #' 
-#' @param expr An \R expression to be evaluated inside the 'mytoolbox'
-#' environment.  The default is to list all tools in the toolbox.
+#' @param expr An \R expression to be evaluated inside an 'toolbox'
+#' environment.
 #'
 #' @param name (optional) The name of the toolbox environment.
 #' 
 #' @param pos (optional) A numeric. If specified, the toolbox will be moved
 #' to this location on the search path.
+#'
+#' @return The value of the evaluated expression.  If `expr` is `NULL`
+#' (default), then a named list of the content of all toolboxes.
 #' 
 #' @details
 #' One or more of your tools in your toolbox may be masked by functions in
 #' _attached_ packages.  To avoid this, move your toolbox to the front of
-#' the [search][base::search] path by calling `startup::mytoolbox(pos = 2L)`.
+#' the [search][base::search] path by calling `startup::toolbox(pos = 2L)`.
 #'
-#' An empty toolbox environment is removed automatically.  To empty one, use
-#' `startup::mytoolbox(rm(list = ls(all.names = TRUE)))`.
+#' An empty toolbox environment is removed automatically.
+#' To remove a toolbox, either empty it or move it to position zero or less.
 #' 
 #' @examples
 #' ## Add tools to the toolbox
-#' startup::mytoolbox({
+#' startup::toolbox({
 #'   ## Quit R without questions
 #'   Q <- function(save = "no", ...) quit(save = save, ...)
 #'
@@ -27,42 +30,58 @@
 #' })
 #'
 #' ## Add another tool to the toolbox
-#' startup::mytoolbox({
+#' startup::toolbox({
 #'   ## Install package in current directory from source
 #'   install <- startup::partial(utils::install.packages,
 #'                               pkgs = ".", repos = NULL)
 #' })
 #'
-#' ## List all tools in the toolbox
-#' startup::mytoolbox()
+#' ## List all tools in all toolboxes
+#' startup::toolbox()
 #'
 #' \dontrun{
-#' ## Remove toolbox by emptying it
-#' startup::mytoolbox(rm(list = ls(all.names = TRUE)))
+#' ## Remove toolbox by moving it to position zero
+#' startup::toolbox(pos = 0)
 #' }
 #' 
 #' @export
-mytoolbox <- function(expr = ls(all.names = TRUE), name = "startup::mytoolbox", pos = NULL) {
+toolbox <- function(expr = NULL, name = "default", pos = NULL) {
   expr <- substitute(expr)
-  envir <- mytoolboxenv(name = name)
+
+  envir <- toolboxenv(name = name)
   res <- withVisible(eval(expr, envir = envir))
 
-  ## Move the toolbox on the search path?
-  if (is.numeric(pos)) mytoolboxenv(pos = pos, name = name)
+  ## Get current set of tools
+  objs <- ls(envir = envir, all.names = TRUE, sorted = FALSE)
 
-  ## Remove toolbox iff it's empty
-  if (length(ls(envir = envir, all.names = TRUE, sorted = FALSE)) == 0L)
-    mytoolboxenv(remove = TRUE, name = name)
+  if (is.numeric(pos)) {
+    if (pos <= 0)
+      objs <- NULL
+    else
+      toolboxenv(pos = pos, name = name)
+  }
   
-  if (res$visible) res$value else invisible(res$value)
+  ## Remove toolbox? (iff it's empty)
+  if (length(objs) == 0L) toolboxenv(remove = TRUE, name = name)
+
+  if (!is.null(expr))
+    if (res$visible) return(res$value) else return(invisible(res$value))
+  
+  ## Get content of all toolboxes?
+  names <- grep("^toolbox:", search(), value = TRUE)
+  res <- lapply(names, FUN = ls, all.names = TRUE, sorted = TRUE)
+  names(res) <- sub("^toolbox:", "", names)
+  
+  res
 }
 
 
-mytoolboxenv <- function(pos = NULL, remove = FALSE, name = "startup::mytoolbox") {
+toolboxenv <- function(pos = NULL, remove = FALSE, name = "default") {
   attach_toolbox <- function(what = NULL, pos = 2L) {
     ## Avoid false-positive NOTE from R CMD check
     do.call(attach, args = list(what = what, name = name, pos = pos))
   }
+  name <- paste0("toolbox:", name)
   idx <- match(name, search())
   env <- if (is.na(idx)) NULL else as.environment(name)
   if (remove) {
