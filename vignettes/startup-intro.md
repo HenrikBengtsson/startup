@@ -190,7 +190,7 @@ Renviron startup files is a convenient and cross-platform way of setting environ
 
 Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
 
-Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  An example(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1):
+Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  Examples(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1) are:
 
 * `HOME` - the user's home directory
 * `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,
