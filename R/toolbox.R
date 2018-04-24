@@ -3,6 +3,9 @@
 #' @param expr An \R expression to be evaluated inside an 'toolbox'
 #' environment.
 #'
+#' @param file (optional) If specified, a file name or a connection containing
+#' \R code used instead of the `expr` expression.
+#' 
 #' @param name (optional) The name of the toolbox environment.
 #' 
 #' @param pos (optional) A numeric. If specified, the toolbox will be moved
@@ -50,9 +53,9 @@
 #' }
 #' 
 #' @export
-toolbox <- function(expr = NULL, name = "default", pos = NULL) {
+toolbox <- function(expr = NULL, file = NULL, name = "default", pos = NULL) {
   expr <- substitute(expr)
-
+  if (!is.null(file)) expr <- parse(file = file)
   envir <- toolboxenv(name = name)
   res <- withVisible(eval(expr, envir = envir))
 

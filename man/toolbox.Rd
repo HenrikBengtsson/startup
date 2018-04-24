@@ -4,11 +4,14 @@
 \alias{toolbox}
 \title{Organize Your Own Toolboxes}
 \usage{
-toolbox(expr = NULL, name = "default", pos = NULL)
+toolbox(expr = NULL, file = NULL, name = "default", pos = NULL)
 }
 \arguments{
 \item{expr}{An \R expression to be evaluated inside an 'toolbox'
 environment.}
+
+\item{file}{(optional) If specified, a file name or a connection containing
+\R code used instead of the \code{expr} expression.}
 
 \item{name}{(optional) The name of the toolbox environment.}
 
