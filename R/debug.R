@@ -1,6 +1,6 @@
 #' Checks whether startup debug is on or not
 #'
-#' @return Returns `TRUE` is debug is enabled and `FALSE` othewise.
+#' @return Returns `TRUE` is debug is enabled and `FALSE` otherwise.
 #'
 #' @details
 #' The debug mode is when [startup::startup()] is called, either explicitly

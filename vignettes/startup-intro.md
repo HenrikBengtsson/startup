@@ -139,7 +139,7 @@ _Comment:_ You can used whichever variable name you like, it does not have to be
 
 ### Toolboxes for your very own tools
 
-Many users have their own customied functions that simplify everyday life.
+Many users have their own customized functions that simplify everyday life.
 Such functions can be easily be defined in Rprofile startup files.
 For instance, a user may define a function `Q()` to quickly quit R without
 prompting whether to save the workspace or not;
