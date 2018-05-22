@@ -7,7 +7,7 @@
 is_debug_on()
 }
 \value{
-Returns \code{TRUE} is debug is enabled and \code{FALSE} othewise.
+Returns \code{TRUE} is debug is enabled and \code{FALSE} otherwise.
 }
 \description{
 Checks whether startup debug is on or not

@@ -69,6 +69,9 @@ in \code{envvars} are \emph{appended} accordingly.
 
 \section{Known limitations}{
 
+It is \emph{not} possible to restart an \R session in the Windows RGui_
+using this function.
+
 It is \emph{not} possible to restart an \R session in the RStudio \emph{Console}
 using this function.  However, it does work when running \R in the
 RStudio Terminal.

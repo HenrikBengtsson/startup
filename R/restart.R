@@ -56,6 +56,9 @@
 #' in `envvars` are _appended_ accordingly.
 #'
 #' @section Known limitations:
+#' It is _not_ possible to restart an \R session in the Windows RGui_
+#' using this function.
+#' 
 #' It is _not_ possible to restart an \R session in the RStudio _Console_
 #' using this function.  However, it does work when running \R in the
 #' RStudio Terminal.
@@ -94,11 +97,16 @@ restart <- function(status = 0L,
   debug(debug)
   logf("Restarting R ...")
 
-  ## The RStudio Console cannot be restart this way
+  ## The RStudio Console cannot be restarted this way
   if (is_rstudio_console()) {
     stop("R sessions run via the RStudio Console cannot be restarted using startup::restart(). It is possible to restart R in an RStudio Terminal. To restart an R session in the RStudio Console, use rstudioapi::restartSession().")
   }
 
+  ## The Windows RGui cannot be restarted this way
+  if (sysinfo()$gui == "Rgui") {
+    stop("R sessions run via the Windows RGui cannot be restarted using startup::restart().")
+  }
+  
   if (is.null(workdir)) {
     workdir <- startup_session_options()$startup.session.startdir
   }
