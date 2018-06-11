@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.10.0-9000 [2018-05-23]
+Version: 0.10.0-9000 [2018-06-11]
 
 NEW FEATURES:
 
@@ -20,6 +20,12 @@ NEW FEATURES:
  * Calling startup::restart() in the Windows RGui now produces an error
    clarifying that the RGui cannot be restarted this way.
 
+BUG FIXES:
+
+ o startup::startup(check = TRUE) would give "Error in if (!eof_ok(file)) { : 
+   argument is of length zero" on Windows if the Rprofile file checked is
+   a symbolic link.
+   
 
 Version: 0.10.0 [2018-03-26]
 
@@ -62,7 +68,7 @@ NEW FEATURES:
 
  * Now startup::restart() also work when running R via 'rtichoke'.
 
-BUG FIX:
+BUG FIXES:
 
  * startup::restart() would not work in the RStudio Terminal.  Note that it
    does not work in the RStudio Console due to limitations in RStudio.
