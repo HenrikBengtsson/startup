@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.10.0-9000 [2018-06-11]
+Version: 0.10.0-9000 [2018-07-14]
 
 NEW FEATURES:
 
@@ -10,6 +10,9 @@ NEW FEATURES:
 
  * Calling startup::restart() in the Windows RGui now produces an error
    clarifying that the RGui cannot be restarted this way.
+
+ * Added character 'dirname' to sysinfo() specifying the basename of the
+   current working directory.
 
  * Added toolbox() for organizing "toolbox" environments on the search path
    where you can put your custom tools (functions and other objects). Tools
