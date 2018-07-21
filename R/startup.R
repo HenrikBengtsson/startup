@@ -125,7 +125,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env"))
     }
 
-    pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")   
+    pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")
     if (pkgs == "") {
       ## In R (< 3.5.0), the 'methods' package is _not_ attached when Rscript
       ## is used.  In R (>= 3.5.0), the 'methods' package is always attached
