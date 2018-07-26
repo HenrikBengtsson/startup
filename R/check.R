@@ -147,9 +147,14 @@ check_r_libs_env_vars <- function(debug = FALSE) {
         npaths <- length(paths)
         if (npaths > 0) {
           pathsx <- normalizePath(paths, mustWork = FALSE)
-          paths <- paste(sQuote(paths), collapse = ", ")
-          pathsx <- paste(sQuote(pathsx), collapse = ", ")
-          msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths()", sQuote(var), npaths, paths, pathsx)
+          pathsq <- paste(sQuote(paths), collapse = ", ")
+          pathsQ <- paste(sprintf("\"%s\"", paths), collapse = ", ")
+          pathsxq <- paste(sQuote(pathsx), collapse = ", ")
+          if (npaths == 1L) {
+            msg <- sprintf("Environment variable %s specifies a non-existing folder %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", sQuote(var), pathsq, pathsxq, pathsQ)
+          } else {
+            msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", sQuote(var), npaths, pathsq, pathsxq, pathsQ)
+          }
           warning(msg)
         }
       }
