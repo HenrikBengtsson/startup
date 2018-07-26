@@ -189,7 +189,9 @@ check_rstudio_option_error_conflict <- function(debug = FALSE) {
     if (is_file(config_file)) {
       config <- readLines(config_file, warn = FALSE)
       ## 'Debug -> On Error' is _not_ set.  Nothing to warn about
-      if (!any(grepl("errorHandlerType", config))) return()
+      config <- grep("errorHandlerType=", config, fixed = TRUE, value = TRUE)
+      if (length(config) == 0L) return()
+      if (any(grepl("errorHandlerType=\"3\"", config, fixed = TRUE))) return()
     }
   }
   
