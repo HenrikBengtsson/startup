@@ -23,3 +23,38 @@ eof_ok <- function(file) {
   if (n == 0L) return(FALSE)
   is.element(bfr[n], charToRaw("\n\r"))
 }
+
+is_dir <- function(f) nzchar(f) && file.exists(f) && file.info(f)$isdir
+
+is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
+
+nlines <- function(f) {
+  bfr <- readLines(f, warn = FALSE)
+  bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
+  bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
+  length(bfr)
+}
+
+## base::file.size() was only introduced in R 3.2.0
+file_size <- function(...) file.info(..., extra_cols = FALSE)$size
+
+file_info <- function(f, type = "txt", normalize = FALSE, extra = NULL) {
+  if (normalize) f <- normalizePath(f, mustWork = FALSE)
+  if (!is.null(extra)) {
+    extra <- paste0("; ", extra)
+  } else {
+    extra <- ""
+  }
+  if (type == "binary") {
+    sprintf("%s (binary file; %d bytes%s)", sQuote(f), file_size(f), extra)
+  } else if (type == "env") {
+    sprintf("%s (%d lines; %d bytes%s)",
+            sQuote(f), nlines(f), file_size(f), extra)
+  } else if (type == "r") {
+    sprintf("%s (%d code lines; %d bytes%s)",
+            sQuote(f), nlines(f), file_size(f), extra)
+  } else {
+    sprintf("%s (%d lines; %d bytes%s)",
+            sQuote(f), nlines(f), file_size(f), extra)
+  }
+}
