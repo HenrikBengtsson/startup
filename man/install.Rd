@@ -35,7 +35,8 @@ startup directories by appending / removing one line of code to the
 \section{Functions}{
 \itemize{
 \item \code{install}: injects a \code{try(startup::startup())} call to the
-\file{.Rprofile}.
+\file{.Rprofile} file (created if missing) and creates empty folders
+\file{.Renviron.d/} and \file{.Rprofile.d/}, if missing.
 
 \item \code{uninstall}: Remove calls to \code{startup::startup()} and similar.
 }}

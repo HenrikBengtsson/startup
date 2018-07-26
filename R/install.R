@@ -21,7 +21,8 @@
 #' @return The pathname of the R startup file modified.
 #'
 #' @describeIn install injects a `try(startup::startup())` call to the
-#' \file{.Rprofile}.
+#' \file{.Rprofile} file (created if missing) and creates empty folders
+#' \file{.Renviron.d/} and \file{.Rprofile.d/}, if missing.
 #'
 #' @export
 install <- function(path = "~", backup = TRUE, overwrite = FALSE,
