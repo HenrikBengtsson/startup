@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.10.0-9000 [2018-07-14]
+Version: 0.10.0-9000 [2018-07-26]
 
 NEW FEATURES:
 
@@ -25,7 +25,10 @@ NEW FEATURES:
 
 BUG FIXES:
 
- o startup::startup(check = TRUE) would give "Error in if (!eof_ok(file)) { : 
+ * startup::install() would append the startup::startup() statement to the
+   last line in .Rprofile if that line (incorrectly) did not have a newline.
+
+ * startup::startup(check = TRUE) would give "Error in if (!eof_ok(file)) { : 
    argument is of length zero" on Windows if the Rprofile file checked is
    a symbolic link.
    
