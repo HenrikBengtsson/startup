@@ -30,8 +30,7 @@ check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
                                 debug = debug)
   
   check_rprofile_update_packages(all = all, debug = debug)
-  check_r_libs_env_vars()
-
+  
   if (!fix) {
     log("All startup files checked. If there were files with issues, they were not corrected because fix = FALSE.")
   } else {
@@ -160,4 +159,39 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       }
     }
   }
+}
+
+
+check_rstudio_option_error_conflict <- function(debug = FALSE) {
+  ## Nothing to do?
+  if (is.null(getOption("error")) || !is_rstudio_console()) return()
+
+  ## If possible, detect when 'Debug -> On Error' is _not_ set in RStudio.
+  ## If so, then skip the warning, because that is a case when RStudio Console
+  ## does not override 'error'.
+  config_root <- "~/.rstudio-desktop"
+  if (!is_dir(config_root) && sysinfo()$os == "windows") {
+    ## Officially documented root folder for RStudio configuration files
+    ## Source: https://support.rstudio.com/hc/en-us/articles/200534577-Resetting-RStudio-Desktop-s-State
+    
+    ## Alternatives on (a) Windows Vista 7, 8, ... and (b) Windows XP
+    config_root <- file.path(Sys.getenv("localappdata"), "RStudio-Desktop")
+    if (!is_dir(config_root)) {
+      config_root <- file.path(Sys.getenv("USERPROFILE"), "Local Settings",
+                               "Application Data", "RStudio-Desktop")
+    }
+  }
+  if (is_dir(config_root)) {
+    ## Non-official configuration file found by reverse engineering only,
+    ## cf. https://github.com/HenrikBengtsson/startup/issues/59
+    config_file <- file.path(config_root, "monitored", "user-settings",
+                             "user-settings")
+    if (is_file(config_file)) {
+      config <- readLines(config_file, warn = FALSE)
+      ## 'Debug -> On Error' is _not_ set.  Nothing to warn about
+      if (!any(grepl("errorHandlerType", config))) return()
+    }
+  }
+  
+  warning("CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio setting (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }

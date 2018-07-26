@@ -187,6 +187,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   # (ii) Load custom .Rprofile.d/* files
   rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
              dryrun = dryrun, on_error = on_error)
+
+  ## (iii) Detect and report on run-time startup issues
+  check_r_libs_env_vars(debug = debug)
+  check_rstudio_option_error_conflict(debug = debug)
   
   res <- api()
 

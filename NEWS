@@ -17,6 +17,9 @@ NEW FEATURES:
  * startup::check(fix = TRUE) now returns the pathnames of any files that
    needed to be fixed and was successfully updated.
 
+ * startup() now gives an informative warning option 'error' set during the
+   R startup will be overridden by RStudio's debug settings.
+
  * Added toolbox() for organizing "toolbox" environments on the search path
    where you can put your custom tools (functions and other objects). Tools
    in a toolbox are protected from what is going on in the global environment,
