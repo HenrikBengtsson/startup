@@ -184,7 +184,7 @@ Renviron startup files is a convenient and cross-platform way of setting environ
 
 * `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
-* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The The `%p` and `%v` parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
+* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The `%p` (platform) and `%v` (version) parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
 * `R_MAX_NUM_DLLS`, cf. `?dyn.load`
 
 Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
