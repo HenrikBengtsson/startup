@@ -69,6 +69,7 @@ If the name of a file consists of a `<key>=<value>` specification, then that fil
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
 * System values:
+  - `dirname`     - (character) the name of the current working directory (= `basename(getwd())`)
   - `gui`         - (character) the graphical user interface (= `.Platform$GUI`)
   - `nodename`    - (character) the host name (= `Sys.info()[["nodename"]]`)
   - `machine`     - (character) the machine type (= `Sys.info()[["machine"]]`)
@@ -87,11 +88,9 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
 
 
-You can also include files conditionally on whether a package is installed or not:
+You can also include files conditionally on:
 
-  - `package`     - (character) whether a package is installed or not
-
-In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
+  - `package`     - (character) whether a package is installed or not.  In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
 Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped_.
 
@@ -131,7 +130,7 @@ _Comment:_ You can used whichever variable name you like, it does not have to be
 
 ### Toolboxes for your very own tools
 
-Many users have their own customied functions that simplify everyday life.
+Many users have their own customized functions that simplify everyday life.
 Such functions can be easily be defined in Rprofile startup files.
 For instance, a user may define a function `Q()` to quickly quit R without
 prompting whether to save the workspace or not;
@@ -177,7 +176,7 @@ Renviron startup files is a convenient and cross-platform way of setting environ
 
 * `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
-* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The The `%p` and `%v` parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
+* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The `%p` (platform) and `%v` (version) parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
 * `R_MAX_NUM_DLLS`, cf. `?dyn.load`
 
 Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
