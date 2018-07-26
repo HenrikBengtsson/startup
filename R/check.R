@@ -195,5 +195,5 @@ check_rstudio_option_error_conflict <- function(debug = FALSE) {
     }
   }
   
-  warning("CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio setting (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
+  warning("CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
