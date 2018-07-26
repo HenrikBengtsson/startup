@@ -13,6 +13,10 @@
 #'
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
+#' @return Returns invisibly a character vector of files that were "fixed"
+#' (modified), if any.  If no files needed to be fixed, or `fix = TRUE`,
+#' then an empty vector is returned.
+#' 
 #' @references
 #' 1. R-devel thread 'Last line in .Rprofile must have newline (PR#4056)',
 #'    2003-09-03,
@@ -20,9 +24,25 @@
 #'
 #' @export
 check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
-  check_rprofile_eof(all = all, fix = fix, backup = backup, debug = debug)
+  debug(debug)
+  
+  updated <- check_rprofile_eof(all = all, fix = fix, backup = backup,
+                                debug = debug)
+  
   check_rprofile_update_packages(all = all, debug = debug)
   check_r_libs_env_vars()
+
+  if (!fix) {
+    log("All startup files checked. If there were files with issues, they were not corrected because fix = FALSE.")
+  } else {
+    if (length(updated) == 0L) {
+      log("All startup files checked. No files were fixed.")
+    } else {
+      logf("All startup files checked. The following files were fixed (modified): %s", paste(sQuote(updated), collapse = ", "))
+    }
+  }
+  
+  invisible(updated)
 }
 
 
@@ -38,6 +58,8 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
     is.element(bfr[n], charToRaw("\n\r"))
   }
 
+  updated <- character(0L)
+
   debug(debug)
   if (is.null(files)) files <- find_rprofile(all = all)
 
@@ -48,6 +70,10 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
         if (backup) backup(file)
         ## Try to fix it by appending a newline
         try(cat(file = file, "\n", append = TRUE))
+
+        ## Record that the file was updated
+        updated <- c(updated, file)
+        
         if (eof_ok(file)) {
           msg <- sprintf("SYNTAX ISSUE FIXED: Added missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process.", file)  #nolint
           warning(msg)
@@ -61,6 +87,8 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
       }
     }
   }
+
+  invisible(updated)
 }
 
 

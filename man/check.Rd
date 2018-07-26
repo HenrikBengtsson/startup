@@ -18,6 +18,11 @@ created before modifying it, otherwise not.}
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
+\value{
+Returns invisibly a character vector of files that were "fixed"
+(modified), if any.  If no files needed to be fixed, or \code{fix = TRUE},
+then an empty vector is returned.
+}
 \description{
 Check for and fix common mistakes in \file{.Rprofile} files.
 }
