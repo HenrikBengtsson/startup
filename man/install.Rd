@@ -6,7 +6,8 @@
 \title{Install and uninstall support for .Renviron.d and .Rprofile.d startup
 directories}
 \usage{
-install(path = "~", backup = TRUE, overwrite = FALSE, quiet = FALSE)
+install(path = "~", backup = TRUE, overwrite = FALSE,
+  quiet = FALSE)
 
 uninstall(path = "~", backup = TRUE, quiet = FALSE)
 }

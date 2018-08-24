@@ -11,13 +11,15 @@
 renviron_d(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   dryrun = NA, debug = NA, paths = NULL)
 
-rprofile_d(sibling = FALSE, all = FALSE, check = NA, unload = FALSE,
-  skip = NA, on_error = c("error", "warning", "immediate.warning",
-  "message", "ignore"), dryrun = NA, debug = NA, paths = NULL)
+rprofile_d(sibling = FALSE, all = FALSE, check = NA,
+  unload = FALSE, skip = NA, on_error = c("error", "warning",
+  "immediate.warning", "message", "ignore"), dryrun = NA, debug = NA,
+  paths = NULL)
 
-startup(sibling = FALSE, all = FALSE, on_error = c("error", "warning",
-  "immediate.warning", "message", "ignore"), keep = c("options"),
-  check = NA, unload = TRUE, skip = NA, dryrun = NA, debug = NA)
+startup(sibling = FALSE, all = FALSE, on_error = c("error",
+  "warning", "immediate.warning", "message", "ignore"),
+  keep = c("options"), check = NA, unload = TRUE, skip = NA,
+  dryrun = NA, debug = NA)
 }
 \arguments{
 \item{sibling}{If \code{TRUE}, then only \file{.Renviron.d/} and

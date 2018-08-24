@@ -11,5 +11,5 @@ License: LGPL (>= 2.1)
 LazyLoad: TRUE
 URL: https://github.com/HenrikBengtsson/startup
 BugReports: https://github.com/HenrikBengtsson/startup/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Roxygen: list(markdown = TRUE)
