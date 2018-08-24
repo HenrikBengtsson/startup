@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.10.0-9000 [2018-07-26]
+Version: 0.10.0-9000 [2018-08-24]
 
 NEW FEATURES:
 
@@ -20,6 +20,10 @@ NEW FEATURES:
  * startup() now gives an informative warning if option 'error' is set during
    the R startup and it will be overridden by RStudio's debug settings.
 
+ * check(), and therefore also startup(check = TRUE), warns if R_ENVIRON,
+   R_ENVIRON_USER, R_PROFILE, R_PROFILE_USER, R_BUILD_ENVIRON, or
+   R_CHECK_ENVIRON specifies non-existing files.
+   
  * Added toolbox() for organizing "toolbox" environments on the search path
    where you can put your custom tools (functions and other objects). Tools
    in a toolbox are protected from what is going on in the global environment,
