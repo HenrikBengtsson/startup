@@ -89,19 +89,18 @@ startup <- function(sibling = FALSE, all = FALSE,
     r_os <- .Platform$OS.type
 
     logf("System information:")
-    logf("- R_HOME: %s", sQuote(Sys.getenv("R_HOME")))
+    logf("- R_HOME: %s", path_info(Sys.getenv("R_HOME")))
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", sQuote(getwd()))
-    logf("- User's home directory (%s): %s",
-         sQuote("~"), sQuote(normalizePath("~", mustWork = FALSE)))
+    logf("- User's home directory: %s", path_info("~"))
     logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(sQuote(loadedNamespaces()), collapse = ", "))
 
     logf("The following has already been processed by R:")
 
-    logf("- R_ENVIRON: %s", sQuote(Sys.getenv("R_ENVIRON")))
-    logf("- R_ENVIRON_USER: %s", sQuote(Sys.getenv("R_ENVIRON_USER")))
+    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON")))
+    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER")))
     
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
@@ -149,8 +148,8 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R_LIBS_SITE: %s", sQuote(Sys.getenv("R_LIBS_SITE")))
     logf("- R_LIBS_USER: %s", sQuote(Sys.getenv("R_LIBS_USER")))
 
-    logf("- R_PROFILE: %s", sQuote(Sys.getenv("R_PROFILE")))
-    logf("- R_PROFILE_USER: %s", sQuote(Sys.getenv("R_PROFILE_USER")))
+    logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
+    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")

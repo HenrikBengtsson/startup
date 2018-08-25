@@ -38,23 +38,54 @@ nlines <- function(f) {
 ## base::file.size() was only introduced in R 3.2.0
 file_size <- function(...) file.info(..., extra_cols = FALSE)$size
 
-file_info <- function(f, type = "txt", normalize = FALSE, extra = NULL) {
-  if (normalize) f <- normalizePath(f, mustWork = FALSE)
+path_info <- function(f, extra = NULL) {
+  if (!nzchar(f)) return(sQuote(""))
+  fx <- path.expand(f)
   if (!is.null(extra)) {
     extra <- paste0("; ", extra)
   } else {
     extra <- ""
   }
+
+  if (!is_dir(f)) {
+    return(sprintf("%s (non-existing directory%s)", sQuote(f), extra))
+  }
+
+  if (fx == f) {
+    sprintf("%s (existing folder%s)", sQuote(f), extra)
+  } else {
+    sprintf("%s => %s (existing folder%s)", sQuote(f), sQuote(fx), extra)
+  }
+}
+
+
+file_info <- function(f, type = "txt", extra = NULL) {
+  if (!nzchar(f)) return(sQuote(""))
+  fx <- path.expand(f)
+  if (!is.null(extra)) {
+    extra <- paste0("; ", extra)
+  } else {
+    extra <- ""
+  }
+  if (!is_file(f)) {
+    return(sprintf("%s (non-existing file%s)", sQuote(f), extra))
+  }
+
+  if (fx == f) {
+    prefix <- sQuote(f)
+  } else {
+    prefix <- sprintf("%s => %s", sQuote(f), sQuote(fx))
+  }
   if (type == "binary") {
-    sprintf("%s (binary file; %d bytes%s)", sQuote(f), file_size(f), extra)
+    sprintf("%s (binary file; %d bytes%s)", prefix, file_size(f), extra)
   } else if (type == "env") {
     sprintf("%s (%d lines; %d bytes%s)",
-            sQuote(f), nlines(f), file_size(f), extra)
+            prefix, nlines(f), file_size(f), extra)
   } else if (type == "r") {
     sprintf("%s (%d code lines; %d bytes%s)",
-            sQuote(f), nlines(f), file_size(f), extra)
+            prefix, nlines(f), file_size(f), extra)
   } else {
     sprintf("%s (%d lines; %d bytes%s)",
-            sQuote(f), nlines(f), file_size(f), extra)
+            prefix, nlines(f), file_size(f), extra)
   }
 }

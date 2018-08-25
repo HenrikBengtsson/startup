@@ -20,10 +20,14 @@ NEW FEATURES:
  * startup() now gives an informative warning if option 'error' is set during
    the R startup and it will be overridden by RStudio's debug settings.
 
- * check(), and therefore also startup(check = TRUE), warns if R_ENVIRON,
-   R_ENVIRON_USER, R_PROFILE, R_PROFILE_USER, R_BUILD_ENVIRON, or
-   R_CHECK_ENVIRON specifies non-existing files.
-   
+ * startup(check = TRUE), warns if R_ENVIRON, R_ENVIRON_USER, R_PROFILE,
+   R_PROFILE_USER, R_BUILD_ENVIRON, or R_CHECK_ENVIRON specifies non-existing
+   files.
+
+ * startup(debug = TRUE) now also displays the expanded path to any file or
+   folder listed.  It also gives information of files that known environment
+   variables (e.g. R_ENVIRON_USER) points to.
+
  * Added toolbox() for organizing "toolbox" environments on the search path
    where you can put your custom tools (functions and other objects). Tools
    in a toolbox are protected from what is going on in the global environment,
