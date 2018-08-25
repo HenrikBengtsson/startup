@@ -5,29 +5,31 @@ Version: 0.10.0-9000 [2018-08-24]
 
 NEW FEATURES:
 
+ * startup(debug = TRUE) now also displays the expanded path to any file or
+   folder listed.  It also gives information of files that known environment
+   variables (e.g. R_ENVIRON_USER) points to.  For Renviron files, it also
+   reports on names of the environment variables set in each of those files.
+
  * startup(debug = TRUE) reports on search path and loaded namespaces,
    and what packages will be attached after startup finishes.
 
- * Calling startup::restart() in the Windows RGui now produces an error
-   clarifying that the RGui cannot be restarted this way.
-
  * Added character 'dirname' to sysinfo() specifying the basename of the
    current working directory.
-
- * startup::check(fix = TRUE) now returns the pathnames of any files that
-   needed to be fixed and was successfully updated.
-
- * startup() now gives an informative warning if option 'error' is set during
-   the R startup and it will be overridden by RStudio's debug settings.
 
  * startup(check = TRUE), warns if R_ENVIRON, R_ENVIRON_USER, R_PROFILE,
    R_PROFILE_USER, R_BUILD_ENVIRON, or R_CHECK_ENVIRON specifies non-existing
    files.
 
- * startup(debug = TRUE) now also displays the expanded path to any file or
-   folder listed.  It also gives information of files that known environment
-   variables (e.g. R_ENVIRON_USER) points to.  For Renviron files, it also
-   reports on names of the environment variables set in each of those files.
+ * startup::check(fix = TRUE) now returns the pathnames of any files that
+   needed to be fixed and was successfully updated.
+
+ * RStudio: startup() now gives an informative warning if option 'error' is
+   set during the R startup and it will be overridden by RStudio's debug
+   settings.
+
+ * Windows: Calling startup::restart() in the Windows RGui now produces an
+   error clarifying that the RGui cannot be restarted this way.
+
 
 BUG FIXES:
 
