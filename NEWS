@@ -29,15 +29,6 @@ NEW FEATURES:
    variables (e.g. R_ENVIRON_USER) points to.  For Renviron files, it also
    reports on names of the environment variables set in each of those files.
 
- * Added toolbox() for organizing "toolbox" environments on the search path
-   where you can put your custom tools (functions and other objects). Tools
-   in a toolbox are protected from what is going on in the global environment,
-   e.g. they are less likely to be overwritten or removed by mistake.
-   
- * Added partial() for creating tweaked version of existing functions by
-   overriding one or more of the default arguments.  This is a utility
-   function to be used with toolbox().
-
 BUG FIXES:
 
  * startup::install() would append the startup::startup() statement to the
