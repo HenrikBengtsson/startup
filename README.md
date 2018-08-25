@@ -130,46 +130,6 @@ or if `SECRET` is unset.
 _Comment:_ You can used whichever variable name you like, it does not have to be `SECRET`.  And, the "password" `banana` is obviously just an example.
 
 
-### Toolboxes for your very own tools
-
-Many users have their own customized functions that simplify everyday life.
-Such functions can be easily be defined in Rprofile startup files.
-For instance, a user may define a function `Q()` to quickly quit R without
-prompting whether to save the workspace or not;
-
-```r
-Q <- function() quit(save = "no")
-```
-
-However, such assignments are done to the global environment, which means
-they may be overwritten or removed by mistake.  A better approach is to
-assign them to a separate environment on R's search path using the `toolbox()`
-function:
-
-```r
-startup::toolbox(
-  Q <- function() quit(save = "no")
-)
-```
-
-You can add multiple functions in a single `toolbox()` call, or via multiple
-calls;
-
-```r
-startup::toolbox(
-  ll <- startup::partial(ls, all.names = TRUE)
-)
-```
-
-To list the content of all your toolboxes, use:
-
-```r
-> startup::toolbox()
-$ default
-[1] "ll" "Q"
-```
-
-
 ## Known limitations
 
 ### Setting environment variables during startup
