@@ -79,8 +79,15 @@ file_info <- function(f, type = "txt", extra = NULL) {
   if (type == "binary") {
     sprintf("%s (binary file; %d bytes%s)", prefix, file_size(f), extra)
   } else if (type == "env") {
-    sprintf("%s (%d lines; %d bytes%s)",
-            prefix, nlines(f), file_size(f), extra)
+    vars <- names(parse_renviron(f))
+    nvars <- length(vars)
+    if (nvars > 0) {
+      vars <- sprintf(" (%s)", paste(sQuote(vars), collapse = ", "))
+    } else {
+      vars <- ""
+    }
+    sprintf("%s (%d lines; %d bytes%s) setting %d environment variables%s",
+            prefix, nlines(f), file_size(f), extra, nvars, vars)
   } else if (type == "r") {
     sprintf("%s (%d code lines; %d bytes%s)",
             prefix, nlines(f), file_size(f), extra)
@@ -88,4 +95,17 @@ file_info <- function(f, type = "txt", extra = NULL) {
     sprintf("%s (%d lines; %d bytes%s)",
             prefix, nlines(f), file_size(f), extra)
   }
+}
+
+parse_renviron <- function(f) {
+  bfr <- readLines(f, warn = FALSE)
+  bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
+  bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
+  bfr <- grep("=.*$", bfr, value = TRUE)
+  pattern <- "^(.*)[ \t]*=[ \t]*(.*)$"
+  bfr <- grep(pattern, bfr, value = TRUE)
+  names <- gsub(pattern, "\\1", bfr)
+  values <- gsub(pattern, "\\2", bfr)
+  names(values) <- names
+  values
 }

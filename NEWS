@@ -26,7 +26,8 @@ NEW FEATURES:
 
  * startup(debug = TRUE) now also displays the expanded path to any file or
    folder listed.  It also gives information of files that known environment
-   variables (e.g. R_ENVIRON_USER) points to.
+   variables (e.g. R_ENVIRON_USER) points to.  For Renviron files, it also
+   reports on names of the environment variables set in each of those files.
 
  * Added toolbox() for organizing "toolbox" environments on the search path
    where you can put your custom tools (functions and other objects). Tools

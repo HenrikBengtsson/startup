@@ -99,8 +99,8 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     logf("The following has already been processed by R:")
 
-    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON")))
-    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER")))
+    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON"), type = "env"))
+    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER"), type = "env"))
     
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
