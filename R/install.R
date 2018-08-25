@@ -57,7 +57,7 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
 
   ## If the .Rprofile file does not have a newline at the end, which is
   ## a mistake, make sure that the appended startup code is on its own line
-  if (file_exists && !eof_ok(file)) code <- paste0("\n", code)
+  if (file_exists && !eof_ok(file)) code <- paste("\n", code, sep = "")
   
   cat(code, file = file, append = !overwrite)
   if (file_exists) {

@@ -245,7 +245,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     }
 
     pkgs <- unlist(strsplit(pkgs, split = ",", fixed = TRUE))
-    to_be_attached <- !is.element(paste0("package:", pkgs), search())
+    to_be_attached <- !is.element(paste("package:", pkgs, sep = ""), search())
     pkgs <- pkgs[to_be_attached]
     logf("- Remaining packages to be attached per R_DEFAULT_PACKAGES (in order): %s",
          paste(sQuote(pkgs), collapse = ", "))
