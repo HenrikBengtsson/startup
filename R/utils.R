@@ -42,7 +42,7 @@ path_info <- function(f, extra = NULL) {
   if (!nzchar(f)) return(sQuote(""))
   fx <- path.expand(f)
   if (!is.null(extra)) {
-    extra <- paste0("; ", extra)
+    extra <- paste("; ", extra, sep = "")
   } else {
     extra <- ""
   }
@@ -63,7 +63,7 @@ file_info <- function(f, type = "txt", extra = NULL) {
   if (!nzchar(f)) return(sQuote(""))
   fx <- path.expand(f)
   if (!is.null(extra)) {
-    extra <- paste0("; ", extra)
+    extra <- paste("; ", extra, sep = "")
   } else {
     extra <- ""
   }
