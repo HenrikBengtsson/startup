@@ -23,5 +23,8 @@ sysinfo <- function() {
   sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$wine <- is_wine()
 
+  ## Session-specific variables (character)
+  sysinfo$dirname <- basename(getwd())
+  
   sysinfo
 }

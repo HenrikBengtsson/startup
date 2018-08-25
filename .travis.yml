@@ -29,8 +29,7 @@ matrix:
     - os: linux
       r: devel
     - os: osx
-#      r: oldrel
-      r: 3.3.2
+      r: oldrel
     - os: osx
       r: release
 

@@ -21,7 +21,8 @@
 #' @return The pathname of the R startup file modified.
 #'
 #' @describeIn install injects a `try(startup::startup())` call to the
-#' \file{.Rprofile}.
+#' \file{.Rprofile} file (created if missing) and creates empty folders
+#' \file{.Renviron.d/} and \file{.Rprofile.d/}, if missing.
 #'
 #' @export
 install <- function(path = "~", backup = TRUE, overwrite = FALSE,
@@ -51,7 +52,14 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
 
   file_exists <- file.exists(file)
   if (backup && file_exists) backup(file, quiet = quiet)
-  cat("try(startup::startup())\n", file = file, append = !overwrite)
+
+  code <- "try(startup::startup())\n"
+
+  ## If the .Rprofile file does not have a newline at the end, which is
+  ## a mistake, make sure that the appended startup code is on its own line
+  if (file_exists && !eof_ok(file)) code <- paste("\n", code, sep = "")
+  
+  cat(code, file = file, append = !overwrite)
   if (file_exists) {
     notef("%s 'try(startup::startup())' to already existing R startup file: %s",
           if (overwrite) "Appended" else "Added", sQuote(file))

@@ -89,16 +89,18 @@ startup <- function(sibling = FALSE, all = FALSE,
     r_os <- .Platform$OS.type
 
     logf("System information:")
-    logf("- R_HOME: %s", sQuote(Sys.getenv("R_HOME")))
+    logf("- R_HOME: %s", path_info(Sys.getenv("R_HOME")))
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", sQuote(getwd()))
-    logf("- User's home directory (%s): %s",
-         sQuote("~"), sQuote(normalizePath("~", mustWork = FALSE)))
+    logf("- User's home directory: %s", path_info("~"))
+    logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
+    logf("- Loaded namespaces: %s",
+         paste(sQuote(loadedNamespaces()), collapse = ", "))
 
     logf("The following has already been processed by R:")
 
-    logf("- R_ENVIRON: %s", sQuote(Sys.getenv("R_ENVIRON")))
-    logf("- R_ENVIRON_USER: %s", sQuote(Sys.getenv("R_ENVIRON_USER")))
+    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON"), type = "env"))
+    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER"), type = "env"))
     
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
@@ -122,13 +124,32 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env"))
     }
 
-    logf("- R_DEFAULT_PACKAGES: %s", sQuote(Sys.getenv("R_DEFAULT_PACKAGES")))
+    pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")
+    if (pkgs == "") {
+      ## In R (< 3.5.0), the 'methods' package is _not_ attached when Rscript
+      ## is used.  In R (>= 3.5.0), the 'methods' package is always attached
+      ## by default.  If attached, the 'methods' package is attached at the
+      ## very beginning when R is started moments after the 'base' package is
+      ## attached.  This is contrary to all other packages which are attached
+      ## below.
+      ## An good-enough test to check if running Rscript (< 3.5.0):
+      if (getRversion() < "3.5.0" &&
+          basename(cmd_args[1]) %in% c("Rscript", "Rscript.exe")) {
+        pkgs <- "base,datasets,utils,grDevices,graphics,stats"
+      } else {
+        pkgs <- "base,methods,datasets,utils,grDevices,graphics,stats"
+      }
+      logf("- R_DEFAULT_PACKAGES: %s (= %s)", sQuote(""), sQuote(pkgs))
+    } else {
+      logf("- R_DEFAULT_PACKAGES: %s", sQuote(pkgs))
+    }
+
     logf("- R_LIBS: %s", sQuote(Sys.getenv("R_LIBS")))
     logf("- R_LIBS_SITE: %s", sQuote(Sys.getenv("R_LIBS_SITE")))
     logf("- R_LIBS_USER: %s", sQuote(Sys.getenv("R_LIBS_USER")))
 
-    logf("- R_PROFILE: %s", sQuote(Sys.getenv("R_PROFILE")))
-    logf("- R_PROFILE_USER: %s", sQuote(Sys.getenv("R_PROFILE_USER")))
+    logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
+    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
@@ -166,6 +187,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
              dryrun = dryrun, on_error = on_error)
 
+  ## (iii) Detect and report on run-time startup issues
+  check_r_libs_env_vars(debug = debug)
+  check_rstudio_option_error_conflict(debug = debug)
+  
   res <- api()
 
   ## (iii) Cleanup?
@@ -195,6 +220,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   if (unload) unload(debug = debug)
 
   if (debug) {
+    logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
+    logf("- Loaded namespaces: %s",
+         paste(sQuote(loadedNamespaces()), collapse = ", "))
+
     interactive <- interactive()
 
     logf("startup::startup()-specific processing ... done")
@@ -214,7 +243,13 @@ startup <- function(sibling = FALSE, all = FALSE,
         logf("- %s", file_info(f, type = "txt"))
       }
     }
-  }
 
+    pkgs <- unlist(strsplit(pkgs, split = ",", fixed = TRUE))
+    to_be_attached <- !is.element(paste("package:", pkgs, sep = ""), search())
+    pkgs <- pkgs[to_be_attached]
+    logf("- Remaining packages to be attached per R_DEFAULT_PACKAGES (in order): %s",
+         paste(sQuote(pkgs), collapse = ", "))
+  }
+  
   invisible(res)
 }

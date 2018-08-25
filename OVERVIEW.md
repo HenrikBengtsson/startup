@@ -69,6 +69,7 @@ If the name of a file consists of a `<key>=<value>` specification, then that fil
 The following `startup::sysinfo()` keys are available for conditional inclusion of files by their path names:
 
 * System values:
+  - `dirname`     - (character) the name of the current working directory (= `basename(getwd())`)
   - `gui`         - (character) the graphical user interface (= `.Platform$GUI`)
   - `nodename`    - (character) the host name (= `Sys.info()[["nodename"]]`)
   - `machine`     - (character) the machine type (= `Sys.info()[["machine"]]`)
@@ -87,17 +88,16 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
 
 
-You can also include files conditionally on whether a package is installed or not:
+You can also include files conditionally on:
 
-  - `package`     - (character) whether a package is installed or not
-
-In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
+  - `package`     - (character) whether a package is installed or not.  In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
 Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped_.
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
 It is also possible to negate a conditional filename test by using the `<key>!=<value>` specification.  For instance, `~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package `doMC` is installed and the operating system is not Windows.
+
 
 ### Secrets (conditionally on an environment variable)
 
@@ -132,16 +132,16 @@ _Comment:_ You can used whichever variable name you like, it does not have to be
 
 ### Setting environment variables during startup
 
-Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  An example(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
+Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  Examples(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
 
 * `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
-* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The The `%p` and `%v` parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
+* `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The `%p` (platform) and `%v` (version) parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
 * `R_MAX_NUM_DLLS`, cf. `?dyn.load`
 
 Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.setenv()` in `.Rprofile` (Step 2) or `.Rprofile.d/*` files (Step 3c), _will be ignored by R itself_ - despite being reflected by `Sys.getenv()`.
 
-Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  An example(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1):
+Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  Examples(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1) are:
 
 * `HOME` - the user's home directory
 * `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,

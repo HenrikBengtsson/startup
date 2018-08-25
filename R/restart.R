@@ -56,6 +56,9 @@
 #' in `envvars` are _appended_ accordingly.
 #'
 #' @section Known limitations:
+#' It is _not_ possible to restart an \R session in the Windows RGui_
+#' using this function.
+#' 
 #' It is _not_ possible to restart an \R session in the RStudio _Console_
 #' using this function.  However, it does work when running \R in the
 #' RStudio Terminal.
@@ -94,11 +97,16 @@ restart <- function(status = 0L,
   debug(debug)
   logf("Restarting R ...")
 
-  ## The RStudio Console cannot be restart this way
+  ## The RStudio Console cannot be restarted this way
   if (is_rstudio_console()) {
     stop("R sessions run via the RStudio Console cannot be restarted using startup::restart(). It is possible to restart R in an RStudio Terminal. To restart an R session in the RStudio Console, use rstudioapi::restartSession().")
   }
 
+  ## The Windows RGui cannot be restarted this way
+  if (sysinfo()$gui == "Rgui") {
+    stop("R sessions run via the Windows RGui cannot be restarted using startup::restart().")
+  }
+  
   if (is.null(workdir)) {
     workdir <- startup_session_options()$startup.session.startdir
   }
@@ -110,7 +118,7 @@ restart <- function(status = 0L,
   cmdargs <- commandArgs()
 
   if (is.null(rcmd)) rcmd <- cmdargs[1]
-  stopifnot(length(rcmd) == 1L, is.character(rcmd))
+  stop_if_not(length(rcmd) == 1L, is.character(rcmd))
   rcmd_t <- Sys.which(rcmd)
   if (rcmd_t == "") {
     stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
@@ -178,7 +186,7 @@ restart <- function(status = 0L,
   }
   
   if (!is.null(envvars) && length(envvars) > 0L) {
-    stopifnot(!is.null(names(envvars)))
+    stop_if_not(!is.null(names(envvars)))
     envvars <- sprintf("%s=%s", names(envvars), shQuote(envvars))
   }
 

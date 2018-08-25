@@ -13,6 +13,10 @@
 #'
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
+#' @return Returns invisibly a character vector of files that were "fixed"
+#' (modified), if any.  If no files needed to be fixed, or `fix = TRUE`,
+#' then an empty vector is returned.
+#' 
 #' @references
 #' 1. R-devel thread 'Last line in .Rprofile must have newline (PR#4056)',
 #'    2003-09-03,
@@ -20,9 +24,24 @@
 #'
 #' @export
 check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
-  check_rprofile_eof(all = all, fix = fix, backup = backup, debug = debug)
+  debug(debug)
+  
+  updated <- check_rprofile_eof(all = all, fix = fix, backup = backup,
+                                debug = debug)
+  
   check_rprofile_update_packages(all = all, debug = debug)
-  check_r_libs_env_vars()
+  
+  if (!fix) {
+    log("All startup files checked. If there were files with issues, they were not corrected because fix = FALSE.")
+  } else {
+    if (length(updated) == 0L) {
+      log("All startup files checked. No files were fixed.")
+    } else {
+      logf("All startup files checked. The following files were fixed (modified): %s", paste(sQuote(updated), collapse = ", "))
+    }
+  }
+  
+  invisible(updated)
 }
 
 
@@ -30,9 +49,15 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
                                backup = TRUE, debug = FALSE) {
   eof_ok <- function(file) {
     size <- file.info(file)$size
+    ## On Windows, symbolic links give size = 0
+    if (.Platform$OS.type == "windows" && size == 0L) size <- 1e9
     bfr <- readBin(file, what = "raw", n = size)
-    is.element(bfr[size], charToRaw("\n\r"))
+    n <- length(bfr)
+    if (n == 0L) return(FALSE)
+    is.element(bfr[n], charToRaw("\n\r"))
   }
+
+  updated <- character(0L)
 
   debug(debug)
   if (is.null(files)) files <- find_rprofile(all = all)
@@ -44,6 +69,10 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
         if (backup) backup(file)
         ## Try to fix it by appending a newline
         try(cat(file = file, "\n", append = TRUE))
+
+        ## Record that the file was updated
+        updated <- c(updated, file)
+        
         if (eof_ok(file)) {
           msg <- sprintf("SYNTAX ISSUE FIXED: Added missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process.", file)  #nolint
           warning(msg)
@@ -57,6 +86,8 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
       }
     }
   }
+
+  invisible(updated)
 }
 
 
@@ -104,23 +135,92 @@ check_r_libs_env_vars <- function(debug = FALSE) {
   vars <- c("R_LIBS", "R_LIBS_SITE", "R_LIBS_USER")
   for (var in vars) {
     path <- Sys.getenv(var)
-    if (nzchar(path)) {
-      ## Don't check intential "dummy" specification, e.g.
-      ## non-existing-dummy-folder
-      is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
-      if (!is_dummy) {
-        paths <- unlist(strsplit(path, split = .Platform$path.sep, fixed = TRUE))
-        paths <- unique(paths)
-        paths <- paths[!is_dir(paths)]
-        npaths <- length(paths)
-        if (npaths > 0) {
-          pathsx <- normalizePath(paths, mustWork = FALSE)
-          paths <- paste(sQuote(paths), collapse = ", ")
-          pathsx <- paste(sQuote(pathsx), collapse = ", ")
-          msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths()", sQuote(var), npaths, paths, pathsx)
-          warning(msg)
-        }
+    if (!nzchar(path)) next
+    
+    ## Don't check intential "dummy" specification, e.g.
+    ## non-existing-dummy-folder
+    is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
+    if (is_dummy) next
+    
+    paths <- unlist(strsplit(path, split = .Platform$path.sep, fixed = TRUE))
+    paths <- unique(paths)
+    paths <- paths[!is_dir(paths)]
+    npaths <- length(paths)
+    if (npaths > 0) {
+      pathsx <- normalizePath(paths, mustWork = FALSE)
+      pathsq <- paste(sQuote(paths), collapse = ", ")
+      pathsQ <- paste(sprintf("\"%s\"", paths), collapse = ", ")
+      pathsxq <- paste(sQuote(pathsx), collapse = ", ")
+      if (npaths == 1L) {
+        msg <- sprintf("Environment variable %s specifies a non-existing folder %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", sQuote(var), pathsq, pathsxq, pathsQ)
+      } else {
+        msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", sQuote(var), npaths, pathsq, pathsxq, pathsQ)
       }
+      warning(msg, call. = FALSE)
     }
   }
+
+  vars <- c("R_PROFILE", "R_PROFILE_USER", "R_ENVIRON", "R_ENVIRON_USER")
+  for (var in vars) {
+    pathname <- Sys.getenv(var)
+    if (!nzchar(pathname)) next
+    
+    if (!is_file(pathname)) {
+      pathnamex <- normalizePath(pathname, mustWork = FALSE)
+      msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which R will silently ignore",
+                     sQuote(var), sQuote(pathname), sQuote(pathnamex))
+      warning(msg, call. = FALSE)
+    }
+  }
+
+  vars <- c(build = "R_BUILD_ENVIRON", check = "R_CHECK_ENVIRON")
+  for (key in names(vars)) {
+    var <- vars[key]
+    pathname <- Sys.getenv(var)
+    if (!nzchar(pathname)) next
+    
+    if (!is_file(pathname)) {
+      pathnamex <- normalizePath(pathname, mustWork = FALSE)
+      msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which 'R CMD %s' will silently ignore",
+                     sQuote(var), sQuote(pathname), sQuote(pathnamex), key)
+      warning(msg, call. = FALSE)
+    }
+  }
+}
+
+
+check_rstudio_option_error_conflict <- function(debug = FALSE) {
+  ## Nothing to do?
+  if (is.null(getOption("error")) || !is_rstudio_console()) return()
+
+  ## If possible, detect when 'Debug -> On Error' is _not_ set in RStudio.
+  ## If so, then skip the warning, because that is a case when RStudio Console
+  ## does not override 'error'.
+  config_root <- "~/.rstudio-desktop"
+  if (!is_dir(config_root) && sysinfo()$os == "windows") {
+    ## Officially documented root folder for RStudio configuration files
+    ## Source: https://support.rstudio.com/hc/en-us/articles/200534577-Resetting-RStudio-Desktop-s-State
+    
+    ## Alternatives on (a) Windows Vista 7, 8, ... and (b) Windows XP
+    config_root <- file.path(Sys.getenv("localappdata"), "RStudio-Desktop")
+    if (!is_dir(config_root)) {
+      config_root <- file.path(Sys.getenv("USERPROFILE"), "Local Settings",
+                               "Application Data", "RStudio-Desktop")
+    }
+  }
+  if (is_dir(config_root)) {
+    ## Non-official configuration file found by reverse engineering only,
+    ## cf. https://github.com/HenrikBengtsson/startup/issues/59
+    config_file <- file.path(config_root, "monitored", "user-settings",
+                             "user-settings")
+    if (is_file(config_file)) {
+      config <- readLines(config_file, warn = FALSE)
+      ## 'Debug -> On Error' is _not_ set.  Nothing to warn about
+      config <- grep("errorHandlerType=", config, fixed = TRUE, value = TRUE)
+      if (length(config) == 0L) return()
+      if (any(grepl("errorHandlerType=\"3\"", config, fixed = TRUE))) return()
+    }
+  }
+  
+  warning("CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
