@@ -48,7 +48,7 @@ files_apply <- function(files, fun,
     call_fun(file)
   }
 
-  unknown_keys <- attr(files, "unknown_keys")
+  unknown_keys <- attr(files, "unknown_keys", exact = TRUE)
   if (length(unknown_keys) > 0) {
     unknown_files <- names(unknown_keys)
 ##    for (file in unknown_files) {
