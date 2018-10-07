@@ -230,8 +230,10 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("The following will be processed next by R:")
 
     no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
+    loads_RData <- FALSE
     if (!no_restore_data) {
       if (is_file(f <- "./.RData")) {
+        loads_RData <- TRUE
         logf("- %s", file_info(f, type = "binary"))
       }
     }
@@ -247,6 +249,8 @@ startup <- function(sibling = FALSE, all = FALSE,
     where <- find(".First", mode = "function")
     if (where > 0) {
       logf("- .First(): in %s (position %d on search())", sQuote(search()[where]), where)
+    } else if (loads_RData) {
+      logf("- .First(): no such function on search(), but it might be that one is defined in the ./RData file")
     } else {
       logf("- .First(): no such function on search()")
     }
