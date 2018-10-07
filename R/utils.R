@@ -109,3 +109,14 @@ parse_renviron <- function(f) {
   names(values) <- names
   values
 }
+
+find <- function(what, mode) {
+  paths <- search()
+  for (pos in seq_along(paths)) {
+    if (exists(what, mode = mode, where = pos, inherits = FALSE)) {
+      return(structure(pos, names = names(paths)[pos]))
+    }
+  }
+  -1L
+}
+

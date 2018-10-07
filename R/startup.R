@@ -244,10 +244,17 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
     }
 
+    where <- find(".First", mode = "function")
+    if (where > 0) {
+      logf("- .First(): in %s (position %d on search())", sQuote(search()[where]), where)
+    } else {
+      logf("- .First(): no such function on search()")
+    }
+
     pkgs <- unlist(strsplit(pkgs, split = ",", fixed = TRUE))
     to_be_attached <- !is.element(paste("package:", pkgs, sep = ""), search())
     pkgs <- pkgs[to_be_attached]
-    logf("- Remaining packages to be attached per R_DEFAULT_PACKAGES (in order): %s",
+    logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
          paste(sQuote(pkgs), collapse = ", "))
   }
   
