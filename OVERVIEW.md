@@ -125,7 +125,7 @@ $ SECRET=badguess R
 ```
 or if `SECRET` is unset.
 
-_Comment:_ You can used whichever variable name you like, it does not have to be `SECRET`.  And, the "password" `banana` is obviously just an example.
+_Comment:_ You can use whichever variable name you like, it does not have to be `SECRET`.  And, the "password" `banana` is obviously just an example.
 
 
 ## Known limitations
