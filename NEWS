@@ -7,9 +7,9 @@ NEW FEATURES:
 
  * startup(debug = TRUE) now also reports on .First().
 
- * The messages of warning produced by the startup package itself now mentions
-   which startup function they originate from.  This helps identify the origin
-   of warnings produced during the R startup process.
+ * The messages of warnings and errors produced by the startup package itself
+   now mentions which startup function they originate from.  This helps
+   identify the origin of these when produced during the R startup process.
 
  * Added warn(), which produces a warning with information on which R source
    file it was produced in, if any.

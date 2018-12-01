@@ -75,14 +75,14 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
         
         if (eof_ok(file)) {
           msg <- sprintf("SYNTAX ISSUE FIXED: Added missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process.", file)  #nolint
-          warning(msg)
+          warning("startup::check(): ", msg)
         } else {
           msg <- sprintf("SYNTAX ERROR: Tried to add missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process, but failed.", file)  #nolint
-          stop(msg)
+          stop("startup::check(): ", msg)
         }
       } else {
         msg <- sprintf("SYNTAX ERROR: File %s is missing a newline at the end of the file, which most likely will cause R to silently ignore the file in the startup process.", file)  #nolint
-        stop(msg)
+        stop("startup::check(): ", msg)
       }
     }
   }
@@ -113,7 +113,7 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
       pattern <- patterns[name]
       if (any(grepl(pattern, bfr, fixed = FALSE))) {
         msg <- sprintf("UNSAFE STARTUP CALL DETECTED (%s): Updating or installing R packages during R startup will recursively spawn off an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", name, file)  #nolint
-        stop(msg)
+        stop("startup::check(): ", msg)
       }
     }
   }

@@ -24,13 +24,13 @@ files_apply <- function(files, fun,
         msg <- sprintf("Failure processing startup file %s: %s",
                        sQuote(pathname), msg)
         if (on_error == "error") {
-          stop(msg, call. = FALSE)
+          stop("startup::files_apply(): ", msg, call. = FALSE)
         } else if (on_error == "warning") {
-          warning(msg, call. = FALSE)
+          warning("startup::files_apply(): ", msg, call. = FALSE)
         } else if (on_error == "immediate.warning") {
-          warning(msg, immediate. = TRUE, call. = FALSE)
+          warning("startup::files_apply(): ", msg, immediate. = TRUE, call. = FALSE)
         } else if (on_error == "message") {
-          message(msg)
+          message("startup::files_apply(): ", msg)
         }
       }
     }
