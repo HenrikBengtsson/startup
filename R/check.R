@@ -120,15 +120,30 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
 }
 
 
-check_rprofile_encoding <- function(debug = FALSE) {
-  if (isTRUE(getOption(".Rprofile.check.encoding", TRUE) &&
-             !interactive() &&
-             getOption("encoding", "native.enc") != "native.enc")) {
-    msg <- sprintf("POTENTIAL STARTUP PROBLEM: Option 'encoding' seems to have been set (to '%s') during startup, cf. Startup.  Changing this from the default 'native.enc' is known to have caused problems, particularly in non-interactive sessions, e.g. installation of packages with non-ASCII characters (also in source code comments) fails. To disable this warning, set option '.Rprofile.check.encoding' to FALSE, or set the encoding conditionally, e.g. if (base::interactive()) options(encoding='UTF-8').", getOption("encoding"))  #nolint
-    warning("startup::check(): ", msg)
+check_options <- function(debug = FALSE) {
+  msg <- function(opt, default, value, body = NULL) {
+    msg <- sprintf("R option '%s' was changed (to '%s') during startup, cf. Startup.  Values other than the default '%s' is known to cause problems.", opt, value, default)
+    msg <- c(msg, body)
+    msg <- c(msg, sprintf("To disable this check, add \"%s\" to option 'startup.check.options.ignore'.", opt))
+    paste("startup::check():", paste(msg, collapse = " "))
+  }
+     
+  ignore <- getOption("startup.check.options.ignore")
+
+  opt <- "encoding"
+  default <- "native.enc"
+  if (!is.element(opt, ignore) && !interactive() &&
+      (value <- getOption(opt, default)) != default) {
+    warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
+  }
+
+  opt <- "stringsAsFactors"
+  default <- TRUE
+  if (!is.element(opt, ignore) &&
+      (value <- getOption(opt, default)) != default) {
+    warning(msg(opt, default, value), call. = FALSE)
   }
 }
-
 
 
 check_r_libs_env_vars <- function(debug = FALSE) {

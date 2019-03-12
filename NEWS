@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.11.0-9000 [2018-11-30]
+Version: 0.11.0-9000 [2019-03-11]
 
 NEW FEATURES:
 
@@ -14,6 +14,12 @@ NEW FEATURES:
  * Added warn(), which produces a warning with information on which R source
    file it was produced in, if any.
 
+ * startup() now produces an informative warning if it detects that an R
+   option that are considered unsafe to change from its default, e.g. changing
+   'encoding' other than in interactive mode may break package installations
+   and changing 'stringsAsFactors' will summon the dead.
+   
+ 
 
 Version: 0.11.0 [2018-08-24]
 

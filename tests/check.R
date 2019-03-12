@@ -9,11 +9,11 @@ startup:::check_rprofile_eof(all = TRUE)
 startup:::check_rprofile_update_packages()
 startup:::check_rprofile_update_packages(all = TRUE)
 
-startup:::check_rprofile_encoding()
+startup:::check_options()
 
 oopts <- options(encoding = "C")
 res <- tryCatch({
-  startup:::check_rprofile_encoding()
+  startup:::check_options()
 }, warning = identity)
 if (!interactive()) stopifnot(inherits(res, "simpleWarning"))
 options(oopts)

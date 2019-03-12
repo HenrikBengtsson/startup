@@ -40,11 +40,13 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     }
     files_apply(files, fun = source_print_eval,
                 on_error = on_error, dryrun = dryrun, what = "Rprofile")
-
-    # (iii) Validate .Rprofile encoding
-    check_rprofile_encoding()
   }
 
+  if (check) {
+    # Check for unsafe changes to R options changes .Rprofile 
+    check_options(debug = FALSE)
+  }
+  
   res <- api()
   if (unload) unload()
   invisible(res)
