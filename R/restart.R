@@ -56,12 +56,12 @@
 #' in `envvars` are _appended_ accordingly.
 #'
 #' @section Known limitations:
-#' It is _not_ possible to restart an \R session in the Windows RGui_
-#' using this function.
+#' It is _not_ possible to restart an \R session running in _RGui_ on
+#' Microsoft Windows using this function.
 #' 
 #' It is _not_ possible to restart an \R session in the RStudio _Console_
 #' using this function.  However, it does work when running \R in the
-#' RStudio Terminal.
+#' RStudio _Terminal_.
 #' 
 #' RStudio provides `rstudioapi::restartSession()` which will indeed restart
 #' the RStudio Console.  However, it does not let you control how \R is

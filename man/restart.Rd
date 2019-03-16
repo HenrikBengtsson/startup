@@ -69,12 +69,12 @@ in \code{envvars} are \emph{appended} accordingly.
 
 \section{Known limitations}{
 
-It is \emph{not} possible to restart an \R session in the Windows RGui_
-using this function.
+It is \emph{not} possible to restart an \R session running in \emph{RGui} on
+Microsoft Windows using this function.
 
 It is \emph{not} possible to restart an \R session in the RStudio \emph{Console}
 using this function.  However, it does work when running \R in the
-RStudio Terminal.
+RStudio \emph{Terminal}.
 
 RStudio provides \code{rstudioapi::restartSession()} which will indeed restart
 the RStudio Console.  However, it does not let you control how \R is
