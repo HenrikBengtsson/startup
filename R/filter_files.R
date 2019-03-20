@@ -107,7 +107,7 @@ filter_files_when <- function(files) {
 
     ## Drop unknown 'when' conditions
     files_values <- lapply(files_values, FUN = function(when) {
-      intersect(when, c("hourly", "daily", "weekly", "monthly"))
+      intersect(when, c("once", "hourly", "daily", "weekly", "monthly"))
     })
 
     ## Ignore multiple *different* or empty 'when' statements

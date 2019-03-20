@@ -1,6 +1,6 @@
-get_agenda_file <- function(pathname, when = c("hourly", "daily", "weekly", "monthly")) {
+get_agenda_file <- function(pathname, when = c("once", "hourly", "daily", "weekly", "monthly")) {
   stop_if_not(length(pathname) == 1L, is_file(pathname))
-  when <- match.arg(when, choices = c("hourly", "daily", "weekly", "monthly"))
+  when <- match.arg(when, choices = c("once", "hourly", "daily", "weekly", "monthly"))
   
   cache_path <- get_os_cache_root_path()
   if (!is_dir(cache_path)) dir.create(cache_path, recursive = TRUE)
@@ -34,7 +34,9 @@ is_agenda_file_done <- function(agenda_pathname) {
 
   res <- FALSE
   
-  if (when == "hourly") {
+  if (when == "once") {
+    res <- TRUE
+  } else if (when == "hourly") {
     mtime_hour <- as.integer(format(mtime, format = "%H"))
     this_hour <- as.integer(format(Sys.time(), format = "%H"))
     res <- (mtime_hour >= this_hour)
@@ -87,7 +89,7 @@ get_when <- function(pathname) {
   when <- unique(when)
   
   ## Drop unknown 'when' conditions
-  when <- intersect(when, c("hourly", "daily", "weekly", "monthly"))
+  when <- intersect(when, c("once", "hourly", "daily", "weekly", "monthly"))
 
   when
 }

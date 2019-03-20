@@ -45,7 +45,7 @@ files_apply <- function(files, fun,
   }
 
   for (file in files) {
-    ## Get 'when=<period>' declaration, if it exists
+    ## Get 'when=<periodicity>' declaration, if it exists
     when <- get_when(file)
     logf(" - %s", file_info(file, type = type, extra = sprintf("when=%s", when)))
     
