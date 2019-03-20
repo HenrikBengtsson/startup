@@ -70,9 +70,9 @@ is_agenda_file_done <- function(agenda_pathname) {
 
   if (is.na(done)) {
     last <- format(mtime, format = format)
-    now <- format(Sys.Date(), format = format)
+    now <- format(Sys.time(), format = format)
     done <- (last >= now)
-    ## R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
+##    R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
   }
 
   attr(done, "last_processed") <- mtime
