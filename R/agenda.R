@@ -1,10 +1,17 @@
-get_agenda_file <- function(pathname, when = c("once", "hourly", "daily", "weekly", "monthly")) {
-  stop_if_not(length(pathname) == 1L, is_file(pathname))
-  when <- match.arg(when, choices = c("once", "hourly", "daily", "weekly", "monthly"))
+get_agenda_path <- function(when) {
+  when <- match.arg(when, choices = agenda_known_whens, several.ok = TRUE)
   
   cache_path <- get_os_cache_root_path()
   if (!is_dir(cache_path)) dir.create(cache_path, recursive = TRUE)
   path <- file.path(cache_path, when)
+  path
+}
+
+get_agenda_file <- function(pathname, when) {
+  stop_if_not(length(pathname) == 1L, is_file(pathname))
+  when <- match.arg(when, choices = agenda_known_whens)
+  
+  path <- get_agenda_path(when = when)
   if (!is_dir(path)) dir.create(path, recursive = TRUE)
 
   ## Poor-man's file ID
@@ -32,36 +39,45 @@ is_agenda_file_done <- function(agenda_pathname) {
   fi <- file.info(agenda_pathname)
   mtime <- fi[["mtime"]]
 
-  res <- FALSE
+  done <- NA
   
   if (when == "once") {
-    res <- TRUE
+    format <- "%t"  ## Trick to produce equal output
   } else if (when == "hourly") {
-    mtime_hour <- as.integer(format(mtime, format = "%H"))
-    this_hour <- as.integer(format(Sys.time(), format = "%H"))
-    res <- (mtime_hour >= this_hour)
+    format <- "%Y-%m-%d %H"
   } else if (when == "daily") {
-    ## Compare using the local time zone
-    mtime_date <- as.Date(mtime, tz = Sys.timezone())
-    this_date <- Sys.Date()
-    res <- (mtime_date >= this_date)
+    format <- "%Y-%m-%d"
   } else if (when == "weekly") {
-    mtime_week <- as.integer(format(mtime, format = "%V"))
-    this_date <- Sys.Date()
-    this_week <- as.integer(format(this_date, format = "%V"))
-    res <- (mtime_week >= this_week)
+    format <- "%Y %V"
+  } else if (when == "fortnightly") {
+    format <- "%Y %V"
+    today <- Sys.Date()
+    last_year <- format(mtime, format = "%Y")
+    last_week <- as.integer(format(mtime, format = "%V"))
+    last_fortnight <- floor(last_week / 2)
+    now_year <- format(today, format = "%Y")
+    now_week <- as.integer(format(today, format = "%V"))
+    now_fortnight <- floor(now_week / 2)
+    last <- sprintf("%s %02d", last_year, last_fortnight)
+    now <- sprintf("%s %02d", now_year, now_fortnight)
+    done <- (last >= now)
+##    R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
   } else if (when == "monthly") {
-    mtime_month <- as.integer(format(mtime, format = "%m"))
-    this_date <- Sys.Date()
-    this_month <- as.integer(format(this_date, format = "%m"))
-    res <- (mtime_month >= this_month)
+    format <- "%Y %m"
   } else {
     stop("Unknown value on argument 'when': ", sQuote(when))
   }
 
-  attr(res, "last_processed") <- mtime
+  if (is.na(done)) {
+    last <- format(mtime, format = format)
+    now <- format(Sys.Date(), format = format)
+    done <- (last >= now)
+    ## R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
+  }
+
+  attr(done, "last_processed") <- mtime
   
-  res
+  done
 }
 
 mark_agenda_file_done <- function(agenda_pathname) {
@@ -89,7 +105,20 @@ get_when <- function(pathname) {
   when <- unique(when)
   
   ## Drop unknown 'when' conditions
-  when <- intersect(when, c("once", "hourly", "daily", "weekly", "monthly"))
+  when <- intersect(when, agenda_known_whens)
 
   when
 }
+
+
+reset_agenda <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
+  paths <- get_agenda_path(when = when)
+  exists <- vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)
+  paths <- paths[exists]
+  pathnames <- dir(paths, full.names = TRUE, all.files = TRUE, include.dirs = TRUE, no.. = TRUE)
+  for (path in paths) unlink(path, recursive = TRUE)
+  invisible(pathnames)
+}
+
+agenda_known_whens <- eval(formals(reset_agenda)[["when"]])
+

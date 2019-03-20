@@ -107,7 +107,7 @@ filter_files_when <- function(files) {
 
     ## Drop unknown 'when' conditions
     files_values <- lapply(files_values, FUN = function(when) {
-      intersect(when, c("once", "hourly", "daily", "weekly", "monthly"))
+      intersect(when, agenda_known_whens)
     })
 
     ## Ignore multiple *different* or empty 'when' statements
@@ -121,15 +121,16 @@ filter_files_when <- function(files) {
     }
 
     last_processed_op <- vector("list", length = length(idxs))
+    done <- logical(length(idxs))
     for (kk in seq_along(idxs)) {
       file <- files[idxs[kk]]
       when <- files_values[[kk]]
       agenda_file <- get_agenda_file(file, when = when)
-      res <- is_agenda_file_done(agenda_file)
-      last_processed_op[kk] <- list(attr(res, "last_processed"))
+      done_kk <- is_agenda_file_done(agenda_file)
+      done[kk] <- done_kk
+      last_processed_op[kk] <- list(attr(done_kk, "last_processed"))
     }
     
-    done <- !vapply(last_processed_op, FUN = is.na, FUN.VALUE = TRUE)
     already_done[["file"]] <- c(already_done[["file"]], files[idxs][done])
     already_done[["last_processed"]] <- c(already_done[["last_processed"]], last_processed_op[done])
     
