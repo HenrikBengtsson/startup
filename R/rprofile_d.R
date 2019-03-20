@@ -31,13 +31,21 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     if (is.null(paths)) paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- list_d_files(paths, filter = filter_files)
     encoding <- getOption("encoding")
+    
     source_print_eval <- function(pathname) {
       current_script_pathname(pathname)
       on.exit(current_script_pathname(NA_character_))
       source(pathname, encoding = encoding, local = FALSE, chdir = FALSE,
              print.eval = TRUE,
              keep.source = FALSE, echo = FALSE, verbose = FALSE)
+      agenda_pathname <- mark_if_agenda_file(pathname)
+      if (length(agenda_pathname) == 1L) {
+        when <- attr(agenda_pathname, "when")
+        attr(pathname, "note") <- sprintf("%s file processed (timestamp file %s)", sQuote(when), sQuote(agenda_pathname))
+      }
+      pathname
     }
+    
     files_apply(files, fun = source_print_eval,
                 on_error = on_error, dryrun = dryrun, what = "Rprofile")
   }
