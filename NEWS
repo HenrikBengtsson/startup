@@ -9,6 +9,7 @@ NEW FEATURES:
    be 'once', 'hourly', 'daily', 'weekly', and 'monthly'.  A startup file with
    such a declaration will be processed on onces per <period>, e.g. a file
    with 'when=daily' somewhere in the pathname will be processed once per day.
+   Updating the file timestamp of 'when' files will reset their timers.
 
  * startup(debug = TRUE) now also reports on .First().
 
