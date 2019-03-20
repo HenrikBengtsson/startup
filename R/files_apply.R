@@ -45,18 +45,24 @@ files_apply <- function(files, fun,
   }
 
   for (file in files) {
-    logf(" - %s", file_info(file, type = type))
-    res <- call_fun(file)
-    note <- attr(res, "note")
-    if (!is.null(note)) {
-      logf("   [NOTE]: %s", note)
+    ## Get 'when=<period>' declaration, if it exists
+    when <- get_when(file)
+    logf(" - %s", file_info(file, type = type, extra = sprintf("when=%s", when)))
+    
+    call_fun(file)
+    
+    if (length(when) == 1L) {
+      agenda_pathname <- get_agenda_file(file, when = when)
+      mark_agenda_file_done(agenda_pathname)
     }
   }
 
   already_done <- attr(files, "already_done", exact = TRUE)
-  if (length(already_done) > 0) {
-    logf(" Skipped %d files with fullfilled 'when' statements:", length(already_done))
-    logf(paste(" - [SKIPPED] ", sQuote(already_done), sep = ""))
+  n_done <- length(already_done[["file"]])
+  if (n_done > 0L) {
+    logf(" Skipped %d files with fullfilled 'when' statements:", n_done)
+    last <- vapply(already_done[["last_processed"]], FUN = format, format = "%Y-%m-%d %H:%M:%S", FUN.VALUE = NA_character_)
+    logf(sprintf(" - [SKIPPED] %s (processed on %s)", sQuote(already_done[["file"]]), last))
   }
 
   unknown_keys <- attr(files, "unknown_keys", exact = TRUE)

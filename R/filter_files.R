@@ -85,7 +85,10 @@ filter_files_package <- function(files) {
 
 
 filter_files_when <- function(files) {
-  already_done <- NULL
+  already_done <- list(
+    file = NULL,
+    last_processed = NULL
+  )
   
   for (op in c("=")) {
     ## Parse <key>=<value> and keep only matching ones
@@ -117,20 +120,27 @@ filter_files_when <- function(files) {
       files_values <- files_values[keep]
     }
 
-    files_done <- mapply(files[idxs], files_values, FUN = function(file, value) {
-      agenda_file <- get_agenda_file(file, when = value)
-      is_agenda_file_done(agenda_file)
-    })
-
-    already_done <- c(already_done, files[idxs][files_done])
+    last_processed_op <- vector("list", length = length(idxs))
+    for (kk in seq_along(idxs)) {
+      file <- files[idxs[kk]]
+      when <- files_values[[kk]]
+      agenda_file <- get_agenda_file(file, when = when)
+      res <- is_agenda_file_done(agenda_file)
+      last_processed_op[kk] <- list(attr(res, "last_processed"))
+    }
     
-    files_ok <- unlist(!files_done, use.names = FALSE)
-    drop <- idxs[!files_ok]
+    done <- !vapply(last_processed_op, FUN = is.na, FUN.VALUE = TRUE)
+    already_done[["file"]] <- c(already_done[["file"]], files[idxs][done])
+    already_done[["last_processed"]] <- c(already_done[["last_processed"]], last_processed_op[done])
+    
+    drop <- idxs[done]
 
     if (length(drop) > 0) files <- files[-drop]
   } ## for (op ...)
 
-  attr(files, "already_done") <- already_done
+  if (length(already_done[["file"]]) > 0L) {
+    attr(files, "already_done") <- already_done
+  }
 
   files
 } ## filter_files_when()
@@ -200,10 +210,8 @@ filter_files <- function(files, info = sysinfo()) {
   already_done <- attr(files, "already_done")
   
   files <- filter_files_env(files, ignore = c(names(info), "package", "when"))
-  unknown_keys <- attr(files, "unknown_keys")
 
   attr(files, "already_done") <- already_done
-  attr(files, "unknown_keys") <- unknown_keys
 
   files
 } ## filter_files()

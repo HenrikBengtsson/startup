@@ -62,7 +62,7 @@ path_info <- function(f, extra = NULL) {
 file_info <- function(f, type = "txt", extra = NULL) {
   if (!nzchar(f)) return(sQuote(""))
   fx <- path.expand(f)
-  if (!is.null(extra)) {
+  if (length(extra) > 0L) {
     extra <- paste("; ", extra, sep = "")
   } else {
     extra <- ""

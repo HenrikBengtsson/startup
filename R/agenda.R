@@ -23,35 +23,43 @@ get_agenda_file <- function(pathname, when = c("hourly", "daily", "weekly", "mon
 }
 
 is_agenda_file_done <- function(agenda_pathname) {
-  if (!is_file(agenda_pathname)) return(FALSE)
+  if (!is_file(agenda_pathname)) {
+    return(structure(FALSE, last_processed = as.POSIXct(NA)))
+  }
   when <- attr(agenda_pathname, "when")
   stop_if_not(length(when) == 1L, is.character(when), !is.na(when))
   
   fi <- file.info(agenda_pathname)
   mtime <- fi[["mtime"]]
 
+  res <- FALSE
+  
   if (when == "hourly") {
     mtime_hour <- as.integer(format(mtime, format = "%H"))
     this_hour <- as.integer(format(Sys.time(), format = "%H"))
-    return(mtime_hour >= this_hour)
+    res <- (mtime_hour >= this_hour)
   } else if (when == "daily") {
     ## Compare using the local time zone
     mtime_date <- as.Date(mtime, tz = Sys.timezone())
     this_date <- Sys.Date()
-    return(mtime_date >= this_date)
+    res <- (mtime_date >= this_date)
   } else if (when == "weekly") {
     mtime_week <- as.integer(format(mtime, format = "%V"))
     this_date <- Sys.Date()
     this_week <- as.integer(format(this_date, format = "%V"))
-    return(mtime_week >= this_week)
+    res <- (mtime_week >= this_week)
   } else if (when == "monthly") {
     mtime_month <- as.integer(format(mtime, format = "%m"))
     this_date <- Sys.Date()
     this_month <- as.integer(format(this_date, format = "%m"))
-    return(mtime_month >= this_month)
+    res <- (mtime_month >= this_month)
+  } else {
+    stop("Unknown value on argument 'when': ", sQuote(when))
   }
+
+  attr(res, "last_processed") <- mtime
   
-  stop("Unknown value on argument 'when': ", sQuote(when))
+  res
 }
 
 mark_agenda_file_done <- function(agenda_pathname) {
@@ -82,12 +90,4 @@ get_when <- function(pathname) {
   when <- intersect(when, c("hourly", "daily", "weekly", "monthly"))
 
   when
-}
-
-
-mark_if_agenda_file <- function(pathname) {
-  when <- get_when(pathname)
-  if (length(when) == 0L) return(NULL)
-  agenda_pathname <- get_agenda_file(pathname, when = when)
-  mark_agenda_file_done(agenda_pathname)
 }

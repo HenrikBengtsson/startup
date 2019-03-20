@@ -38,12 +38,6 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
       source(pathname, encoding = encoding, local = FALSE, chdir = FALSE,
              print.eval = TRUE,
              keep.source = FALSE, echo = FALSE, verbose = FALSE)
-      agenda_pathname <- mark_if_agenda_file(pathname)
-      if (length(agenda_pathname) == 1L) {
-        when <- attr(agenda_pathname, "when")
-        attr(pathname, "note") <- sprintf("%s file processed (timestamp file %s)", sQuote(when), sQuote(agenda_pathname))
-      }
-      pathname
     }
     
     files_apply(files, fun = source_print_eval,
