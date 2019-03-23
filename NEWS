@@ -1,9 +1,16 @@
 Package: startup
 ================
 
-Version: 0.11.0-9000 [2019-03-11]
+Version: 0.11.0-9000 [2019-03-20]
 
 NEW FEATURES:
+
+ * Added support for when=<periodicity> file declarations, where <periodicity>
+   can be 'once', 'hourly', 'daily', 'weekly', 'fortnightly', and 'monthly'.
+   A startup file with such a declaration will be processed on onces per
+   <periodicity>, e.g. a file with 'when=daily' somewhere in the pathname will
+   be processed once per day.  Updating the file timestamp of a 'when' file
+   will reset its timer.
 
  * startup(debug = TRUE) now also reports on .First().
 

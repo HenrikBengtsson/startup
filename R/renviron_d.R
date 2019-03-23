@@ -16,7 +16,7 @@ renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   if (!skip) {
     # Load custom .Renviron.d/* files
     if (is.null(paths)) paths <- find_renviron_d(sibling = sibling, all = all)
-    files <- list_d_files(paths, filter = filter_files)
+    files <- list_d_files(paths, filter = filter_files)    
     files_apply(files, fun = readRenviron, dryrun = dryrun, what = "Renviron")
   }
 

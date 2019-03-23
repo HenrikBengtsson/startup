@@ -84,6 +84,69 @@ filter_files_package <- function(files) {
 } ## filter_files_package()
 
 
+filter_files_when <- function(files) {
+  already_done <- list(
+    file = NULL,
+    last_processed = NULL
+  )
+  
+  for (op in c("=")) {
+    ## Parse <key>=<value> and keep only matching ones
+
+    ## Identify files specifying this <key>=<value>
+    pattern <- sprintf(".*[^a-z]*(when)%s([^=,/]*).*", op)
+    idxs <- grep(pattern, files, fixed = FALSE)
+    if (length(idxs) == 0) next
+
+    ## There could be more than one <key>=<name> specification
+    ## per pathname that use the same <key>, e.g. package=nnn.
+    files_values <- list_of_values(files[idxs], pattern = pattern)
+
+    ## Keep unique 'when' conditions
+    files_values <- lapply(files_values, FUN = unique)
+
+    ## Drop unknown 'when' conditions
+    files_values <- lapply(files_values, FUN = function(when) {
+      intersect(when, agenda_known_whens)
+    })
+
+    ## Ignore multiple *different* or empty 'when' statements
+    n <- unlist(lapply(files_values, FUN = length), use.names = FALSE)
+    if (any(n != 1L)) {
+      non_unique <- files[idxs][n > 1L]
+      keep <- which(n == 1L)
+      idxs <- idxs[keep]
+      if (length(idxs) == 0) next
+      files_values <- files_values[keep]
+    }
+
+    last_processed_op <- vector("list", length = length(idxs))
+    done <- logical(length(idxs))
+    for (kk in seq_along(idxs)) {
+      file <- files[idxs[kk]]
+      when <- files_values[[kk]]
+      agenda_file <- get_agenda_file(file, when = when)
+      done_kk <- is_agenda_file_done(agenda_file)
+      done[kk] <- done_kk
+      last_processed_op[kk] <- list(attr(done_kk, "last_processed"))
+    }
+    
+    already_done[["file"]] <- c(already_done[["file"]], files[idxs][done])
+    already_done[["last_processed"]] <- c(already_done[["last_processed"]], last_processed_op[done])
+    
+    drop <- idxs[done]
+
+    if (length(drop) > 0) files <- files[-drop]
+  } ## for (op ...)
+
+  if (length(already_done[["file"]]) > 0L) {
+    attr(files, "already_done") <- already_done
+  }
+
+  files
+} ## filter_files_when()
+
+
 filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
   envs <- Sys.getenv()
 
@@ -141,8 +204,16 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
 
 filter_files <- function(files, info = sysinfo()) {
   files <- filter_files_info(files, info = info)
+  
   files <- filter_files_package(files)
-  files <- filter_files_env(files, ignore = c(names(info), "package"))
+  
+  files <- filter_files_when(files)
+  already_done <- attr(files, "already_done")
+  
+  files <- filter_files_env(files, ignore = c(names(info), "package", "when"))
+
+  attr(files, "already_done") <- already_done
+
   files
 } ## filter_files()
 
