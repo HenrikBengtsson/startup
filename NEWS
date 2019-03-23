@@ -9,8 +9,11 @@ NEW FEATURES:
    can be 'once', 'hourly', 'daily', 'weekly', 'fortnightly', and 'monthly'.
    A startup file with such a declaration will be processed on onces per
    <periodicity>, e.g. a file with 'when=daily' somewhere in the pathname will
-   be processed once per day.  Updating the file timestamp of a 'when' file
-   will reset its timer.
+   be processed once per day.  The periodicity is based on the walltime in the
+   local time zone, e.g. if a file with 'when=daily' was processed one minute
+   before midnight, it will be processed again if an R session is started one
+   minute past midnight.  Updating the file timestamp of a 'when' file will
+   reset its timer.
 
  * startup(debug = TRUE) now also reports on .First().
 
