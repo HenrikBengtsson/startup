@@ -1,5 +1,3 @@
-renviron <- startup::renviron
-rprofile <- startup::rprofile
 renviron_d <- startup::renviron_d
 rprofile_d <- startup::rprofile_d
 
@@ -24,19 +22,6 @@ str(api)
 rprofile_d(paths = paths, skip = FALSE, dryrun = TRUE)
 
 message("*** rprofile_d() ... DONE")
-
-
-message("*** startup() - defunct ...")
-
-paths <- system.file(".Renviron.d", package = "startup")
-res <- tryCatch(renviron(paths = paths, skip = FALSE), error = identity)
-stopifnot(inherits(res, "error"))
-
-paths <- system.file(".Rprofile.d", package = "startup")
-res <- tryCatch(rprofile(paths = paths, skip = FALSE), error = identity)
-stopifnot(inherits(res, "error"))
-
-message("*** startup() - defunct ... DONE")
 
 
 message("*** startup() - exceptions ...")

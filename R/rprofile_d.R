@@ -53,6 +53,3 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
   if (unload) unload()
   invisible(res)
 }
-
-#' @export
-rprofile <- function(...) .Defunct(new = "startup::rprofile_d()")

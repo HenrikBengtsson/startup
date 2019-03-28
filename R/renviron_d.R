@@ -24,6 +24,3 @@ renviron_d <- function(sibling = FALSE, all = FALSE, unload = FALSE, skip = NA,
   if (unload) unload()
   invisible(res)
 }
-
-#' @export
-renviron <- function(...) .Defunct(new = "startup::renviron_d()")

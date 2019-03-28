@@ -33,6 +33,9 @@ NEW FEATURES:
    'encoding' other than in interactive mode may break package installations
    and changing 'stringsAsFactors' will summon the dead.
    
+DEPRECATED AND DEFUNCT:
+
+ * Removed defunct renviron() and rprofile(). Use renviron_d() and rprofile_d().
  
 
 Version: 0.11.0 [2018-08-24]
@@ -154,10 +157,9 @@ NEW FEATURES:
  * check(), and therefore also startup(check = TRUE), warns if R_LIBS,
    R_LIBS_SITE, or R_LIBS_USER specifies non-existing directory.
    
-
 DEPRECATED AND DEFUNCT:
 
- * DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
+ * renviron() and rprofile() are now defunct.  Removed api()$renviron()
    and api()$rprofile().  Use renviron_d() and rprofile_d() instead.
 
 BUG FIXES:
@@ -277,8 +279,8 @@ NEW FEATURES:
 
 DEPRECATED AND DEFUNCT:
 
- * DEPRECATED: renviron() and rprofile() were renamed to renviron_d() and
-   rprofile_d(), respectively.
+ * renviron() and rprofile() were renamed to renviron_d() and rprofile_d(),
+   respectively.
 
 BUG FIXES:
 
