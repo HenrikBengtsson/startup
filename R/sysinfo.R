@@ -12,7 +12,7 @@ sysinfo <- function() {
   sysinfo$os <- .Platform$OS.type
   sysinfo$gui <- .Platform$GUI
   sysinfo$interactive <- interactive()
-
+  
   ## Built-in system flags (logical)
   sysinfo$ess <- is_ess()
   sysinfo$microsoftr <- is_microsoftr()

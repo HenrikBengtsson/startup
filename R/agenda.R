@@ -1,3 +1,26 @@
+get_startup_time <- local({
+  now <- NULL
+  
+  function() {
+    if (is.null(now)) {
+      time <- Sys.getenv("R_STARTUP_TIME", "")
+      if (nzchar(time)) {
+        now <<- tryCatch({
+	  as.POSIXct(time)
+	}, error = function(ex) {
+	  warning("Failed to parse 'R_STARTUP_TIME' as a timestamp: ",
+	          sQuote(time), ". The reason was: ", conditionMessage(ex))
+           NULL
+	})
+      }
+      if (is.null(now)) {
+        now <<- Sys.time()
+      }
+    }
+    now
+  }
+})
+
 get_agenda_path <- function(when) {
   when <- match.arg(when, choices = agenda_known_whens, several.ok = TRUE)
   
@@ -51,12 +74,12 @@ is_agenda_file_done <- function(agenda_pathname) {
     format <- "%Y %V"
   } else if (when == "fortnightly") {
     format <- "%Y %V"
-    today <- Sys.Date()
+    now_time <- get_startup_time()
     last_year <- format(mtime, format = "%Y")
     last_week <- as.integer(format(mtime, format = "%V"))
     last_fortnight <- floor(last_week / 2)
-    now_year <- format(today, format = "%Y")
-    now_week <- as.integer(format(today, format = "%V"))
+    now_year <- format(now_time, format = "%Y")
+    now_week <- as.integer(format(now_time, format = "%V"))
     now_fortnight <- floor(now_week / 2)
     last <- sprintf("%s %02d", last_year, last_fortnight)
     now <- sprintf("%s %02d", now_year, now_fortnight)
@@ -70,7 +93,7 @@ is_agenda_file_done <- function(agenda_pathname) {
 
   if (is.na(done)) {
     last <- format(mtime, format = format)
-    now <- format(Sys.time(), format = format)
+    now <- format(get_startup_time(), format = format)
     done <- (last >= now)
 ##    R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
   }
@@ -82,7 +105,7 @@ is_agenda_file_done <- function(agenda_pathname) {
 
 mark_agenda_file_done <- function(agenda_pathname) {
   pathname <- attr(agenda_pathname, "pathname")
-  timestamp <- format(Sys.time(), format = "%Y-%m-%d %H:%M:%OS3 %z")
+  timestamp <- format(get_startup_time(), format = "%Y-%m-%d %H:%M:%OS3 %z")
   cat(file = agenda_pathname, pathname, "\n", timestamp, "\n", sep = "")
   agenda_pathname
 }
@@ -121,4 +144,3 @@ reset_agenda <- function(when = c("once", "hourly", "daily", "weekly", "fortnigh
 }
 
 agenda_known_whens <- eval(formals(reset_agenda)[["when"]])
-

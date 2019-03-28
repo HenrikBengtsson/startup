@@ -1,9 +1,13 @@
 Package: startup
 ================
 
-Version: 0.11.0-9000 [2019-03-20]
+Version: 0.11.0-9000 [2019-03-28]
 
 NEW FEATURES:
+
+ * Code in environment variable 'R_STARTUP_INIT' will now be evaluated by
+   startup::startup() after Renviron and Rprofile files have been processed.
+   For example, 'R_STARTUP_INIT="x <- 1" R' will launch R with 'x == 1'.
 
  * Added support for when=<periodicity> file declarations, where <periodicity>
    can be 'once', 'hourly', 'daily', 'weekly', 'fortnightly', and 'monthly'.
