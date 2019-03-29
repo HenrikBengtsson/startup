@@ -5,7 +5,7 @@ message("*** startup() ...")
 
 message("*** renviron_d() ...")
 
-paths <- system.file(".Renviron.d", package = "startup")
+paths <- system.file("Renviron.d", package = "startup")
 print(paths)
 api <- renviron_d(paths = paths, skip = FALSE)
 str(api)
@@ -15,7 +15,7 @@ message("*** renviron_d() ... DONE")
 
 message("*** rprofile_d() ...")
 
-paths <- system.file(".Rprofile.d", package = "startup")
+paths <- system.file("Rprofile.d", package = "startup")
 print(paths)
 api <- rprofile_d(paths = paths, skip = FALSE)
 str(api)

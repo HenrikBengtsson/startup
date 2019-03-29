@@ -188,7 +188,7 @@ Below is a list of "real-world" example files:
 ```
 They are available as part of this package under `system.file(package = "startup")`, e.g.
 ```r
-> f <- system.file(".Rprofile.d", "repos.R", package = "startup")
+> f <- system.file("Rprofile.d", "repos.R", package = "startup")
 > file.show(f, type = "text")
 
 local({

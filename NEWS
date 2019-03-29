@@ -32,7 +32,13 @@ NEW FEATURES:
    option that are considered unsafe to change from its default, e.g. changing
    'encoding' other than in interactive mode may break package installations
    and changing 'stringsAsFactors' will summon the dead.
-   
+
+MISCELLANEOUS:
+
+ * Renamed example folders .Renviron.d/ and .Rprofile.d/ installed as part
+   of the package to Renviron.d/ and Rprofile.d/ without the leading period.
+   This was simply done to avoid 'R CMD check --as-cran' NOTEs.
+
 DEPRECATED AND DEFUNCT:
 
  * Removed defunct renviron() and rprofile(). Use renviron_d() and rprofile_d().
