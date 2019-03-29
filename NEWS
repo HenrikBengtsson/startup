@@ -7,7 +7,7 @@ NEW FEATURES:
 
  * Added support for when=<periodicity> file declarations, where <periodicity>
    can be 'once', 'hourly', 'daily', 'weekly', 'fortnightly', and 'monthly'.
-   A startup file with such a declaration will be processed on onces per
+   A startup file with such a declaration will be processed at most once per
    <periodicity>, e.g. a file with 'when=daily' somewhere in the pathname will
    be processed once per day.  The periodicity is based on the walltime in the
    local time zone, e.g. if a file with 'when=daily' was processed one minute
@@ -197,7 +197,7 @@ BUG FIXES:
 
  * startup() ignores more of the hidden files and folders that macOS may create
    and which should not be sourced during startup.  For instance, when copying
-   a file 'foo.R' to a non-macOS file system, an auxillary file '._foo.R' may
+   a file 'foo.R' to a non-macOS file system, an auxiliary file '._foo.R' may
    be created as well.
  
 
