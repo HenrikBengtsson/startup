@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.11.0-9000 [2019-03-28]
+Version: 0.11.0-9000 [2019-03-29]
 
 NEW FEATURES:
 
@@ -39,6 +39,10 @@ MISCELLANEOUS:
    of the package to Renviron.d/ and Rprofile.d/ without the leading period.
    This was simply done to avoid 'R CMD check --as-cran' NOTEs.
 
+BUG FIXES:
+
+ * startup() did not ignore files with names such as #foo.R#.
+ 
 DEPRECATED AND DEFUNCT:
 
  * Removed defunct renviron() and rprofile(). Use renviron_d() and rprofile_d().

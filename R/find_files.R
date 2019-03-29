@@ -119,6 +119,9 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
                           full.names = TRUE))
   }
 
+  ## Drop files such as '#file.R#'
+  files <- files[!grepl("^#.*#$", basename(files))]
+
   ## Drop stray files created by R
   ignores <- c(".Rhistory", ".RData")
   files <- files[!is.element(basename(files), ignores)]
