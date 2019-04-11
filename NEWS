@@ -22,14 +22,14 @@ NEW FEATURES:
  * startup(debug = TRUE) now also reports on .First().
 
  * The messages of warnings and errors produced by the startup package itself
-   now mentions which startup function they originate from.  This helps
+   now mention which startup function they originate from.  This helps to
    identify the origin of these when produced during the R startup process.
 
  * Added warn(), which produces a warning with information on which R source
    file it was produced in, if any.
 
  * startup() now produces an informative warning if it detects that an R
-   option that are considered unsafe to change from its default, e.g. changing
+   option that is considered unsafe to change from its default, e.g. changing
    'encoding' other than in interactive mode may break package installations
    and changing 'stringsAsFactors' will summon the dead.
 
@@ -53,11 +53,11 @@ Version: 0.11.0 [2018-08-24]
 NEW FEATURES:
 
  * startup(debug = TRUE) now also displays the expanded path to any file or
-   folder listed.  It also gives information of files that known environment
-   variables (e.g. R_ENVIRON_USER) points to.  For Renviron files, it also
+   folder listed.  It also gives information on files that known environment
+   variables (e.g. R_ENVIRON_USER) point to.  For Renviron files, it also
    reports on names of the environment variables set in each of those files.
 
- * startup(debug = TRUE) reports on search path and loaded namespaces,
+ * startup(debug = TRUE) reports on the search path and loaded namespaces,
    and what packages will be attached after startup finishes.
 
  * Added character 'dirname' to sysinfo() specifying the basename of the
@@ -175,8 +175,9 @@ DEPRECATED AND DEFUNCT:
 BUG FIXES:
 
  * Now install(backup = TRUE) guarantees that the .Rprofile file is backed up,
-   otherwise an error is produced.  Previously it could silently fail if a
+   otherwise, an error is produced.  Previously it could silently fail if a
    backup file with the exact same name already existed.
+
 
 Version: 0.7.0 [2017-09-04]
 
