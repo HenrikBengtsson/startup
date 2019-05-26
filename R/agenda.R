@@ -21,7 +21,7 @@ get_startup_time <- local({
   }
 })
 
-get_when_path <- function(when) {
+get_when_cache_path <- function(when) {
   when <- match.arg(when, choices = known_when_keys, several.ok = TRUE)
   
   cache_path <- get_os_cache_root_path()
@@ -30,11 +30,11 @@ get_when_path <- function(when) {
   path
 }
 
-get_when_file <- function(pathname, when) {
+get_when_cache_file <- function(pathname, when) {
   stop_if_not(length(pathname) == 1L, is_file(pathname))
   when <- match.arg(when, choices = known_when_keys)
   
-  path <- get_when_path(when = when)
+  path <- get_when_cache_path(when = when)
   if (!is_dir(path)) dir.create(path, recursive = TRUE)
 
   ## Poor-man's file ID
@@ -134,8 +134,8 @@ get_when <- function(pathname) {
 }
 
 
-reset_when <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
-  paths <- get_when_path(when = when)
+reset_when_cache <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
+  paths <- get_when_cache_path(when = when)
   exists <- vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)
   paths <- paths[exists]
   pathnames <- dir(paths, full.names = TRUE, all.files = TRUE, include.dirs = TRUE, no.. = TRUE)
@@ -143,4 +143,4 @@ reset_when <- function(when = c("once", "hourly", "daily", "weekly", "fortnightl
   invisible(pathnames)
 }
 
-known_when_keys <- eval(formals(reset_when)[["when"]])
+known_when_keys <- eval(formals(reset_when_cache)[["when"]])

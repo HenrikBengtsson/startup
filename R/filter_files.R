@@ -125,7 +125,7 @@ filter_files_when <- function(files) {
     for (kk in seq_along(idxs)) {
       file <- files[idxs[kk]]
       when <- files_values[[kk]]
-      when_file <- get_when_file(file, when = when)
+      when_file <- get_when_cache_file(file, when = when)
       done_kk <- is_when_file_done(when_file)
       done[kk] <- done_kk
       last_processed_op[kk] <- list(attr(done_kk, "last_processed"))

@@ -52,8 +52,8 @@ files_apply <- function(files, fun,
     call_fun(file)
     
     if (length(when) == 1L) {
-      when_file <- get_when_file(file, when = when)
-      mark_when_file_done(when_file)
+      when_cache_file <- get_when_cache_file(file, when = when)
+      mark_when_file_done(when_cache_file)
     }
   }
 
