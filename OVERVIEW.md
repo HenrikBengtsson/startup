@@ -94,12 +94,12 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
 * With a specific frequency:
 
   - `when` - (character) specify how often the file should be processed:
-    - `when=once`       - the startup file is processed only once
-    - `when=hourly`     - the startup file is processed at most once per hour
-    - `when=daily`      - the startup file is processed at most once per day
-    - `when=weekly`     - the startup file is processed at most once per week
-    - `when=fortnighly` - the startup file is processed at most once every two weeks
-    - `when=monthly`    - the startup file is processed at most once per month
+    - `when=once`        - the startup file is processed only once
+    - `when=hourly`      - the startup file is processed at most once per hour
+    - `when=daily`       - the startup file is processed at most once per day
+    - `when=weekly`      - the startup file is processed at most once per week
+    - `when=fortnightly` - the startup file is processed at most once every two weeks
+    - `when=monthly`     - the startup file is processed at most once per month
     
   If such a file, or its timestamp, is updated, then it will be processed the next time R is started.
 
