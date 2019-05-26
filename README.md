@@ -93,6 +93,18 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
 
   - `package`     - (character) whether a package is installed or not.  In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
+* With a specific frequency:
+
+  - `when` - (character) specify how often the file should be processed:
+    - `when=once`       - the startup file is processed only once
+    - `when=hourly`     - the startup file is processed at most once per hour
+    - `when=daily`      - the startup file is processed at most once per day
+    - `when=weekly`     - the startup file is processed at most once per week
+    - `when=fortnighly` - the startup file is processed at most once every two weeks
+    - `when=monthly`    - the startup file is processed at most once per month
+    
+  If such a file, or its timestamp, is updated, then it will be processed the next time R is started.
+
 * Environment variables:
 
   - Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped if `<key>=<value>` is used but included if `<key>!=<value>` is used._
