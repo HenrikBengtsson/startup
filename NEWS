@@ -1,7 +1,14 @@
 Package: startup
 ================
 
-Version: 0.11.0-9000 [2019-03-29]
+Version: 0.11.0-9000 [2019-05-26]
+
+SIGNIFICANT CHANGES:
+
+ * Renviron and Rprofile startup files that use <key>!=<value> filters with
+   non-defined keys are now included.  Previously they were skipped.  Note
+   that <key>=<value> files are indeed skipped when <key> is not defined.
+
 
 NEW FEATURES:
 

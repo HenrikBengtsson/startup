@@ -19,7 +19,7 @@ filter_files_info <- function(files, info = sysinfo()) {
   for (op in c("=", "!=")) {
     ## Parse <key>=<value> and keep only matching ones
     for (key in names(info)) {
-      ## Identify files specifying this <key>=<value>
+      ## Identify files specifying this <key>=<value> or <key>!=<value>
       pattern <- sprintf(".*[^a-z]*(%s)%s([^=,/]*).*", key, op)
       idxs <- grep(pattern, files, fixed = FALSE)
       if (length(idxs) == 0) next
@@ -58,7 +58,7 @@ filter_files_package <- function(files) {
   for (op in c("=", "!=")) {
     ## Parse <key>=<value> and keep only matching ones
 
-    ## Identify files specifying this <key>=<value>
+    ## Identify files specifying this <key>=<value> or <key>!=<value>
     pattern <- sprintf(".*[^a-z]*(package)%s([^=,/]*).*", op)
     idxs <- grep(pattern, files, fixed = FALSE)
     if (length(idxs) == 0) next
@@ -153,7 +153,7 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
   unknown_keys <- NULL
   
   for (op in c("=", "!=")) {
-    ## Identify files specifying this <key>=<value>
+    ## Identify files specifying this <key>=<value> or <key>!=<value>
     pattern <- sprintf("^([a-zA-Z_][a-zA-Z0-9_]*)%s([^=,/]*).*", op)
     files_values <- list_of_values(files, pattern = pattern, names = TRUE)
 
@@ -180,16 +180,21 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
       if (op == "!=") keep <- !keep
       all(keep)
     })
+
     
     ## Any files with un-declared 'key' in their pathnames?
     has_unknown_keys <- which(unlist(lapply(files_ok, FUN = is.character)))
     if (length(has_unknown_keys) > 0) {
       unknown_keys_op <- files_ok[has_unknown_keys]
       names(unknown_keys_op) <- files[idxs[has_unknown_keys]]
-      unknown_keys <- c(unknown_keys, unknown_keys_op)
-      files_ok[has_unknown_keys] <- FALSE
+      if (op == "==") {
+        unknown_keys <- c(unknown_keys, unknown_keys_op)
+        files_ok[has_unknown_keys] <- FALSE
+      } else {
+        files_ok[has_unknown_keys] <- TRUE
+      }
     }
-    
+
     files_ok <- unlist(files_ok, use.names = FALSE)
     drop <- idxs[!files_ok]
 
