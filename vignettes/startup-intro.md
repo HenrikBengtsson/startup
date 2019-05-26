@@ -96,12 +96,14 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
 
-
-You can also include files conditionally on:
+* Installed packages:
 
   - `package`     - (character) whether a package is installed or not.  In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
-Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped_.
+* Environment variables:
+
+  - Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped if `<key>=<value>` is used but included if `<key>!=<value>` is used._
+
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
 
