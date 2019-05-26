@@ -134,6 +134,14 @@ get_when <- function(pathname) {
 }
 
 
+#' Reset all or parts of the "when" cache
+#'
+#' @param when (character vector) Specifies for which "when" frequencies
+#' the cache should be reset.  The default is to reset all of them.
+#'
+#' @return (invisible) The pathnames of the "when" cache files removed.
+#'
+#' @export
 reset_when_cache <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
   paths <- get_when_cache_path(when = when)
   exists <- vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)
