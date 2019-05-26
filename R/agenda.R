@@ -21,8 +21,8 @@ get_startup_time <- local({
   }
 })
 
-get_agenda_path <- function(when) {
-  when <- match.arg(when, choices = agenda_known_whens, several.ok = TRUE)
+get_when_path <- function(when) {
+  when <- match.arg(when, choices = known_when_keys, several.ok = TRUE)
   
   cache_path <- get_os_cache_root_path()
   if (!is_dir(cache_path)) dir.create(cache_path, recursive = TRUE)
@@ -30,11 +30,11 @@ get_agenda_path <- function(when) {
   path
 }
 
-get_agenda_file <- function(pathname, when) {
+get_when_file <- function(pathname, when) {
   stop_if_not(length(pathname) == 1L, is_file(pathname))
-  when <- match.arg(when, choices = agenda_known_whens)
+  when <- match.arg(when, choices = known_when_keys)
   
-  path <- get_agenda_path(when = when)
+  path <- get_when_path(when = when)
   if (!is_dir(path)) dir.create(path, recursive = TRUE)
 
   ## Poor-man's file ID
@@ -45,21 +45,21 @@ get_agenda_file <- function(pathname, when) {
   fi <- unlist(fi, use.names = FALSE)
   file_id <- paste(c(basename(pathname), fi), collapse = "-")
   
-  agenda_pathname <- file.path(path, file_id)
-  attr(agenda_pathname, "pathname") <- pathname
-  attr(agenda_pathname, "when") <- when
+  when_pathname <- file.path(path, file_id)
+  attr(when_pathname, "pathname") <- pathname
+  attr(when_pathname, "when") <- when
   
-  agenda_pathname
+  when_pathname
 }
 
-is_agenda_file_done <- function(agenda_pathname) {
-  if (!is_file(agenda_pathname)) {
+is_when_file_done <- function(when_pathname) {
+  if (!is_file(when_pathname)) {
     return(structure(FALSE, last_processed = as.POSIXct(NA)))
   }
-  when <- attr(agenda_pathname, "when")
+  when <- attr(when_pathname, "when")
   stop_if_not(length(when) == 1L, is.character(when), !is.na(when))
   
-  fi <- file.info(agenda_pathname)
+  fi <- file.info(when_pathname)
   mtime <- fi[["mtime"]]
 
   done <- NA
@@ -84,7 +84,7 @@ is_agenda_file_done <- function(agenda_pathname) {
     last <- sprintf("%s %02d", last_year, last_fortnight)
     now <- sprintf("%s %02d", now_year, now_fortnight)
     done <- (last >= now)
-##    R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
+##    R.utils::mstr(list(pathname = attr(when_pathname, "pathname"), when = when, last = last, now = now, done = done))
   } else if (when == "monthly") {
     format <- "%Y %m"
   } else {
@@ -95,7 +95,7 @@ is_agenda_file_done <- function(agenda_pathname) {
     last <- format(mtime, format = format)
     now <- format(get_startup_time(), format = format)
     done <- (last >= now)
-##    R.utils::mstr(list(pathname = attr(agenda_pathname, "pathname"), when = when, last = last, now = now, done = done))
+##    R.utils::mstr(list(pathname = attr(when_pathname, "pathname"), when = when, last = last, now = now, done = done))
   }
 
   attr(done, "last_processed") <- mtime
@@ -103,11 +103,11 @@ is_agenda_file_done <- function(agenda_pathname) {
   done
 }
 
-mark_agenda_file_done <- function(agenda_pathname) {
-  pathname <- attr(agenda_pathname, "pathname")
+mark_when_file_done <- function(when_pathname) {
+  pathname <- attr(when_pathname, "pathname")
   timestamp <- format(get_startup_time(), format = "%Y-%m-%d %H:%M:%OS3 %z")
-  cat(file = agenda_pathname, pathname, "\n", timestamp, "\n", sep = "")
-  agenda_pathname
+  cat(file = when_pathname, pathname, "\n", timestamp, "\n", sep = "")
+  when_pathname
 }
 
 
@@ -128,14 +128,14 @@ get_when <- function(pathname) {
   when <- unique(when)
   
   ## Drop unknown 'when' conditions
-  when <- intersect(when, agenda_known_whens)
+  when <- intersect(when, known_when_keys)
 
   when
 }
 
 
-reset_agenda <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
-  paths <- get_agenda_path(when = when)
+reset_when <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
+  paths <- get_when_path(when = when)
   exists <- vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)
   paths <- paths[exists]
   pathnames <- dir(paths, full.names = TRUE, all.files = TRUE, include.dirs = TRUE, no.. = TRUE)
@@ -143,4 +143,4 @@ reset_agenda <- function(when = c("once", "hourly", "daily", "weekly", "fortnigh
   invisible(pathnames)
 }
 
-agenda_known_whens <- eval(formals(reset_agenda)[["when"]])
+known_when_keys <- eval(formals(reset_when)[["when"]])

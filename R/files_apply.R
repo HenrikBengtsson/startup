@@ -52,8 +52,8 @@ files_apply <- function(files, fun,
     call_fun(file)
     
     if (length(when) == 1L) {
-      agenda_pathname <- get_agenda_file(file, when = when)
-      mark_agenda_file_done(agenda_pathname)
+      when_file <- get_when_file(file, when = when)
+      mark_when_file_done(when_file)
     }
   }
 
