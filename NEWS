@@ -9,7 +9,6 @@ SIGNIFICANT CHANGES:
    non-defined keys are now included.  Previously they were skipped.  Note
    that <key>=<value> files are indeed skipped when <key> is not defined.
 
-
 NEW FEATURES:
 
  * Added support for when=<periodicity> file declarations, where <periodicity>

@@ -6,6 +6,7 @@ sysinfo$wine <- FALSE
 sysinfo$interactive <- FALSE
 Sys.setenv(FOO = "abc")
 Sys.setenv(BAR = "123")
+Sys.unsetenv("UNKNOWN")
 
 message("*** filter_files() ...")
 
@@ -30,7 +31,9 @@ filesets <- list(
   N = c("/home/alice/.Rprofile.d/FOO=abc,BAR=123" = TRUE),
   O = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=321" = TRUE),
   P = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=123" = FALSE),
-  Q = c("/home/alice/.Rprofile.d/FOO=abc/BAR=123/help" = TRUE)
+  Q = c("/home/alice/.Rprofile.d/FOO=abc/BAR=123/help" = TRUE),
+  R = c("/home/alice/.Rprofile.d/UNKNOWN=42/test" = FALSE),
+  S = c("/home/alice/.Rprofile.d/UNKNOWN!=42/test" = TRUE)
 )
 
 ## Test with filename extensions *.R as well
@@ -39,7 +42,7 @@ filesets2 <- lapply(filesets, FUN = function(f) {
   f
 })
 names(filesets2) <- sprintf("%s.R", names(filesets))
-filesets <- c(filesets, filesets2)
+#filesets <- c(filesets, filesets2)
 
 
 for (kk in seq_along(filesets)) {
@@ -48,11 +51,16 @@ for (kk in seq_along(filesets)) {
   files <- filesets[[kk]]
   files_truth <- names(files)[files]
   files <- names(files)
+  cat("Before:\n")
   print(files)
 
   files_filtered <- filter_files(files, info = sysinfo)
+  cat("After:\n")
   print(files_filtered)
-  stopifnot(identical(files_filtered, files_truth))
+  cat("Expected:\n")
+  print(files_truth)
+  
+  stopifnot(all.equal(files_filtered, files_truth, check.attributes = FALSE))
 
   message(sprintf("File set #%d (%s) ... DONE", kk, names(filesets)[kk]))
 }

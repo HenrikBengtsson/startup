@@ -187,7 +187,7 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
     if (length(has_unknown_keys) > 0) {
       unknown_keys_op <- files_ok[has_unknown_keys]
       names(unknown_keys_op) <- files[idxs[has_unknown_keys]]
-      if (op == "==") {
+      if (op == "=") {
         unknown_keys <- c(unknown_keys, unknown_keys_op)
         files_ok[has_unknown_keys] <- FALSE
       } else {
