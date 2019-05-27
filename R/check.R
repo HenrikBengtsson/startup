@@ -75,14 +75,14 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
         
         if (eof_ok(file)) {
           msg <- sprintf("SYNTAX ISSUE FIXED: Added missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process.", file)  #nolint
-          warning(msg)
+          warning("startup::check(): ", msg)
         } else {
           msg <- sprintf("SYNTAX ERROR: Tried to add missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process, but failed.", file)  #nolint
-          stop(msg)
+          stop("startup::check(): ", msg)
         }
       } else {
         msg <- sprintf("SYNTAX ERROR: File %s is missing a newline at the end of the file, which most likely will cause R to silently ignore the file in the startup process.", file)  #nolint
-        stop(msg)
+        stop("startup::check(): ", msg)
       }
     }
   }
@@ -113,22 +113,37 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
       pattern <- patterns[name]
       if (any(grepl(pattern, bfr, fixed = FALSE))) {
         msg <- sprintf("UNSAFE STARTUP CALL DETECTED (%s): Updating or installing R packages during R startup will recursively spawn off an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", name, file)  #nolint
-        stop(msg)
+        stop("startup::check(): ", msg)
       }
     }
   }
 }
 
 
-check_rprofile_encoding <- function(debug = FALSE) {
-  if (isTRUE(getOption(".Rprofile.check.encoding", TRUE) &&
-             !interactive() &&
-             getOption("encoding", "native.enc") != "native.enc")) {
-    msg <- sprintf("POTENTIAL STARTUP PROBLEM: Option 'encoding' seems to have been set (to '%s') during startup, cf. Startup.  Changing this from the default 'native.enc' is known to have caused problems, particularly in non-interactive sessions, e.g. installation of packages with non-ASCII characters (also in source code comments) fails. To disable this warning, set option '.Rprofile.check.encoding' to FALSE, or set the encoding conditionally, e.g. if (base::interactive()) options(encoding='UTF-8').", getOption("encoding"))  #nolint
-    warning(msg)
+check_options <- function(debug = FALSE) {
+  msg <- function(opt, default, value, body = NULL) {
+    msg <- sprintf("R option '%s' was changed (to '%s') during startup, cf. Startup.  Values other than the default '%s' is known to cause problems.", opt, value, default)
+    msg <- c(msg, body)
+    msg <- c(msg, sprintf("To disable this check, add \"%s\" to option 'startup.check.options.ignore'.", opt))
+    paste("startup::check():", paste(msg, collapse = " "))
+  }
+     
+  ignore <- getOption("startup.check.options.ignore")
+
+  opt <- "encoding"
+  default <- "native.enc"
+  if (!is.element(opt, ignore) && !interactive() &&
+      (value <- getOption(opt, default)) != default) {
+    warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
+  }
+
+  opt <- "stringsAsFactors"
+  default <- TRUE
+  if (!is.element(opt, ignore) &&
+      (value <- getOption(opt, default)) != default) {
+    warning(msg(opt, default, value), call. = FALSE)
   }
 }
-
 
 
 check_r_libs_env_vars <- function(debug = FALSE) {
@@ -156,7 +171,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       } else {
         msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", sQuote(var), npaths, pathsq, pathsxq, pathsQ)
       }
-      warning(msg, call. = FALSE)
+      warning("startup::check(): ", msg, call. = FALSE)
     }
   }
 
@@ -169,7 +184,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       pathnamex <- normalizePath(pathname, mustWork = FALSE)
       msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which R will silently ignore",
                      sQuote(var), sQuote(pathname), sQuote(pathnamex))
-      warning(msg, call. = FALSE)
+      warning("startup::check(): ", msg, call. = FALSE)
     }
   }
 
@@ -183,7 +198,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
       pathnamex <- normalizePath(pathname, mustWork = FALSE)
       msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which 'R CMD %s' will silently ignore",
                      sQuote(var), sQuote(pathname), sQuote(pathnamex), key)
-      warning(msg, call. = FALSE)
+      warning("startup::check(): ", msg, call. = FALSE)
     }
   }
 }
@@ -222,5 +237,5 @@ check_rstudio_option_error_conflict <- function(debug = FALSE) {
     }
   }
   
-  warning("CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
+  warning("startup::check(): ", "CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }

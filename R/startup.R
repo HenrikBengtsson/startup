@@ -77,6 +77,7 @@ startup <- function(sibling = FALSE, all = FALSE,
                                  "message", "ignore"),
                     keep = c("options"), check = NA, unload = TRUE, skip = NA,
                     dryrun = NA, debug = NA) {
+  on_error <- match.arg(on_error)
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
 
   debug(debug)
@@ -187,13 +188,35 @@ startup <- function(sibling = FALSE, all = FALSE,
   rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
              dryrun = dryrun, on_error = on_error)
 
-  ## (iii) Detect and report on run-time startup issues
+  ## (iii) Process R_STARTUP_INIT code?
+  code <- Sys.getenv("R_STARTUP_INIT")
+  if (nzchar(code)) {
+    logf("Processing R_STARTUP_INIT=%s:", sQuote(code))
+    expr <- tryCatch(parse(text = code), error = identity)
+    if (inherits(expr, "error")) {
+      msg <- sprintf("Syntax error in 'R_STARTUP_INIT': %s", sQuote(code))
+      logf(paste("- [SKIPPED]", msg))
+      if (on_error == "error") {
+        stop(msg, call. = FALSE)
+      } else if (on_error == "warning") {
+        warning(msg, call. = FALSE)
+      } else if (on_error == "immediate.warning") {
+        warning(msg, immediate. = TRUE, call. = FALSE)
+      } else if (on_error == "message") {
+        message(msg)
+      }
+    } else {
+      eval(expr, envir = .GlobalEnv, enclos = baseenv())
+    }
+  }
+
+  ## (iv) Detect and report on run-time startup issues
   check_r_libs_env_vars(debug = debug)
   check_rstudio_option_error_conflict(debug = debug)
   
   res <- api()
 
-  ## (iii) Cleanup?
+  ## (v) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
 
   ## Needed because we might unload package below and then we will
@@ -216,7 +239,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   }
 
-  # (iv) Unload package?
+  # (vi) Unload package?
   if (unload) unload(debug = debug)
 
   if (debug) {
@@ -230,8 +253,10 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("The following will be processed next by R:")
 
     no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
+    loads_RData <- FALSE
     if (!no_restore_data) {
       if (is_file(f <- "./.RData")) {
+        loads_RData <- TRUE
         logf("- %s", file_info(f, type = "binary"))
       }
     }
@@ -244,10 +269,19 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
     }
 
+    where <- find(".First", mode = "function")
+    if (where > 0) {
+      logf("- .First(): in %s (position %d on search())", sQuote(search()[where]), where)
+    } else if (loads_RData) {
+      logf("- .First(): no such function on search(), but it might be that one is defined in the ./RData file")
+    } else {
+      logf("- .First(): no such function on search()")
+    }
+
     pkgs <- unlist(strsplit(pkgs, split = ",", fixed = TRUE))
     to_be_attached <- !is.element(paste("package:", pkgs, sep = ""), search())
     pkgs <- pkgs[to_be_attached]
-    logf("- Remaining packages to be attached per R_DEFAULT_PACKAGES (in order): %s",
+    logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
          paste(sQuote(pkgs), collapse = ", "))
   }
   

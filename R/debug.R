@@ -39,16 +39,16 @@ debug <- local({
   }
 })
 
-log <- function(..., collapse = "\n") {
+log <- function(..., collapse = "\n", timestamp = TRUE, appendLF = TRUE) {
   if (!debug()) return()
   lines <- c(...)
-  lines <- sprintf("%s: %s", timestamp(), lines)
-  message(paste(lines, collapse = collapse))
+  if (timestamp) lines <- sprintf("%s: %s", timestamp(), lines)
+  message(paste(lines, collapse = collapse), appendLF = appendLF)
   invisible()
 }
 
-logf <- function(..., collapse = "\n") {
-  log(sprintf(...), collapse = collapse)
+logf <- function(..., collapse = "\n", appendLF = TRUE) {
+  log(sprintf(...), collapse = collapse, appendLF = appendLF)
 }
 
 logp <- function(expr, ...) {

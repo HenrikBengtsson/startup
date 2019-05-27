@@ -24,15 +24,16 @@ files_apply <- function(files, fun,
         msg <- sprintf("Failure processing startup file %s: %s",
                        sQuote(pathname), msg)
         if (on_error == "error") {
-          stop(msg, call. = FALSE)
+          stop("startup::files_apply(): ", msg, call. = FALSE)
         } else if (on_error == "warning") {
-          warning(msg, call. = FALSE)
+          warning("startup::files_apply(): ", msg, call. = FALSE)
         } else if (on_error == "immediate.warning") {
-          warning(msg, immediate. = TRUE, call. = FALSE)
+          warning("startup::files_apply(): ", msg, immediate. = TRUE, call. = FALSE)
         } else if (on_error == "message") {
-          message(msg)
+          message("startup::files_apply(): ", msg)
         }
       }
+      res
     }
   }
 
@@ -44,11 +45,27 @@ files_apply <- function(files, fun,
   }
 
   for (file in files) {
-    logf(" - %s", file_info(file, type = type))
+    ## Get 'when=<periodicity>' declaration, if it exists
+    when <- get_when(file)
+    logf(" - %s", file_info(file, type = type, extra = sprintf("when=%s", when)))
+    
     call_fun(file)
+    
+    if (length(when) == 1L) {
+      when_cache_file <- get_when_cache_file(file, when = when)
+      mark_when_file_done(when_cache_file)
+    }
   }
 
-  unknown_keys <- attr(files, "unknown_keys")
+  already_done <- attr(files, "already_done", exact = TRUE)
+  n_done <- length(already_done[["file"]])
+  if (n_done > 0L) {
+    logf(" Skipped %d files with fullfilled 'when' statements:", n_done)
+    last <- vapply(already_done[["last_processed"]], FUN = format, format = "%Y-%m-%d %H:%M:%S", FUN.VALUE = NA_character_)
+    logf(sprintf(" - [SKIPPED] %s (processed on %s)", sQuote(already_done[["file"]]), last))
+  }
+
+  unknown_keys <- attr(files, "unknown_keys", exact = TRUE)
   if (length(unknown_keys) > 0) {
     unknown_files <- names(unknown_keys)
 ##    for (file in unknown_files) {
@@ -58,7 +75,7 @@ files_apply <- function(files, fun,
 ##      logf(" - [SKIPPED] %s", file_info(file, type = type, extra = reason))
 ##    }
     unknown_keys <- sort(unique(unlist(unknown_keys)))
-    logf(" [WARNING] skipped %d files with non-declared key names (%s)", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "))
+    logf("[WARNING] skipped %d files with non-declared key names (%s)", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "))
     if (getOption("startup.onskip", Sys.getenv("R_STARTUP_ONSKIP", "warn")) == "warn") {
       warning(sprintf("The 'startup' package skipped %d files with non-declared key names (%s). This is a new behavior since startup (>= 0.10.0) - previously, these files would be processed also when those keys where undefined. This warning will disappear in startup (>= 0.11.0) - to disable it already now, set environment variable R_STARTUP_ONSKIP=ignore or option 'startup.onskip=\"ignore\"': %s", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "), paste(sQuote(unknown_files), collapse = ", ")), immediate. = TRUE)
     }

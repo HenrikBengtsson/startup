@@ -20,18 +20,28 @@ matrix:
       r: oldrel
     - os: linux
       r: release
-      r_github_packages:
-        - jimhester/covr
-      after_success:
-        - Rscript -e 'covr::codecov(quiet = FALSE)'
-        - Rscript -e 'library(lintr); lint_package(linters = with_defaults(commented_code_linter = NULL, closed_curly_linter = closed_curly_linter(allow_single_line = TRUE), open_curly_linter = open_curly_linter(allow_single_line = TRUE)))'
-      env: NB='w/ covr & lintr' ## Just a label
     - os: linux
       r: devel
+      env:
+        - R_KEEP_PKG_SOURCE=yes
+        - _R_S3_METHOD_LOOKUP_BASEENV_AFTER_GLOBALENV_=true
+        - _R_S3_METHOD_LOOKUP_USE_TOPENV_AS_DEFENV_=true
+        - _R_CHECK_CONNECTIONS_LEFT_OPEN_=true
+        - _R_CHECK_LENGTH_1_CONDITION_=true
+        - _R_CHECK_LENGTH_1_LOGIC2_=true
     - os: osx
       r: oldrel
     - os: osx
       r: release
+    - os: linux
+      r: release
+      r_build_args: --no-build-vignettes --no-manual
+      r_check_args: --no-build-vignettes --no-codoc --no-examples --no-tests --no-manual --ignore-vignettes
+      r_packages:
+        - covr
+      after_success:
+        - Rscript -e 'covr::codecov(quiet=FALSE)'
+      env: NB='w/ covr' ## Just a label
 
 r_packages:
   - startup

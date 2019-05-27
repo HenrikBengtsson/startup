@@ -18,3 +18,4 @@ last.dump*
 .ghi
 .issues
 .make/
+.local/

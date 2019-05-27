@@ -31,6 +31,7 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     if (is.null(paths)) paths <- find_rprofile_d(sibling = sibling, all = all)
     files <- list_d_files(paths, filter = filter_files)
     encoding <- getOption("encoding")
+    
     source_print_eval <- function(pathname) {
       current_script_pathname(pathname)
       on.exit(current_script_pathname(NA_character_))
@@ -38,17 +39,17 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
              print.eval = TRUE,
              keep.source = FALSE, echo = FALSE, verbose = FALSE)
     }
+    
     files_apply(files, fun = source_print_eval,
                 on_error = on_error, dryrun = dryrun, what = "Rprofile")
-
-    # (iii) Validate .Rprofile encoding
-    check_rprofile_encoding()
   }
 
+  if (check) {
+    # Check for unsafe changes to R options changes .Rprofile 
+    check_options(debug = FALSE)
+  }
+  
   res <- api()
   if (unload) unload()
   invisible(res)
 }
-
-#' @export
-rprofile <- function(...) .Defunct(new = "startup::rprofile_d()")

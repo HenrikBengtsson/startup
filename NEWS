@@ -1,16 +1,69 @@
 Package: startup
 ================
 
+Version: 0.12.0 [2019-05-26]
+
+SIGNIFICANT CHANGES:
+
+ * Renviron and Rprofile startup files that use <key>!=<value> filters with
+   non-defined keys are now included.  Previously they were skipped.  Note
+   that <key>=<value> files are indeed skipped when <key> is not defined.
+
+ * startup() now produces an informative warning if it detects that an R
+   option that is considered unsafe to change from its default, e.g. changing
+   'encoding' other than in interactive mode may break package installations
+   and changing 'stringsAsFactors' will summon the dead.
+
+NEW FEATURES:
+
+ * Added support for when=<periodicity> file declarations, where <periodicity>
+   can be 'once', 'hourly', 'daily', 'weekly', 'fortnightly', and 'monthly'.
+   A startup file with such a declaration will be processed at most once per
+   <periodicity>, e.g. a file with 'when=daily' somewhere in the pathname will
+   be processed once per day.  The periodicity is based on the walltime in the
+   local time zone, e.g. if a file with 'when=daily' was processed one minute
+   before midnight, it will be processed again if an R session is started one
+   minute past midnight.  Updating the file timestamp of a 'when' file will
+   reset its timer.
+
+ * Code in environment variable 'R_STARTUP_INIT' will now be evaluated by
+   startup::startup() after Renviron and Rprofile files have been processed.
+   For example, 'R_STARTUP_INIT="x <- 1" R' will launch R with 'x == 1'.
+
+ * startup(debug = TRUE) now also reports on .First().
+
+ * The messages of warnings and errors produced by the startup package itself
+   now mention which startup function they originate from.  This helps to
+   identify the origin of these when produced during the R startup process.
+
+ * Added warn(), which produces a warning with information on which R source
+   file it was produced in, if any.
+
+MISCELLANEOUS:
+
+ * Renamed example folders .Renviron.d/ and .Rprofile.d/ installed as part
+   of the package to Renviron.d/ and Rprofile.d/ without the leading period.
+   This was simply done to avoid 'R CMD check --as-cran' NOTEs.
+
+BUG FIXES:
+
+ * startup() did not ignore files with names such as #foo.R#.
+ 
+DEPRECATED AND DEFUNCT:
+
+ * Removed defunct renviron() and rprofile(). Use renviron_d() and rprofile_d().
+ 
+
 Version: 0.11.0 [2018-08-24]
 
 NEW FEATURES:
 
  * startup(debug = TRUE) now also displays the expanded path to any file or
-   folder listed.  It also gives information of files that known environment
-   variables (e.g. R_ENVIRON_USER) points to.  For Renviron files, it also
+   folder listed.  It also gives information on files that known environment
+   variables (e.g. R_ENVIRON_USER) point to.  For Renviron files, it also
    reports on names of the environment variables set in each of those files.
 
- * startup(debug = TRUE) reports on search path and loaded namespaces,
+ * startup(debug = TRUE) reports on the search path and loaded namespaces,
    and what packages will be attached after startup finishes.
 
  * Added character 'dirname' to sysinfo() specifying the basename of the
@@ -120,17 +173,17 @@ NEW FEATURES:
  * check(), and therefore also startup(check = TRUE), warns if R_LIBS,
    R_LIBS_SITE, or R_LIBS_USER specifies non-existing directory.
    
-
 DEPRECATED AND DEFUNCT:
 
- * DEFUNCT: renviron() and rprofile() are defunct.  Removed api()$renviron()
+ * renviron() and rprofile() are now defunct.  Removed api()$renviron()
    and api()$rprofile().  Use renviron_d() and rprofile_d() instead.
 
 BUG FIXES:
 
  * Now install(backup = TRUE) guarantees that the .Rprofile file is backed up,
-   otherwise an error is produced.  Previously it could silently fail if a
+   otherwise, an error is produced.  Previously it could silently fail if a
    backup file with the exact same name already existed.
+
 
 Version: 0.7.0 [2017-09-04]
 
@@ -155,7 +208,7 @@ BUG FIXES:
 
  * startup() ignores more of the hidden files and folders that macOS may create
    and which should not be sourced during startup.  For instance, when copying
-   a file 'foo.R' to a non-macOS file system, an auxillary file '._foo.R' may
+   a file 'foo.R' to a non-macOS file system, an auxiliary file '._foo.R' may
    be created as well.
  
 
@@ -243,8 +296,8 @@ NEW FEATURES:
 
 DEPRECATED AND DEFUNCT:
 
- * DEPRECATED: renviron() and rprofile() were renamed to renviron_d() and
-   rprofile_d(), respectively.
+ * renviron() and rprofile() were renamed to renviron_d() and rprofile_d(),
+   respectively.
 
 BUG FIXES:
 

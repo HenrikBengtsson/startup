@@ -43,6 +43,7 @@ Rplots.pdf$
 ^[.]test
 ^[.]check
 ^.*[.]tar[.]gz$
+^[.]local
 
 #----------------------------
 # Package specific
@@ -55,4 +56,3 @@ Rplots.pdf$
 #----------------------------
 ^.ghi
 ^.issues
-
