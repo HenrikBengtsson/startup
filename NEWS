@@ -9,6 +9,11 @@ SIGNIFICANT CHANGES:
    non-defined keys are now included.  Previously they were skipped.  Note
    that <key>=<value> files are indeed skipped when <key> is not defined.
 
+ * startup() now produces an informative warning if it detects that an R
+   option that is considered unsafe to change from its default, e.g. changing
+   'encoding' other than in interactive mode may break package installations
+   and changing 'stringsAsFactors' will summon the dead.
+
 NEW FEATURES:
 
  * Added support for when=<periodicity> file declarations, where <periodicity>
@@ -33,11 +38,6 @@ NEW FEATURES:
 
  * Added warn(), which produces a warning with information on which R source
    file it was produced in, if any.
-
- * startup() now produces an informative warning if it detects that an R
-   option that is considered unsafe to change from its default, e.g. changing
-   'encoding' other than in interactive mode may break package installations
-   and changing 'stringsAsFactors' will summon the dead.
 
 MISCELLANEOUS:
 
