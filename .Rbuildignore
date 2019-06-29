@@ -57,3 +57,5 @@ Rplots.pdf$
 ^.ghi
 ^.issues
 startup-the-r-startup-process.md
+^.*\.Rproj$
+^\.Rproj\.user$

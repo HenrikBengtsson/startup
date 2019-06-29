@@ -19,3 +19,4 @@ last.dump*
 .issues
 .make/
 .local/
+.Rproj.user
