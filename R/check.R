@@ -101,7 +101,7 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
   if (length(files) == 0) return()
 
   patterns <- c(
-    "utils::update.packages()" = "update.packages[(][^)]*[)]",
+    "utils::update.packages()" = "update[.]packages[(][^)]*[)]",
     "pacman::p_up()" = "p_up[(][^)]*[)]"
   )
 

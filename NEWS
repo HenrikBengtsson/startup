@@ -12,6 +12,12 @@ NEW FEATURES:
  * The startup::startup() code snipped injected in the .Rprofile file by
    startup::install() now prefix error messages with '.Rprofile error: '
    to help troubleshooting errors.
+
+BUG FIXES:
+
+ * The startup checks asserting that update.packages() is not called would
+   pick up not only those with the period ('.') but any character in that
+   position.
  
 
 Version: 0.12.0 [2019-05-26]
