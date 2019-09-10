@@ -1,13 +1,19 @@
 Package: startup
 ================
 
-Version: 0.12.0-9000 [2019-05-28]
+Version: 0.12.0-9000 [2019-09-09]
 
 NEW FEATURES:
 
  * Added flag 'rtichoke' to sysinfo() indicating whether R runs in radian
    (previously known as rtichoke and rice) or not.  Please stop using the
    'rice' and 'rtichoke' flags.
+
+BUG FIXES:
+
+ * The startup checks asserting that update.packages() is not called would
+   pick up not only those with the period ('.') but any character in that
+   position.
  
 
 Version: 0.12.0 [2019-05-26]
