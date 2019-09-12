@@ -19,3 +19,6 @@ last.dump*
 .issues
 .make/
 .local/
+revdep/data.sqlite
+revdep/checks/*
+revdep/library/*
