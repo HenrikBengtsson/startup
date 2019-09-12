@@ -159,7 +159,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
     
     paths <- unlist(strsplit(path, split = .Platform$path.sep, fixed = TRUE))
     paths <- unique(paths)
-    paths <- paths[!is_dir(paths)]
+    paths <- paths[!vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)]
     npaths <- length(paths)
     if (npaths > 0) {
       pathsx <- normalizePath(paths, mustWork = FALSE)

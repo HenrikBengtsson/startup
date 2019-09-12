@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.12.0-9000 [2019-09-10]
+Version: 0.12.0-9000 [2019-09-11]
 
 NEW FEATURES:
 
@@ -15,6 +15,9 @@ NEW FEATURES:
 
 BUG FIXES:
 
+ * The validation of 'R_LIBS', 'R_LIBS_SITE', 'R_LIBS_USER' by startup::check()
+   had a _R_CHECK_LENGTH_1_LOGIC2_ bug.
+   
  * The startup checks asserting that update.packages() is not called would
    pick up not only those with the period ('.') but any character in that
    position.
