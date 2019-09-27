@@ -1,9 +1,12 @@
 Package: startup
 ================
 
-Version: 0.12.0-9000 [2019-09-11]
+Version: 0.12.0-9000 [2019-09-27]
 
 NEW FEATURES:
+
+ * startup::startup() will return immediately without processing R startup
+   files if environment variable 'R_STARTUP_DISABLE' is set to 'TRUE'.
 
  * Added flag 'radian' to sysinfo() indicating whether R runs in radian
    (previously known as rtichoke and rice) or not.  Please stop using the
