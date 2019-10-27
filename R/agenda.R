@@ -142,13 +142,18 @@ get_when <- function(pathname) {
 #' @return (invisible) The pathnames of the "when" cache files removed.
 #'
 #' @export
-reset_when_cache <- function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
-  paths <- get_when_cache_path(when = when)
-  exists <- vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)
-  paths <- paths[exists]
-  pathnames <- dir(paths, full.names = TRUE, all.files = TRUE, include.dirs = TRUE, no.. = TRUE)
-  for (path in paths) unlink(path, recursive = TRUE)
-  invisible(pathnames)
-}
+reset_when_cache <- local({
+  ## Backport
+  if (getRversion() < "3.0.0") dir <- function(..., no..=TRUE) base::dir(...)
+  
+  function(when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")) {
+    paths <- get_when_cache_path(when = when)
+    exists <- vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)
+    paths <- paths[exists]
+    pathnames <- dir(paths, full.names = TRUE, all.files = TRUE, include.dirs = TRUE, no.. = TRUE)
+    for (path in paths) unlink(path, recursive = TRUE)
+    invisible(pathnames)
+  }
+})
 
 known_when_keys <- eval(formals(reset_when_cache)[["when"]])
