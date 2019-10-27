@@ -49,4 +49,4 @@ The package has been verified using `R CMD check --as-cran` on:
 
 * Platform x86_64-w64-mingw32/x64 (64-bit) [win-builder]:
   - R version 3.6.1 (2019-07-05)
-#  - R Under development (unstable) (2019-10-22 r77324)
+  - R Under development (unstable) (2019-10-24 r77329)
