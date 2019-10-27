@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.12.0-9000 [2019-09-27]
+Version: 0.13.0 [2019-10-26]
 
 NEW FEATURES:
 
@@ -24,7 +24,13 @@ BUG FIXES:
  * The startup checks asserting that update.packages() is not called would
    pick up not only those with the period ('.') but any character in that
    position.
- 
+
+DEPRECATED AND DEFUNCT:
+
+ * startup::startup() no longer warn about startup files with non-declared key
+   names being skipped. This warning was introduced in startup 0.10.0 due to
+   how such files were filtered out.
+
 
 Version: 0.12.0 [2019-05-26]
 
