@@ -128,11 +128,11 @@ restart <- function(status = 0L,
   if (as == "specified") {
   } else if (as == "current") {
     if (is.null(args)) {
-      ## WORKAROUND: When running 'rtichoke', commandArgs() does not
+      ## WORKAROUND: When running 'radian', commandArgs() does not
       ## reflect how it was started.
-      ## https://github.com/randy3k/rtichoke/issues/23#issuecomment-375078246
-      if (is_rtichoke()) {  
-        args <- Sys.getenv("RTICHOKE_COMMAND_ARGS")
+      ## https://github.com/randy3k/radian/issues/23#issuecomment-375078246
+      if (is_radian()) {  
+        args <- Sys.getenv("RADIAN_COMMAND_ARGS")
       } else {
         args <- cmdargs[-1]
       }
@@ -146,8 +146,8 @@ restart <- function(status = 0L,
     ## Also '--slave', but we disable that for now to make it clear
     ## that the session is restarted.
 
-    if (is_rtichoke()) {
-      stop(sprintf("startup::restart(as = %s) is not supported when running R via rtichoke", dQuote(as)))
+    if (is_radian()) {
+      stop(sprintf("startup::restart(as = %s) is not supported when running R via radian", dQuote(as)))
     }
     
     args <- c("--no-restore", args)
@@ -158,8 +158,8 @@ restart <- function(status = 0L,
     ## Also '--slave', but we disable that for now to make it clear
     ## that the session is restarted.
 
-    if (is_rtichoke()) {
-      stop(sprintf("startup::restart(as = %s) is not supported when running R via rtichoke", dQuote(as)))
+    if (is_radian()) {
+      stop(sprintf("startup::restart(as = %s) is not supported when running R via radian", dQuote(as)))
     }
     
     vanilla_install <- nzchar(Sys.getenv("R_INSTALL_VANILLA"))
@@ -176,8 +176,8 @@ restart <- function(status = 0L,
   ## Restart quietly or not?
   if (as != "specified") {
     if (quiet) {
-      if (is_rtichoke()) {
-        stop("startup::restart(quiet = TRUE) is not supported when running R via rtichoke")
+      if (is_radian()) {
+        stop("startup::restart(quiet = TRUE) is not supported when running R via radian")
       }
       args <- c("--quiet", args)
     } else {

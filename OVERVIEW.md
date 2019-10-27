@@ -81,7 +81,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
   - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
-  - `rtichoke`    - (logical) whether running R in [rtichoke] (formerly known as 'rice') or not
+  - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice') or not
   - `microsoftr`  - (logical) whether running R in [Microsoft R Open] or not
   - `rstudio`     - (logical) whether running R in [RStudio] Console or not
   - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
@@ -209,6 +209,6 @@ local({
 [Emacs Speaks Statistics (ESS)]: https://ess.r-project.org/
 [Microsoft R Open]: https://mran.microsoft.com/open
 [pqR]: http://www.pqr-project.org/
-[rtichoke]: https://github.com/randy3k/rtichoke
+[radian]: https://github.com/randy3k/radian
 [RStudio]: https://www.rstudio.com/products/RStudio/
 [Linux Wine]: https://www.winehq.org/

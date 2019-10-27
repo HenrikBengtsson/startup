@@ -1,6 +1,37 @@
 Package: startup
 ================
 
+Version: 0.13.0 [2019-10-26]
+
+NEW FEATURES:
+
+ * startup::startup() will return immediately without processing R startup
+   files if environment variable 'R_STARTUP_DISABLE' is set to 'TRUE'.
+
+ * Added flag 'radian' to sysinfo() indicating whether R runs in radian
+   (previously known as rtichoke and rice) or not.  Please stop using the
+   'rice' and 'rtichoke' flags.
+
+ * The startup::startup() code snipped injected in the .Rprofile file by
+   startup::install() now prefix error messages with '.Rprofile error: '
+   to help troubleshooting errors.
+
+BUG FIXES:
+
+ * The validation of 'R_LIBS', 'R_LIBS_SITE', 'R_LIBS_USER' by startup::check()
+   had a _R_CHECK_LENGTH_1_LOGIC2_ bug.
+   
+ * The startup checks asserting that update.packages() is not called would
+   pick up not only those with the period ('.') but any character in that
+   position.
+
+DEPRECATED AND DEFUNCT:
+
+ * startup::startup() no longer warn about startup files with non-declared key
+   names being skipped. This warning was introduced in startup 0.10.0 due to
+   how such files were filtered out.
+
+
 Version: 0.12.0 [2019-05-26]
 
 SIGNIFICANT CHANGES:

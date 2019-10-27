@@ -80,6 +80,11 @@ startup <- function(sibling = FALSE, all = FALSE,
   on_error <- match.arg(on_error)
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
 
+  ## Is startup::startup() fully disabled?
+  if (isTRUE(as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE")))) {
+    return(invisible())
+  }
+  
   debug(debug)
 
   debug <- debug()

@@ -24,9 +24,19 @@ eof_ok <- function(file) {
   is.element(bfr[n], charToRaw("\n\r"))
 }
 
-is_dir <- function(f) nzchar(f) && file.exists(f) && file.info(f)$isdir
+is_dir <- function(f) {
+  if (length(f) != 1L) {
+    stop(sprintf("INTERNAL ERROR in startup:::is_dir(): only scalar input is supported: [n=%d] %s", length(f), paste(sQuote(f), collapse = ", ")))
+  }
+  nzchar(f) && file.exists(f) && file.info(f)$isdir
+}
 
-is_file <- function(f) nzchar(f) && file.exists(f) && !file.info(f)$isdir
+is_file <- function(f) {
+  if (length(f) != 1L) {
+    stop(sprintf("INTERNAL ERROR in startup:::is_file(): only scalar input is supported: [n=%d] %s", length(f), paste(sQuote(f), collapse = ", ")))
+  }
+  nzchar(f) && file.exists(f) && !file.info(f)$isdir
+}
 
 nlines <- function(f) {
   bfr <- readLines(f, warn = FALSE)
