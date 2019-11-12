@@ -59,6 +59,11 @@
 #' # the following call to the ~/.Rprofile file.
 #' startup::startup()
 #'
+#' # To process ~/.Renviron.d/ files, and then any ./.Renviron.d/ files,
+#' # followed by  ~/.Rprofile.d/ files, and then any ./.Rprofile.d/ files,
+#' # add the following call to the ~/.Rprofile file.
+#' startup::startup(all = TRUE)
+#'
 #' # For finer control of on exactly what files are used
 #' # functions renviron_d() and rprofile_d() are also available:
 #'

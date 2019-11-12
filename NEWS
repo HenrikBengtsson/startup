@@ -1,9 +1,14 @@
 Package: startup
 ================
 
-Version: 0.13.0-9000 [2019-10-27]
+Version: 0.13.0-9000 [2019-11-11]
 
- * ...
+BUG FIXES:
+
+ * startup(all = TRUE) would process startup folders in the current working
+   directory before those in the home directory, and not vice verse.  This
+   prevented overriding settings made in ~/.Renviron.d/ or ~/.Rprofile.d/ with
+   custom ones in local ./.Renviron.d/ and ./.Rprofile.d/ folders.
 
 
 Version: 0.13.0 [2019-10-26]
