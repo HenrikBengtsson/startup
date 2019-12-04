@@ -273,13 +273,17 @@ startup <- function(sibling = FALSE, all = FALSE,
       } else if (debug) {
         logf("- R_STARTUP_RDATA=%s", env)
       }
+
+      ## Support R_STARTUP_RDATA=prompt,rename
+      env <- unlist(strsplit(env, split = ",", fixed = TRUE))
+      stopifnot(length(env) >= 1L, length(env) <= 2L)
       
-      if (env == "prompt") {
-        env <- "default"
-        if (interactive()) {
-          logf("- Prompting user whether they want to load %s or not", f_info)
-  
-          prompt <- sprintf("Detected %s - do you want to load it? If not, it will be renamed. [Y/n]: ", f_info)
+      if (env[1] == "prompt") {
+        fallback <- env[2L]
+        if (interactive()) {  
+	  if (is.na(fallback) || fallback == "default") fallback <- "rename"
+          logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
+          prompt <- sprintf("Detected %s - do you want to load it? If not, it will be %sd. [Y/n]: ", f_info, fallback)
           res <- TRUE
           repeat({
             ans <- readline(prompt)
@@ -294,18 +298,29 @@ startup <- function(sibling = FALSE, all = FALSE,
             }
           })
           logf("- User wants to load it: %s", res)
-          env <- if (res) "default" else "rename"
-	} else {
-          warning(sprintf("Loading %s despite R_STARTUP_RDATA=%s because it is not possible to prompt the user in a non-interactive session", f_info, env), call. = FALSE)
-	}
+          env <- if (res) "default" else fallback
+        } else {
+          ## Non-interactive session; it is not possible to the prompt user.
+          if (length(env) == 1L) {
+            env <- "default"
+            warning(sprintf("Loading %s despite R_STARTUP_RDATA=%s because it is not possible to prompt the user in a non-interactive session", f_info, env), call. = FALSE)
+          } else {
+            ## Use fallback
+            stop_if_not(!is.na(fallback))
+            env <- fallback
+          }
+        }
       }
+
+      ## At this point, we should have at most one element in 'env'
+      stop_if_not(length(env) == 1L, !is.na(env))
       
       if (env == "remove") {
         logf("- Skipping %s by removing it", f_info)
         file.remove(f)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s because R_STARTUP_RDATA=%s caused it to be removed", f, env), call. = FALSE)
+          warning(sprintf("Skipped %s because R_STARTUP_RDATA=%s caused it to be removed", f_info, env), call. = FALSE)
         }
       } else if (env == "rename") {
         fi <- file.info(f)

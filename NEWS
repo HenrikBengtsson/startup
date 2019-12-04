@@ -9,9 +9,11 @@ NEW FEATURES:
    existing './.RData' file to be skipped by automatically removing it.
    If "rename", it will be renamed to './.RData.YYYYMMDD_hhmmss' where the
    timestamp is the last time the file was modified.  If "prompt", then the
-   user is prompted whether they want to load the file or rename it.  Thus,
-   setting 'R_STARTUP_RDATA=rename' in an .Renviron file will make sure no
-   .RData file is ever loaded while still preserving them.
+   user is prompted whether they want to load the file or rename it.  In
+   non-interactive session, "prompt" will fallback to loading by default.
+   To fallback to renaming the file, use "prompt,rename".  Thus, setting
+   'R_STARTUP_RDATA=rename' in an .Renviron file will make sure no .RData
+   file is ever loaded while still preserving them.
 
 BUG FIXES:
 
