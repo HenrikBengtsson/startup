@@ -10,6 +10,9 @@ BUG FIXES:
    prevented overriding settings made in ~/.Renviron.d/ or ~/.Rprofile.d/ with
    custom ones in local ./.Renviron.d/ and ./.Rprofile.d/ folders.
 
+ * startup(debug = TRUE) would not only report on the name of an environment
+   variable, but also parts of its value, if the value contained equal signs.
+ 
  * RStudio: Using 'renv' together with startup() while in the RStudio Console
    would produce a false warning on the 'error' option being set.
 

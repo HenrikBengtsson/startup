@@ -112,7 +112,7 @@ parse_renviron <- function(f) {
   bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
   bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
   bfr <- grep("=.*$", bfr, value = TRUE)
-  pattern <- "^(.*)[ \t]*=[ \t]*(.*)$"
+  pattern <- "^([^=]*)[ \t]*=[ \t]*(.*)$"
   bfr <- grep(pattern, bfr, value = TRUE)
   names <- gsub(pattern, "\\1", bfr)
   values <- gsub(pattern, "\\2", bfr)
