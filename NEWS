@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.13.0-9000 [2019-11-11]
+Version: 0.13.0-9000 [2019-12-03]
 
 BUG FIXES:
 
@@ -9,6 +9,9 @@ BUG FIXES:
    directory before those in the home directory, and not vice verse.  This
    prevented overriding settings made in ~/.Renviron.d/ or ~/.Rprofile.d/ with
    custom ones in local ./.Renviron.d/ and ./.Rprofile.d/ folders.
+
+ * RStudio: Using 'renv' together with startup() while in the RStudio Console
+   would produce a false warning on the 'error' option being set.
 
 
 Version: 0.13.0 [2019-10-26]

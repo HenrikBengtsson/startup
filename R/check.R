@@ -208,6 +208,11 @@ check_rstudio_option_error_conflict <- function(debug = FALSE) {
   ## Nothing to do?
   if (is.null(getOption("error")) || !is_rstudio_console()) return()
 
+  ## Skip check if renv is active (because we cannot reliably test)
+  ## https://github.com/HenrikBengtsson/startup/issues/76
+  is_renv <- isTRUE(as.logical(Sys.getenv("RENV_R_INITIALIZING")))
+  if (is_renv) return()
+
   ## If possible, detect when 'Debug -> On Error' is _not_ set in RStudio.
   ## If so, then skip the warning, because that is a case when RStudio Console
   ## does not override 'error'.
@@ -236,6 +241,6 @@ check_rstudio_option_error_conflict <- function(debug = FALSE) {
       if (any(grepl("errorHandlerType=\"3\"", config, fixed = TRUE))) return()
     }
   }
-  
+
   warning("startup::check(): ", "CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
