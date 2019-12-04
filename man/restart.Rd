@@ -4,9 +4,16 @@
 \alias{restart}
 \title{Restarts R}
 \usage{
-restart(status = 0L, workdir = NULL, rcmd = NULL, args = NULL,
-  envvars = NULL, as = c("current", "specified", "R CMD build",
-  "R CMD check", "R CMD INSTALL"), quiet = FALSE, debug = NA)
+restart(
+  status = 0L,
+  workdir = NULL,
+  rcmd = NULL,
+  args = NULL,
+  envvars = NULL,
+  as = c("current", "specified", "R CMD build", "R CMD check", "R CMD INSTALL"),
+  quiet = FALSE,
+  debug = NA
+)
 }
 \arguments{
 \item{status}{An integer specifying the exit code of the current
@@ -50,16 +57,16 @@ command-line call (= \code{\link[base:commandArgs]{base::commandArgs()}}).
 }
 \item{\code{"specified"}:}{According to \code{rcmd}, \code{args}, and \code{envvars}.}
 \item{\code{"R CMD build"}:}{A setup that emulates
-\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/build}{R CMD build}
+\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/build}{\verb{R CMD build}}
 as far as possible.
 }
 \item{\code{"R CMD check"}:}{A setup that emulates
-\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/check}{R CMD check}
+\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/check}{\verb{R CMD check}}
 as far as possible, which happens to be identical to the
 \code{"R CMD build"} setup.
 }
 \item{\code{"R CMD INSTALL"}:}{A setup that emulates
-\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/INSTALL}{R CMD INSTALL}
+\href{https://github.com/wch/r-source/blob/R-3-4-branch/src/scripts/INSTALL}{\verb{R CMD INSTALL}}
 as far as possible.
 }
 }

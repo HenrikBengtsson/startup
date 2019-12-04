@@ -4,8 +4,9 @@
 \alias{reset_when_cache}
 \title{Reset all or parts of the "when" cache}
 \usage{
-reset_when_cache(when = c("once", "hourly", "daily", "weekly",
-  "fortnightly", "monthly"))
+reset_when_cache(
+  when = c("once", "hourly", "daily", "weekly", "fortnightly", "monthly")
+)
 }
 \arguments{
 \item{when}{(character vector) Specifies for which "when" frequencies
