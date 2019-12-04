@@ -92,9 +92,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   
   debug(debug)
 
+  cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
+
   debug <- debug()
   if (debug) {
-    cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
     r_home <- R.home()
     r_arch <- .Platform$r_arch
     r_os <- .Platform$OS.type
@@ -256,16 +257,77 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(sQuote(loadedNamespaces()), collapse = ", "))
-
-    interactive <- interactive()
-
     logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
+  }
 
-    no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
-    loads_RData <- FALSE
+  no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
+  loads_RData <- has_RData <- FALSE
+  if (!no_restore_data) {
+    has_RData <- is_file(f <- "./.RData")
+    if (has_RData) {
+      f_info <- file_info(f, type = "binary")
+      env <- Sys.getenv("R_STARTUP_RDATA", "")
+      if (env == "") {
+        env <- "default"
+      } else if (debug) {
+        logf("- R_STARTUP_RDATA=%s", env)
+      }
+      
+      if (env == "prompt") {
+        logf("- Prompting user whether they want to load %s or not", f_info)
+
+        prompt <- sprintf("Detected %s - do you want to load it? If not, it will be renamed. [Y/n]: ", f_info)
+	res <- TRUE
+        repeat({
+          ans <- readline(prompt)
+	  ans <- gsub("(^[[:space:]]*|[[:space:]]*$)", "", ans)
+	  ans <- tolower(ans)
+	  if (ans %in% c("", "y", "yes")) {
+	    res <- TRUE
+	    break
+	  } else if (ans %in% c("n", "no")) {
+	    res <- FALSE
+	    break
+	  }
+	})
+        logf("- User wants to load it: %s", res)
+	env <- if (res) "default" else "rename"
+      }
+      
+      if (env == "remove") {
+        logf("- Skipping %s by removing it", f_info)
+        file.remove(f)
+        has_RData <- is_file(f)
+        if (!has_RData) {
+          warning(sprintf("Skipped %s because R_STARTUP_RDATA=%s caused it to be removed", f, env), call. = FALSE)
+        }
+      } else if (env == "rename") {
+        fi <- file.info(f)
+        when <- fi[c("mtime", "ctime")]
+        keep <- vapply(when, FUN = inherits, "POSIXct", FUN.VALUE=FALSE)
+        when <- when[keep]
+        when <- sort(when, decreasing = TRUE)
+        when <- format(when[[1]], format = "%Y%m%d_%H%M%S")
+        f_new <- sprintf("%s.%s", f, when)
+        file.rename(f, f_new)
+        f_new_info <- file_info(f_new, type = "binary")
+        logf("- Skipping %s by renaming it to %s", f, f_new_info)
+        has_RData <- is_file(f)
+        if (!has_RData) {
+          warning(sprintf("Skipped %s because R_STARTUP_RDATA=%s caused it to be renamed to %s", f, env, f_new_info), call. = FALSE)
+        }
+      } else if (env != "default") {
+        warning(sprintf("Ignoring unknown value (%s) of %s",
+                sQuote(env), sQuote("R_STARTUP_RDATA")),
+                call. = FALSE)
+      }
+    }
+  }
+
+  if (debug) {
     if (!no_restore_data) {
-      if (is_file(f <- "./.RData")) {
+      if (has_RData) {
         loads_RData <- TRUE
         logf("- %s", file_info(f, type = "binary"))
       }
@@ -273,7 +335,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     logf("- R_HISTFILE: %s", sQuote(Sys.getenv("R_HISTFILE")))
     no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
-    if (!no_restore_history && interactive) {
+    if (!no_restore_history && interactive()) {
       if (is_file(f <- Sys.getenv("R_HISTFILE", "./.Rhistory"))) {
         logf("- %s", file_info(f, type = "txt"))
       }
