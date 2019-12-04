@@ -17,6 +17,10 @@ NEW FEATURES:
 
 BUG FIXES:
 
+ * The source information, that is, the filename and line locations, were
+   dropped from functions defined via startup().  To get the filename where
+   a function was defined use getSrcFilename(my_fcn, full.names = TRUE).
+
  * startup(all = TRUE) would process startup folders in the current working
    directory before those in the home directory, and not vice verse.  This
    prevented overriding settings made in ~/.Renviron.d/ or ~/.Rprofile.d/ with
