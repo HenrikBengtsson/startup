@@ -275,24 +275,29 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
       
       if (env == "prompt") {
-        logf("- Prompting user whether they want to load %s or not", f_info)
-
-        prompt <- sprintf("Detected %s - do you want to load it? If not, it will be renamed. [Y/n]: ", f_info)
-	res <- TRUE
-        repeat({
-          ans <- readline(prompt)
-	  ans <- gsub("(^[[:space:]]*|[[:space:]]*$)", "", ans)
-	  ans <- tolower(ans)
-	  if (ans %in% c("", "y", "yes")) {
-	    res <- TRUE
-	    break
-	  } else if (ans %in% c("n", "no")) {
-	    res <- FALSE
-	    break
-	  }
-	})
-        logf("- User wants to load it: %s", res)
-	env <- if (res) "default" else "rename"
+        env <- "default"
+        if (interactive()) {
+          logf("- Prompting user whether they want to load %s or not", f_info)
+  
+          prompt <- sprintf("Detected %s - do you want to load it? If not, it will be renamed. [Y/n]: ", f_info)
+          res <- TRUE
+          repeat({
+            ans <- readline(prompt)
+            ans <- gsub("(^[[:space:]]*|[[:space:]]*$)", "", ans)
+            ans <- tolower(ans)
+            if (ans %in% c("", "y", "yes")) {
+              res <- TRUE
+              break
+            } else if (ans %in% c("n", "no")) {
+              res <- FALSE
+              break
+            }
+          })
+          logf("- User wants to load it: %s", res)
+          env <- if (res) "default" else "rename"
+	} else {
+          warning(sprintf("Loading %s despite R_STARTUP_RDATA=%s because it is not possible to prompt the user in a non-interactive session", f_info, env), call. = FALSE)
+	}
       }
       
       if (env == "remove") {
