@@ -131,26 +131,30 @@ find <- function(what, mode) {
 }
 
 
-ask_yes_no <- function(question, descriptions = NULL, rdata_workaround = TRUE) {
-  if (!is.null(descriptions)) {
-    stop_if_not(is.character(descriptions), length(descriptions) == 2L)
-  }
-  
+supports_tcltk <- function() {
+  (capabilities("X11") && capabilities("tcltk") &&
+   requireNamespace("tcltk") && suppressWarnings(tcltk::.TkUp))
+}
+
+tcltk_yesno <- function(question) {
+  if (!supports_tcltk()) {
+    warning("[startup::startup()]: Your R setup does not support X11 or tcltk dialogs. Because of this, the answer to the question ", sQuote(question), " was defaulted to 'yes'.", call. = FALSE)
+    return(TRUE)
+  }  
+  ans <- tcltk::tk_messageBox("yesno", message = question)
+  (ans == "yes")
+}
+
+ask_yes_no <- function(question, rdata_workaround = TRUE) {
   ## RStudio Console workarounds?
   if (is_rstudio_console()) {
     if (rdata_workaround) {
       ## WORKAROUND: RStudio Console will load any .RData file as soon as
       ## base::readline() or utils::menu(..., graphics = FALSE) is called
       ## during startup process (https://github.com/rstudio/rstudio/issues/5844)
-      choices <- c("Yes", "no")
-      if (length(descriptions) == 2L) {
-        choices <- sprintf("%s - %s", choices, descriptions)
-      }
-      ans <- utils::select.list(choices, preselect = choices[1],
-                                title = question, graphics=TRUE)
-      if (ans == "") ans <- choices[1]
-      res <- (ans == choices[1])
-      return(res)
+      ## Instead, we use a TclTk dialog.  If this is not possible, we will
+      ## produce a warning and default to 'Yes'.
+      return(tcltk_yesno(question))
     }
     
     ## WORKAROUND: RStudio Console does not show the base::readline() prompt

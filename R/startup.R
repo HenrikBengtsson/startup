@@ -266,7 +266,9 @@ startup <- function(sibling = FALSE, all = FALSE,
   if (!no_restore_data) {
     has_RData <- is_file(f <- "./.RData")
     if (has_RData) {
-      f_info <- file_info(f, type = "binary")
+      f_norm <- normalizePath(f)
+      f_info_short <- file_info(f, type = "binary")
+      f_info <- file_info(f_norm, type = "binary")
       env0 <- env <- Sys.getenv("R_STARTUP_RDATA", "")
       if (env == "") {
         env <- "default"
@@ -284,10 +286,17 @@ startup <- function(sibling = FALSE, all = FALSE,
 	  if (is.na(fallback) || fallback == "default") fallback <- "rename"
           logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
           question <- sprintf("Detected %s - do you want to load it? If not, it will be %sd.", f_info, fallback)
-          descriptions <- c("load the .RData file", sprintf("%s the .RData file", fallback))
-          res <- ask_yes_no(question, descriptions = descriptions)
-          logf("- User wants to load it: %s", res)
-          env <- if (res) "default" else fallback
+
+          ## We might be able to prompt the user
+          if (is_rstudio_console() && !supports_tcltk()) {
+            env <- "default"
+            logf("- Cannot prompt user in the RStudio Console on this system")
+            warning(sprintf("Detected %s, which was loaded (default), because it was possible to ask you if it should loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, env0), call. = FALSE)
+          } else {
+            res <- ask_yes_no(question)
+            logf("- User wants to load it: %s", res)
+            env <- if (res) "default" else fallback
+	  }  
         } else {
           ## Non-interactive session; it is not possible to the prompt user.
           if (length(env) == 1L) {
@@ -320,11 +329,11 @@ startup <- function(sibling = FALSE, all = FALSE,
         when <- format(when[[1]], format = "%Y%m%d_%H%M%S")
         f_new <- sprintf("%s.%s", f, when)
         file.rename(f, f_new)
-        f_new_info <- file_info(f_new, type = "binary")
+        f_new_info <- file_info(normalizePath(f_new), type = "binary")
         logf("- Skipping %s by renaming it to %s", f, f_new_info)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", f, f_new_info, env0), call. = FALSE)
+          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", f_norm, f_new_info, env0), call. = FALSE)
         }
       } else if (env != "default") {
         warning(sprintf("Ignoring unknown value (%s) of %s",
