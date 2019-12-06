@@ -267,7 +267,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     has_RData <- is_file(f <- "./.RData")
     if (has_RData) {
       f_info <- file_info(f, type = "binary")
-      env <- Sys.getenv("R_STARTUP_RDATA", "")
+      env0 <- env <- Sys.getenv("R_STARTUP_RDATA", "")
       if (env == "") {
         env <- "default"
       } else if (debug) {
@@ -283,27 +283,16 @@ startup <- function(sibling = FALSE, all = FALSE,
         if (interactive()) {  
 	  if (is.na(fallback) || fallback == "default") fallback <- "rename"
           logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
-          prompt <- sprintf("Detected %s - do you want to load it? If not, it will be %sd. [Y/n]: ", f_info, fallback)
-          res <- TRUE
-          repeat({
-            ans <- readline(prompt)
-            ans <- gsub("(^[[:space:]]*|[[:space:]]*$)", "", ans)
-            ans <- tolower(ans)
-            if (ans %in% c("", "y", "yes")) {
-              res <- TRUE
-              break
-            } else if (ans %in% c("n", "no")) {
-              res <- FALSE
-              break
-            }
-          })
+          question <- sprintf("Detected %s - do you want to load it? If not, it will be %sd.", f_info, fallback)
+          descriptions <- c("load the .RData file", sprintf("%s the .RData file", fallback))
+          res <- ask_yes_no(question, descriptions = descriptions)
           logf("- User wants to load it: %s", res)
           env <- if (res) "default" else fallback
         } else {
           ## Non-interactive session; it is not possible to the prompt user.
           if (length(env) == 1L) {
             env <- "default"
-            warning(sprintf("Loading %s despite R_STARTUP_RDATA=%s because it is not possible to prompt the user in a non-interactive session", f_info, env), call. = FALSE)
+            warning(sprintf("Loading %s because it is not possible to prompt the user in a non-interactive session [R_STARTUP_RDATA=%s]", f_info, env0), call. = FALSE)
           } else {
             ## Use fallback
             stop_if_not(!is.na(fallback))
@@ -320,7 +309,7 @@ startup <- function(sibling = FALSE, all = FALSE,
         file.remove(f)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s because R_STARTUP_RDATA=%s caused it to be removed", f_info, env), call. = FALSE)
+          warning(sprintf("Skipped %s by removing it [R_STARTUP_RDATA=%s]", f_info, env0), call. = FALSE)
         }
       } else if (env == "rename") {
         fi <- file.info(f)
@@ -335,11 +324,11 @@ startup <- function(sibling = FALSE, all = FALSE,
         logf("- Skipping %s by renaming it to %s", f, f_new_info)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s because R_STARTUP_RDATA=%s caused it to be renamed to %s", f, env, f_new_info), call. = FALSE)
+          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", f, f_new_info, env0), call. = FALSE)
         }
       } else if (env != "default") {
         warning(sprintf("Ignoring unknown value (%s) of %s",
-                sQuote(env), sQuote("R_STARTUP_RDATA")),
+                sQuote(env0), sQuote("R_STARTUP_RDATA")),
                 call. = FALSE)
       }
     }

@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.13.0-9000 [2019-12-03]
+Version: 0.13.0-9000 [2019-12-05]
 
 NEW FEATURES:
 
@@ -14,6 +14,11 @@ NEW FEATURES:
    To fallback to renaming the file, use "prompt,rename".  Thus, setting
    'R_STARTUP_RDATA=rename' in an .Renviron file will make sure no .RData
    file is ever loaded while still preserving them.
+
+ * RStudio Console: The only way to prompt a user during the R startup process
+   in the RStudio Console is via a graphical popup window.  Because of this,
+   R_STARTUP_RDATA=prompt will trigger a popup window in RStudio if there is
+   a .RData file.
 
 BUG FIXES:
 

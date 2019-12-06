@@ -130,3 +130,53 @@ find <- function(what, mode) {
   -1L
 }
 
+
+ask_yes_no <- function(question, descriptions = NULL, rdata_workaround = TRUE) {
+  if (!is.null(descriptions)) {
+    stop_if_not(is.character(descriptions), length(descriptions) == 2L)
+  }
+  
+  ## RStudio Console workarounds?
+  if (is_rstudio_console()) {
+    if (rdata_workaround) {
+      ## WORKAROUND: RStudio Console will load any .RData file as soon as
+      ## base::readline() or utils::menu(..., graphics = FALSE) is called
+      ## during startup process (https://github.com/rstudio/rstudio/issues/5844)
+      choices <- c("Yes", "no")
+      if (length(descriptions) == 2L) {
+        choices <- sprintf("%s - %s", choices, descriptions)
+      }
+      ans <- utils::select.list(choices, preselect = choices[1],
+                                title = question, graphics=TRUE)
+      if (ans == "") ans <- choices[1]
+      res <- (ans == choices[1])
+      return(res)
+    }
+    
+    ## WORKAROUND: RStudio Console does not show the base::readline() prompt
+    ## during startup process (https://github.com/rstudio/rstudio/issues/5842)
+    readline <- function(prompt) {
+      ## Comment: appendLF = FALSE makes no difference. The "readline"
+      ## will trigger a "> " prompt to be display on the next line
+      message(prompt, appendLF = FALSE)
+      base::readline(prompt = "")
+    }
+  }
+
+  prompt <- sprintf("%s [Y/n]: ", question)
+  res <- TRUE
+  repeat({
+    ans <- readline(prompt)
+    ans <- gsub("(^[[:space:]]*|[[:space:]]*$)", "", ans)
+    ans <- tolower(ans)
+    if (ans %in% c("", "y", "yes")) {
+      res <- TRUE
+      break
+    } else if (ans %in% c("n", "no")) {
+      res <- FALSE
+      break
+    }
+  })
+
+  res
+}
