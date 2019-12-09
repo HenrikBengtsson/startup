@@ -1,7 +1,15 @@
 Package: startup
 ================
 
-Version: 0.13.0-9000 [2019-12-05]
+Version: 0.13.0-9000 [2019-12-09]
+
+SIGNIFICANT CHANGES:
+
+ * startup(all = TRUE) now processes any startup folders in the home directory
+   _before_ those in the current working directory.  Previously it was vice
+   verse. With the new way, it is possible to override settings made in
+   ~/.Renviron.d/ or ~/.Rprofile.d/ with custom ones in local ./.Renviron.d/
+   and ./.Rprofile.d/ folders.
 
 NEW FEATURES:
 
@@ -22,17 +30,12 @@ NEW FEATURES:
 
 BUG FIXES:
 
+ * startup(debug = TRUE) would not only report on the name of an environment
+   variable, but also parts of its value, if the value contained equal signs.
+
  * The source information, that is, the filename and line locations, were
    dropped from functions defined via startup().  To get the filename where
    a function was defined use getSrcFilename(my_fcn, full.names = TRUE).
-
- * startup(all = TRUE) would process startup folders in the current working
-   directory before those in the home directory, and not vice verse.  This
-   prevented overriding settings made in ~/.Renviron.d/ or ~/.Rprofile.d/ with
-   custom ones in local ./.Renviron.d/ and ./.Rprofile.d/ folders.
-
- * startup(debug = TRUE) would not only report on the name of an environment
-   variable, but also parts of its value, if the value contained equal signs.
  
  * RStudio: Using 'renv' together with startup() while in the RStudio Console
    would produce a false warning on the 'error' option being set.

@@ -205,6 +205,8 @@ check_r_libs_env_vars <- function(debug = FALSE) {
 
 
 check_rstudio_option_error_conflict <- function(debug = FALSE) {
+  debug(debug)
+  debug <- debug(debug)
   ## Nothing to do?
   if (is.null(getOption("error")) || !is_rstudio_console()) return()
 
