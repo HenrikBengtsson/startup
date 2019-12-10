@@ -112,7 +112,7 @@ parse_renviron <- function(f) {
   bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
   bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)
   bfr <- grep("=.*$", bfr, value = TRUE)
-  pattern <- "^(.*)[ \t]*=[ \t]*(.*)$"
+  pattern <- "^([^=]*)[ \t]*=[ \t]*(.*)$"
   bfr <- grep(pattern, bfr, value = TRUE)
   names <- gsub(pattern, "\\1", bfr)
   values <- gsub(pattern, "\\2", bfr)
@@ -130,3 +130,57 @@ find <- function(what, mode) {
   -1L
 }
 
+
+supports_tcltk <- function() {
+  (capabilities("X11") && capabilities("tcltk") &&
+   requireNamespace("tcltk") && suppressWarnings(tcltk::.TkUp))
+}
+
+tcltk_yesno <- function(question) {
+  if (!supports_tcltk()) {
+    warning("[startup::startup()]: Your R setup does not support X11 or tcltk dialogs. Because of this, the answer to the question ", sQuote(question), " was defaulted to 'yes'.", call. = FALSE)
+    return(TRUE)
+  }  
+  ans <- tcltk::tk_messageBox("yesno", message = question)
+  (ans == "yes")
+}
+
+ask_yes_no <- function(question, rdata_workaround = TRUE) {
+  ## RStudio Console workarounds?
+  if (is_rstudio_console()) {
+    if (rdata_workaround) {
+      ## WORKAROUND: RStudio Console will load any .RData file as soon as
+      ## base::readline() or utils::menu(..., graphics = FALSE) is called
+      ## during startup process (https://github.com/rstudio/rstudio/issues/5844)
+      ## Instead, we use a TclTk dialog.  If this is not possible, we will
+      ## produce a warning and default to 'Yes'.
+      return(tcltk_yesno(question))
+    }
+    
+    ## WORKAROUND: RStudio Console does not show the base::readline() prompt
+    ## during startup process (https://github.com/rstudio/rstudio/issues/5842)
+    readline <- function(prompt) {
+      ## Comment: appendLF = FALSE makes no difference. The "readline"
+      ## will trigger a "> " prompt to be display on the next line
+      message(prompt, appendLF = FALSE)
+      base::readline(prompt = "")
+    }
+  }
+
+  prompt <- sprintf("%s [Y/n]: ", question)
+  res <- TRUE
+  repeat({
+    ans <- readline(prompt)
+    ans <- gsub("(^[[:space:]]*|[[:space:]]*$)", "", ans)
+    ans <- tolower(ans)
+    if (ans %in% c("", "y", "yes")) {
+      res <- TRUE
+      break
+    } else if (ans %in% c("n", "no")) {
+      res <- FALSE
+      break
+    }
+  })
+
+  res
+}

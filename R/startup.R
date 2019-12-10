@@ -59,6 +59,11 @@
 #' # the following call to the ~/.Rprofile file.
 #' startup::startup()
 #'
+#' # To process ~/.Renviron.d/ files, and then any ./.Renviron.d/ files,
+#' # followed by  ~/.Rprofile.d/ files, and then any ./.Rprofile.d/ files,
+#' # add the following call to the ~/.Rprofile file.
+#' startup::startup(all = TRUE)
+#'
 #' # For finer control of on exactly what files are used
 #' # functions renviron_d() and rprofile_d() are also available:
 #'
@@ -87,9 +92,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   
   debug(debug)
 
+  cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
+
   debug <- debug()
   if (debug) {
-    cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
     r_home <- R.home()
     r_arch <- .Platform$r_arch
     r_os <- .Platform$OS.type
@@ -251,16 +257,95 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(sQuote(loadedNamespaces()), collapse = ", "))
-
-    interactive <- interactive()
-
     logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
+  }
 
-    no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
-    loads_RData <- FALSE
+  no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
+  loads_RData <- has_RData <- FALSE
+  if (!no_restore_data) {
+    has_RData <- is_file(f <- "./.RData")
+    if (has_RData) {
+      f_norm <- normalizePath(f)
+      f_info_short <- file_info(f, type = "binary")
+      f_info <- file_info(f_norm, type = "binary")
+      env0 <- env <- Sys.getenv("R_STARTUP_RDATA", "")
+      if (env == "") {
+        env <- "default"
+      } else if (debug) {
+        logf("- R_STARTUP_RDATA=%s", env)
+      }
+
+      ## Support R_STARTUP_RDATA=prompt,rename
+      env <- unlist(strsplit(env, split = ",", fixed = TRUE))
+      stopifnot(length(env) >= 1L, length(env) <= 2L)
+      
+      if (env[1] == "prompt") {
+        fallback <- env[2L]
+        if (interactive()) {  
+	  if (is.na(fallback) || fallback == "default") fallback <- "rename"
+          logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
+          question <- sprintf("Detected %s - do you want to load it? If not, it will be %sd.", f_info, fallback)
+
+          ## We might be able to prompt the user
+          if (is_rstudio_console() && !supports_tcltk()) {
+            env <- "default"
+            logf("- Cannot prompt user in the RStudio Console on this system")
+            warning(sprintf("Detected %s, which was loaded (default), because it was possible to ask you if it should loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, env0), call. = FALSE)
+          } else {
+            res <- ask_yes_no(question)
+            logf("- User wants to load it: %s", res)
+            env <- if (res) "default" else fallback
+	  }  
+        } else {
+          ## Non-interactive session; it is not possible to the prompt user.
+          if (length(env) == 1L) {
+            env <- "default"
+            warning(sprintf("Loading %s because it is not possible to prompt the user in a non-interactive session [R_STARTUP_RDATA=%s]", f_info, env0), call. = FALSE)
+          } else {
+            ## Use fallback
+            stop_if_not(!is.na(fallback))
+            env <- fallback
+          }
+        }
+      }
+
+      ## At this point, we should have at most one element in 'env'
+      stop_if_not(length(env) == 1L, !is.na(env))
+      
+      if (env == "remove") {
+        logf("- Skipping %s by removing it", f_info)
+        file.remove(f)
+        has_RData <- is_file(f)
+        if (!has_RData) {
+          warning(sprintf("Skipped %s by removing it [R_STARTUP_RDATA=%s]", f_info, env0), call. = FALSE)
+        }
+      } else if (env == "rename") {
+        fi <- file.info(f)
+        when <- fi[c("mtime", "ctime")]
+        keep <- vapply(when, FUN = inherits, "POSIXct", FUN.VALUE=FALSE)
+        when <- when[keep]
+        when <- sort(when, decreasing = TRUE)
+        when <- format(when[[1]], format = "%Y%m%d_%H%M%S")
+        f_new <- sprintf("%s.%s", f, when)
+        file.rename(f, f_new)
+        f_new_info <- file_info(normalizePath(f_new), type = "binary")
+        logf("- Skipping %s by renaming it to %s", f, f_new_info)
+        has_RData <- is_file(f)
+        if (!has_RData) {
+          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", f_norm, f_new_info, env0), call. = FALSE)
+        }
+      } else if (env != "default") {
+        warning(sprintf("Ignoring unknown value (%s) of %s",
+                sQuote(env0), sQuote("R_STARTUP_RDATA")),
+                call. = FALSE)
+      }
+    }
+  }
+
+  if (debug) {
     if (!no_restore_data) {
-      if (is_file(f <- "./.RData")) {
+      if (has_RData) {
         loads_RData <- TRUE
         logf("- %s", file_info(f, type = "binary"))
       }
@@ -268,7 +353,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     logf("- R_HISTFILE: %s", sQuote(Sys.getenv("R_HISTFILE")))
     no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
-    if (!no_restore_history && interactive) {
+    if (!no_restore_history && interactive()) {
       if (is_file(f <- Sys.getenv("R_HISTFILE", "./.Rhistory"))) {
         logf("- %s", file_info(f, type = "txt"))
       }

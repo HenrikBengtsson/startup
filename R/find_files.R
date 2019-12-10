@@ -34,7 +34,7 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
     pathnames <- find_rprofile(all = all)
   } else {
     ## The default R startup search path
-    pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
+    pathnames <- c(Sys.getenv("R_PROFILE_USER"), "~/.Rprofile", "./.Rprofile")
   }
 
   pathnames <- pathnames[nzchar(pathnames)]
@@ -60,7 +60,7 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
     pathnames <- find_renviron(all = all)
   } else {
     ## The default R startup search path
-    pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
+    pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "~/.Renviron", "./.Renviron")
   }
 
   pathnames <- pathnames[nzchar(pathnames)]

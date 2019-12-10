@@ -1,6 +1,46 @@
 Package: startup
 ================
 
+Version: 0.14.0 [2019-12-09]
+
+SIGNIFICANT CHANGES:
+
+ * startup(all = TRUE) now processes any startup folders in the home directory
+   _before_ those in the current working directory.  Previously it was vice
+   verse. With the new way, it is possible to override settings made in
+   ~/.Renviron.d/ or ~/.Rprofile.d/ with custom ones in local ./.Renviron.d/
+   and ./.Rprofile.d/ folders.
+
+NEW FEATURES:
+
+ * Setting environment variable 'R_STARTUP_RDATA' to "remove" will cause an
+   existing './.RData' file to be skipped by automatically removing it.
+   If "rename", it will be renamed to './.RData.YYYYMMDD_hhmmss' where the
+   timestamp is the last time the file was modified.  If "prompt", then the
+   user is prompted whether they want to load the file or rename it.  In
+   non-interactive session, "prompt" will fallback to loading by default.
+   To fallback to renaming the file, use "prompt,rename".  Thus, setting
+   'R_STARTUP_RDATA=rename' in an .Renviron file will make sure no .RData
+   file is ever loaded while still preserving them.
+
+ * RStudio Console: The only way to prompt a user during the R startup process
+   in the RStudio Console is via a graphical popup window.  Because of this,
+   R_STARTUP_RDATA=prompt will trigger a popup window in RStudio if there is
+   a .RData file.
+
+BUG FIXES:
+
+ * startup(debug = TRUE) would not only report on the name of an environment
+   variable, but also parts of its value, if the value contained equal signs.
+
+ * The source information, that is, the filename and line locations, were
+   dropped from functions defined via startup().  To get the filename where
+   a function was defined use getSrcFilename(my_fcn, full.names = TRUE).
+ 
+ * RStudio: Using 'renv' together with startup() while in the RStudio Console
+   would produce a false warning on the 'error' option being set.
+
+
 Version: 0.13.0 [2019-10-26]
 
 NEW FEATURES:
