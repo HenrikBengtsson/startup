@@ -30,13 +30,9 @@ The package has been verified using `R CMD check --as-cran` on:
   - R version 3.6.0 (2019-04-26)
   - R version 3.6.1 (2019-07-05)
 
-* Platform x86_64-pc-linux-gnu (64-bit) [r-hub]:
-#  - R version 3.6.1 (2019-07-05)
-#  - R Under development (unstable) (2019-12-01 r77489)
-
 * Platform i686-pc-linux-gnu (32-bit):
-#  - R version 3.4.4 (2018-03-15)
-#  - R version 3.6.1 (2019-07-05)
+  - R version 3.4.4 (2018-03-15)
+  - R version 3.6.1 (2019-07-05)
 
 * Platform i386-pc-solaris2.10 (32-bit) [r-hub]:
   - R version 3.6.0 (2019-04-26)
@@ -53,4 +49,11 @@ The package has been verified using `R CMD check --as-cran` on:
 
 * Platform x86_64-w64-mingw32/x64 (64-bit) [win-builder]:
   - R version 3.6.1 (2019-07-05)
-#  - R Under development (unstable) (2019-12-02 r77499)
+  - R Under development (unstable) (2019-12-02 r77499)
+
+
+## Not available
+
+* Platform x86_64-pc-linux-gnu (64-bit) [r-hub]:
+  - R version 3.6.1 (2019-07-05)
+  - R Under development (unstable) (2019-12-01 r77489)
