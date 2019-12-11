@@ -333,7 +333,7 @@ startup <- function(sibling = FALSE, all = FALSE,
         logf("- Skipping %s by renaming it to %s", f, f_new_info)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", f_norm, f_new_info, env0), call. = FALSE)
+          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", sQuote(f_norm), f_new_info, env0), call. = FALSE)
         }
       } else if (env != "default") {
         warning(sprintf("Ignoring unknown value (%s) of %s",
