@@ -1,9 +1,12 @@
 Package: startup
 ================
 
-Version: 0.14.0-9000 [2019-12-09]
+Version: 0.14.0-9000 [2019-03-21]
 
- * ...
+BUG FIXES:
+
+ * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
+   a startup warning.
 
 
 Version: 0.14.0 [2019-12-09]

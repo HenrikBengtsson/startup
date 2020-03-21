@@ -138,7 +138,7 @@ check_options <- function(debug = FALSE) {
   }
 
   opt <- "stringsAsFactors"
-  default <- TRUE
+  default <- if (getRversion() >= "4.0.0") FALSE else TRUE
   if (!is.element(opt, ignore) &&
       (value <- getOption(opt, default)) != default) {
     warning(msg(opt, default, value), call. = FALSE)
