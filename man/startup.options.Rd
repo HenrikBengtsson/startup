@@ -2,17 +2,23 @@
 % Please edit documentation in R/options.R
 \name{startup.options}
 \alias{startup.options}
-\alias{startup.check}
-\alias{startup.check.options.ignore}
-\alias{startup.debug}
-\alias{startup.debug.commandArgs}
-\alias{startup.dryrun}
 \alias{R_STARTUP_CHECK}
-\alias{R_STARTUP_DISABLE}
+\alias{startup.check}
+\alias{R_STARTUP_CHECK_OPTIONS_IGNORE}
+\alias{startup.check.options.ignore}
+\alias{startup.commandArgs}
+\alias{R_STARTUP_DEBUG}
+\alias{startup.debug}
 \alias{R_STARTUP_DRYRUN}
+\alias{startup.dryrun}
+\alias{R_STARTUP_DISABLE}
+\alias{startup.disable}
 \alias{R_STARTUP_INIT}
+\alias{startup.init}
 \alias{R_STARTUP_RDATA}
+\alias{startup.rdata}
 \alias{R_STARTUP_TIME}
+\alias{startup.time}
 \title{Options and environment variables used by the 'startup' package}
 \description{
 Below are environment variables and \R options that are used by the
@@ -78,11 +84,12 @@ Controls the default value of argument \code{check} of \code{\link[=startup]{sta
 (Default: \code{TRUE})
 }
 
-\item{\option{startup.check.options.ignore}:}{
-(character vector)
+\item{\env{R_STARTUP_CHECK_OPTIONS_IGNORE} /
+\option{startup.check.options.ignore}:}{
+(character vector or comma-separated character string)
 Names of \R options that should \emph{not} be validated at the end of the
 \code{\link[=startup]{startup()}} process.
-(Default: \code{NULL})
+(Default: not specified)
 }
 }
 }
@@ -98,13 +105,12 @@ Controls the default value of argument \code{debug} of \code{\link[=startup]{sta
 (Default: \code{FALSE})
 }
 
-\item{\env{R_STARTUP_CHECK_OPTIONS_IGNORE} /
-\option{startup.debug.commandArgs}:}{
+\item{\option{startup.commandArgs}:}{
 (character vector)
 Overrides the command-line arguments that \code{\link[=startup]{startup()}} uses, which
 can be useful to prototype and test alternative ways that \R might
 be launched.
-(Default: not specified)
+(Default: \code{base::commandArgs()})
 }
 
 \item{\env{R_STARTUP_TIME} / \option{startup.time}:}{

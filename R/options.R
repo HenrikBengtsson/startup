@@ -60,11 +60,12 @@
 #'     (Default: `TRUE`)
 #'   }
 #'
-#'   \item{\option{startup.check.options.ignore}:}{
-#'     (character vector)
+#'   \item{\env{R_STARTUP_CHECK_OPTIONS_IGNORE} /
+#'         \option{startup.check.options.ignore}:}{
+#'     (character vector or comma-separated character string)
 #'     Names of \R options that should _not_ be validated at the end of the
 #'     [startup()] process.
-#'     (Default: `NULL`)
+#'     (Default: not specified)
 #'   }
 #' }
 #'
@@ -79,13 +80,12 @@
 #'     (Default: `FALSE`)
 #'   }
 #'
-#'   \item{\env{R_STARTUP_CHECK_OPTIONS_IGNORE} /
-#'         \option{startup.debug.commandArgs}:}{
+#'   \item{\option{startup.commandArgs}:}{
 #'     (character vector)
 #'     Overrides the command-line arguments that [startup()] uses, which
 #'     can be useful to prototype and test alternative ways that \R might
 #'     be launched.
-#'     (Default: not specified)
+#'     (Default: `base::commandArgs()`)
 #'   }
 #'
 #'   \item{\env{R_STARTUP_TIME} / \option{startup.time}:}{
@@ -100,17 +100,23 @@
 #'
 #'
 #' @aliases
-#' startup.check
-#' startup.check.options.ignore
-#' startup.debug
-#' startup.debug.commandArgs
-#' startup.dryrun
 #' R_STARTUP_CHECK
-#' R_STARTUP_DISABLE
+#' startup.check
+#' R_STARTUP_CHECK_OPTIONS_IGNORE
+#' startup.check.options.ignore
+#' startup.commandArgs
+#' R_STARTUP_DEBUG
+#' startup.debug
 #' R_STARTUP_DRYRUN
+#' startup.dryrun
+#' R_STARTUP_DISABLE
+#' startup.disable
 #' R_STARTUP_INIT
+#' startup.init
 #' R_STARTUP_RDATA
+#' startup.rdata
 #' R_STARTUP_TIME
+#' startup.time
 #'
 #' @name startup.options
 NULL
