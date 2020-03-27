@@ -52,7 +52,7 @@ The specified string must be parsable by \code{\link[base:parse]{base::parse()}}
 (Default: not specified)
 }
 
-\item{\env{R_STARTUP_RDATA}:}{
+\item{\env{R_STARTUP_RDATA} / \option{startup.rdata}:}{
 (comma-separated values)
 Controls whether an existing \file{./.RData} file should be processed
 or not.

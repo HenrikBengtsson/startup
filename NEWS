@@ -11,8 +11,8 @@ DOCUMENTATION:
 NEW FEATURES:
 
  * Add R options as an alternative to corresponding environment variables.
-   Specifically, added 'startup.disable' ('R_STARTUP_DISABLE'), and
-   'startup.init' ('R_STARTUP_INIT').
+   Specifically, added 'startup.disable' ('R_STARTUP_DISABLE'), 
+   'startup.init' ('R_STARTUP_INIT'), and 'startup.rdata' ('R_STARTUP_RDATA').
  
 BUG FIXES:
 
