@@ -22,7 +22,7 @@ Below are environment variables and \R options that are used by the
 
 
 \describe{
-\item{\env{R_STARTUP_DISABLE}:}{
+\item{\env{R_STARTUP_DISABLE} / \option{startup.disable}:}{
 (logical)
 If \code{TRUE}, \code{startup::startup()} is fully disable such that \emph{no}
 \file{.Renviron.d/} or \file{.Rprofile.d/} files are processed.
@@ -43,10 +43,10 @@ Controls the default value of argument \code{dryrun} of \code{\link[=startup]{st
 
 
 \describe{
-\item{\env{R_STARTUP_INIT}:}{
-(An \R expression as a character string)
-Optional \R code that is evaluated after \file{.Renviron.d/} and
-\file{.Rprofile.d/} files have been processed, e.g.
+\item{\env{R_STARTUP_INIT} / \option{startup.init}:}{
+(R code as a character string)
+Optional \R code that is parsed and evaluated after \file{.Renviron.d/}
+and \file{.Rprofile.d/} files have been processed, e.g.
 \verb{R_STARTUP_INIT="message('Hello world')" R --quiet}.
 The specified string must be parsable by \code{\link[base:parse]{base::parse()}}.
 (Default: not specified)

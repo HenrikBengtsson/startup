@@ -6,7 +6,7 @@
 #' @section Controls whether \pkg{startup} is used or not:
 #'
 #' \describe{
-#'   \item{\env{R_STARTUP_DISABLE}:}{
+#'   \item{\env{R_STARTUP_DISABLE} / \option{startup.disable}:}{
 #'     (logical)
 #'     If `TRUE`, `startup::startup()` is fully disable such that _no_
 #'     \file{.Renviron.d/} or \file{.Rprofile.d/} files are processed.
@@ -26,10 +26,10 @@
 #' @section Additional customization of the startup process:
 #'
 #' \describe{
-#'   \item{\env{R_STARTUP_INIT}:}{
-#'     (An \R expression as a character string)
-#'     Optional \R code that is evaluated after \file{.Renviron.d/} and
-#'     \file{.Rprofile.d/} files have been processed, e.g.
+#'   \item{\env{R_STARTUP_INIT} / \option{startup.init}:}{
+#'     (R code as a character string)
+#'     Optional \R code that is parsed and evaluated after \file{.Renviron.d/}
+#'     and \file{.Rprofile.d/} files have been processed, e.g.
 #'     `R_STARTUP_INIT="message('Hello world')" R --quiet`.
 #'     The specified string must be parsable by [base::parse()].
 #'     (Default: not specified)

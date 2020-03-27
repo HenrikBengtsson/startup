@@ -82,14 +82,16 @@ startup <- function(sibling = FALSE, all = FALSE,
                                  "message", "ignore"),
                     keep = c("options"), check = NA, unload = TRUE, skip = NA,
                     dryrun = NA, debug = NA) {
+  ## Is startup::startup() fully disabled?
+  disable <- as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE"))
+  disable <- getOption("startup.disable", disable)
+  if (isTRUE(disable)) {
+    return(invisible())
+  }
+
   on_error <- match.arg(on_error)
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
 
-  ## Is startup::startup() fully disabled?
-  if (isTRUE(as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE")))) {
-    return(invisible())
-  }
-  
   debug(debug)
 
   cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
@@ -201,11 +203,12 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   ## (iii) Process R_STARTUP_INIT code?
   code <- Sys.getenv("R_STARTUP_INIT")
+  code <- getOption("startup.init", code)
   if (nzchar(code)) {
-    logf("Processing R_STARTUP_INIT=%s:", sQuote(code))
+    logf("Processing R_STARTUP_INIT/startup.init=%s:", sQuote(code))
     expr <- tryCatch(parse(text = code), error = identity)
     if (inherits(expr, "error")) {
-      msg <- sprintf("Syntax error in 'R_STARTUP_INIT': %s", sQuote(code))
+      msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", sQuote(code))
       logf(paste("- [SKIPPED]", msg))
       if (on_error == "error") {
         stop(msg, call. = FALSE)

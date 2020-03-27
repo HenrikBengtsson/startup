@@ -7,6 +7,12 @@ DOCUMENTATION:
 
  * Add help("startup.options", package = "startup"), which lists environment
    variables and R options that the 'startup' package use.
+
+NEW FEATURES:
+
+ * Add R options as an alternative to corresponding environment variables.
+   Specifically, added 'startup.disable' ('R_STARTUP_DISABLE'), and
+   'startup.init' ('R_STARTUP_INIT').
  
 BUG FIXES:
 
