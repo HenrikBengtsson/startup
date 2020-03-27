@@ -3,19 +3,27 @@ Package: startup
 
 Version: 0.14.0-9000 [2019-03-27]
 
-DOCUMENTATION:
-
- * Add help("startup.options", package = "startup"), which lists environment
-   variables and R options that the 'startup' package use.
-
+check_r_libs_env_vars(debug = debug)
+    
 NEW FEATURES:
 
  * Add R options as an alternative to corresponding environment variables,
    e.g. added 'startup.disable' ('R_STARTUP_DISABLE'), 'startup.init'
    ('R_STARTUP_INIT'), and 'startup.rdata' ('R_STARTUP_RDATA').
- 
+
+DOCUMENTATION:
+
+ * Add help("startup.options", package = "startup"), which lists environment
+   variables and R options that the 'startup' package use.
+
 BUG FIXES:
 
+ * It was not possible to disable the validation of R option 'error' and
+   environment variables such as 'R_LIBS_USER', 'R_PROFILE_SITE', and
+   'R_CHECK_ENVIRON'.  These validates can now be disabled by specifying
+   argument 'check = FALSE', or the corresponding R option, or environment
+   variable.
+   
  * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
    a startup warning.
 

@@ -225,8 +225,14 @@ startup <- function(sibling = FALSE, all = FALSE,
   }
 
   ## (iv) Detect and report on run-time startup issues
-  check_r_libs_env_vars(debug = debug)
-  check_rstudio_option_error_conflict(debug = debug)
+  if (is.na(check)) {
+    check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
+    check <- getOption("startup.check", check)
+  }
+  if (check) {
+    check_r_libs_env_vars(debug = debug)
+    check_rstudio_option_error_conflict(debug = debug)
+  }
   
   res <- api()
 
