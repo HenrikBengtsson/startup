@@ -79,12 +79,13 @@
 #'     (Default: `FALSE`)
 #'   }
 #'
-#'   \item{\option{startup.debug.commandArgs}:}{
+#'   \item{\env{R_STARTUP_CHECK_OPTIONS_IGNORE} /
+#'         \option{startup.debug.commandArgs}:}{
 #'     (character vector)
 #'     Overrides the command-line arguments that [startup()] uses, which
 #'     can be useful to prototype and test alternative ways that \R might
 #'     be launched.
-#'     (Default: `base::commandArgs()`)
+#'     (Default: not specified)
 #'   }
 #'
 #'   \item{\env{R_STARTUP_TIME} / \option{startup.time}:}{

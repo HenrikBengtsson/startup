@@ -128,7 +128,9 @@ check_options <- function(debug = FALSE) {
     paste("startup::check():", paste(msg, collapse = " "))
   }
      
-  ignore <- getOption("startup.check.options.ignore")
+  ignore <- Sys.getenv("R_STARTUP_CHECK_OPTIONS_IGNORE", NA_character_)
+  if (is.na(ignore)) ignore <- NULL
+  ignoree <- getOption("startup.check.options.ignore", ignore)
 
   opt <- "encoding"
   default <- "native.enc"

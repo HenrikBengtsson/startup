@@ -98,12 +98,13 @@ Controls the default value of argument \code{debug} of \code{\link[=startup]{sta
 (Default: \code{FALSE})
 }
 
-\item{\option{startup.debug.commandArgs}:}{
+\item{\env{R_STARTUP_CHECK_OPTIONS_IGNORE} /
+\option{startup.debug.commandArgs}:}{
 (character vector)
 Overrides the command-line arguments that \code{\link[=startup]{startup()}} uses, which
 can be useful to prototype and test alternative ways that \R might
 be launched.
-(Default: \code{base::commandArgs()})
+(Default: not specified)
 }
 
 \item{\env{R_STARTUP_TIME} / \option{startup.time}:}{

@@ -94,7 +94,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   debug(debug)
 
-  cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
+  cmd_args <- getOption("startup.commandArgs", commandArgs())
 
   debug <- debug()
   if (debug) {
