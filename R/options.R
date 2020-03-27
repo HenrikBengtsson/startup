@@ -87,7 +87,7 @@
 #'     (Default: `base::commandArgs()`)
 #'   }
 #'
-#'   \item{\env{R_STARTUP_TIME}:}{
+#'   \item{\env{R_STARTUP_TIME} / \option{startup.time}:}{
 #'     (POSIX timestamp; character string)
 #'     Overrides the current timestamp, which can be useful to prototype and
 #'     test functionalities that depend on the current time, e.g. inclusion
