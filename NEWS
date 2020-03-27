@@ -3,6 +3,11 @@ Package: startup
 
 Version: 0.14.0-9000 [2019-03-27]
 
+DOCUMENTATION:
+
+ * Add help("startup.options", package = "startup"), which lists environment
+   variables and R options that the 'startup' package use.
+ 
 BUG FIXES:
 
  * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
