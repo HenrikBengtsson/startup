@@ -3,8 +3,6 @@ Package: startup
 
 Version: 0.14.0-9000 [2019-03-27]
 
-check_r_libs_env_vars(debug = debug)
-    
 NEW FEATURES:
 
  * Add R options as an alternative to corresponding environment variables,

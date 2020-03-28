@@ -209,6 +209,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
 check_rstudio_option_error_conflict <- function(debug = FALSE) {
   debug(debug)
   debug <- debug(debug)
+  
   ## Nothing to do?
   if (is.null(getOption("error")) || !is_rstudio_console()) return()
 
@@ -246,5 +247,8 @@ check_rstudio_option_error_conflict <- function(debug = FALSE) {
     }
   }
 
-  warning("startup::check(): ", "CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden by the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, set option 'error' using ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
+  ## Record intended value of option 'error'
+  options(startup.error.lost = getOption("error"))
+
+  warning("startup::check(): ", "CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", sQuote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
