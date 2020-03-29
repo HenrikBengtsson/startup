@@ -92,6 +92,11 @@ startup <- function(sibling = FALSE, all = FALSE,
   on_error <- match.arg(on_error)
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
 
+  if (is.na(check)) {
+    check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
+    check <- isTRUE(getOption("startup.check", check))
+  }
+  
   debug(debug)
 
   cmd_args <- getOption("startup.commandArgs", commandArgs())
@@ -225,13 +230,14 @@ startup <- function(sibling = FALSE, all = FALSE,
   }
 
   ## (iv) Detect and report on run-time startup issues
-  if (is.na(check)) {
-    check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
-    check <- getOption("startup.check", check)
-  }
   if (check) {
-    check_r_libs_env_vars(debug = debug)
-    check_rstudio_option_error_conflict(debug = debug)
+    # (a) Check for unsafe/non-intended changes to environment variables
+    #     to library, Renviron, or Rprofile paths
+    check_envs()
+    
+    # (b) Check for unsafe changes to R options changes done by
+    #     any Rprofile files or by the R_STARTUP_INIT code
+    check_options()
   }
   
   res <- api()
@@ -239,28 +245,35 @@ startup <- function(sibling = FALSE, all = FALSE,
   ## (v) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
 
-  ## Needed because we might unload package below and then we will
-  ## lose timestamp() and logf()
-  if (debug) {
-    copy_fcn <- function(names, env = parent.frame()) {
-      ns <- getNamespace("startup")
-      for (name in names) {
-        fcn <- get(name, mode = "function", envir = ns)
-        environment(fcn) <- env
-        assign(name, fcn, envir = env)
+  # (vi) Unload package?
+  if (unload) {
+    ## Needed because we might unload package below and then we will
+    ## lose timestamp() and logf()
+    if (debug) {
+      copy_fcn <- function(names, env = parent.frame()) {
+        ns <- getNamespace("startup")
+        for (name in names) {
+          fcn <- get(name, mode = "function", envir = ns)
+          environment(fcn) <- env
+          assign(name, fcn, envir = env)
+        }
+      }
+      t0 <- timestamp(get_t0 = TRUE)
+      copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
+      logf <- function(fmt, ...) {
+        fmt <- paste(timestamp(), ": ", fmt, sep = "")
+        message(sprintf(fmt, ...))
       }
     }
-    t0 <- timestamp(get_t0 = TRUE)
-    copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
-    logf <- function(fmt, ...) {
-      fmt <- paste(timestamp(), ": ", fmt, sep = "")
-      message(sprintf(fmt, ...))
-    }
-
+    
+    unload(debug = debug)
   }
 
-  # (vi) Unload package?
-  if (unload) unload(debug = debug)
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # IMPORTANT: From here on, we must not use any 'startup' functions
+  #            because the package might have been unloaded
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   if (debug) {
     logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))

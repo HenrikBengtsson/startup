@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.14.0-9000 [2019-03-27]
+Version: 0.14.0-9000 [2019-03-29]
 
 NEW FEATURES:
 
@@ -15,15 +15,17 @@ DOCUMENTATION:
    variables and R options that the 'startup' package use.
 
 BUG FIXES:
+   
+ * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
+   a startup warning.
 
  * It was not possible to disable the validation of R option 'error' and
    environment variables such as 'R_LIBS_USER', 'R_PROFILE_SITE', and
    'R_CHECK_ENVIRON'.  These validates can now be disabled by specifying
    argument 'check = FALSE', or the corresponding R option, or environment
-   variable.
-   
- * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
-   a startup warning.
+   variable.  Validation of 'error' specificially can be disable by adding
+   'error' to environment variable 'R_STARTUP_CHECK_OPTIONS_IGNORE' or to
+   option 'startup.check.options.ignore'.
 
 
 Version: 0.14.0 [2019-12-09]

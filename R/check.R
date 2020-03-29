@@ -120,7 +120,7 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
 }
 
 
-check_options <- function(debug = FALSE) {
+check_options <- function() {
   msg <- function(opt, default, value, body = NULL) {
     msg <- sprintf("R option '%s' was changed (to '%s') during startup, cf. Startup.  Values other than the default '%s' is known to cause problems.", opt, value, default)
     msg <- c(msg, body)
@@ -145,10 +145,20 @@ check_options <- function(debug = FALSE) {
       (value <- getOption(opt, default)) != default) {
     warning(msg(opt, default, value), call. = FALSE)
   }
+
+  opt <- "error"
+  if (!is.element(opt, ignore)) {
+    check_rstudio_option_error_conflict()
+  }
 }
 
 
-check_r_libs_env_vars <- function(debug = FALSE) {
+check_envs <- function() {
+  check_r_libs_env_vars()
+}
+
+
+check_r_libs_env_vars <- function() {
   vars <- c("R_LIBS", "R_LIBS_SITE", "R_LIBS_USER")
   for (var in vars) {
     path <- Sys.getenv(var)
@@ -206,10 +216,7 @@ check_r_libs_env_vars <- function(debug = FALSE) {
 }
 
 
-check_rstudio_option_error_conflict <- function(debug = FALSE) {
-  debug(debug)
-  debug <- debug(debug)
-  
+check_rstudio_option_error_conflict <- function() {
   ## Nothing to do?
   if (is.null(getOption("error")) || !is_rstudio_console()) return()
 
