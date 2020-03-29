@@ -120,35 +120,44 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
 }
 
 
-check_options <- function() {
+check_options <- function(include = c("encoding", "error", "stringsAsFactors"), exclude = NA) {
+  include <- match.arg(include, several.ok = TRUE,
+                       choices = c("encoding", "error", "stringsAsFactors"))
+  if (length(include) == 0L) return()
+  if (length(exclude) > 0L) {
+    if (is.na(exclude)) {
+      ignore <- Sys.getenv("R_STARTUP_CHECK_OPTIONS_IGNORE", NA_character_)
+      if (is.na(ignore)) ignore <- NULL
+      exclude <- getOption("startup.check.options.ignore", ignore)
+    }
+    keep <- (match(include, table = exclude, nomatch = 0L) == 0L)
+    include <- include[keep]
+  }
+  if (length(include) == 0L) return()
+
   msg <- function(opt, default, value, body = NULL) {
     msg <- sprintf("R option '%s' was changed (to '%s') during startup, cf. Startup.  Values other than the default '%s' is known to cause problems.", opt, value, default)
     msg <- c(msg, body)
     msg <- c(msg, sprintf("To disable this check, add \"%s\" to option 'startup.check.options.ignore'.", opt))
     paste("startup::check():", paste(msg, collapse = " "))
   }
-     
-  ignore <- Sys.getenv("R_STARTUP_CHECK_OPTIONS_IGNORE", NA_character_)
-  if (is.na(ignore)) ignore <- NULL
-  ignoree <- getOption("startup.check.options.ignore", ignore)
 
-  opt <- "encoding"
-  default <- "native.enc"
-  if (!is.element(opt, ignore) && !interactive() &&
-      (value <- getOption(opt, default)) != default) {
-    warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
-  }
-
-  opt <- "stringsAsFactors"
-  default <- if (getRversion() >= "4.0.0") FALSE else TRUE
-  if (!is.element(opt, ignore) &&
-      (value <- getOption(opt, default)) != default) {
-    warning(msg(opt, default, value), call. = FALSE)
-  }
-
-  opt <- "error"
-  if (!is.element(opt, ignore)) {
-    check_rstudio_option_error_conflict()
+  for (opt in include) {
+    if (opt == "encoding") {
+      value <- getOption(opt, default)
+      default <- "native.enc"
+      if (!interactive() && value != default) {
+        warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
+      }
+    } else if (opt == "error") {
+      check_rstudio_option_error_conflict()
+    } else if (opt == "stringsAsFactors") {
+      value <- getOption(opt, default)
+      default <- if (getRversion() >= "4.0.0") FALSE else TRUE
+      if (value != default) {
+        warning(msg(opt, default, value), call. = FALSE)
+      }
+    }
   }
 }
 

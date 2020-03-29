@@ -32,7 +32,7 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     files <- list_d_files(paths, filter = filter_files)
     encoding <- getOption("encoding")
     keep_source <- getOption("keep.source", TRUE)
-    
+
     source_print_eval <- function(pathname) {
       current_script_pathname(pathname)
       on.exit(current_script_pathname(NA_character_))

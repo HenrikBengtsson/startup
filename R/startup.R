@@ -206,6 +206,18 @@ startup <- function(sibling = FALSE, all = FALSE,
   rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
              dryrun = dryrun, on_error = on_error)
 
+
+  ## (iv) Detect and report on run-time startup issues
+  if (check) {
+    # (a) Check for unsafe/non-intended changes to environment variables
+    #     to library, Renviron, or Rprofile paths
+    check_envs()
+    
+    # (b) Check for unsafe changes to R options changes done by
+    #     any Rprofile files or by the R_STARTUP_INIT code
+    check_options()
+  }
+
   ## (iii) Process R_STARTUP_INIT code?
   code <- Sys.getenv("R_STARTUP_INIT")
   code <- getOption("startup.init", code)
