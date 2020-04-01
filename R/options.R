@@ -65,7 +65,7 @@
 #'     (character vector or comma-separated character string)
 #'     Names of \R options that should _not_ be validated at the end of the
 #'     [startup()] process.
-#'     (Default: not specified)
+#'     (Default: `"error"`)
 #'   }
 #' }
 #'

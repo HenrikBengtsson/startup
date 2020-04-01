@@ -89,7 +89,7 @@ Controls the default value of argument \code{check} of \code{\link[=startup]{sta
 (character vector or comma-separated character string)
 Names of \R options that should \emph{not} be validated at the end of the
 \code{\link[=startup]{startup()}} process.
-(Default: not specified)
+(Default: \code{"error"})
 }
 }
 }

@@ -126,7 +126,7 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
   if (length(include) == 0L) return()
   if (length(exclude) > 0L) {
     if (is.na(exclude)) {
-      ignore <- Sys.getenv("R_STARTUP_CHECK_OPTIONS_IGNORE", NA_character_)
+      ignore <- Sys.getenv("R_STARTUP_CHECK_OPTIONS_IGNORE", "error")
       if (is.na(ignore)) ignore <- NULL
       exclude <- getOption("startup.check.options.ignore", ignore)
     }

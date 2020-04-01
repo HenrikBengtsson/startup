@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.14.0-9000 [2019-03-29]
+Version: 0.14.0-9000 [2019-03-31]
 
 NEW FEATURES:
 
@@ -25,7 +25,7 @@ BUG FIXES:
    argument 'check = FALSE', or the corresponding R option, or environment
    variable.  Validation of 'error' specificially can be disable by adding
    'error' to environment variable 'R_STARTUP_CHECK_OPTIONS_IGNORE' or to
-   option 'startup.check.options.ignore'.
+   option 'startup.check.options.ignore'. The default is to ignore 'error'.
 
 
 Version: 0.14.0 [2019-12-09]
