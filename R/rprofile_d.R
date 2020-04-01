@@ -11,7 +11,7 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
 
   if (is.na(check)) {
     check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
-    check <- getOption("startup.check", check)
+    check <- isTRUE(getOption("startup.check", check))
   }
 
   ## Skip?
@@ -32,7 +32,7 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     files <- list_d_files(paths, filter = filter_files)
     encoding <- getOption("encoding")
     keep_source <- getOption("keep.source", TRUE)
-    
+
     source_print_eval <- function(pathname) {
       current_script_pathname(pathname)
       on.exit(current_script_pathname(NA_character_))
@@ -45,11 +45,6 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
                 on_error = on_error, dryrun = dryrun, what = "Rprofile")
   }
 
-  if (check) {
-    # Check for unsafe changes to R options changes .Rprofile 
-    check_options(debug = FALSE)
-  }
-  
   res <- api()
   if (unload) unload()
   invisible(res)

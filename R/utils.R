@@ -39,6 +39,8 @@ is_file <- function(f) {
 }
 
 nlines <- function(f) {
+  oopts <- options(encoding = "native.enc")
+  on.exit(options(oopts))
   bfr <- readLines(f, warn = FALSE)
   bfr <- grep("^[ \t]*#", bfr, value = TRUE, invert = TRUE)
   bfr <- grep("^[ \t]*$", bfr, value = TRUE, invert = TRUE)

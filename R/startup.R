@@ -82,17 +82,24 @@ startup <- function(sibling = FALSE, all = FALSE,
                                  "message", "ignore"),
                     keep = c("options"), check = NA, unload = TRUE, skip = NA,
                     dryrun = NA, debug = NA) {
+  ## Is startup::startup() fully disabled?
+  disable <- as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE"))
+  disable <- getOption("startup.disable", disable)
+  if (isTRUE(disable)) {
+    return(invisible())
+  }
+
   on_error <- match.arg(on_error)
   if (length(keep) > 0) keep <- match.arg(keep, several.ok = TRUE)
 
-  ## Is startup::startup() fully disabled?
-  if (isTRUE(as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE")))) {
-    return(invisible())
+  if (is.na(check)) {
+    check <- as.logical(Sys.getenv("R_STARTUP_CHECK", "TRUE"))
+    check <- isTRUE(getOption("startup.check", check))
   }
   
   debug(debug)
 
-  cmd_args <- getOption("startup.debug.commandArgs", commandArgs())
+  cmd_args <- getOption("startup.commandArgs", commandArgs())
 
   debug <- debug()
   if (debug) {
@@ -199,13 +206,26 @@ startup <- function(sibling = FALSE, all = FALSE,
   rprofile_d(sibling = sibling, all = all, check = check, skip = skip,
              dryrun = dryrun, on_error = on_error)
 
+
+  ## (iv) Detect and report on run-time startup issues
+  if (check) {
+    # (a) Check for unsafe/non-intended changes to environment variables
+    #     to library, Renviron, or Rprofile paths
+    check_envs()
+    
+    # (b) Check for unsafe changes to R options changes done by
+    #     any Rprofile files or by the R_STARTUP_INIT code
+    check_options()
+  }
+
   ## (iii) Process R_STARTUP_INIT code?
   code <- Sys.getenv("R_STARTUP_INIT")
+  code <- getOption("startup.init", code)
   if (nzchar(code)) {
-    logf("Processing R_STARTUP_INIT=%s:", sQuote(code))
+    logf("Processing R_STARTUP_INIT/startup.init=%s:", sQuote(code))
     expr <- tryCatch(parse(text = code), error = identity)
     if (inherits(expr, "error")) {
-      msg <- sprintf("Syntax error in 'R_STARTUP_INIT': %s", sQuote(code))
+      msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", sQuote(code))
       logf(paste("- [SKIPPED]", msg))
       if (on_error == "error") {
         stop(msg, call. = FALSE)
@@ -222,36 +242,50 @@ startup <- function(sibling = FALSE, all = FALSE,
   }
 
   ## (iv) Detect and report on run-time startup issues
-  check_r_libs_env_vars(debug = debug)
-  check_rstudio_option_error_conflict(debug = debug)
+  if (check) {
+    # (a) Check for unsafe/non-intended changes to environment variables
+    #     to library, Renviron, or Rprofile paths
+    check_envs()
+    
+    # (b) Check for unsafe changes to R options changes done by
+    #     any Rprofile files or by the R_STARTUP_INIT code
+    check_options()
+  }
   
   res <- api()
 
   ## (v) Cleanup?
   if (!"options" %in% keep) startup_session_options(action = "erase")
 
-  ## Needed because we might unload package below and then we will
-  ## lose timestamp() and logf()
-  if (debug) {
-    copy_fcn <- function(names, env = parent.frame()) {
-      ns <- getNamespace("startup")
-      for (name in names) {
-        fcn <- get(name, mode = "function", envir = ns)
-        environment(fcn) <- env
-        assign(name, fcn, envir = env)
+  # (vi) Unload package?
+  if (unload) {
+    ## Needed because we might unload package below and then we will
+    ## lose timestamp() and logf()
+    if (debug) {
+      copy_fcn <- function(names, env = parent.frame()) {
+        ns <- getNamespace("startup")
+        for (name in names) {
+          fcn <- get(name, mode = "function", envir = ns)
+          environment(fcn) <- env
+          assign(name, fcn, envir = env)
+        }
+      }
+      t0 <- timestamp(get_t0 = TRUE)
+      copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
+      logf <- function(fmt, ...) {
+        fmt <- paste(timestamp(), ": ", fmt, sep = "")
+        message(sprintf(fmt, ...))
       }
     }
-    t0 <- timestamp(get_t0 = TRUE)
-    copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
-    logf <- function(fmt, ...) {
-      fmt <- paste(timestamp(), ": ", fmt, sep = "")
-      message(sprintf(fmt, ...))
-    }
-
+    
+    unload(debug = debug)
   }
 
-  # (vi) Unload package?
-  if (unload) unload(debug = debug)
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # IMPORTANT: From here on, we must not use any 'startup' functions
+  #            because the package might have been unloaded
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   if (debug) {
     logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
@@ -269,58 +303,60 @@ startup <- function(sibling = FALSE, all = FALSE,
       f_norm <- normalizePath(f)
       f_info_short <- file_info(f, type = "binary")
       f_info <- file_info(f_norm, type = "binary")
-      env0 <- env <- Sys.getenv("R_STARTUP_RDATA", "")
-      if (env == "") {
-        env <- "default"
+      rdata <- Sys.getenv("R_STARTUP_RDATA", "")
+      rdata <- getOption("startup.rdata", rdata)
+      rdata0 <- rdata
+      if (length(rdata) == 0L || rdata == "") {
+        rdata <- "default"
       } else if (debug) {
-        logf("- R_STARTUP_RDATA=%s", env)
+        logf("- R_STARTUP_RDATA/startup.rdata=%s", paste(rdata, collapse = ","))
       }
 
-      ## Support R_STARTUP_RDATA=prompt,rename
-      env <- unlist(strsplit(env, split = ",", fixed = TRUE))
-      stopifnot(length(env) >= 1L, length(env) <= 2L)
+      ## Support R_STARTUP_RDATA/startup.rdata=prompt,rename
+      rdata <- unlist(strsplit(rdata, split = ",", fixed = TRUE))
+      stopifnot(length(rdata) >= 1L, length(rdata) <= 2L)
       
-      if (env[1] == "prompt") {
-        fallback <- env[2L]
+      if (rdata[1] == "prompt") {
+        fallback <- rdata[2L]
         if (interactive()) {  
-	  if (is.na(fallback) || fallback == "default") fallback <- "rename"
+          if (is.na(fallback) || fallback == "default") fallback <- "rename"
           logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
           question <- sprintf("Detected %s - do you want to load it? If not, it will be %sd.", f_info, fallback)
 
           ## We might be able to prompt the user
           if (is_rstudio_console() && !supports_tcltk()) {
-            env <- "default"
+            rdata <- "default"
             logf("- Cannot prompt user in the RStudio Console on this system")
-            warning(sprintf("Detected %s, which was loaded (default), because it was possible to ask you if it should loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, env0), call. = FALSE)
+            warning(sprintf("Detected %s, which was loaded (default), because it was possible to ask you if it should loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, rdata0), call. = FALSE)
           } else {
             res <- ask_yes_no(question)
             logf("- User wants to load it: %s", res)
-            env <- if (res) "default" else fallback
-	  }  
+            rdata <- if (res) "default" else fallback
+          }  
         } else {
           ## Non-interactive session; it is not possible to the prompt user.
-          if (length(env) == 1L) {
-            env <- "default"
-            warning(sprintf("Loading %s because it is not possible to prompt the user in a non-interactive session [R_STARTUP_RDATA=%s]", f_info, env0), call. = FALSE)
+          if (length(rdata) == 1L) {
+            rdata <- "default"
+            warning(sprintf("Loading %s because it is not possible to prompt the user in a non-interactive session [R_STARTUP_RDATA/startup.rdata=%s]", f_info, rdata0), call. = FALSE)
           } else {
             ## Use fallback
             stop_if_not(!is.na(fallback))
-            env <- fallback
+            rdata <- fallback
           }
         }
       }
 
-      ## At this point, we should have at most one element in 'env'
-      stop_if_not(length(env) == 1L, !is.na(env))
+      ## At this point, we should have at most one element in 'rdata'
+      stop_if_not(length(rdata) == 1L, !is.na(rdata))
       
-      if (env == "remove") {
+      if (rdata == "remove") {
         logf("- Skipping %s by removing it", f_info)
         file.remove(f)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s by removing it [R_STARTUP_RDATA=%s]", f_info, env0), call. = FALSE)
+          warning(sprintf("Skipped %s by removing it [R_STARTUP_RDATA/startup.rdata=%s]", f_info, rdata0), call. = FALSE)
         }
-      } else if (env == "rename") {
+      } else if (rdata == "rename") {
         fi <- file.info(f)
         when <- fi[c("mtime", "ctime")]
         keep <- vapply(when, FUN = inherits, "POSIXct", FUN.VALUE=FALSE)
@@ -333,11 +369,12 @@ startup <- function(sibling = FALSE, all = FALSE,
         logf("- Skipping %s by renaming it to %s", f, f_new_info)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA=%s]", f_norm, f_new_info, env0), call. = FALSE)
+          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA/startup.rdata=%s]", sQuote(f_norm), f_new_info, rdata0), call. = FALSE)
         }
-      } else if (env != "default") {
-        warning(sprintf("Ignoring unknown value (%s) of %s",
-                sQuote(env0), sQuote("R_STARTUP_RDATA")),
+      } else if (rdata != "default") {
+        warning(sprintf("Ignoring unknown value (%s) of %s/%s",
+                        sQuote(rdata0), sQuote("R_STARTUP_RDATA"),
+                        sQuote("startup.rdata")),
                 call. = FALSE)
       }
     }

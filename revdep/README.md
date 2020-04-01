@@ -1,22 +1,22 @@
 # Platform
 
-|field    |value                        |
-|:--------|:----------------------------|
-|version  |R version 3.6.1 (2019-07-05) |
-|os       |Ubuntu 18.04.3 LTS           |
-|system   |x86_64, linux-gnu            |
-|ui       |X11                          |
-|language |en                           |
-|collate  |en_US.UTF-8                  |
-|ctype    |en_US.UTF-8                  |
-|tz       |America/Los_Angeles          |
-|date     |2019-12-09                   |
+|field    |value                                              |
+|:--------|:--------------------------------------------------|
+|version  |R Under development (unstable) (2020-03-26 r78075) |
+|os       |Ubuntu 18.04.4 LTS                                 |
+|system   |x86_64, linux-gnu                                  |
+|ui       |X11                                                |
+|language |en                                                 |
+|collate  |en_US.UTF-8                                        |
+|ctype    |en_US.UTF-8                                        |
+|tz       |America/Los_Angeles                                |
+|date     |2020-03-27                                         |
 
 # Dependencies
 
-|package |old    |new         |Δ  |
-|:-------|:------|:-----------|:--|
-|startup |0.13.0 |0.13.0-9000 |*  |
+|package |old    |new    |Δ  |
+|:-------|:------|:------|:--|
+|startup |0.14.0 |0.14.1 |*  |
 
 # Revdeps
 
@@ -24,5 +24,5 @@
 
 |package    |version |error |warning |note |
 |:----------|:-------|:-----|:-------|:----|
-|threeBrain |0.1.4   |      |        |     |
+|threeBrain |0.1.5   |      |        |     |
 

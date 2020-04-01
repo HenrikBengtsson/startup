@@ -4,14 +4,19 @@ get_startup_time <- local({
   function() {
     if (is.null(now)) {
       time <- Sys.getenv("R_STARTUP_TIME", "")
-      if (nzchar(time)) {
-        now <<- tryCatch({
-	  as.POSIXct(time)
-	}, error = function(ex) {
-	  warning("Failed to parse 'R_STARTUP_TIME' as a timestamp: ",
-	          sQuote(time), ". The reason was: ", conditionMessage(ex))
-           NULL
-	})
+      time <- getOption("startup.time", time)
+      if (is.character(time)) {
+        if (nzchar(time)) {
+          now <<- tryCatch({
+            as.POSIXct(time)
+          }, error = function(ex) {
+            warning("Failed to parse 'R_STARTUP_TIME' as a timestamp: ",
+                    sQuote(time), ". The reason was: ", conditionMessage(ex))
+             NULL
+          })
+	}
+      } else if (!inherits(time, "POSIXct")) {
+        stop("Option 'startup.time' is of an unknown mode: ", mode(time))
       }
       if (is.null(now)) {
         now <<- Sys.time()
