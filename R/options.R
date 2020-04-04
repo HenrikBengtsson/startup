@@ -1,7 +1,10 @@
 #' Options and environment variables used by the 'startup' package
 #'
 #' Below are environment variables and \R options that are used by the
-#' \pkg{startup} package.\cr
+#' \pkg{startup} package.
+#' The \env{R_STARTUP_***} environment variables must be set before calling
+#' the `startup::startup()` function, that is, either (i) prior to launching
+#' \R or (ii) in the \file{.Renviron} file.
 #'
 #' @section Controls whether \pkg{startup} is used or not:
 #'
