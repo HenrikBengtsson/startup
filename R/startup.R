@@ -191,9 +191,11 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     f <- Sys.getenv("R_TESTS")
     if (nzchar(f)) {
-      logf(" Detected R_TESTS=%s:", sQuote(f))
-      logf(" - %s%s", normalizePath(f, mustWork = FALSE),
-           if (is_file(f)) "" else " (not found)")
+      if (is_file(f)) {
+        logf("- R_TESTS: %s", file_info(f, type = "r"))
+      } else {
+        logf("- R_TESTS: %s (not found)", normalizePath(f, mustWork = FALSE))
+      }
     }
   }
 
