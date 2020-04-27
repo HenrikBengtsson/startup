@@ -1,5 +1,5 @@
 unload <- function(debug = FALSE) {
-  unloadNamespace("startup")
+  unloadNamespace(.packageName)
 }
 
 api <- function() {

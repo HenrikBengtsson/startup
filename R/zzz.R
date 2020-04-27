@@ -5,7 +5,7 @@ register_vignette_engine_during_build_only <- function(pkgname) {
   ## HACK: Only register vignette engine startup::selfonly during R CMD build
   if (Sys.getenv("R_CMD") == "") return()
 
-  tools::vignetteEngine("selfonly", package = "startup", pattern = "[.]md$",
+  tools::vignetteEngine("selfonly", package = pkgname, pattern = "[.]md$",
     weave = function(file, ...) {
       output <- sprintf("%s.html", tools::file_path_sans_ext(basename(file)))
       md <- readLines(file)

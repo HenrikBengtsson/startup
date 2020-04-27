@@ -265,7 +265,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     ## lose timestamp() and logf()
     if (debug) {
       copy_fcn <- function(names, env = parent.frame()) {
-        ns <- getNamespace("startup")
+        ns <- getNamespace(.packageName)
         for (name in names) {
           fcn <- get(name, mode = "function", envir = ns)
           environment(fcn) <- env
