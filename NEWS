@@ -29,9 +29,9 @@ BUG FIXES:
 
  * It was not possible to disable the validation of R option 'error' and
    environment variables such as 'R_LIBS_USER', 'R_PROFILE_SITE', and
-   'R_CHECK_ENVIRON'.  These validates can now be disabled by specifying
+   'R_CHECK_ENVIRON'.  These validations can now be disabled by specifying
    argument 'check = FALSE', or the corresponding R option, or environment
-   variable.  Validation of 'error' specificially can be disable by adding
+   variable.  Validation of 'error' specifically can be disable by adding
    'error' to environment variable 'R_STARTUP_CHECK_OPTIONS_IGNORE' or to
    option 'startup.check.options.ignore'. The default is to ignore 'error'.
 
