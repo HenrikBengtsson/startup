@@ -25,7 +25,7 @@ directory that the current \R session was launched from.}
 \item{\code{startup.session.id}}{(character) a unique ID for the current \R
 session.}
 \item{\code{startup.session.dumpto}}{(character) a session-specific name that
-can be used for argument \code{dumpto} of \link[utils:dump.frames]{dump.frames()}
+can be used for argument \code{dumpto} of \link[utils:debugger]{dump.frames()}
 (also for dumping to file).}
 }
 }

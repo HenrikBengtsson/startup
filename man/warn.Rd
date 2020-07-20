@@ -11,10 +11,10 @@ warn(..., call. = FALSE, immediate. = TRUE, domain = NULL)
 translation.  The \ldots arguments are passed to \link[base:sprintf]{base::sprintf} to
 create the message string.}
 
-\item{call.}{If \link[base:TRUE]{base::TRUE}, the call is included in the warning
+\item{call.}{If \link[base:logical]{base::TRUE}, the call is included in the warning
 message, otherwise not.}
 
-\item{immediate.}{If \link[base:TRUE]{base::TRUE}, the warning is outputted immediately,
+\item{immediate.}{If \link[base:logical]{base::TRUE}, the warning is outputted immediately,
 otherwise not.}
 }
 \description{

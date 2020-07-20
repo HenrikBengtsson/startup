@@ -13,7 +13,7 @@ Returns \code{TRUE} is debug is enabled and \code{FALSE} otherwise.
 Checks whether startup debug is on or not
 }
 \details{
-The debug mode is when \code{\link[startup:startup]{startup::startup()}} is called, either explicitly
+The debug mode is when \code{\link[=startup]{startup()}} is called, either explicitly
 via argument \code{debug} or via environment variable \code{R_STARTUP_DEBUG}.
 }
 \keyword{internal}

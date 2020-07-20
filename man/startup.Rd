@@ -99,7 +99,7 @@ package is unloaded
 In order for \file{.Rprofile.d} and \file{.Renviron.d} directories to be
 included during the \R startup process, a user needs to add
 \code{startup::startup()} to \file{~/.Rprofile}.  Adding this can also be done
-by calling \code{\link[startup:install]{startup::install()}} once.
+by calling \code{\link[=install]{install()}} once.
 }
 
 \section{Site-wide installation}{
