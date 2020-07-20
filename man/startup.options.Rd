@@ -72,6 +72,9 @@ If \code{"prompt"}, the user is prompted whether they want to load the file
 or rename it. In non-interactive session, \code{"prompt"} will fallback to
 loading the content (default). To fallback to renaming the file, use
 \code{"prompt,rename"}.
+Note that in constrast to \code{R} and \verb{R CMD BATCH file.R}, \code{Rscript} does
+\emph{not} load \file{.RData} files unless command-line option \code{--restore}
+is specified.
 (Default: not specified)
 }
 }
@@ -121,7 +124,7 @@ be launched.
 Overrides the current timestamp, which can be useful to prototype and
 test functionalities that depend on the current time, e.g. inclusion
 and exclusion of files based on \verb{when=<periodicity>} tags.
-The specified string must be parsable by \code{\link[base:as.POSIXct]{base::as.POSIXct()}}.
+The specified string must be parsable by \code{\link[base:as.POSIXlt]{base::as.POSIXct()}}.
 (Default: not specified)
 }
 }
