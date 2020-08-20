@@ -5,19 +5,25 @@
 #$ -cwd           # Current working directory
 #$ -j y           # Join STDERR and STDOUT
 #$ -l mem_free=3G # On average 4 GiB of RAM per core (=a package check)
+#$ -m bea         # email when job (b)egins, (e)nds, or (a)borts
 #
 # Pass on R-specific environment variables, iff set:
 ##$ -v _R_CHECK_LENGTH_1_CONDITION_
 ##$ -v _R_CHECK_LENGTH_1_LOGIC2_
 ##$ -v R_STARTUP_DEBUG
 
-[[ $SGE_CLUSTER_NAME == *wynton* ]] && module load CBI r
+## SPECIAL: On Wynton HPC
+if [[ $SGE_CLUSTER_NAME == *wynton* ]]; then
+    module load CBI
+    module load r
+
+    ## Report on what modules are in use
+    module list
+fi
+
+echo "HOSTNAME: $HOSTNAME"
+ls -l revdep/
 
 Rscript --version
 Rscript -e ".libPaths()"
 Rscript revdep/run.R
-
-## NOTE TO SELF: To manually install packages that failed to
-## install by revdepcheck, use:
-##   pkgs=$(grep -A 1 -F " but not available" revdep/problems.md | grep -F "‘" | sed 's/.*: //g' | sed 's/[‘’]//g' | sed 's/ +/\n/g' | sort -u)
-##   Rscript -e "crancache::install_packages(c($(printf "'%s', " $pkgs) 'future'))"
