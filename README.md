@@ -163,14 +163,17 @@ Furthermore, some environment variables can not even be set in `.Renviron` (Step
 * `HOME` - the user's home directory
 * `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of threads used by OpenMP etc, cf. _R Installation and Administration_
   
-In other words, these variables have to be set using methods specific to the operating system or the calling shell, e.g. in Unix shells
+These variables have to be set using methods specific to the operating system or the calling shell, e.g. in a Unix shell
+
 ```sh
-$ export TMPDIR=/path/to/tmp
+$ export OMP_NUM_THREADS=1
 $ R
 ```
+
 or per call as
+
 ```sh
-TMPDIR=/path/to/tmp R
+OMP_NUM_THREADS=1 R
 ```
 
 (*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `?"environment variables"` and `?Startup`.
