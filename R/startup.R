@@ -118,12 +118,12 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     logf("The following has already been processed by R:")
 
-    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON"), type = "env"))
-    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER"), type = "env"))
+    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON"), type = "env", validate = TRUE))
+    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER"), type = "env", validate = TRUE))
     
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
-      if (is_file(f)) logf("- %s", file_info(f, type = "env"))
+      if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
     }
 
     no_environ <- any(c("--no-environ", "--vanilla") %in% cmd_args)
@@ -133,14 +133,14 @@ startup <- function(sibling = FALSE, all = FALSE,
         f <- file.path(r_home, "etc", r_arch, "Renviron.site")
       }
       if (!is_file(f)) f <- file.path(r_home, "etc", "Renviron.site")
-      if (is_file(f)) logf("- %s", file_info(f, type = "env"))
+      if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
 
       f <- Sys.getenv("R_ENVIRON_USER")
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
       if (!is_file(f)) f <- ".Renviron"
       if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
       if (!is_file(f)) f <- "~/.Renviron"
-      if (is_file(f)) logf("- %s", file_info(f, type = "env"))
+      if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
     }
 
     pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")

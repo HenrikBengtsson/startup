@@ -8,6 +8,10 @@ NEW FEATURES:
  * startup(debug = TRUE) now reports on number of lines and file size also
    for the 'R_TESTS' file.
 
+ * startup(debug = TRUE) [sic!] now checks that the environment variables
+   that the different Renviron files set are actually set.  If not all of
+   the expected ones are set, an informative warning is produced.
+
 BUG FIXES:
 
  * Package tests could attempt to backup and update ~/.Rprofile, e.g. if
