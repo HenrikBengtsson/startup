@@ -97,8 +97,7 @@ file_info <- function(f, type = "txt", extra = NULL, validate = FALSE) {
     nvars <- length(vars)
     if (nvars > 0) {
       if (validate && !any(vars %in% names(Sys.getenv()))) {
-        extra <- sprintf("%s WARNING", extra)
-        warning(sprintf("startup: It appears that R never processed file %s (%d lines; %d bytes) because none of the %d environment variables (%s) it should sets have been set", sQuote(fx), nlines(f), file_size(f), length(vars), paste(sQuote(vars), collapse = ", ")), call. = FALSE)
+        prefix <- sprintf("[WARNING: It appears that R never processed this file] %s", prefix)
       }
       vars <- sprintf(" (%s)", paste(sQuote(vars), collapse = ", "))
     } else {
