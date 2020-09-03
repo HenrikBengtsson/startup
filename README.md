@@ -241,6 +241,8 @@ This Git repository uses the [Git Flow](https://nvie.com/posts/a-successful-git-
 
 Contributing to this package is easy.  Just send a [pull request](https://help.github.com/articles/using-pull-requests/).  When you send your PR, make sure `develop` is the destination branch on the [startup repository](https://github.com/HenrikBengtsson/startup).  Your PR should pass `R CMD check --as-cran`, which will also be checked by <a href="https://travis-ci.org/HenrikBengtsson/startup">Travis CI</a> and <a href="https://ci.appveyor.com/project/HenrikBengtsson/startup">AppVeyor CI</a> when the PR is submitted.
 
+We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) of Contributor Covenant.
+
 
 ## Software status
 
