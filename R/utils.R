@@ -92,16 +92,15 @@ file_info <- function(f, type = "txt", extra = NULL, validate = FALSE) {
   if (type == "binary") {
     sprintf("%s (binary file; %d bytes%s)", prefix, file_size(f), extra)
   } else if (type == "env") {
+    warn <- NULL
     vars <- names(parse_renviron(f))
     nvars <- length(vars)
     if (nvars > 0) {
-      vars <- sprintf(" (%s)", paste(sQuote(vars), collapse = ", "))
-      if (validate) {
-        ok <- vars %in% names(Sys.getenv())
-        if (!any(ok)) {
-          warning(sprintf("startup: It appears that R never processed file %s (%d lines; %d bytes) because none of the %d environment variables (%s) it should sets have been set", sQuote(fx), nlines(f), file_size(f), nvars, paste(sQuote(vars), collapse = ", ")), immediate. = TRUE, call. = FALSE)
-        }
+      if (validate && !any(vars %in% names(Sys.getenv()))) {
+        extra <- sprintf("%s WARNING", extra)
+        warning(sprintf("startup: It appears that R never processed file %s (%d lines; %d bytes) because none of the %d environment variables (%s) it should sets have been set", sQuote(fx), nlines(f), file_size(f), length(vars), paste(sQuote(vars), collapse = ", ")))
       }
+      vars <- sprintf(" (%s)", paste(sQuote(vars), collapse = ", "))
     } else {
       vars <- ""
     }
