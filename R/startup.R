@@ -110,11 +110,11 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("System information:")
     logf("- R_HOME: %s", path_info(Sys.getenv("R_HOME")))
     logf("- R call: %s", paste(cmd_args, collapse = " "))
-    logf("- Current directory: %s", sQuote(getwd()))
+    logf("- Current directory: %s", squote(getwd()))
     logf("- User's home directory: %s", path_info("~"))
-    logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
+    logf("- Search path: %s", paste(squote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
-         paste(sQuote(loadedNamespaces()), collapse = ", "))
+         paste(squote(loadedNamespaces()), collapse = ", "))
 
     logf("The following has already been processed by R:")
 
@@ -158,14 +158,14 @@ startup <- function(sibling = FALSE, all = FALSE,
       } else {
         pkgs <- "base,methods,datasets,utils,grDevices,graphics,stats"
       }
-      logf("- R_DEFAULT_PACKAGES: %s (= %s)", sQuote(""), sQuote(pkgs))
+      logf("- R_DEFAULT_PACKAGES: %s (= %s)", squote(""), squote(pkgs))
     } else {
-      logf("- R_DEFAULT_PACKAGES: %s", sQuote(pkgs))
+      logf("- R_DEFAULT_PACKAGES: %s", squote(pkgs))
     }
 
-    logf("- R_LIBS: %s", sQuote(Sys.getenv("R_LIBS")))
-    logf("- R_LIBS_SITE: %s", sQuote(Sys.getenv("R_LIBS_SITE")))
-    logf("- R_LIBS_USER: %s", sQuote(Sys.getenv("R_LIBS_USER")))
+    logf("- R_LIBS: %s", squote(Sys.getenv("R_LIBS")))
+    logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
+    logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
 
     logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
     logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
@@ -224,10 +224,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   code <- Sys.getenv("R_STARTUP_INIT")
   code <- getOption("startup.init", code)
   if (nzchar(code)) {
-    logf("Processing R_STARTUP_INIT/startup.init=%s:", sQuote(code))
+    logf("Processing R_STARTUP_INIT/startup.init=%s:", squote(code))
     expr <- tryCatch(parse(text = code), error = identity)
     if (inherits(expr, "error")) {
-      msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", sQuote(code))
+      msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", squote(code))
       logf(paste("- [SKIPPED]", msg))
       if (on_error == "error") {
         stop(msg, call. = FALSE)
@@ -290,9 +290,9 @@ startup <- function(sibling = FALSE, all = FALSE,
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   if (debug) {
-    logf("- Search path: %s", paste(sQuote(search()), collapse = ", "))
+    logf("- Search path: %s", paste(squote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
-         paste(sQuote(loadedNamespaces()), collapse = ", "))
+         paste(squote(loadedNamespaces()), collapse = ", "))
     logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
   }
@@ -371,12 +371,12 @@ startup <- function(sibling = FALSE, all = FALSE,
         logf("- Skipping %s by renaming it to %s", f, f_new_info)
         has_RData <- is_file(f)
         if (!has_RData) {
-          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA/startup.rdata=%s]", sQuote(f_norm), f_new_info, rdata0), call. = FALSE)
+          warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA/startup.rdata=%s]", squote(f_norm), f_new_info, rdata0), call. = FALSE)
         }
       } else if (rdata != "default") {
         warning(sprintf("Ignoring unknown value (%s) of %s/%s",
-                        sQuote(rdata0), sQuote("R_STARTUP_RDATA"),
-                        sQuote("startup.rdata")),
+                        squote(rdata0), squote("R_STARTUP_RDATA"),
+                        squote("startup.rdata")),
                 call. = FALSE)
       }
     }
@@ -390,7 +390,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
     }
 
-    logf("- R_HISTFILE: %s", sQuote(Sys.getenv("R_HISTFILE")))
+    logf("- R_HISTFILE: %s", squote(Sys.getenv("R_HISTFILE")))
     no_restore_history <- any(c("--no-restore-history", "--no-restore", "--vanilla") %in% cmd_args)
     if (!no_restore_history && interactive()) {
       if (is_file(f <- Sys.getenv("R_HISTFILE", "./.Rhistory"))) {
@@ -400,7 +400,7 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     where <- find(".First", mode = "function")
     if (where > 0) {
-      logf("- .First(): in %s (position %d on search())", sQuote(search()[where]), where)
+      logf("- .First(): in %s (position %d on search())", squote(search()[where]), where)
     } else if (loads_RData) {
       logf("- .First(): no such function on search(), but it might be that one is defined in the ./RData file")
     } else {
@@ -411,7 +411,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     to_be_attached <- !is.element(paste("package:", pkgs, sep = ""), search())
     pkgs <- pkgs[to_be_attached]
     logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
-         paste(sQuote(pkgs), collapse = ", "))
+         paste(squote(pkgs), collapse = ", "))
   }
   
   invisible(res)

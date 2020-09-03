@@ -27,14 +27,14 @@ eof_ok <- function(file) {
 
 is_dir <- function(f) {
   if (length(f) != 1L) {
-    stop(sprintf("INTERNAL ERROR in startup:::is_dir(): only scalar input is supported: [n=%d] %s", length(f), paste(sQuote(f), collapse = ", ")))
+    stop(sprintf("INTERNAL ERROR in startup:::is_dir(): only scalar input is supported: [n=%d] %s", length(f), paste(squote(f), collapse = ", ")))
   }
   nzchar(f) && file.exists(f) && file.info(f)$isdir
 }
 
 is_file <- function(f) {
   if (length(f) != 1L) {
-    stop(sprintf("INTERNAL ERROR in startup:::is_file(): only scalar input is supported: [n=%d] %s", length(f), paste(sQuote(f), collapse = ", ")))
+    stop(sprintf("INTERNAL ERROR in startup:::is_file(): only scalar input is supported: [n=%d] %s", length(f), paste(squote(f), collapse = ", ")))
   }
   nzchar(f) && file.exists(f) && !file.info(f)$isdir
 }
@@ -52,7 +52,7 @@ nlines <- function(f) {
 file_size <- function(...) file.info(..., extra_cols = FALSE)$size
 
 path_info <- function(f, extra = NULL) {
-  if (!nzchar(f)) return(sQuote(""))
+  if (!nzchar(f)) return(squote(""))
   fx <- path.expand(f)
   if (!is.null(extra)) {
     extra <- paste("; ", extra, sep = "")
@@ -61,19 +61,19 @@ path_info <- function(f, extra = NULL) {
   }
 
   if (!is_dir(f)) {
-    return(sprintf("%s (non-existing directory%s)", sQuote(f), extra))
+    return(sprintf("%s (non-existing directory%s)", squote(f), extra))
   }
 
   if (fx == f) {
-    sprintf("%s (existing folder%s)", sQuote(f), extra)
+    sprintf("%s (existing folder%s)", squote(f), extra)
   } else {
-    sprintf("%s => %s (existing folder%s)", sQuote(f), sQuote(fx), extra)
+    sprintf("%s => %s (existing folder%s)", squote(f), squote(fx), extra)
   }
 }
 
 
 file_info <- function(f, type = "txt", extra = NULL, validate = FALSE) {
-  if (!nzchar(f)) return(sQuote(""))
+  if (!nzchar(f)) return(squote(""))
   fx <- path.expand(f)
   if (length(extra) > 0L) {
     extra <- paste("; ", extra, sep = "")
@@ -81,13 +81,13 @@ file_info <- function(f, type = "txt", extra = NULL, validate = FALSE) {
     extra <- ""
   }
   if (!is_file(f)) {
-    return(sprintf("%s (non-existing file%s)", sQuote(f), extra))
+    return(sprintf("%s (non-existing file%s)", squote(f), extra))
   }
 
   if (fx == f) {
-    prefix <- sQuote(f)
+    prefix <- squote(f)
   } else {
-    prefix <- sprintf("%s => %s", sQuote(f), sQuote(fx))
+    prefix <- sprintf("%s => %s", squote(f), squote(fx))
   }
   if (type == "binary") {
     sprintf("%s (binary file; %d bytes%s)", prefix, file_size(f), extra)
@@ -99,7 +99,7 @@ file_info <- function(f, type = "txt", extra = NULL, validate = FALSE) {
       if (validate && !any(vars %in% names(Sys.getenv()))) {
         prefix <- sprintf("[WARNING: It appears that R never processed this file] %s", prefix)
       }
-      vars <- sprintf(" (%s)", paste(sQuote(vars), collapse = ", "))
+      vars <- sprintf(" (%s)", paste(squote(vars), collapse = ", "))
     } else {
       vars <- ""
     }
@@ -137,6 +137,8 @@ find <- function(what, mode) {
   -1L
 }
 
+## sQuote() without fancy quotes
+squote <- function(x) sQuote(x, q = FALSE)
 
 supports_tcltk <- function() {
   (capabilities("X11") && capabilities("tcltk") &&
@@ -145,7 +147,7 @@ supports_tcltk <- function() {
 
 tcltk_yesno <- function(question) {
   if (!supports_tcltk()) {
-    warning("[startup::startup()]: Your R setup does not support X11 or tcltk dialogs. Because of this, the answer to the question ", sQuote(question), " was defaulted to 'yes'.", call. = FALSE)
+    warning("[startup::startup()]: Your R setup does not support X11 or tcltk dialogs. Because of this, the answer to the question ", sQuote(question), " was defaulted to ", sQuote("yes"), ".", call. = FALSE)
     return(TRUE)
   }  
   ans <- tcltk::tk_messageBox("yesno", message = question)

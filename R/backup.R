@@ -16,7 +16,7 @@ backup <- function(file, quiet = FALSE) {
 
   backup_size <- file_size(backup_file)
   notef("Backed up R startup file: %s (%d bytes) -> %s (%d bytes)",
-        sQuote(file), size, sQuote(backup_file), backup_size)
+        squote(file), size, squote(backup_file), backup_size)
   stop_if_not(file.exists(backup_file), identical(backup_size, size), res)
   
   backup_file

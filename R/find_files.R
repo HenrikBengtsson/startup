@@ -45,9 +45,9 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
-         paste(sQuote(paths), collapse = ", "))
+         paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(sQuote(paths_d), collapse = ", "))
+    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }
@@ -72,9 +72,9 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
-         paste(sQuote(paths), collapse = ", "))
+         paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(sQuote(paths_d), collapse = ", "))
+    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }

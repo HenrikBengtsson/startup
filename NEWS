@@ -14,6 +14,8 @@ NEW FEATURES:
    R 4.0.2, Rgui on Windows does *not* process ~/.Renviron if launched by
    double-clicking on an .RData file not located in the ~/ folder.
 
+ * Using regular, non-fancy single quotes in any output produced.
+
 BUG FIXES:
 
  * Package tests could attempt to backup and update ~/.Rprofile, e.g. if

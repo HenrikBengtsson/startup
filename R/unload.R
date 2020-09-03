@@ -1,4 +1,4 @@
 unload <- function(debug = FALSE) {
-  if (debug) logf("- unloading the %s package", sQuote(.packageName))
+  if (debug) logf("- unloading the %s package", squote(.packageName))
   unloadNamespace(.packageName)
 }
