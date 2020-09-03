@@ -22,7 +22,7 @@ files_apply <- function(files, fun,
       if (inherits(res, "error")) {
         msg <- conditionMessage(res)
         msg <- sprintf("Failure processing startup file %s: %s",
-                       sQuote(pathname), msg)
+                       squote(pathname), msg)
         if (on_error == "error") {
           stop("startup::files_apply(): ", msg, call. = FALSE)
         } else if (on_error == "warning") {
@@ -62,7 +62,7 @@ files_apply <- function(files, fun,
   if (n_done > 0L) {
     logf(" Skipped %d files with fullfilled 'when' statements:", n_done)
     last <- vapply(already_done[["last_processed"]], FUN = format, format = "%Y-%m-%d %H:%M:%S", FUN.VALUE = NA_character_)
-    logf(sprintf(" - [SKIPPED] %s (processed on %s)", sQuote(already_done[["file"]]), last))
+    logf(sprintf(" - [SKIPPED] %s (processed on %s)", squote(already_done[["file"]]), last))
   }
 
   unknown_keys <- attr(files, "unknown_keys", exact = TRUE)
@@ -71,11 +71,11 @@ files_apply <- function(files, fun,
 ##    for (file in unknown_files) {
 ##      keys <- unknown_keys[[file]]
 ##      reason <- sprintf("non-declared keys: %s",
-##                        paste(sQuote(keys), collapse = ", "))
+##                        paste(squote(keys), collapse = ", "))
 ##      logf(" - [SKIPPED] %s", file_info(file, type = type, extra = reason))
 ##    }
     unknown_keys <- sort(unique(unlist(unknown_keys)))
-    logf("[WARNING] skipped %d files with non-declared key names (%s)", length(unknown_files), paste(sQuote(unknown_keys), collapse = ", "))
+    logf("[WARNING] skipped %d files with non-declared key names (%s)", length(unknown_files), paste(squote(unknown_keys), collapse = ", "))
   }
   
   logf("Processing %d %s files ... done", length(files), what)

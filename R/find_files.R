@@ -7,6 +7,7 @@
 #' @keywords internal
 find_rprofile <- function(all = FALSE) {
   pathnames <- c(Sys.getenv("R_PROFILE_USER"), "./.Rprofile", "~/.Rprofile")
+  pathnames <- drop_user_files_during_check(pathnames)
   find_files(pathnames, all = all)
 }
 
@@ -17,6 +18,7 @@ find_rprofile <- function(all = FALSE) {
 #' @keywords internal
 find_renviron <- function(all = FALSE) {
   pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "./.Renviron", "~/.Renviron")
+  pathnames <- drop_user_files_during_check(pathnames)
   find_files(pathnames, all = all)
 }
 
@@ -35,6 +37,7 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
   } else {
     ## The default R startup search path
     pathnames <- c(Sys.getenv("R_PROFILE_USER"), "~/.Rprofile", "./.Rprofile")
+    pathnames <- drop_user_files_during_check(pathnames)
   }
 
   pathnames <- pathnames[nzchar(pathnames)]
@@ -42,9 +45,9 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
-         paste(sQuote(paths), collapse = ", "))
+         paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(sQuote(paths_d), collapse = ", "))
+    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }
@@ -61,6 +64,7 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
   } else {
     ## The default R startup search path
     pathnames <- c(Sys.getenv("R_ENVIRON_USER"), "~/.Renviron", "./.Renviron")
+    pathnames <- drop_user_files_during_check(pathnames)
   }
 
   pathnames <- pathnames[nzchar(pathnames)]
@@ -68,9 +72,9 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
-         paste(sQuote(paths), collapse = ", "))
+         paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(sQuote(paths_d), collapse = ", "))
+    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }
@@ -174,3 +178,10 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
 
   files
 } ## list_d_files()
+
+
+drop_user_files_during_check <- function(pathnames) {
+  if (!nzchar(Sys.getenv("R_CMD"))) return(pathnames)
+  grep("~", pathnames, value = TRUE, invert = TRUE)
+}
+

@@ -1,7 +1,10 @@
 #' Options and environment variables used by the 'startup' package
 #'
 #' Below are environment variables and \R options that are used by the
-#' \pkg{startup} package.\cr
+#' \pkg{startup} package.
+#' The \env{R_STARTUP_***} environment variables must be set before calling
+#' the `startup::startup()` function, that is, either (i) prior to launching
+#' \R or (ii) in the \file{.Renviron} file.
 #'
 #' @section Controls whether \pkg{startup} is used or not:
 #'
@@ -46,6 +49,9 @@
 #'     or rename it. In non-interactive session, `"prompt"` will fallback to 
 #'     loading the content (default). To fallback to renaming the file, use
 #'     `"prompt,rename"`.
+#'     Note that in constrast to `R` and `R CMD BATCH file.R`, `Rscript` does
+#'     _not_ load \file{.RData} files unless command-line option `--restore`
+#'     is specified.  
 #'     (Default: not specified)
 #'   }
 #' }

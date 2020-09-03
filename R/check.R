@@ -37,7 +37,7 @@ check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
     if (length(updated) == 0L) {
       log("All startup files checked. No files were fixed.")
     } else {
-      logf("All startup files checked. The following files were fixed (modified): %s", paste(sQuote(updated), collapse = ", "))
+      logf("All startup files checked. The following files were fixed (modified): %s", paste(squote(updated), collapse = ", "))
     }
   }
   
@@ -47,16 +47,6 @@ check <- function(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE) {
 
 check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
                                backup = TRUE, debug = FALSE) {
-  eof_ok <- function(file) {
-    size <- file.info(file)$size
-    ## On Windows, symbolic links give size = 0
-    if (.Platform$OS.type == "windows" && size == 0L) size <- 1e9
-    bfr <- readBin(file, what = "raw", n = size)
-    n <- length(bfr)
-    if (n == 0L) return(FALSE)
-    is.element(bfr[n], charToRaw("\n\r"))
-  }
-
   updated <- character(0L)
 
   debug(debug)
@@ -67,6 +57,7 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
     if (!eof_ok(file)) {
       if (fix) {
         if (backup) backup(file)
+
         ## Try to fix it by appending a newline
         try(cat(file = file, "\n", append = TRUE))
 
@@ -184,13 +175,13 @@ check_r_libs_env_vars <- function() {
     npaths <- length(paths)
     if (npaths > 0) {
       pathsx <- normalizePath(paths, mustWork = FALSE)
-      pathsq <- paste(sQuote(paths), collapse = ", ")
+      pathsq <- paste(squote(paths), collapse = ", ")
       pathsQ <- paste(sprintf("\"%s\"", paths), collapse = ", ")
-      pathsxq <- paste(sQuote(pathsx), collapse = ", ")
+      pathsxq <- paste(squote(pathsx), collapse = ", ")
       if (npaths == 1L) {
-        msg <- sprintf("Environment variable %s specifies a non-existing folder %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", sQuote(var), pathsq, pathsxq, pathsQ)
+        msg <- sprintf("Environment variable %s specifies a non-existing folder %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", squote(var), pathsq, pathsxq, pathsQ)
       } else {
-        msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", sQuote(var), npaths, pathsq, pathsxq, pathsQ)
+        msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", squote(var), npaths, pathsq, pathsxq, pathsQ)
       }
       warning("startup::check(): ", msg, call. = FALSE)
     }
@@ -204,7 +195,7 @@ check_r_libs_env_vars <- function() {
     if (!is_file(pathname)) {
       pathnamex <- normalizePath(pathname, mustWork = FALSE)
       msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which R will silently ignore",
-                     sQuote(var), sQuote(pathname), sQuote(pathnamex))
+                     squote(var), squote(pathname), squote(pathnamex))
       warning("startup::check(): ", msg, call. = FALSE)
     }
   }
@@ -218,7 +209,7 @@ check_r_libs_env_vars <- function() {
     if (!is_file(pathname)) {
       pathnamex <- normalizePath(pathname, mustWork = FALSE)
       msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which 'R CMD %s' will silently ignore",
-                     sQuote(var), sQuote(pathname), sQuote(pathnamex), key)
+                     squote(var), squote(pathname), squote(pathnamex), key)
       warning("startup::check(): ", msg, call. = FALSE)
     }
   }
@@ -266,5 +257,5 @@ check_rstudio_option_error_conflict <- function() {
   ## Record intended value of option 'error'
   options(startup.error.lost = getOption("error"))
 
-  warning("startup::check(): ", "CONFLICT: Option ", sQuote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", sQuote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", sQuote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", sQuote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
+  warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }

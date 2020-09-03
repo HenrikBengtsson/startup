@@ -1,7 +1,27 @@
 Package: startup
 ================
 
-Version: 0.14.1 [2019-03-31]
+Version: 0.15.0 [2020-09-03]
+
+NEW FEATURES:
+
+ * startup(debug = TRUE) now reports on number of lines and file size also
+   for the 'R_TESTS' file.
+
+ * startup(debug = TRUE) [sic!] now checks that the environment variables that
+   the different Renviron files set are actually set and produce an informative
+   warning message if not. This confirms that, at least for R 4.0.2 for Windows,
+   Rgui does *not* process ~/.Renviron unless Rgui is launched from that folder.
+
+ * Using regular, non-fancy single quotes in any output produced.
+
+BUG FIXES:
+
+ * Package tests could attempt to backup and update ~/.Rprofile, e.g. if
+   it did not have a newline on the last line.
+
+
+Version: 0.14.1 [2020-03-31]
 
 NEW FEATURES:
 
@@ -21,9 +41,9 @@ BUG FIXES:
 
  * It was not possible to disable the validation of R option 'error' and
    environment variables such as 'R_LIBS_USER', 'R_PROFILE_SITE', and
-   'R_CHECK_ENVIRON'.  These validates can now be disabled by specifying
+   'R_CHECK_ENVIRON'.  These validations can now be disabled by specifying
    argument 'check = FALSE', or the corresponding R option, or environment
-   variable.  Validation of 'error' specificially can be disable by adding
+   variable.  Validation of 'error' specifically can be disable by adding
    'error' to environment variable 'R_STARTUP_CHECK_OPTIONS_IGNORE' or to
    option 'startup.check.options.ignore'. The default is to ignore 'error'.
 

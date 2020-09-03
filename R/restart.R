@@ -112,7 +112,7 @@ restart <- function(status = 0L,
   }
   if (!is_dir(workdir)) {
     stop("Argument 'workdir' specifies a non-existing directory: ",
-         sQuote(workdir))
+         squote(workdir))
   }
   
   cmdargs <- commandArgs()
@@ -121,7 +121,7 @@ restart <- function(status = 0L,
   stop_if_not(length(rcmd) == 1L, is.character(rcmd))
   rcmd_t <- Sys.which(rcmd)
   if (rcmd_t == "") {
-    stop("Argument 'rcmd' specifies a non-existing command: ", sQuote(rcmd))
+    stop("Argument 'rcmd' specifies a non-existing command: ", squote(rcmd))
   }
 
   as <- match.arg(as)
@@ -170,7 +170,7 @@ restart <- function(status = 0L,
     }
     envvars <- c(R_DEFAULT_PACKAGES = "", LC_COLLATE = "C", envvars)
   } else {
-    stop("Unknown value on argument 'as': ", sQuote(as))
+    stop("Unknown value on argument 'as': ", squote(as))
   }
 
   ## Restart quietly or not?

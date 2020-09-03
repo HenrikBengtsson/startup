@@ -31,19 +31,19 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
 
   dir <- file.path(path, ".Rprofile.d")
   if (!file.exists(dir)) {
-    notef("Creating R profile directory: %s", sQuote(dir))
+    notef("Creating R profile directory: %s", squote(dir))
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)
   }
 
   dir <- file.path(path, ".Renviron.d")
   if (!file.exists(dir)) {
-    notef("Creating R environment directory: %s", sQuote(dir))
+    notef("Creating R environment directory: %s", squote(dir))
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)
   }
 
   file <- file.path(path, ".Rprofile")
   if (is_installed(file)) {
-    msg <- sprintf("startup::startup() already installed: %s", sQuote(file))
+    msg <- sprintf("startup::startup() already installed: %s", squote(file))
     notef(msg)
     warning(msg)
     return(file)
@@ -62,10 +62,10 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
   cat(code, file = file, append = !overwrite)
   if (file_exists) {
     notef("%s 'startup::startup()' to already existing R startup file: %s",
-          if (overwrite) "Appended" else "Added", sQuote(file))
+          if (overwrite) "Appended" else "Added", squote(file))
   } else {
     notef("Created new R startup file with 'startup::startup()': %s",
-          sQuote(file))
+          squote(file))
   }
 
   file
@@ -79,7 +79,7 @@ uninstall <- function(path = "~", backup = TRUE, quiet = FALSE) {
 
   file <- file.path(path, ".Rprofile")
   if (!is_installed(file)) {
-    msg <- sprintf("startup::startup() not installed: %s", sQuote(file))
+    msg <- sprintf("startup::startup() not installed: %s", squote(file))
     notef(msg)
     warning(msg)
     return(file)
@@ -90,14 +90,14 @@ uninstall <- function(path = "~", backup = TRUE, quiet = FALSE) {
   bfr2 <- grep(pattern, bfr, value = TRUE, invert = TRUE)
   ## Nothing to do?
   if (isTRUE(all.equal(bfr2, bfr))) {
-    msg <- sprintf("startup::startup() not installed: %s", sQuote(file))
+    msg <- sprintf("startup::startup() not installed: %s", squote(file))
     notef(msg)
     warning(msg)
     return(file)
   }
   if (backup) backup(file, quiet = quiet)
   writeLines(bfr2, con = file)
-  notef("R startup file updated: %s", sQuote(file))
+  notef("R startup file updated: %s", squote(file))
 
   file
 }

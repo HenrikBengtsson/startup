@@ -15,7 +15,7 @@ warn <- function(..., call. = FALSE, immediate. = TRUE, domain = NULL) {
   msg <- .makeMessage(sprintf(...), domain = domain)
   files <- unlist(find_source_traceback(), use.names = FALSE)
   if (length(files) > 0) {
-    files <- paste(sQuote(files), collapse = "->")
+    files <- paste(squote(files), collapse = "->")
     msg <- sprintf("%s: %s", files, msg)
   }
  # calls <- sys.calls()

@@ -1,3 +1,6 @@
+
+
+
 # startup: Friendly R Startup Configuration
 
 ## Introduction
@@ -150,6 +153,7 @@ _Comment:_ You can use whichever variable name you like, it does not have to be 
 
 Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  Examples(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
 
+* `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory, cf. `?tempdir`
 * `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
 * `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The `%p` (platform) and `%v` (version) parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
@@ -160,18 +164,19 @@ Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.sete
 Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  Examples(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1) are:
 
 * `HOME` - the user's home directory
-* `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,
-  cf. `?tempdir`
 * `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of threads used by OpenMP etc, cf. _R Installation and Administration_
   
-In other words, these variables have to be set using methods specific to the operating system or the calling shell, e.g. in Unix shells
+These variables have to be set using methods specific to the operating system or the calling shell, e.g. in a Unix shell
+
 ```sh
-$ export TMPDIR=/path/to/tmp
+$ export OMP_NUM_THREADS=1
 $ R
 ```
+
 or per call as
+
 ```sh
-TMPDIR=/path/to/tmp R
+OMP_NUM_THREADS=1 R
 ```
 
 (*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `?"environment variables"` and `?Startup`.
@@ -223,25 +228,25 @@ install.packages("startup")
 
 
 ### Pre-release version
- 
+
 To install the pre-release version that is available in Git branch `develop` on GitHub, use:
 ```r
-remotes::install_github("HenrikBengtsson/startup@develop")
+remotes::install_github("HenrikBengtsson/startup", ref="develop")
 ```
-This will install the package from source.
-
-
+This will install the package from source.  
 
 ## Contributions
 
-This Git repository uses the [Git Flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model (the [`git flow`](https://github.com/petervanderdoes/gitflow-avh) extension is useful for this).  The [`develop`](https://github.com/HenrikBengtsson/startup/tree/develop) branch contains the latest contributions and other code that will appear in the next release, and the [`master`](https://github.com/HenrikBengtsson/startup) branch contains the code of the latest release, which is exactly what is currently on [CRAN](https://cran.r-project.org/package=startup).
+This Git repository uses the [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model (the [`git flow`](https://github.com/petervanderdoes/gitflow-avh) extension is useful for this).  The [`develop`](https://github.com/HenrikBengtsson/startup/tree/develop) branch contains the latest contributions and other code that will appear in the next release, and the [`master`](https://github.com/HenrikBengtsson/startup) branch contains the code of the latest release, which is exactly what is currently on [CRAN](https://cran.r-project.org/package=startup).
 
 Contributing to this package is easy.  Just send a [pull request](https://help.github.com/articles/using-pull-requests/).  When you send your PR, make sure `develop` is the destination branch on the [startup repository](https://github.com/HenrikBengtsson/startup).  Your PR should pass `R CMD check --as-cran`, which will also be checked by <a href="https://travis-ci.org/HenrikBengtsson/startup">Travis CI</a> and <a href="https://ci.appveyor.com/project/HenrikBengtsson/startup">AppVeyor CI</a> when the PR is submitted.
+
+We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) of Contributor Covenant.
 
 
 ## Software status
 
-| Resource      | CRAN        | GitHub Actions      | Travis CI       | AppVeyor         |
+| Resource      | CRAN        | GitHub Actions      | Travis CI       | AppVeyor CI      |
 | ------------- | ------------------- | ------------------- | --------------- | ---------------- |
 | _Platforms:_  | _Multiple_          | _Multiple_          | _Linux & macOS_ | _Windows_        |
 | R CMD check   | <a href="https://cran.r-project.org/web/checks/check_results_startup.html"><img border="0" src="http://www.r-pkg.org/badges/version/startup" alt="CRAN version"></a> | <a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check"><img src="https://github.com/HenrikBengtsson/startup/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"></a>       | <a href="https://travis-ci.org/HenrikBengtsson/startup"><img src="https://travis-ci.org/HenrikBengtsson/startup.svg" alt="Build status"></a>   | <a href="https://ci.appveyor.com/project/HenrikBengtsson/startup"><img src="https://ci.appveyor.com/api/projects/status/github/HenrikBengtsson/startup?svg=true" alt="Build status"></a> |

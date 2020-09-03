@@ -11,7 +11,7 @@ get_startup_time <- local({
             as.POSIXct(time)
           }, error = function(ex) {
             warning("Failed to parse 'R_STARTUP_TIME' as a timestamp: ",
-                    sQuote(time), ". The reason was: ", conditionMessage(ex))
+                    squote(time), ". The reason was: ", conditionMessage(ex))
              NULL
           })
 	}
@@ -93,7 +93,7 @@ is_when_file_done <- function(when_pathname) {
   } else if (when == "monthly") {
     format <- "%Y %m"
   } else {
-    stop("Unknown value on argument 'when': ", sQuote(when))
+    stop("Unknown value on argument 'when': ", squote(when))
   }
 
   if (is.na(done)) {

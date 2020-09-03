@@ -148,6 +148,7 @@ _Comment:_ You can use whichever variable name you like, it does not have to be 
 
 Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process.  However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once.  Examples(*) of environment variables that need to be set _no later than_ `.Renviron` (Step 1) are:
 
+* `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory, cf. `?tempdir`
 * `LC_ALL` - locale settings used by R, e.g.  cf. `?locales`
 * `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts, cf. `?Rscript`
 * `R_LIBS_USER` - user's library path, e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used by default on all platforms and and R version.  The folder must exist, otherwise it is ignored by R.  The `%p` (platform) and `%v` (version) parts are R-specific conversion specifiers, cf. `?R_LIBS_USER`
@@ -158,18 +159,19 @@ Any changes to these done in an `.Renviron.d/*` file (Step 3a), or via `Sys.sete
 Furthermore, some environment variables can not even be set in `.Renviron` (Step 1) but must be set _prior_ to launching R.  This is because those variables are consulted by R very early on (prior to Step 1).  Examples(*) of environment variables that need to be set _prior to_ `.Renviron` (Step 1) are:
 
 * `HOME` - the user's home directory
-* `TMPDIR`, `TMP`, `TEMP` - the parent of R's temporary directory,
-  cf. `?tempdir`
 * `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of threads used by OpenMP etc, cf. _R Installation and Administration_
   
-In other words, these variables have to be set using methods specific to the operating system or the calling shell, e.g. in Unix shells
+These variables have to be set using methods specific to the operating system or the calling shell, e.g. in a Unix shell
+
 ```sh
-$ export TMPDIR=/path/to/tmp
+$ export OMP_NUM_THREADS=1
 $ R
 ```
+
 or per call as
+
 ```sh
-TMPDIR=/path/to/tmp R
+OMP_NUM_THREADS=1 R
 ```
 
 (*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. `?"environment variables"` and `?Startup`.
