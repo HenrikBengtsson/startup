@@ -15,7 +15,7 @@ stop_if_not <- function(...) {
 }
 
 eof_ok <- function(file) {
-  size <- file.info(file)$size
+  size <- file_size(file)
   ## On Windows, symbolic links, e.g. by file.symlink(), give size = 0
   ## although below readBin() return a non-empty vector
   if (.Platform$OS.type == "windows" && size == 0L) size <- 1e9
