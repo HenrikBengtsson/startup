@@ -137,8 +137,12 @@ find <- function(what, mode) {
   -1L
 }
 
-## sQuote() without fancy quotes
-squote <- function(x) sQuote(x, q = FALSE)
+## sQuote() without fancy quotes, if possible
+squote <- if (getRversion() >= "3.6.0") {
+  function(x) sQuote(x, q = FALSE)
+} else {
+  function(x) sQuote(x)
+}
 
 supports_tcltk <- function() {
   (capabilities("X11") && capabilities("tcltk") &&
