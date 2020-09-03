@@ -8,11 +8,11 @@ NEW FEATURES:
  * startup(debug = TRUE) now reports on number of lines and file size also
    for the 'R_TESTS' file.
 
- * startup(debug = TRUE) [sic!] now checks that the environment variables
-   that the different Renviron files set are actually set and produce an
-   informative warning message if not. This confirms that, at least on
-   R 4.0.2, Rgui on Windows does *not* process ~/.Renviron if launched by
-   double-clicking on an .RData file not located in the ~/ folder.
+ * startup(debug = TRUE) [sic!] now checks that the environment variables that
+   the different Renviron files set are actually set and produce an informative
+   warning message if not. This confirms that, at least on R 4.0.2 for Windows,
+   Rgui --workspace=C:\Users\alice\test\.RData, or equivalently double-clicking
+   on that .RData file, does *not* process ~/.Renviron.
 
  * Using regular, non-fancy single quotes in any output produced.
 
