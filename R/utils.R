@@ -16,11 +16,12 @@ stop_if_not <- function(...) {
 
 eof_ok <- function(file) {
   size <- file.info(file)$size
-  ## On Windows, symbolic links give size = 0
+  ## On Windows, symbolic links, e.g. by file.symlink(), give size = 0
+  ## although below readBin() return a non-empty vector
   if (.Platform$OS.type == "windows" && size == 0L) size <- 1e9
   bfr <- readBin(file, what = "raw", n = size)
   n <- length(bfr)
-  if (n == 0L) return(FALSE)
+  if (n == 0L) return(TRUE)
   is.element(bfr[n], charToRaw("\n\r"))
 }
 
