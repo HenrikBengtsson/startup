@@ -12,6 +12,8 @@ backup <- function(file, quiet = FALSE) {
     backup_file <- sprintf("%s.bak.%s", file, timestamp)
   }
   stop_if_not(!file.exists(backup_file))
+  
+  assert_not_rcmd_check()
   res <- file.copy(file, backup_file, overwrite = FALSE)
 
   backup_size <- file_size(backup_file)

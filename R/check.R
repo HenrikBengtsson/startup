@@ -57,7 +57,9 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
     if (!eof_ok(file)) {
       if (fix) {
         if (backup) backup(file)
+
         ## Try to fix it by appending a newline
+        assert_not_rcmd_check()
         try(cat(file = file, "\n", append = TRUE))
 
         ## Record that the file was updated

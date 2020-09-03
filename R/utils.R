@@ -187,3 +187,9 @@ ask_yes_no <- function(question, rdata_workaround = TRUE) {
 
   res
 }
+
+
+assert_not_rcmd_check <- function() {
+  if (Sys.getenv("R_CMD") == "") return()
+  stop("INTERNAL ERROR: A 'startup' function was called that would attempt to write to the user's file system while running 'R CMD check'")
+}
