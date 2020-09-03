@@ -1,13 +1,18 @@
 Package: startup
 ================
 
-Version: 0.14.1-9000 [2020-04-15]
+Version: 0.14.1-9000 [2020-09-03]
 
 NEW FEATURES:
 
  * startup(debug = TRUE) now reports on number of lines and file size also
    for the 'R_TESTS' file.
- 
+
+BUG FIXES:
+
+ * Package tests could attempt to backup and update ~/.Rprofile, e.g. if
+   it did not have a newline on the last line.
+
 
 Version: 0.14.1 [2020-03-31]
 
