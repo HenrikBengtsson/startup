@@ -60,7 +60,7 @@ files_apply <- function(files, fun,
   already_done <- attr(files, "already_done", exact = TRUE)
   n_done <- length(already_done[["file"]])
   if (n_done > 0L) {
-    logf(" Skipped %d files with fullfilled 'when' statements:", n_done)
+    logf(" Skipped %d files with fulfilled 'when' statements:", n_done)
     last <- vapply(already_done[["last_processed"]], FUN = format, format = "%Y-%m-%d %H:%M:%S", FUN.VALUE = NA_character_)
     logf(sprintf(" - [SKIPPED] %s (processed on %s)", squote(already_done[["file"]]), last))
   }
