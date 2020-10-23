@@ -39,7 +39,7 @@ startup(
   unload = TRUE,
   skip = NA,
   dryrun = NA,
-  debug = NA
+  debug = dryrun
 )
 }
 \arguments{

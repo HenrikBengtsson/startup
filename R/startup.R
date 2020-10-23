@@ -81,7 +81,7 @@ startup <- function(sibling = FALSE, all = FALSE,
                     on_error = c("error", "warning", "immediate.warning",
                                  "message", "ignore"),
                     keep = c("options"), check = NA, unload = TRUE, skip = NA,
-                    dryrun = NA, debug = NA) {
+                    dryrun = NA, debug = dryrun) {
   ## Is startup::startup() fully disabled?
   disable <- as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE"))
   disable <- getOption("startup.disable", disable)
