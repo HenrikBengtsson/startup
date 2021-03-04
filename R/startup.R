@@ -151,9 +151,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       ## very beginning when R is started moments after the 'base' package is
       ## attached.  This is contrary to all other packages which are attached
       ## below.
-      ## An good-enough test to check if running Rscript (< 3.5.0):
-      if (getRversion() < "3.5.0" &&
-          basename(cmd_args[1]) %in% c("Rscript", "Rscript.exe")) {
+      if (getRversion() < "3.5.0" && is_rscript()) {
         pkgs <- "base,datasets,utils,grDevices,graphics,stats"
       } else {
         pkgs <- "base,methods,datasets,utils,grDevices,graphics,stats"
