@@ -19,6 +19,7 @@ last.dump*
 .issues
 .make/
 .local/
+.pkgdown/
 revdep/data.sqlite
 revdep/checks/*
 revdep/library/*

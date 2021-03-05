@@ -44,6 +44,8 @@ Rplots.pdf$
 ^[.]check
 ^.*[.]tar[.]gz$
 ^[.]local
+^[.].pkgdown/
+^[.]docs/
 
 #----------------------------
 # Package specific
