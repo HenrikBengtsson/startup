@@ -491,3 +491,10 @@ appveyor.yml: .make/appveyor.yml.rsp
 	$(R_SCRIPT) -e "R.rsp::rfile('$<', postprocess=FALSE)"
 
 config: .travis.yml appveyor.yml README.md
+
+## Include any other Makefile.*, if they exists
+INCLUDES := $(wildcard .make/Makefile.*)
+ifneq ($(strip $(INCLUDES)),)
+  include $(INCLUDES)
+endif
+
