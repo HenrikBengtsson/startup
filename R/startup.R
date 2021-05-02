@@ -165,11 +165,11 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
     logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
 
-    logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
-    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
-
     f <- system.file("R", "Rprofile", package = "base")
     if (is_file(f)) logf("- %s", file_info(f, type = "r"))
+
+    logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
+    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
 
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
