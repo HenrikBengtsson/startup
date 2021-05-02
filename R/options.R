@@ -49,7 +49,7 @@
 #'     or rename it. In non-interactive session, `"prompt"` will fallback to 
 #'     loading the content (default). To fallback to renaming the file, use
 #'     `"prompt,rename"`.
-#'     Note that in constrast to `R` and `R CMD BATCH file.R`, `Rscript` does
+#'     Note that in contrast to `R` and `R CMD BATCH file.R`, `Rscript` does
 #'     _not_ load \file{.RData} files unless command-line option `--restore`
 #'     is specified.  
 #'     (Default: not specified)
