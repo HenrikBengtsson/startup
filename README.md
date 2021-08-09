@@ -1,12 +1,7 @@
 
 
 <div id="badges"><!-- pkgdown markup -->
-<a href="https://CRAN.R-project.org/web/checks/check_results_startup.html"><img border="0" src="https://www.r-pkg.org/badges/version/startup" alt="CRAN check status"></a></a>
-<a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/startup/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"></a></a>
-<a href="https://travis-ci.org/HenrikBengtsson/startup"><img border="0" src="https://travis-ci.org/HenrikBengtsson/startup.svg" alt="Build status"></a></a>
-<a href="https://ci.appveyor.com/project/HenrikBengtsson/startup"><img border="0" src="https://ci.appveyor.com/api/projects/status/github/HenrikBengtsson/startup?svg=true" alt="Build status"></a></a>
-<a href="https://codecov.io/gh/HenrikBengtsson/startup"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"></a></a>
-
+<a href="https://CRAN.R-project.org/web/checks/check_results_startup.html"><img border="0" src="https://www.r-pkg.org/badges/version/startup" alt="CRAN check status"/></a> <a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/startup/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"/></a>  <a href="https://ci.appveyor.com/project/HenrikBengtsson/startup"><img border="0" src="https://ci.appveyor.com/api/projects/status/github/HenrikBengtsson/startup?svg=true" alt="Build status"/></a> <a href="https://codecov.io/gh/HenrikBengtsson/startup"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"/></a> 
 </div>
 
 # startup: Friendly R Startup Configuration 
