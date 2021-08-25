@@ -1,10 +1,14 @@
 files_apply <- function(files, fun,
                         on_error = c("error", "warning", "immediate.warning",
                                      "message", "ignore"),
-                        dryrun = NA, what = "Rprofile") {
+                        dryrun = NA,
+                        what = c("Renviron", "Rprofile"),
+                        debug = NA) {
   stop_if_not(is.function(fun))
   on_error <- match.arg(on_error)
-
+  what <- match.arg(what)
+  debug <- debug(debug)
+  
   ## Nothing to do?
   if (length(files) == 0) return(invisible(character(0)))
 
@@ -40,17 +44,76 @@ files_apply <- function(files, fun,
   logf("Processing %d %s files ...", length(files), what)
   if (what == "Renviron") {
     type <- "env"
-  } else {
+  } else if (what == "Rprofile") {
     type <- "r"
+    if (debug) {
+      record_pkgs_etc <- function() {
+        res <- list(
+          loaded = loadedNamespaces(),
+          attached = sort(search())
+        )
+        res$attached_envs <- grep("^package:", res$attached, invert = TRUE, value = TRUE)
+        res$attached <- gsub("^package:", "", grep("^package:", res$attached, value = TRUE))
+        res
+      }
+    }
   }
 
   for (file in files) {
     ## Get 'when=<periodicity>' declaration, if it exists
     when <- get_when(file)
     logf(" - %s", file_info(file, type = type, extra = sprintf("when=%s", when)))
-    
+
+    if (debug && what == "Rprofile") {
+      before <- record_pkgs_etc()
+    }
+
     call_fun(file)
-    
+
+    if (debug && what == "Rprofile") {
+      after <- record_pkgs_etc()
+      added <- mapply(after, before, FUN = setdiff)
+      added$loaded <- setdiff(added$loaded, added$attached)
+      removed <- mapply(before, after, FUN = setdiff)
+      removed$attached <- setdiff(removed$attached, removed$loaded)
+      names(removed) <- gsub("attached", "detached", names(removed))
+      names(removed) <- gsub("loaded", "unloaded", names(removed))
+      nadded <- sapply(added, FUN = length)
+      nremoved <- sapply(removed, FUN = length)
+
+      ## Packages
+      s <- NULL
+      for (kind in c("attached", "loaded")) {
+        if (nadded[[kind]] > 0) {
+          s <- c(s, sprintf("%s %s (%s)",   nadded[[kind]], kind, paste(sQuote(  added[[kind]]), collapse = ", ")))
+        }
+      }
+      for (kind in c("detached", "unloaded")) {
+        if (nremoved[[kind]] > 0) {
+          s <- c(s, sprintf("%s %s (%s)", nremoved[[kind]], kind, paste(sQuote(removed[[kind]]), collapse = ", ")))
+        }
+      }
+      if (length(s) > 0) {
+        s <- paste(s, collapse = ", ")
+        logf("           Packages: %s", s, timestamp = FALSE)
+      }
+      
+      ## Search path
+      s <- NULL
+      kind <- "attached_envs"
+      if (nadded[kind] > 0) {
+        s <- c(s, sprintf("%s environment attached (%s)",   nadded[[kind]],  paste(sQuote(  added[[kind]]), collapse = ", ")))
+      }
+      kind <- "detached_envs"
+      if (nremoved[kind] > 0) {
+        s <- c(s, sprintf("%s environment detached (%s)", nremoved[[kind]], paste(sQuote(  removed[[kind]]), collapse = ", ")))
+      }
+      if (length(s) > 0) {
+        s <- paste(s, collapse = ", ")
+        logf("           Search path: %s", s, timestamp = FALSE)
+      }
+    }
+
     if (length(when) == 1L) {
       when_cache_file <- get_when_cache_file(file, when = when)
       mark_when_file_done(when_cache_file)
