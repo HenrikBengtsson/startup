@@ -7,3 +7,8 @@ vignettes/startup-intro.md: OVERVIEW.md vignettes/incl/clean.css
 	cat $< >> $@
 
 vigns: vignettes/startup-intro.md
+
+spelling:
+	$(R_SCRIPT) -e "spelling::spell_check_package()"
+	$(R_SCRIPT) -e "spelling::spell_check_files(c('NEWS', dir('vignettes', pattern='[.](md|rsp)$$', full.names=TRUE)), ignore=readLines('inst/WORDLIST', warn=FALSE))"
+

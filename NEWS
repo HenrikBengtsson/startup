@@ -5,8 +5,9 @@ Version: 0.15.0-9001 [2021-08-25]
 
 NEW FEATURES:
 
- * Now it is suffient to call startup(dryrun = TRUE) to see what the R startup
-   would have been.  Previously one would also have to specify debug = TRUE.
+ * Now it is sufficient to call startup(dryrun = TRUE) to see what the R
+   startup would have been.  Previously one would also have to specify
+   debug = TRUE.
 
  * Now startup(debug = TRUE) reports on packages loaded, attached, unloaded,
    and detached per Rprofile file processed.  It also reports on other
