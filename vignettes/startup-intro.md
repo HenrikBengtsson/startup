@@ -13,7 +13,7 @@
 
 When you start R, it will by default source a `.Rprofile` file if it exists.  This allows you to automatically tweak your R settings to meet your everyday needs.  For instance, you may want to set the default CRAN repository (`options("repos")`) so you don't have to choose one every time you install a package.
 
-The [startup] package extends the default R startup process by allowing you to put multiple startup scripts in a common `.Rprofile.d` directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings.
+The **[startup]** package extends the default R startup process by allowing you to put multiple startup scripts in a common `.Rprofile.d` directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings.
 Similarly, you can use a `.Renviron.d` directory with multiple files defining different environment variables.  For instance, one file may define environment variable `LANGUAGE`, whereas another file may contain your private `GITHUB_PAT` key.
 The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).
 
@@ -34,7 +34,7 @@ When R starts, the following _user-specific_ setup takes place:
 
    c. The _first_ `.Rprofile.d` directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, and (iii) `~/.Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
-   d. If no errors occur above, the [startup] package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
+   d. If no errors occur above, the **[startup]** package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
 
 
 All relevant files in directories `.Renviron.d` and `.Rprofile.d`, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the `C` locale).
@@ -57,7 +57,7 @@ try(startup::startup())
 to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  To find the location of these folder on Windows, use `normalizePath("~")` - it's often located under `C:\Users\Alice\Documents\`.
 
 
-Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fail to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.
+Alternatively to the above installation setup, you can just add `try(startup::startup())` to your `~/.Rprofile` file manually.  The reason for using `try()` is for the case when **startup** is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fail to install the **startup** package (or any other package) because the R profile startup script produces an error complaining about **startup** not being available.
 
 
 
@@ -116,7 +116,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
 
 * Environment variables:
 
-  - Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped if `<key>=<value>` is used but included if `<key>!=<value>` is used._
+  - Any further `<key>=<value>` specifications with keys matching none of the above known keys are interpreted as system environment variables and **startup** will test such conditions against their values.  _Note, if `<key>` does not correspond to a known environment variable, then the file is skipped if `<key>=<value>` is used but included if `<key>!=<value>` is used._
 
 
 To condition on more than one key, separate `<key>=<value>` pairs by commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`.  This also works for directory names.  For instance, `~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if running on Windows and in interactive mode.  Multiple packages may be specified.  For instance, `~/.Rprofile.d/package=devtools,package=future.R` will be used only if both the devtools and the future packages are installed.
@@ -126,7 +126,7 @@ It is also possible to negate a conditional filename test by using the `<key>!=<
 
 ### Secrets (conditionally on an environment variable)
 
-As of startup 0.10.0, Renviron and Rprofile startup files with a non-declared `<key>` in their file names are skipped.  A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.
+Renviron and Rprofile startup files with a non-declared `<key>` in their file names are skipped.  A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.
 
 This is useful, because it allows us to keep "secrets" in private files and only load them conditionally on the value of an environment variable.  For instance, we put all our secret Renviron files under `~/.Renviron.d/private/SECRET=banana/` such that they are only loaded if environment variable `SECRET` is set to exactly `banana`.  Moreover, by making sure the directory `~/.Renviron.d/private/` is only accessible by you, then it will be harder for someone else two know what your secret "password" (`banana`) is.  On a Unix system, you can set this up as:
 ```sh
