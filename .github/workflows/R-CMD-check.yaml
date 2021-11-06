@@ -86,7 +86,14 @@ jobs:
         run: |
           options(width = 100)
           capabilities()
-          utils::str(startup::sysinfo())
+          utils::str(list(
+            "startup::sysinfo()" = startup::sysinfo()
+          ))
+          utils::str(list(
+            R.version = R.version,
+            .Platform = .Platform,
+            Sys.info  = as.list(Sys.info())
+          ))
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
