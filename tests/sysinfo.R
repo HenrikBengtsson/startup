@@ -3,7 +3,7 @@ message("*** sysinfo() ...")
 message("- Base R system information:")
 
 utils::str(list(
-  "capabilities()"     = capabilities(),
+  "capabilities()"     = as.list(capabilities()),
   .Machine             = .Machine,
   .Platform            = .Platform,
   R.version            = R.version,
@@ -16,6 +16,5 @@ print(utils::sessionInfo())
 
 message("- sysinfo():")
 print(startup::sysinfo())
-
 
 message("*** sysinfo() ... DONE")
