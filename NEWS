@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.15.0-9001 [2021-08-25]
+Version: 0.15.0-9002 [2021-11-08]
 
 NEW FEATURES:
 
@@ -16,6 +16,10 @@ NEW FEATURES:
  * Now startup(debug = TRUE) reports also on the Rprofile file in the 'base'
    package, i.e. system.file("R", "Rprofile", package = "base").
 
+ * startup::startup(check = TRUE) no longer warns if environment variables
+   'R_LIBS_SITE' or 'R_LIBS_USER' have value 'NULL', which in R (>= 4.2.0)
+   corresponds to setting them to be empty.
+   
 
 Version: 0.15.0 [2020-09-03]
 

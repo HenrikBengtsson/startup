@@ -163,7 +163,12 @@ check_r_libs_env_vars <- function() {
   for (var in vars) {
     path <- Sys.getenv(var)
     if (!nzchar(path)) next
-    
+
+    ## Ignore "NULL" as is the case in R 4.2.0?
+    if (var != "R_LIBS") {
+      if (path == "NULL") next
+    }
+
     ## Don't check intential "dummy" specification, e.g.
     ## non-existing-dummy-folder
     is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
