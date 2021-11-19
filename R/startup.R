@@ -154,6 +154,9 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
     logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
 
+    pkgs <- Sys.getenv("R_SCRIPT_DEFAULT_PACKAGES")
+    logf("- R_SCRIPT_DEFAULT_PACKAGES (only if Rscript was used): %s", squote(pkgs))
+    
     pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")
     if (pkgs == "") {
       ## In R (< 3.5.0), the 'methods' package is _not_ attached when Rscript

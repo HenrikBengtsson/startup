@@ -1,9 +1,11 @@
 Package: startup
 ================
 
-Version: 0.15.0-9003 [2021-11-18]
+Version: 0.15.0-9004 [2021-11-18]
 
 NEW FEATURES:
+
+ * Now startup(debug = TRUE) reports on 'R_SCRIPT_DEFAULT_PACKAGES'.
 
  * Now startup(debug = TRUE) reports on tempdir() and environment variables
    'TMPDIR', 'TMP', and 'TEMP' that controls the root of the temporary folder.
