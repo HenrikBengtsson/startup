@@ -112,11 +112,6 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", squote(getwd()))
     logf("- User's home directory: %s", path_info("~"))
-    logf("- tempdir(): %s", path_info(tempdir()))
-    for (name in c("TMPDIR", "TMP", "TEMP")) {
-      value <- Sys.getenv(name, "")
-      logf("  - %s: %s", name, sQuote(value))
-    }
     logf("- Search path: %s", paste(squote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(squote(loadedNamespaces()), collapse = ", "))
@@ -148,6 +143,17 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
     }
 
+    ## TMPDIR et al. may be set at the latest in an Renviron file
+    logf("- tempdir(): %s", path_info(tempdir()))
+    for (name in c("TMPDIR", "TMP", "TEMP")) {
+      value <- Sys.getenv(name, "")
+      logf("  - %s: %s", name, sQuote(value))
+    }
+
+    logf("- R_LIBS: %s", squote(Sys.getenv("R_LIBS")))
+    logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
+    logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
+
     pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")
     if (pkgs == "") {
       ## In R (< 3.5.0), the 'methods' package is _not_ attached when Rscript
@@ -165,10 +171,6 @@ startup <- function(sibling = FALSE, all = FALSE,
     } else {
       logf("- R_DEFAULT_PACKAGES: %s", squote(pkgs))
     }
-
-    logf("- R_LIBS: %s", squote(Sys.getenv("R_LIBS")))
-    logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
-    logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
 
     f <- system.file("R", "Rprofile", package = "base")
     if (is_file(f)) logf("- %s", file_info(f, type = "r"))
