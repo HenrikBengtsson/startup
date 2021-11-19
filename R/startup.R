@@ -112,6 +112,11 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", squote(getwd()))
     logf("- User's home directory: %s", path_info("~"))
+    logf("- tempdir(): %s", path_info(tempdir()))
+    for (name in c("TMPDIR", "TMP", "TEMP")) {
+      value <- Sys.getenv(name, "")
+      logf("  - %s: %s", name, sQuote(value))
+    }
     logf("- Search path: %s", paste(squote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(squote(loadedNamespaces()), collapse = ", "))
