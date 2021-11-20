@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.15.0-9004 [2021-11-18]
+Version: 0.15.0-9005 [2021-11-19]
 
 NEW FEATURES:
 
@@ -25,6 +25,12 @@ NEW FEATURES:
    'R_LIBS_SITE' or 'R_LIBS_USER' have value 'NULL', which in R (>= 4.2.0)
    corresponds to setting them to be empty.
    
+BUG FIXES:
+
+ * startup::restart(quiet = TRUE) would give an error in 'radian' saying
+   '--quiet' is not supported, but it's supported in radian (>= 0.2.8)
+   since 2018-08-27.
+    
 
 Version: 0.15.0 [2020-09-03]
 
