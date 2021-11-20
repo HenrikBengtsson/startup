@@ -2,12 +2,11 @@
 
 <details>
 
-* Version: 0.1.0
+* Version: 0.1.9
+* GitHub: https://github.com/dipterix/dipsaus
 * Source code: https://github.com/cran/dipsaus
-* URL: https://github.com/dipterix/dipsaus
-* BugReports: https://github.com/dipterix/dipsaus/issues
-* Date/Publication: 2020-08-12 10:00:20 UTC
-* Number of recursive dependencies: 66
+* Date/Publication: 2021-10-13 16:52:04 UTC
+* Number of recursive dependencies: 76
 
 Run `revdep_details(, "dipsaus")` for more info
 
@@ -17,9 +16,9 @@ Run `revdep_details(, "dipsaus")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.1Mb
+      installed size is  5.9Mb
       sub-directories of 1Mb or more:
-        doc    1.1Mb
-        libs   2.7Mb
+        doc    1.3Mb
+        libs   3.3Mb
     ```
 
