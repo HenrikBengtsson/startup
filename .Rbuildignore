@@ -7,6 +7,9 @@
 INSTALL[.]md
 OVERVIEW[.]md
 CONDUCT[.]md
+CONTRIBUTING[.]md
+^docs/
+^pkgdown/
 
 #----------------------------
 # devtools
@@ -44,6 +47,8 @@ Rplots.pdf$
 ^[.]check
 ^.*[.]tar[.]gz$
 ^[.]local
+^[.].pkgdown/
+^[.]docs/
 
 #----------------------------
 # Package specific

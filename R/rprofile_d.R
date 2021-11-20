@@ -42,7 +42,8 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     }
     
     files_apply(files, fun = source_print_eval,
-                on_error = on_error, dryrun = dryrun, what = "Rprofile")
+                on_error = on_error, dryrun = dryrun, what = "Rprofile",
+                debug = debug)
   }
 
   res <- api()

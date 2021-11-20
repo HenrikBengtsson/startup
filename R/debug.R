@@ -47,8 +47,8 @@ log <- function(..., collapse = "\n", timestamp = TRUE, appendLF = TRUE) {
   invisible()
 }
 
-logf <- function(..., collapse = "\n", appendLF = TRUE) {
-  log(sprintf(...), collapse = collapse, appendLF = appendLF)
+logf <- function(..., collapse = "\n", timestamp = TRUE, appendLF = TRUE) {
+  log(sprintf(...), collapse = collapse, timestamp = timestamp, appendLF = appendLF)
 }
 
 logp <- function(expr, ...) {

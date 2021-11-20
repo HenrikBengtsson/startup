@@ -1,6 +1,37 @@
 Package: startup
 ================
 
+Version: 0.16.0 [2021-11-19]
+
+NEW FEATURES:
+
+ * Now startup(debug = TRUE) reports on 'R_SCRIPT_DEFAULT_PACKAGES'.
+
+ * Now startup(debug = TRUE) reports on tempdir() and environment variables
+   'TMPDIR', 'TMP', and 'TEMP' that controls the root of the temporary folder.
+
+ * Now it is sufficient to call startup(dryrun = TRUE) to see what the R
+   startup would have been.  Previously one would also have to specify
+   debug = TRUE.
+
+ * Now startup(debug = TRUE) reports on packages loaded, attached, unloaded,
+   and detached per Rprofile file processed.  It also reports on other
+   environments attached and detached.
+
+ * Now startup(debug = TRUE) reports also on the Rprofile file in the 'base'
+   package, i.e. system.file("R", "Rprofile", package = "base").
+
+ * startup::startup(check = TRUE) no longer warns if environment variables
+   'R_LIBS_SITE' or 'R_LIBS_USER' have value 'NULL', which in R (>= 4.2.0)
+   corresponds to setting them to be empty.
+   
+BUG FIXES:
+
+ * startup::restart(quiet = TRUE) would give an error in 'radian' saying
+   '--quiet' is not supported, but it's supported in radian (>= 0.2.8)
+   since 2018-08-27.
+    
+
 Version: 0.15.0 [2020-09-03]
 
 NEW FEATURES:

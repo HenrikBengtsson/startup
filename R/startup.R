@@ -81,7 +81,7 @@ startup <- function(sibling = FALSE, all = FALSE,
                     on_error = c("error", "warning", "immediate.warning",
                                  "message", "ignore"),
                     keep = c("options"), check = NA, unload = TRUE, skip = NA,
-                    dryrun = NA, debug = NA) {
+                    dryrun = NA, debug = dryrun) {
   ## Is startup::startup() fully disabled?
   disable <- as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE"))
   disable <- getOption("startup.disable", disable)
@@ -143,6 +143,20 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
     }
 
+    ## TMPDIR et al. may be set at the latest in an Renviron file
+    logf("- tempdir(): %s", path_info(tempdir()))
+    for (name in c("TMPDIR", "TMP", "TEMP")) {
+      value <- Sys.getenv(name, "")
+      logf("  - %s: %s", name, sQuote(value))
+    }
+
+    logf("- R_LIBS: %s", squote(Sys.getenv("R_LIBS")))
+    logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
+    logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
+
+    pkgs <- Sys.getenv("R_SCRIPT_DEFAULT_PACKAGES")
+    logf("- R_SCRIPT_DEFAULT_PACKAGES (only if Rscript was used): %s", squote(pkgs))
+    
     pkgs <- Sys.getenv("R_DEFAULT_PACKAGES")
     if (pkgs == "") {
       ## In R (< 3.5.0), the 'methods' package is _not_ attached when Rscript
@@ -151,9 +165,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       ## very beginning when R is started moments after the 'base' package is
       ## attached.  This is contrary to all other packages which are attached
       ## below.
-      ## An good-enough test to check if running Rscript (< 3.5.0):
-      if (getRversion() < "3.5.0" &&
-          basename(cmd_args[1]) %in% c("Rscript", "Rscript.exe")) {
+      if (getRversion() < "3.5.0" && is_rscript()) {
         pkgs <- "base,datasets,utils,grDevices,graphics,stats"
       } else {
         pkgs <- "base,methods,datasets,utils,grDevices,graphics,stats"
@@ -163,12 +175,12 @@ startup <- function(sibling = FALSE, all = FALSE,
       logf("- R_DEFAULT_PACKAGES: %s", squote(pkgs))
     }
 
-    logf("- R_LIBS: %s", squote(Sys.getenv("R_LIBS")))
-    logf("- R_LIBS_SITE: %s", squote(Sys.getenv("R_LIBS_SITE")))
-    logf("- R_LIBS_USER: %s", squote(Sys.getenv("R_LIBS_USER")))
+    f <- system.file("R", "Rprofile", package = "base")
+    if (is_file(f)) logf("- %s", file_info(f, type = "r"))
 
     logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
     logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
+
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")

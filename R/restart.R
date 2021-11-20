@@ -177,7 +177,15 @@ restart <- function(status = 0L,
   if (as != "specified") {
     if (quiet) {
       if (is_radian()) {
-        stop("startup::restart(quiet = TRUE) is not supported when running R via radian")
+        ## Only radian (>= 0.2.8) supports '--quiet'
+        ## Comment: prior to v0.3.0, radian was actually called 'rtichoke',
+        ## so let's just require 'radian' here.
+        version <- Sys.getenv("RADIAN_VERSION")
+        stopifnot(nzchar(version))
+        version <- package_version(version)
+        if (version < "0.2.8") {
+          stop("startup::restart(quiet = TRUE) requires radian (>= 0.2.8)")
+        }
       }
       args <- c("--quiet", args)
     } else {

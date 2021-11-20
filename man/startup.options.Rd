@@ -72,7 +72,7 @@ If \code{"prompt"}, the user is prompted whether they want to load the file
 or rename it. In non-interactive session, \code{"prompt"} will fallback to
 loading the content (default). To fallback to renaming the file, use
 \code{"prompt,rename"}.
-Note that in constrast to \code{R} and \verb{R CMD BATCH file.R}, \code{Rscript} does
+Note that in contrast to \code{R} and \verb{R CMD BATCH file.R}, \code{Rscript} does
 \emph{not} load \file{.RData} files unless command-line option \code{--restore}
 is specified.
 (Default: not specified)
