@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0-9000</span>
       </span>
     </div>
 
@@ -261,27 +261,27 @@ For this to work for all users automatically, the <span class="pkg">startup</spa
 should also be installed in the site-wide library.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># The most common way to use the package is to add</span>
-<span class='co'># the following call to the ~/.Rprofile file.</span>
-<span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>startup</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># To process ~/.Renviron.d/ files, and then any ./.Renviron.d/ files,</span>
-<span class='co'># followed by  ~/.Rprofile.d/ files, and then any ./.Rprofile.d/ files,</span>
-<span class='co'># add the following call to the ~/.Rprofile file.</span>
-<span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>startup</span><span class='op'>(</span>all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># For finer control of on exactly what files are used</span>
-<span class='co'># functions renviron_d() and rprofile_d() are also available:</span>
-
-<span class='co'># Initiate first .Renviron.d/ found on search path</span>
-<span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>renviron_d</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Initiate all .Rprofile.d/ directories found on the startup search path</span>
-<span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>rprofile_d</span><span class='op'>(</span>all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># The most common way to use the package is to add</span></span>
+<span class='r-in'><span class='co'># the following call to the ~/.Rprofile file.</span></span>
+<span class='r-in'><span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>startup</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># To process ~/.Renviron.d/ files, and then any ./.Renviron.d/ files,</span></span>
+<span class='r-in'><span class='co'># followed by  ~/.Rprofile.d/ files, and then any ./.Rprofile.d/ files,</span></span>
+<span class='r-in'><span class='co'># add the following call to the ~/.Rprofile file.</span></span>
+<span class='r-in'><span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>startup</span><span class='op'>(</span>all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># For finer control of on exactly what files are used</span></span>
+<span class='r-in'><span class='co'># functions renviron_d() and rprofile_d() are also available:</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Initiate first .Renviron.d/ found on search path</span></span>
+<span class='r-in'><span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>renviron_d</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Initiate all .Rprofile.d/ directories found on the startup search path</span></span>
+<span class='r-in'><span class='fu'>startup</span><span class='fu'>::</span><span class='fu'>rprofile_d</span><span class='op'>(</span>all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -297,7 +297,7 @@ should also be installed in the site-wide library.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer>

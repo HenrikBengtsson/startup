@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0-9000</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
             
       
       <small class="dont-index">Source: <a href="https://github.com/HenrikBengtsson/startup/blob/master/vignettes/startup-intro.md"><code>vignettes/startup-intro.md</code></a></small>
-      <div class="hidden name"><code>startup-intro.Rmd</code></div>
+      <div class="hidden name"><code>startup-intro.md</code></div>
 
     </div>
 
@@ -107,23 +107,23 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>When you start R, it will by default source a <code>.Rprofile</code> file if it exists. This allows you to automatically tweak your R settings to meet your everyday needs. For instance, you may want to set the default CRAN repository (<code><a href="https://rdrr.io/r/base/options.html">options("repos")</a></code>) so you don't have to choose one every time you install a package.</p>
-<p>The <a href="https://cran.r-project.org/package=startup">startup</a> package extends the default R startup process by allowing you to put multiple startup scripts in a common <code>.Rprofile.d</code> directory and have them all be sourced during the R startup process. This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings. Similarly, you can use a <code>.Renviron.d</code> directory with multiple files defining different environment variables. For instance, one file may define environment variable <code>LANGUAGE</code>, whereas another file may contain your private <code>GITHUB_PAT</code> key. The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).</p>
+<p>When you start R, it will by default source a <code>.Rprofile</code> file if it exists. This allows you to automatically tweak your R settings to meet your everyday needs. For instance, you may want to set the default CRAN repository (<code>options("repos")</code>) so you don't have to choose one every time you install a package.</p>
+<p>The <strong><a href="https://cran.r-project.org/package=startup">startup</a></strong> package extends the default R startup process by allowing you to put multiple startup scripts in a common <code>.Rprofile.d</code> directory and have them all be sourced during the R startup process. This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings. Similarly, you can use a <code>.Renviron.d</code> directory with multiple files defining different environment variables. For instance, one file may define environment variable <code>LANGUAGE</code>, whereas another file may contain your private <code>GITHUB_PAT</code> key. The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).</p>
 </div>
 <div id="how-the-r-startup-process-works" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-the-r-startup-process-works" class="anchor"></a>How the R startup process works</h2>
 <p>When R starts, the following <em>user-specific</em> setup takes place:</p>
 <ol style="list-style-type: decimal">
-<li><p>The <em>first</em> <code>.Renviron</code> file found on the R startup search path is processed. The search path is (in order): (i) <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("R_ENVIRON_USER")</a></code>, (ii) <code>./.Renviron</code>, and (iii) <code>~/.Renviron</code>. The format of this file is one <code>ENV_VAR=VALUE</code> statement per line, cf. <code><a href="https://rdrr.io/r/base/Startup.html">?.Renviron</a></code>. <em>NOTE:</em> Some environment variables must be set already in this step in order to be acknowledged by R, i.e. it is <em>too late</em> to set some of them in Step 2 and Step 3 below.</p></li>
-<li><p>The <em>first</em> <code>.Rprofile</code> file found on the R startup search path is processed. The search path is (in order): (i) <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("R_PROFILE_USER")</a></code>, (ii) <code>./.Rprofile</code>, and (iii) <code>~/.Rprofile</code>. The format of this file must be a valid R script (with a trailing newline), cf. <code><a href="https://rdrr.io/r/base/Startup.html">?.Rprofile</a></code>.</p></li>
+<li><p>The <em>first</em> <code>.Renviron</code> file found on the R startup search path is processed. The search path is (in order): (i) <code>Sys.getenv("R_ENVIRON_USER")</code>, (ii) <code>./.Renviron</code>, and (iii) <code>~/.Renviron</code>. The format of this file is one <code>ENV_VAR=VALUE</code> statement per line, cf. <code><a href="https://rdrr.io/r/base/Startup.html">?.Renviron</a></code>. <em>NOTE:</em> Some environment variables must be set already in this step in order to be acknowledged by R, i.e. it is <em>too late</em> to set some of them in Step 2 and Step 3 below.</p></li>
+<li><p>The <em>first</em> <code>.Rprofile</code> file found on the R startup search path is processed. The search path is (in order): (i) <code>Sys.getenv("R_PROFILE_USER")</code>, (ii) <code>./.Rprofile</code>, and (iii) <code>~/.Rprofile</code>. The format of this file must be a valid R script (with a trailing newline), cf. <code><a href="https://rdrr.io/r/base/Startup.html">?.Rprofile</a></code>.</p></li>
 <li><p>If the <code>.Rprofile</code> file (in Step 2) calls <code><a href="../reference/renviron_d.html">startup::startup()</a></code> then the following will also take place:</p></li>
 </ol>
 <ol style="list-style-type: lower-alpha">
-<li><p>The <em>first</em> <code>.Renviron.d</code> directory on the R startup search path is processed. The search path is (in order): (i) <code><a href="https://rdrr.io/r/base/paste.html">paste0(Sys.getenv("R_ENVIRON_USER"), ".d")</a></code>, (ii) <code>./.Renviron.d</code>, and (iii) <code>~/.Renviron.d</code>. The format of these files should be the same as for <code>.Renviron</code>. <em>NOTE:</em> Some environment variables must be set already in Step 1 above in order to be acknowledged by R.</p></li>
+<li><p>The <em>first</em> <code>.Renviron.d</code> directory on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_ENVIRON_USER"), ".d")</code>, (ii) <code>./.Renviron.d</code>, and (iii) <code>~/.Renviron.d</code>. The format of these files should be the same as for <code>.Renviron</code>. <em>NOTE:</em> Some environment variables must be set already in Step 1 above in order to be acknowledged by R.</p></li>
 <li><p>A set of handy R options that can be use in Step 3c are set. Their names are prefixed <code>startup.session.</code> - see <code><a href="../reference/startup_session_options.html">?startup::startup_session_options</a></code> for details.</p></li>
-<li><p>The <em>first</em> <code>.Rprofile.d</code> directory found on the R startup search path is processed. The search path is (in order): (i) <code><a href="https://rdrr.io/r/base/paste.html">paste0(Sys.getenv("R_PROFILE_USER"), ".d")</a></code>, (ii) <code>./.Rprofile.d</code>, and (iii) <code>~/.Rprofile.d</code>. The format of these files should be the same as for <code>.Rprofile</code>, that is, they must be valid R scripts.</p></li>
-<li><p>If no errors occur above, the <a href="https://cran.r-project.org/package=startup">startup</a> package will be unloaded, leaving no trace of itself behind, except for R options <code>startup.session.*</code> set in Step 3b - these will be erased if <code><a href="../reference/renviron_d.html">startup::startup()</a></code> is called with <code>keep = NULL</code>.</p></li>
+<li><p>The <em>first</em> <code>.Rprofile.d</code> directory found on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_PROFILE_USER"), ".d")</code>, (ii) <code>./.Rprofile.d</code>, and (iii) <code>~/.Rprofile.d</code>. The format of these files should be the same as for <code>.Rprofile</code>, that is, they must be valid R scripts.</p></li>
+<li><p>If no errors occur above, the <strong><a href="https://cran.r-project.org/package=startup">startup</a></strong> package will be unloaded, leaving no trace of itself behind, except for R options <code>startup.session.*</code> set in Step 3b - these will be erased if <code><a href="../reference/renviron_d.html">startup::startup()</a></code> is called with <code>keep = NULL</code>.</p></li>
 </ol>
 <p>All relevant files in directories <code>.Renviron.d</code> and <code>.Rprofile.d</code>, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the <code>C</code> locale). There are no restrictions on what the file names should be (except for the ones ignored as explained below). However, for <code>.Rprofile.d</code> we recommend to use filename extension <code>*.R</code> to indicate that the files are regular R scripts. For <code>.Renviron.d</code> we recommend to use files without extensions (or <code>*.Renviron</code> for clarification). To avoid confusions, do <em>not</em> use an <code>*.R</code> extension for Renviron files because they are not R script per se (as some editors may warn you about).</p>
 <p>Files with file extensions <code>*.txt</code>, <code>*.md</code> and <code>*~</code> are ignored as well as any files named <code>.Rhistory</code>, <code>.RData</code> and <code>.DS_Store</code>. Directories named <code>__MACOSX</code> and their content are ignored. Files and directories with names starting with two periods (<code>..</code>) are ignored, e.g. <code>~/.Rprofile.d/..my-tests/</code>.</p>
@@ -137,14 +137,14 @@
 <p>once. This will append</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="../reference/renviron_d.html">startup</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>to your <code>~/.Rprofile</code>. The file will be created if missing. This will also create directories <code>~/.Renviron.d/</code> and <code>~/.Rprofile.d/</code> if missing. To find the location of these folder on Windows, use <code><a href="https://rdrr.io/r/base/normalizePath.html">normalizePath("~")</a></code> - it's often located under <code>C:\Users\Alice\Documents\</code>.</p>
-<p>Alternatively to the above installation setup, you can just add <code><a href="https://rdrr.io/r/base/try.html">try(startup::startup())</a></code> to your <code>~/.Rprofile</code> file manually. The reason for using <code><a href="https://rdrr.io/r/base/try.html">try()</a></code> is for the case when startup is not installed and you try to install it, e.g. after upgrading R to a new major release. Without <code><a href="https://rdrr.io/r/base/try.html">try()</a></code>, R will fail to install the startup package (or any other package) because the R profile startup script produces an error complaining about startup not being available.</p>
+<p>to your <code>~/.Rprofile</code>. The file will be created if missing. This will also create directories <code>~/.Renviron.d/</code> and <code>~/.Rprofile.d/</code> if missing. To find the location of these folder on Windows, use <code>normalizePath("~")</code> - it's often located under <code>C:\Users\Alice\Documents\</code>.</p>
+<p>Alternatively to the above installation setup, you can just add <code>try(startup::startup())</code> to your <code>~/.Rprofile</code> file manually. The reason for using <code><a href="https://rdrr.io/r/base/try.html">try()</a></code> is for the case when <strong>startup</strong> is not installed and you try to install it, e.g. after upgrading R to a new major release. Without <code><a href="https://rdrr.io/r/base/try.html">try()</a></code>, R will fail to install the <strong>startup</strong> package (or any other package) because the R profile startup script produces an error complaining about <strong>startup</strong> not being available.</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Just start R :)</p>
-<p>To debug the startup process, use <code><a href="../reference/renviron_d.html">startup::startup(debug = TRUE)</a></code> or set environment variable <code>R_STARTUP_DEBUG=TRUE</code>, e.g. on Linux you can do</p>
+<p>To debug the startup process, use <code>startup::startup(debug = TRUE)</code> or set environment variable <code>R_STARTUP_DEBUG=TRUE</code>, e.g. on Linux you can do</p>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="va">R_STARTUP_DEBUG=</span>TRUE <span class="ex">R</span></code></pre></div>
 <p>This will produce time-stamped messages during startup specifying which files are included.</p>
 </div>
@@ -156,7 +156,7 @@
 <ul>
 <li>System values:</li>
 <li>
-<code>dirname</code> - (character) the name of the current working directory (= <code><a href="https://rdrr.io/r/base/basename.html">basename(getwd())</a></code>)</li>
+<code>dirname</code> - (character) the name of the current working directory (= <code>basename(getwd())</code>)</li>
 <li>
 <code>gui</code> - (character) the graphical user interface (= <code>.Platform$GUI</code>)</li>
 <li>
@@ -208,14 +208,14 @@
 <p>If such a file, or its timestamp, is updated, then it will be processed the next time R is started.</p>
 <ul>
 <li><p>Environment variables:</p></li>
-<li><p>Any further <code>&lt;key&gt;=&lt;value&gt;</code> specifications with keys matching none of the above known keys are interpreted as system environment variables and startup will test such conditions against their values. <em>Note, if <code>&lt;key&gt;</code> does not correspond to a known environment variable, then the file is skipped if <code>&lt;key&gt;=&lt;value&gt;</code> is used but included if <code>&lt;key&gt;!=&lt;value&gt;</code> is used.</em></p></li>
+<li><p>Any further <code>&lt;key&gt;=&lt;value&gt;</code> specifications with keys matching none of the above known keys are interpreted as system environment variables and <strong>startup</strong> will test such conditions against their values. <em>Note, if <code>&lt;key&gt;</code> does not correspond to a known environment variable, then the file is skipped if <code>&lt;key&gt;=&lt;value&gt;</code> is used but included if <code>&lt;key&gt;!=&lt;value&gt;</code> is used.</em></p></li>
 </ul>
 <p>To condition on more than one key, separate <code>&lt;key&gt;=&lt;value&gt;</code> pairs by commas, e.g. <code>~/.Rprofile.d/work,interactive=TRUE,os=windows.R</code>. This also works for directory names. For instance, <code>~/.Rprofile.d/os=windows/work,interactive=TRUE.R</code> will be processed if running on Windows and in interactive mode. Multiple packages may be specified. For instance, <code>~/.Rprofile.d/package=devtools,package=future.R</code> will be used only if both the devtools and the future packages are installed.</p>
 <p>It is also possible to negate a conditional filename test by using the <code>&lt;key&gt;!=&lt;value&gt;</code> specification. For instance, <code>~/.Rprofile.d/package=doMC,os!=windows.R</code> will be processed if package <code>doMC</code> is installed and the operating system is not Windows.</p>
 <div id="secrets-conditionally-on-an-environment-variable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#secrets-conditionally-on-an-environment-variable" class="anchor"></a>Secrets (conditionally on an environment variable)</h3>
-<p>As of startup 0.10.0, Renviron and Rprofile startup files with a non-declared <code>&lt;key&gt;</code> in their file names are skipped. A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.</p>
+<p>Renviron and Rprofile startup files with a non-declared <code>&lt;key&gt;</code> in their file names are skipped. A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.</p>
 <p>This is useful, because it allows us to keep "secrets" in private files and only load them conditionally on the value of an environment variable. For instance, we put all our secret Renviron files under <code>~/.Renviron.d/private/SECRET=banana/</code> such that they are only loaded if environment variable <code>SECRET</code> is set to exactly <code>banana</code>. Moreover, by making sure the directory <code>~/.Renviron.d/private/</code> is only accessible by you, then it will be harder for someone else two know what your secret "password" (<code>banana</code>) is. On a Unix system, you can set this up as:</p>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="fu">mkdir</span> -p ~/.Renviron.d/private/SECRET=banana/
 $ <span class="fu">chmod</span> go-rw ~/.Renviron.d/private</code></pre></div>
@@ -288,7 +288,7 @@ $ <span class="ex">R</span></code></pre></div>
       +-- package=fortunes.R
   +-- os=windows.R
   +-- repos.R</code></pre>
-<p>They are available as part of this package under <code><a href="https://rdrr.io/r/base/system.file.html">system.file(package = "startup")</a></code>, e.g.</p>
+<p>They are available as part of this package under <code>system.file(package = "startup")</code>, e.g.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span>f &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"Rprofile.d"</span>, <span class="st">"repos.R"</span>, <span class="dt">package =</span> <span class="st">"startup"</span>)
 <span class="op">&gt;</span><span class="st"> </span><span class="kw">file.show</span>(f, <span class="dt">type =</span> <span class="st">"text"</span>)
 
@@ -317,7 +317,7 @@ $ <span class="ex">R</span></code></pre></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer>

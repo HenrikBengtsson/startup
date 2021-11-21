@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0-9000</span>
       </span>
     </div>
 
@@ -126,15 +126,32 @@
       <small>Source: <a href='https://github.com/HenrikBengtsson/startup/blob/master/NEWS'><code>NEWS</code></a></small>
     </div>
 
-    <div id="startup-0-15-0-9000" class="section level1">
-<h1 class="page-header" data-toc-text="0.15.0-9000">
-<a href="#startup-0-15-0-9000" class="anchor"></a>startup 0.15.0-9000<small> Unreleased </small>
+    <div id="startup-0-16-0-9000" class="section level1">
+<h1 class="page-header" data-toc-text="0.16.0-9000">
+<a href="#startup-0-16-0-9000" class="anchor"></a>startup 0.16.0-9000<small> Unreleased </small>
+</h1>
+</div>
+    <div id="startup-0-16-0" class="section level1">
+<h1 class="page-header" data-toc-text="0.16.0">
+<a href="#startup-0-16-0" class="anchor"></a>startup 0.16.0<small> 2021-11-20 </small>
 </h1>
 <div id="new-features" class="section level3">
 <h3 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h3>
 <ul>
-<li>Now it is suffient to call startup(dryrun = TRUE) to set what the R startup would have been. Previously one would also have to specify debug = TRUE.</li>
+<li><p>Now startup(debug = TRUE) reports on ‘R_SCRIPT_DEFAULT_PACKAGES’.</p></li>
+<li><p>Now startup(debug = TRUE) reports on tempdir() and environment variables ‘TMPDIR’, ‘TMP’, and ‘TEMP’ that controls the root of the temporary folder.</p></li>
+<li><p>Now it is sufficient to call startup(dryrun = TRUE) to see what the R startup would have been. Previously one would also have to specify debug = TRUE.</p></li>
+<li><p>Now startup(debug = TRUE) reports on packages loaded, attached, unloaded, and detached per Rprofile file processed. It also reports on other environments attached and detached.</p></li>
+<li><p>Now startup(debug = TRUE) reports also on the Rprofile file in the ‘base’ package, i.e. system.file(“R”, “Rprofile”, package = “base”).</p></li>
+<li><p>startup::startup(check = TRUE) no longer warns if environment variables ‘R_LIBS_SITE’ or ‘R_LIBS_USER’ have value ‘NULL’, which in R (&gt;= 4.2.0) corresponds to setting them to be empty.</p></li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h3>
+<ul>
+<li>startup::restart(quiet = TRUE) would give an error in ‘radian’ saying ‘–quiet’ is not supported, but it’s supported in radian (&gt;= 0.2.8) since 2018-08-27.</li>
 </ul>
 </div>
 </div>
@@ -151,9 +168,9 @@
 <li><p>Using regular, non-fancy single quotes in any output produced.</p></li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level3">
+<div id="bug-fixes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>Package tests could attempt to backup and update ~/.Rprofile, e.g. if it did not have a newline on the last line.</li>
 </ul>
@@ -177,9 +194,9 @@
 <li>Add help(“startup.options”, package = “startup”), which lists environment variables and R options that the ‘startup’ package use.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level3">
+<div id="bug-fixes-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>The new default of option ‘stringsAsFactor’ in R (&gt;= 4.0.0) would trigger a startup warning.</p></li>
 <li><p>It was not possible to disable the validation of R option ‘error’ and environment variables such as ‘R_LIBS_USER’, ‘R_PROFILE_SITE’, and ‘R_CHECK_ENVIRON’. These validations can now be disabled by specifying argument ‘check = FALSE’, or the corresponding R option, or environment variable. Validation of ‘error’ specifically can be disable by adding ‘error’ to environment variable ‘R_STARTUP_CHECK_OPTIONS_IGNORE’ or to option ‘startup.check.options.ignore’. The default is to ignore ‘error’.</p></li>
@@ -205,9 +222,9 @@
 <li><p>RStudio Console: The only way to prompt a user during the R startup process in the RStudio Console is via a graphical popup window. Because of this, R_STARTUP_RDATA=prompt will trigger a popup window in RStudio if there is a .RData file.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level3">
+<div id="bug-fixes-3" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>startup(debug = TRUE) would not only report on the name of an environment variable, but also parts of its value, if the value contained equal signs.</p></li>
 <li><p>The source information, that is, the filename and line locations, were dropped from functions defined via startup(). To get the filename where a function was defined use getSrcFilename(my_fcn, full.names = TRUE).</p></li>
@@ -228,9 +245,9 @@
 <li><p>The startup::startup() code snipped injected in the .Rprofile file by startup::install() now prefix error messages with ‘.Rprofile error:’ to help troubleshooting errors.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level3">
+<div id="bug-fixes-4" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>The validation of ‘R_LIBS’, ‘R_LIBS_SITE’, ‘R_LIBS_USER’ by startup::check() had a _R_CHECK_LENGTH_1_LOGIC2_ bug.</p></li>
 <li><p>The startup checks asserting that update.packages() is not called would pick up not only those with the period (‘.’) but any character in that position.</p></li>
@@ -252,7 +269,7 @@
 <h3 class="hasAnchor">
 <a href="#significant-changes-1" class="anchor"></a>Significant Changes</h3>
 <ul>
-<li><p>Renviron and Rprofile startup files that use <key>!=<value> filters with non-defined keys are now included. Previously they were skipped. Note that <key>=<value> files are indeed skipped when <key> is not defined.</key></value></key></value></key></p></li>
+<li><p>Renviron and Rprofile startup files that use &lt;key&gt;!=&lt;value&gt; filters with non-defined keys are now included. Previously they were skipped. Note that &lt;key&gt;=&lt;value&gt; files are indeed skipped when &lt;key&gt; is not defined.</p></li>
 <li><p>startup() now produces an informative warning if it detects that an R option that is considered unsafe to change from its default, e.g. changing ‘encoding’ other than in interactive mode may break package installations and changing ‘stringsAsFactors’ will summon the dead.</p></li>
 </ul>
 </div>
@@ -260,7 +277,7 @@
 <h3 class="hasAnchor">
 <a href="#new-features-5" class="anchor"></a>New Features</h3>
 <ul>
-<li><p>Added support for when=<periodicity> file declarations, where <periodicity> can be ‘once’, ‘hourly’, ‘daily’, ‘weekly’, ‘fortnightly’, and ‘monthly’. A startup file with such a declaration will be processed at most once per <periodicity>, e.g. a file with ‘when=daily’ somewhere in the pathname will be processed once per day. The periodicity is based on the walltime in the local time zone, e.g. if a file with ‘when=daily’ was processed one minute before midnight, it will be processed again if an R session is started one minute past midnight. Updating the file timestamp of a ‘when’ file will reset its timer.</periodicity></periodicity></periodicity></p></li>
+<li><p>Added support for when=&lt;periodicity&gt; file declarations, where &lt;periodicity&gt; can be ‘once’, ‘hourly’, ‘daily’, ‘weekly’, ‘fortnightly’, and ‘monthly’. A startup file with such a declaration will be processed at most once per &lt;periodicity&gt;, e.g. a file with ‘when=daily’ somewhere in the pathname will be processed once per day. The periodicity is based on the walltime in the local time zone, e.g. if a file with ‘when=daily’ was processed one minute before midnight, it will be processed again if an R session is started one minute past midnight. Updating the file timestamp of a ‘when’ file will reset its timer.</p></li>
 <li><p>Code in environment variable ‘R_STARTUP_INIT’ will now be evaluated by startup::startup() after Renviron and Rprofile files have been processed. For example, ‘R_STARTUP_INIT=“x &lt;- 1” R’ will launch R with ‘x == 1’.</p></li>
 <li><p>startup(debug = TRUE) now also reports on .First().</p></li>
 <li><p>The messages of warnings and errors produced by the startup package itself now mention which startup function they originate from. This helps to identify the origin of these when produced during the R startup process.</p></li>
@@ -274,9 +291,9 @@
 <li>Renamed example folders .Renviron.d/ and .Rprofile.d/ installed as part of the package to Renviron.d/ and Rprofile.d/ without the leading period. This was simply done to avoid ‘R CMD check –as-cran’ NOTEs.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level3">
+<div id="bug-fixes-5" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>startup() did not ignore files with names such as #foo.R#.</li>
 </ul>
@@ -306,9 +323,9 @@
 <li><p>Windows: Calling startup::restart() in the Windows RGui now produces an error clarifying that the RGui cannot be restarted this way.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level3">
+<div id="bug-fixes-6" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-6" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>startup::install() would append the startup::startup() statement to the last line in .Rprofile if that line (incorrectly) did not have a newline.</p></li>
 <li><p>startup::startup(check = TRUE) would give “Error in if (!eof_ok(file)) { : argument is of length zero” on Windows if the Rprofile file checked is a symbolic link.</p></li>
@@ -323,8 +340,7 @@
 <h3 class="hasAnchor">
 <a href="#significant-changes-2" class="anchor"></a>Significant Changes</h3>
 <ul>
-<li>Renviron and Rprofile startup files that use <key>=<value> filters with non-declared keys are skipped. Previously they were always processed. This update makes it easier to include “secrets”, e.g. files in folder ~/.Renviron.d/private/SECRET=banana/ will only be included if the environment variable ‘SECRET’ is set to exactly ‘banana’. An informative warning, which can be disabled, will be produced by startup 0.10.* until startup 0.11.0 is released.</value></key>
-</li>
+<li>Renviron and Rprofile startup files that use &lt;key&gt;=&lt;value&gt; filters with non-declared keys are skipped. Previously they were always processed. This update makes it easier to include “secrets”, e.g. files in folder ~/.Renviron.d/private/SECRET=banana/ will only be included if the environment variable ‘SECRET’ is set to exactly ‘banana’. An informative warning, which can be disabled, will be produced by startup 0.10.* until startup 0.11.0 is released.</li>
 </ul>
 </div>
 <div id="new-features-7" class="section level3">
@@ -342,9 +358,9 @@
 <li><p>Now startup::restart() also work when running R via ‘rtichoke’.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level3">
+<div id="bug-fixes-7" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-7" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>startup::restart() would not work in the RStudio Terminal. Note that it does not work in the RStudio Console due to limitations in RStudio.</p></li>
 <li><p>On Windows, startup::startup() would produce a false warning on non-existing ‘R_LIBS_USER’ folders.</p></li>
@@ -385,9 +401,9 @@
 <li>renviron() and rprofile() are now defunct. Removed api()<span class="math inline"><em>r</em><em>e</em><em>n</em><em>v</em><em>i</em><em>r</em><em>o</em><em>n</em>()<em>a</em><em>n</em><em>d</em><em>a</em><em>p</em><em>i</em>()</span>rprofile(). Use renviron_d() and rprofile_d() instead.</li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level3">
+<div id="bug-fixes-8" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>Now install(backup = TRUE) guarantees that the .Rprofile file is backed up, otherwise, an error is produced. Previously it could silently fail if a backup file with the exact same name already existed.</li>
 </ul>
@@ -417,9 +433,9 @@
 <h1 class="page-header" data-toc-text="0.6.1">
 <a href="#startup-0-6-1" class="anchor"></a>startup 0.6.1<small> 2017-05-17 </small>
 </h1>
-<div id="bug-fixes-8" class="section level3">
+<div id="bug-fixes-9" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>startup() ignores more of the hidden files and folders that macOS may create and which should not be sourced during startup. For instance, when copying a file ‘foo.R’ to a non-macOS file system, an auxiliary file ‘._foo.R’ may be created as well.</li>
 </ul>
@@ -440,7 +456,7 @@
 <h3 class="hasAnchor">
 <a href="#new-features-11" class="anchor"></a>New Features</h3>
 <ul>
-<li><p>New conditional <key>=<value> specification: an unknown ‘<key>’ (i.e. one that is not one of the known sysinfo() fields or ‘package’) will be interpreted as the name of an environment variable. For instance, files path/LANGUAGE=en/*.R will be included only if system environment variable LANGUAGE equals ‘en’ (or is not set).</key></value></key></p></li>
+<li><p>New conditional &lt;key&gt;=&lt;value&gt; specification: an unknown ‘&lt;key&gt;’ (i.e. one that is not one of the known sysinfo() fields or ‘package’) will be interpreted as the name of an environment variable. For instance, files path/LANGUAGE=en/*.R will be included only if system environment variable LANGUAGE equals ‘en’ (or is not set).</p></li>
 <li><p>startup::install() now injects ‘try(startup::startup())’ such that install.packages(“startup”) will work even when ‘startup’ is not installed, e.g. after a major-version R update.</p></li>
 <li><p>startup::install() and startup::uninstall() now output messages on what is done and why, and they now return the R startup file modified. They also produce a warning if startup is already installed or uninstalled, respectively.</p></li>
 <li><p>startup::install() gained argument ‘overwrite’ to control whether to append (default) to a pre-existing R startup file or to overwrite it.</p></li>
@@ -462,9 +478,9 @@
 <li><p>startup(debug = TRUE) detects if R_TESTS is set and reports which the file is and that the base package has already processed it.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-9" class="section level3">
+<div id="bug-fixes-10" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-10" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>Now startup() ignores macOS files named .DS_Store and directories named __MACOSX (and their content). Previously, such files could result in startup errors.</li>
 </ul>
@@ -482,7 +498,7 @@
 <li><p>Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0 (non-case sensitive), e.g. interactive=false and interactive=0.</p></li>
 <li><p>Added element ‘gui’ to sysinfo().</p></li>
 <li><p>Added flags ‘rstudio’ and ‘wine’ to sysinfo() indicating whether R runs via RStudio and via Linux Wine, respectively.</p></li>
-<li><p>New conditional <key>=<value> specification: Directory and file names containing a package=<name> specification will be processed if and only if package <name> is installed.</name></name></value></key></p></li>
+<li><p>New conditional &lt;key&gt;=&lt;value&gt; specification: Directory and file names containing a package=&lt;name&gt; specification will be processed if and only if package &lt;name&gt; is installed.</p></li>
 <li><p>Errors occurring while sourcing an Rprofile file now also contain information about in file the error occurred. Lines with invalid syntax in Renviron files are ignored with a message outputted saying so. Due to limitations in how base::readRenviron() works, it is not possible to detect these errors nor capture the outputted message.</p></li>
 <li><p>Now objects are auto printed to match the behavior of the R startup process.</p></li>
 <li><p>startup(debug = TRUE) now outputs time stamps since start per entry.</p></li>
@@ -495,11 +511,11 @@
 <li>renviron() and rprofile() were renamed to renviron_d() and rprofile_d(), respectively.</li>
 </ul>
 </div>
-<div id="bug-fixes-10" class="section level3">
+<div id="bug-fixes-11" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-11" class="anchor"></a>Bug Fixes</h3>
 <ul>
-<li><p>A file extension *.R would incorrectly become part of the <value> in a trailing <key>=<value> specification.</value></key></value></p></li>
+<li><p>A file extension *.R would incorrectly become part of the &lt;value&gt; in a trailing &lt;key&gt;=&lt;value&gt; specification.</p></li>
 <li><p>Now R_STARTUP_DEBUG=TRUE also works for Rscript; used to work only for the R executable.</p></li>
 <li><p>Some macOS backup files would not be filtered out when running on Windows.</p></li>
 </ul>
@@ -544,7 +560,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer>
