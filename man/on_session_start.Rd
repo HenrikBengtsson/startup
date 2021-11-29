@@ -10,14 +10,14 @@ on_session_start(expr, substitute = TRUE, append = TRUE, replace = FALSE)
 \item{expr, substitute}{An R expression. If \code{substitute = TRUE}, \code{expr}
 is automatically substituted.}
 
-\item{append}{If TRUE, the expression is added to the end of the list
-of expression to be evaluated, otherwise prepended.}
+\item{append}{If TRUE (default), the expression is added to the end of the
+list of expression to be evaluated, otherwise prepended.}
 
 \item{replace}{if TRUE, the expression replaces all existing expressions
 previously added, otherwise it will be added (default).}
 }
 \value{
-(invisible) the list of start functions
+(invisible) the list of registered expressions.
 }
 \description{
 Register an R expression to be evaluated at the end of the R startup process

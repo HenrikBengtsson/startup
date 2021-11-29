@@ -3,13 +3,13 @@
 #' @param expr,substitute An R expression. If `substitute = TRUE`, `expr`
 #' is automatically substituted.
 #'
-#' @param append If TRUE, the expression is added to the end of the list
-#' of expression to be evaluated, otherwise prepended.
+#' @param append If TRUE (default), the expression is added to the end of the
+#' list of expression to be evaluated, otherwise prepended.
 #'
 #' @param replace if TRUE, the expression replaces all existing expressions
 #' previously added, otherwise it will be added (default).
 #'
-#' @return (invisible) the list of start functions
+#' @return (invisible) the list of registered expressions.
 #'
 #' @details
 #' This function registers one or more R expressions to be evaluated at the
