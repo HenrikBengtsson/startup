@@ -7,9 +7,8 @@
 on_session_start(expr, substitute = TRUE, append = TRUE, replace = FALSE)
 }
 \arguments{
-\item{expr}{An R expression.}
-
-\item{substitute}{If TRUE, \code{expr} is automatically substituted.}
+\item{expr, substitute}{An R expression. If \code{substitute = TRUE}, \code{expr}
+is automatically substituted.}
 
 \item{append}{If TRUE, the expression is added to the end of the list
 of expression to be evaluated, otherwise prepended.}

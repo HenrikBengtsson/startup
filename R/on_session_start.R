@@ -1,8 +1,7 @@
 #' Register an R expression to be evaluated at the end of the R startup process
 #' 
-#' @param expr An R expression.
-#'
-#' @param substitute If TRUE, `expr` is automatically substituted.
+#' @param expr,substitute An R expression. If `substitute = TRUE`, `expr`
+#' is automatically substituted.
 #'
 #' @param append If TRUE, the expression is added to the end of the list
 #' of expression to be evaluated, otherwise prepended.
@@ -61,19 +60,19 @@ on_session_start <- function(expr, substitute = TRUE, append = TRUE, replace = F
       
       ## Call any pre-existing .First() on the search path
       "Call any pre-existing .First() on the search path, including"
-      "any pre-existing .First() function"
-      pos <- find(".First", mode = "function")[-1]
-      if (length(pos) > 0) {
-        ## (a) Is there a .First() on the search() path excluding the
-        ##     global environment?
-        envir <- pos.to.env(match(pos, search()))
-        .First <- get(".First", envir = envir, inherits = TRUE)
-      } else {
-        ## (b) If not, was there a pre-existing .First() in global
-        ##     environment?
-        "Pre-existing .First(), cf. environment(.First)$preexisting"
-        .First <- preexisting
+      "any pre-existing .First() function, cf. environment(.First)$tasks"
+      .First <- preexisting
+      
+      ## Is there a .First() on the search() path excluding existing one
+      ## in the global environment?
+      e <- globalenv()
+      while (!identical(e <- parent.env(e), emptyenv())) {
+        if (exists(".First", mode = "function", envir = e, inherits = FALSE)) {
+          .First <- get(".First", mode = "function", envir = e, inherits = FALSE)
+          break
+        }
       }
+      
       if (is.function(.First)) .First()
     }
     env <- new.env(parent = envir)
@@ -86,4 +85,3 @@ on_session_start <- function(expr, substitute = TRUE, append = TRUE, replace = F
   
     invisible(tasks)
 }
-
