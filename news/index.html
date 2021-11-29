@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0-9001</span>
       </span>
     </div>
 
@@ -126,18 +126,25 @@
       <small>Source: <a href='https://github.com/HenrikBengtsson/startup/blob/master/NEWS'><code>NEWS</code></a></small>
     </div>
 
-    <div id="startup-0-16-0-9000" class="section level1">
-<h1 class="page-header" data-toc-text="0.16.0-9000">
-<a href="#startup-0-16-0-9000" class="anchor"></a>startup 0.16.0-9000<small> Unreleased </small>
+    <div id="startup-0-16-0-9001" class="section level1">
+<h1 class="page-header" data-toc-text="0.16.0-9001">
+<a href="#startup-0-16-0-9001" class="anchor"></a>startup 0.16.0-9001<small> Unreleased </small>
 </h1>
+<div id="new-features" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New Features</h3>
+<ul>
+<li>Add on_session_start() to register one or more R expressions that will be evaluated at the end of R’s startup process via a custom .First() that is added to the global environment. If there is a .First() function on the search path, including any preexisting one in the global environment, that is called at the end.</li>
+</ul>
+</div>
 </div>
     <div id="startup-0-16-0" class="section level1">
 <h1 class="page-header" data-toc-text="0.16.0">
 <a href="#startup-0-16-0" class="anchor"></a>startup 0.16.0<small> 2021-11-20 </small>
 </h1>
-<div id="new-features" class="section level3">
+<div id="new-features-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New Features</h3>
+<a href="#new-features-1" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Now startup(debug = TRUE) reports on ‘R_SCRIPT_DEFAULT_PACKAGES’.</p></li>
 <li><p>Now startup(debug = TRUE) reports on tempdir() and environment variables ‘TMPDIR’, ‘TMP’, and ‘TEMP’ that controls the root of the temporary folder.</p></li>
@@ -159,9 +166,9 @@
 <h1 class="page-header" data-toc-text="0.15.0">
 <a href="#startup-0-15-0" class="anchor"></a>startup 0.15.0<small> 2020-09-03 </small>
 </h1>
-<div id="new-features-1" class="section level3">
+<div id="new-features-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>New Features</h3>
+<a href="#new-features-2" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>startup(debug = TRUE) now reports on number of lines and file size also for the ‘R_TESTS’ file.</p></li>
 <li><p>startup(debug = TRUE) [sic!] now checks that the environment variables that the different Renviron files set are actually set and produce an informative warning message if not. This confirms that, at least for R 4.0.2 for Windows, Rgui does *not* process ~/.Renviron unless Rgui is launched from that folder.</p></li>
@@ -180,9 +187,9 @@
 <h1 class="page-header" data-toc-text="0.14.1">
 <a href="#startup-0-14-1" class="anchor"></a>startup 0.14.1<small> 2020-04-01 </small>
 </h1>
-<div id="new-features-2" class="section level3">
+<div id="new-features-3" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New Features</h3>
+<a href="#new-features-3" class="anchor"></a>New Features</h3>
 <ul>
 <li>Add R options as an alternative to corresponding environment variables, e.g. added ‘startup.disable’ (‘R_STARTUP_DISABLE’), ‘startup.init’ (‘R_STARTUP_INIT’), and ‘startup.rdata’ (‘R_STARTUP_RDATA’).</li>
 </ul>
@@ -214,9 +221,9 @@
 <li>startup(all = TRUE) now processes any startup folders in the home directory _before_ those in the current working directory. Previously it was vice verse. With the new way, it is possible to override settings made in ~/.Renviron.d/ or ~/.Rprofile.d/ with custom ones in local ./.Renviron.d/ and ./.Rprofile.d/ folders.</li>
 </ul>
 </div>
-<div id="new-features-3" class="section level3">
+<div id="new-features-4" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-3" class="anchor"></a>New Features</h3>
+<a href="#new-features-4" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Setting environment variable ‘R_STARTUP_RDATA’ to “remove” will cause an existing ‘./.RData’ file to be skipped by automatically removing it. If “rename”, it will be renamed to ‘./.RData.YYYYMMDD_hhmmss’ where the timestamp is the last time the file was modified. If “prompt”, then the user is prompted whether they want to load the file or rename it. In non-interactive session, “prompt” will fallback to loading by default. To fallback to renaming the file, use “prompt,rename”. Thus, setting ‘R_STARTUP_RDATA=rename’ in an .Renviron file will make sure no .RData file is ever loaded while still preserving them.</p></li>
 <li><p>RStudio Console: The only way to prompt a user during the R startup process in the RStudio Console is via a graphical popup window. Because of this, R_STARTUP_RDATA=prompt will trigger a popup window in RStudio if there is a .RData file.</p></li>
@@ -236,9 +243,9 @@
 <h1 class="page-header" data-toc-text="0.13.0">
 <a href="#startup-0-13-0" class="anchor"></a>startup 0.13.0<small> 2019-10-27 </small>
 </h1>
-<div id="new-features-4" class="section level3">
+<div id="new-features-5" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-4" class="anchor"></a>New Features</h3>
+<a href="#new-features-5" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>startup::startup() will return immediately without processing R startup files if environment variable ‘R_STARTUP_DISABLE’ is set to ‘TRUE’.</p></li>
 <li><p>Added flag ‘radian’ to sysinfo() indicating whether R runs in radian (previously known as rtichoke and rice) or not. Please stop using the ‘rice’ and ‘rtichoke’ flags.</p></li>
@@ -273,9 +280,9 @@
 <li><p>startup() now produces an informative warning if it detects that an R option that is considered unsafe to change from its default, e.g. changing ‘encoding’ other than in interactive mode may break package installations and changing ‘stringsAsFactors’ will summon the dead.</p></li>
 </ul>
 </div>
-<div id="new-features-5" class="section level3">
+<div id="new-features-6" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-5" class="anchor"></a>New Features</h3>
+<a href="#new-features-6" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Added support for when=&lt;periodicity&gt; file declarations, where &lt;periodicity&gt; can be ‘once’, ‘hourly’, ‘daily’, ‘weekly’, ‘fortnightly’, and ‘monthly’. A startup file with such a declaration will be processed at most once per &lt;periodicity&gt;, e.g. a file with ‘when=daily’ somewhere in the pathname will be processed once per day. The periodicity is based on the walltime in the local time zone, e.g. if a file with ‘when=daily’ was processed one minute before midnight, it will be processed again if an R session is started one minute past midnight. Updating the file timestamp of a ‘when’ file will reset its timer.</p></li>
 <li><p>Code in environment variable ‘R_STARTUP_INIT’ will now be evaluated by startup::startup() after Renviron and Rprofile files have been processed. For example, ‘R_STARTUP_INIT=“x &lt;- 1” R’ will launch R with ‘x == 1’.</p></li>
@@ -310,9 +317,9 @@
 <h1 class="page-header" data-toc-text="0.11.0">
 <a href="#startup-0-11-0" class="anchor"></a>startup 0.11.0<small> 2018-08-25 </small>
 </h1>
-<div id="new-features-6" class="section level3">
+<div id="new-features-7" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-6" class="anchor"></a>New Features</h3>
+<a href="#new-features-7" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>startup(debug = TRUE) now also displays the expanded path to any file or folder listed. It also gives information on files that known environment variables (e.g. R_ENVIRON_USER) point to. For Renviron files, it also reports on names of the environment variables set in each of those files.</p></li>
 <li><p>startup(debug = TRUE) reports on the search path and loaded namespaces, and what packages will be attached after startup finishes.</p></li>
@@ -343,9 +350,9 @@
 <li>Renviron and Rprofile startup files that use &lt;key&gt;=&lt;value&gt; filters with non-declared keys are skipped. Previously they were always processed. This update makes it easier to include “secrets”, e.g. files in folder ~/.Renviron.d/private/SECRET=banana/ will only be included if the environment variable ‘SECRET’ is set to exactly ‘banana’. An informative warning, which can be disabled, will be produced by startup 0.10.* until startup 0.11.0 is released.</li>
 </ul>
 </div>
-<div id="new-features-7" class="section level3">
+<div id="new-features-8" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-7" class="anchor"></a>New Features</h3>
+<a href="#new-features-8" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Added is_debug_on() which returns TRUE if the startup debug mode is on. To control the debug mode, see ?startup::startup.</p></li>
 <li><p>startup(debug = TRUE) reports on several R_* environment variables.</p></li>
@@ -371,9 +378,9 @@
 <h1 class="page-header" data-toc-text="0.9.0">
 <a href="#startup-0-9-0" class="anchor"></a>startup 0.9.0<small> 2018-01-10 </small>
 </h1>
-<div id="new-features-8" class="section level3">
+<div id="new-features-9" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-8" class="anchor"></a>New Features</h3>
+<a href="#new-features-9" class="anchor"></a>New Features</h3>
 <ul>
 <li>Added restart() for restarting the current R session. It can also be used to adjust various R command-line arguments and environment variables, e.g. restart(as = “R CMD build”) mimics the ‘R CMD build’ setup as far as possible.</li>
 </ul>
@@ -383,9 +390,9 @@
 <h1 class="page-header" data-toc-text="0.8.0">
 <a href="#startup-0-8-0" class="anchor"></a>startup 0.8.0<small> 2017-10-19 </small>
 </h1>
-<div id="new-features-9" class="section level3">
+<div id="new-features-10" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-9" class="anchor"></a>New Features</h3>
+<a href="#new-features-10" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Added startup::current_script() which returns the .Rprofile.d/ pathname that is currently processed by startup::startup().</p></li>
 <li><p>Added flag ‘rice’ to sysinfo() indicating whether R runs via Rice or not, meaning it can be used as a file and directory name tag, e.g. rice=TRUE.</p></li>
@@ -420,9 +427,9 @@
 <li>Package requires R (&gt;= 2.14.0; Oct 2011) - was R (&gt;= 2.13.0; Apr 2011).</li>
 </ul>
 </div>
-<div id="new-features-10" class="section level3">
+<div id="new-features-11" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-10" class="anchor"></a>New Features</h3>
+<a href="#new-features-11" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Convenient session details are now gathered and recorded as R options immediately after processing ‘.Renviron.d’ files. These options, prefixed ‘startup.session.’, are available while processing ‘.Rprofile.d’ files and, by default, also after startup::startup() has completed. For information on session details recorded, see help(“startup_session_options”).</p></li>
 <li><p>Added a package vignette (available only in R &gt;= 3.0.2).</p></li>
@@ -452,9 +459,9 @@
 <li>Package requires R (&gt;= 2.13.0; Apr 2011) - was R (&gt;= 2.12.0; Oct 2010).</li>
 </ul>
 </div>
-<div id="new-features-11" class="section level3">
+<div id="new-features-12" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-11" class="anchor"></a>New Features</h3>
+<a href="#new-features-12" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>New conditional &lt;key&gt;=&lt;value&gt; specification: an unknown ‘&lt;key&gt;’ (i.e. one that is not one of the known sysinfo() fields or ‘package’) will be interpreted as the name of an environment variable. For instance, files path/LANGUAGE=en/*.R will be included only if system environment variable LANGUAGE equals ‘en’ (or is not set).</p></li>
 <li><p>startup::install() now injects ‘try(startup::startup())’ such that install.packages(“startup”) will work even when ‘startup’ is not installed, e.g. after a major-version R update.</p></li>
@@ -468,9 +475,9 @@
 <h1 class="page-header" data-toc-text="0.5.0">
 <a href="#startup-0-5-0" class="anchor"></a>startup 0.5.0<small> 2017-02-13 </small>
 </h1>
-<div id="new-features-12" class="section level3">
+<div id="new-features-13" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-12" class="anchor"></a>New Features</h3>
+<a href="#new-features-13" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Startup directory or file names that start with two or more periods are now excluded, e.g. ~/.Rprofile.d/..hide/test.R.</p></li>
 <li><p>startup() protects against attempts to update R packages also via pacman::p_up() in addition to utils::update.packages().</p></li>
@@ -490,9 +497,9 @@
 <h1 class="page-header" data-toc-text="0.4.0">
 <a href="#startup-0-4-0" class="anchor"></a>startup 0.4.0<small> 2016-12-22 </small>
 </h1>
-<div id="new-features-13" class="section level3">
+<div id="new-features-14" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-13" class="anchor"></a>New Features</h3>
+<a href="#new-features-14" class="anchor"></a>New Features</h3>
 <ul>
 <li><p>Now it is possible to do negated filename specifications, e.g. hpc,package=future/os!=windows.</p></li>
 <li><p>Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0 (non-case sensitive), e.g. interactive=false and interactive=0.</p></li>
@@ -530,9 +537,9 @@
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#startup-0-2-0" class="anchor"></a>startup 0.2.0<small> Unreleased </small>
 </h1>
-<div id="new-features-14" class="section level3">
+<div id="new-features-15" class="section level3">
 <h3 class="hasAnchor">
-<a href="#new-features-14" class="anchor"></a>New Features</h3>
+<a href="#new-features-15" class="anchor"></a>New Features</h3>
 <ul>
 <li>Add arguments sibling = FALSE to startup(). If sibling = TRUE, the corresponding startup file needs to exist in the same location as the directory in order for the directory to be processed.</li>
 </ul>

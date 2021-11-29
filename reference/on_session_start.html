@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Checks whether startup debug is on or not — is_debug_on • startup</title>
+<title>Register an R expression to be evaluated at the end of the R startup process — on_session_start • startup</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Checks whether startup debug is on or not — is_debug_on" />
-<meta property="og:description" content="Checks whether startup debug is on or not" />
+<meta property="og:title" content="Register an R expression to be evaluated at the end of the R startup process — on_session_start" />
+<meta property="og:description" content="Register an R expression to be evaluated at the end of the R startup process" />
 
 
 
@@ -123,25 +123,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Checks whether startup debug is on or not</h1>
-    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/startup/blob/master/R/debug.R'><code>R/debug.R</code></a></small>
-    <div class="hidden name"><code>is_debug_on.Rd</code></div>
+    <h1>Register an R expression to be evaluated at the end of the R startup process</h1>
+    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/startup/blob/master/R/on_session_start.R'><code>R/on_session_start.R</code></a></small>
+    <div class="hidden name"><code>on_session_start.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether startup debug is on or not</p>
+    <p>Register an R expression to be evaluated at the end of the R startup process</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is_debug_on</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>on_session_start</span><span class='op'>(</span><span class='va'>expr</span>, substitute <span class='op'>=</span> <span class='cn'>TRUE</span>, append <span class='op'>=</span> <span class='cn'>TRUE</span>, replace <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>expr, substitute</th>
+      <td><p>An R expression. If <code>substitute = TRUE</code>, <code>expr</code>
+is automatically substituted.</p></td>
+    </tr>
+    <tr>
+      <th>append</th>
+      <td><p>If TRUE, the expression is added to the end of the list
+of expression to be evaluated, otherwise prepended.</p></td>
+    </tr>
+    <tr>
+      <th>replace</th>
+      <td><p>if TRUE, the expression replaces all existing expressions
+previously added, otherwise it will be added (default).</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns <code>TRUE</code> is debug is enabled and <code>FALSE</code> otherwise.</p>
+    <p>(invisible) the list of start functions</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The debug mode is when <code><a href='renviron_d.html'>startup()</a></code> is called, either explicitly
-via argument <code>debug</code> or via environment variable <code>R_STARTUP_DEBUG</code>.</p>
+    <p>This function registers one or more R expressions to be evaluated at the
+very end of the R startup process.  All expressions are evaluated in a
+local environment.  The expressions are evaluated without exception
+handlers, which means that if one expression produces an error, then
+none of the following expression will be evaluated.</p>
+<p>The function works by recording all expressions <code>expr</code> in an internal list
+which will be evaluated via a custom <code><a href='https://rdrr.io/r/base/Startup.html'>.First()</a></code> function created in the
+global environment. Any other <code><a href='https://rdrr.io/r/base/Startup.html'>.First()</a></code> function on the search path,
+including a pre-existing <code><a href='https://rdrr.io/r/base/Startup.html'>.First()</a></code> function in the global environment,
+is called at the end after registered expressions have been called.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
