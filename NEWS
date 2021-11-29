@@ -1,9 +1,15 @@
 Package: startup
 ================
 
-Version: 0.16.0-9000 [2021-11-19]
+Version: 0.16.0-9001 [2021-11-29]
 
- * ...
+NEW FEATURES:
+
+ * Add on_session_start() to register one or more R expressions that will
+   be evaluated at the end of R's startup process via a custom .First() that
+   is added to the global environment.  If there is a .First() function on
+   the search path, including any preexisting one in the global environment,
+   that is called at the end.
  
 
 Version: 0.16.0 [2021-11-19]
