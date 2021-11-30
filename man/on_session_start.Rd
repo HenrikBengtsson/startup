@@ -4,11 +4,16 @@
 \alias{on_session_start}
 \title{Register an R expression to be evaluated at the end of the R startup process}
 \usage{
-on_session_start(expr, substitute = TRUE, append = TRUE, replace = FALSE)
+on_session_start(
+  expr = NULL,
+  substitute = TRUE,
+  append = TRUE,
+  replace = FALSE
+)
 }
 \arguments{
 \item{expr, substitute}{An R expression. If \code{substitute = TRUE}, \code{expr}
-is automatically substituted.}
+is automatically substituted.  \code{NULL} expressions are ignored.}
 
 \item{append}{If TRUE (default), the expression is added to the end of the
 list of expression to be evaluated, otherwise prepended.}
@@ -29,9 +34,14 @@ local environment.  The expressions are evaluated without exception
 handlers, which means that if one expression produces an error, then
 none of the following expression will be evaluated.
 
+To list currently registered expressions, call \code{exprs <- on_session_start()}.
+To remove all registered expressions, call
+\code{on_session_start(replace = TRUE)}.
+
 The function works by recording all expressions \code{expr} in an internal list
-which will be evaluated via a custom \code{.First()} function created in the
-global environment. Any other \code{.First()} function on the search path,
-including a pre-existing \code{.First()} function in the global environment,
-is called at the end after registered expressions have been called.
+which will be evaluated via a custom \code{\link[base:.First]{.First()}}
+function created in the global environment. Any other \code{.First()} function
+on the search path, including a pre-existing \code{.First()} function in the
+global environment, is called at the end after registered expressions have
+been called.
 }

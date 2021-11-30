@@ -1,7 +1,7 @@
 #' Register an R expression to be evaluated at the end of the R startup process
 #' 
 #' @param expr,substitute An R expression. If `substitute = TRUE`, `expr`
-#' is automatically substituted.
+#' is automatically substituted.  `NULL` expressions are ignored.
 #'
 #' @param append If TRUE (default), the expression is added to the end of the
 #' list of expression to be evaluated, otherwise prepended.
@@ -18,14 +18,19 @@
 #' handlers, which means that if one expression produces an error, then
 #' none of the following expression will be evaluated.
 #'
+#' To list currently registered expressions, call `exprs <- on_session_start()`.
+#' To remove all registered expressions, call
+#' `on_session_start(replace = TRUE)`.
+#'
 #' The function works by recording all expressions `expr` in an internal list
-#' which will be evaluated via a custom `.First()` function created in the
-#' global environment. Any other `.First()` function on the search path,
-#' including a pre-existing `.First()` function in the global environment,
-#' is called at the end after registered expressions have been called.
+#' which will be evaluated via a custom \code{\link[base:.First]{.First()}}
+#' function created in the global environment. Any other `.First()` function
+#' on the search path, including a pre-existing `.First()` function in the
+#' global environment, is called at the end after registered expressions have
+#' been called.
 #'
 #' @export
-on_session_start <- function(expr, substitute = TRUE, append = TRUE, replace = FALSE) {
+on_session_start <- function(expr = NULL, substitute = TRUE, append = TRUE, replace = FALSE) {
     if (substitute) expr <- substitute(expr)
     stopifnot(is.logical(append), length(append) == 1L, !is.na(append))
     stopifnot(is.logical(replace), length(replace) == 1L, !is.na(replace))
@@ -39,7 +44,7 @@ on_session_start <- function(expr, substitute = TRUE, append = TRUE, replace = F
       first <- get(".First", envir = envir, inherits = FALSE)
       env <- environment(first)
       if (isTRUE(env[["on_session_startup"]])) {
-        first <- env[["preexisting"]]
+        first <- env[["first"]]
         tasks <- env[["tasks"]]
       }
     }
@@ -48,11 +53,11 @@ on_session_start <- function(expr, substitute = TRUE, append = TRUE, replace = F
     if (replace) tasks <- list()
   
     ## Append or prepend?
-    task <- list(expr)
-    tasks <- if (append) c(tasks, task) else c(task, tasks)
+    if (!is.null(expr)) {
+      task <- list(expr)
+      tasks <- if (append) c(tasks, task) else c(task, tasks)
+    }
 
-    preexisting <- NULL ## To please R CMD check
-    
     .First <- function() {
       "This function was added by startup::on_session_start()"
       "Evaluate registered expressions, cf. environment(.First)$tasks"
@@ -60,23 +65,22 @@ on_session_start <- function(expr, substitute = TRUE, append = TRUE, replace = F
       
       ## Call any pre-existing .First() on the search path
       "Call any pre-existing .First() on the search path, including"
-      "any pre-existing .First() function, cf. environment(.First)$tasks"
-      .First <- preexisting
+      "any pre-existing .First() function, cf. environment(.First)$first"
       
       ## Is there a .First() on the search() path excluding existing one
       ## in the global environment?
       e <- globalenv()
       while (!identical(e <- parent.env(e), emptyenv())) {
         if (exists(".First", mode = "function", envir = e, inherits = FALSE)) {
-          .First <- get(".First", mode = "function", envir = e, inherits = FALSE)
+          first <- get(".First", mode = "function", envir = e, inherits = FALSE)
           break
         }
       }
       
-      if (is.function(.First)) .First()
+      if (is.function(first)) first()
     }
     env <- new.env(parent = envir)
-    env[["preexisting"]] <- first
+    env[["first"]] <- first
     env[["tasks"]] <- tasks
     env[["on_session_startup"]] <- TRUE
     environment(.First) <- env
