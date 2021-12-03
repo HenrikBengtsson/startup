@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.16.0-9001 [2021-11-29]
+Version: 0.16.0-9002 [2021-12-02]
 
 NEW FEATURES:
 
@@ -10,7 +10,13 @@ NEW FEATURES:
    is added to the global environment.  If there is a .First() function on
    the search path, including any preexisting one in the global environment,
    that is called at the end.
- 
+
+BUG FIXES:
+
+ * startup(unload = TRUE) failed when there was an .RData file and environment
+   variable 'R_STARTUP_RDATA' or R option 'startup.rdata' specifies "prompt".
+
+
 
 Version: 0.16.0 [2021-11-19]
 

@@ -80,6 +80,7 @@ file_info <- function(f, type = "txt", extra = NULL, validate = FALSE) {
   } else {
     extra <- ""
   }
+  
   if (!is_file(f)) {
     return(sprintf("%s (non-existing file%s)", squote(f), extra))
   }
