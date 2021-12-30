@@ -18,9 +18,9 @@
 #' handlers, which means that if one expression produces an error, then
 #' none of the following expression will be evaluated.
 #'
-#' To list currently registered expressions, call `exprs <- on_session_start()`.
+#' To list currently registered expressions, call `exprs <- on_session_enter()`.
 #' To remove all registered expressions, call
-#' `on_session_start(replace = TRUE)`.
+#' `on_session_enter(replace = TRUE)`.
 #'
 #' The function works by recording all expressions `expr` in an internal list
 #' which will be evaluated via a custom \code{\link[base:.First]{.First()}}
@@ -30,7 +30,7 @@
 #' been called.
 #'
 #' @export
-on_session_start <- function(expr = NULL, substitute = TRUE, append = TRUE, replace = FALSE) {
+on_session_enter <- function(expr = NULL, substitute = TRUE, append = TRUE, replace = FALSE) {
     if (substitute) expr <- substitute(expr)
     stopifnot(is.logical(append), length(append) == 1L, !is.na(append))
     stopifnot(is.logical(replace), length(replace) == 1L, !is.na(replace))
@@ -43,7 +43,7 @@ on_session_start <- function(expr = NULL, substitute = TRUE, append = TRUE, repl
     if (exists(".First", envir = envir, inherits = FALSE)) {
       first <- get(".First", envir = envir, inherits = FALSE)
       env <- environment(first)
-      if (isTRUE(env[["on_session_startup"]])) {
+      if (isTRUE(env[["on_session_enter"]])) {
         first <- env[["first"]]
         tasks <- env[["tasks"]]
       }
@@ -59,7 +59,7 @@ on_session_start <- function(expr = NULL, substitute = TRUE, append = TRUE, repl
     }
 
     .First <- function() {
-      "This function was added by startup::on_session_start()"
+      "This function was added by startup::on_session_enter()"
       "Evaluate registered expressions, cf. environment(.First)$tasks"
       for (task in tasks) local(eval(task, envir = parent.frame()))
       
@@ -82,7 +82,7 @@ on_session_start <- function(expr = NULL, substitute = TRUE, append = TRUE, repl
     env <- new.env(parent = envir)
     env[["first"]] <- first
     env[["tasks"]] <- tasks
-    env[["on_session_startup"]] <- TRUE
+    env[["on_session_enter"]] <- TRUE
     environment(.First) <- env
     
     assign(".First", .First, envir = envir)

@@ -5,7 +5,7 @@ Version: 0.16.0-9003 [2021-12-30]
 
 NEW FEATURES:
 
- * Add on_session_start() to register one or more R expressions that will
+ * Add on_session_enter() to register one or more R expressions that will
    be evaluated at the end of R's startup process via a custom .First() that
    is added to the global environment.  If there is a .First() function on
    the search path, including any preexisting one in the global environment,
