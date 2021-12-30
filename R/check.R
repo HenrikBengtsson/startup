@@ -266,17 +266,29 @@ check_rstudio_option_error_conflict <- function() {
 }
 
 
-## Check that Renviron and Rprofile files are properly capitalized.
-## The proper way is .Renviron and .Rprofile, whereas, for instance, .REnviron is not.
+## Check that Renviron and Rprofile files are properly capitalized. The proper
+## way is .Renviron and .Rprofile, whereas, for instance, .REnviron is not.
 warn_file_capitalization <- function(pathname, what) {
+  ## Get the actual name on file
+  path <- dirname(pathname)
   file <- basename(pathname)
-  pattern <- sprintf("^[.]%s", what)
-  if (grepl(pattern, file)) return(invisible(TRUE))
+  pattern <- sprintf("^%s$", file)
+  actual <- dir(path = path, pattern = pattern, ignore.case = TRUE, all.files = TRUE)
+  if (length(actual) == 0) return(invisible(TRUE))
+  if (length(actual) > 1) {
+    warning(sprintf("startup::startup(): Unexpected, internal result. Please report to the %s maintainer. Found more than one %s file: %s", squote(.packageName), squote(what), paste(squote(actual), collapse = ", ")))
+    actual <- actual[1]
+  }
   
-  path <- gsub(sprintf("%s$", file), "", file)
-  file2 <- gsub(pattern, sprintf(".%s", what), file, ignore.case = TRUE)
-  pathname2 <- paste(path, file2, sep = "")
-  msg <- sprintf("Detected non-standard, platform-dependent letter casing of an %s file. Please rename file to use the officially supported casing: %s -> %s", squote(what), squote(pathname), squote(pathname2))
+  ## Is it a non-standard file name?
+  pattern <- sprintf("^[.]?%s", what)
+  if (grepl(pattern, actual)) return(invisible(TRUE))
+
+  ## Produce informative warning
+  pathname_actual <- file.path(path, actual)
+  correct <- gsub(pattern, sprintf(".%s", what), actual, ignore.case = TRUE)
+  pathname_correct <- file.path(path, correct)
+  msg <- sprintf("Detected non-standard, platform-dependent letter casing of an %s file. Please rename file to use the officially supported casing: %s -> %s", squote(what), squote(pathname_actual), squote(pathname_correct))
   warning("startup::startup(): ", msg, call. = FALSE)
   invisible(FALSE)
 }
