@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.16.0-9002 [2021-12-02]
+Version: 0.16.0-9003 [2021-12-30]
 
 NEW FEATURES:
 
@@ -10,6 +10,11 @@ NEW FEATURES:
    is added to the global environment.  If there is a .First() function on
    the search path, including any preexisting one in the global environment,
    that is called at the end.
+
+ * Now startup() warns about non-standard, platform-specific capitalization of
+   Renviron and Rprofile file names.  For example, although ~/.RProfile works
+   on MS Windows and macOS with non-case sensitive file systems, the officially
+   supported file name is ~/.Rprofile.
 
 BUG FIXES:
 

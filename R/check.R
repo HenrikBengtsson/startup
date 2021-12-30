@@ -264,3 +264,19 @@ check_rstudio_option_error_conflict <- function() {
 
   warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
+
+
+## Check that Renviron and Rprofile files are properly capitalized.
+## The proper way is .Renviron and .Rprofile, whereas, for instance, .REnviron is not.
+warn_file_capitalization <- function(pathname, what) {
+  file <- basename(pathname)
+  pattern <- sprintf("^[.]%s", what)
+  if (grepl(pattern, file)) return(invisible(TRUE))
+  
+  path <- gsub(sprintf("%s$", file), "", file)
+  file2 <- gsub(pattern, sprintf(".%s", what), file, ignore.case = TRUE)
+  pathname2 <- paste(path, file2, sep = "")
+  msg <- sprintf("Detected non-standard, platform-dependent letter casing of an %s file. Please rename file to use the officially supported casing: %s -> %s", squote(what), squote(pathname), squote(pathname2))
+  warning("startup::startup(): ", msg, call. = FALSE)
+  invisible(FALSE)
+}

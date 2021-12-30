@@ -136,11 +136,18 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
 
       f <- Sys.getenv("R_ENVIRON_USER")
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
-      if (!is_file(f)) f <- ".Renviron"
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
-      if (!is_file(f)) f <- "~/.Renviron"
-      if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
+      if (is_file(f)) {
+        logf("- %s", file_info(f, type = "env", validate = TRUE))
+      } else {
+        if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
+        f <- ".Renviron"
+        if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
+        if (!is_file(f)) f <- "~/.Renviron"
+        if (is_file(f)) {
+          logf("- %s", file_info(f, type = "env", validate = TRUE))
+          warn_file_capitalization(f, "Renviron")
+        }
+      }
     }
 
     ## TMPDIR et al. may be set at the latest in an Renviron file
@@ -184,21 +191,33 @@ startup <- function(sibling = FALSE, all = FALSE,
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
-      if (nzchar(r_arch) && !is_file(f)) {
-        f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
+      if (is_file(f)) {
+        logf("- %s", file_info(f, type = "env", validate = TRUE))
+      } else {
+        if (nzchar(r_arch)) f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
+        if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
+        if (is_file(f)) {
+          logf("- %s", file_info(f, type = "r"))
+          warn_file_capitalization(f, "Rprofile")
+        }
       }
-      if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
-      if (is_file(f)) logf("- %s", file_info(f, type = "r"))
     }
 
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
     if (!no_init_file) {
       f <- Sys.getenv("R_PROFILE_USER")
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Rprofile.%s", r_arch)
-      if (!is_file(f)) f <- ".Rprofile"
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
-      if (!is_file(f)) f <- "~/.Rprofile"
-      if (is_file(f)) logf("- %s", file_info(f, type = "r"))
+      if (is_file(f)) {
+        logf("- %s", file_info(f, type = "env", validate = TRUE))
+      } else {
+        if (nzchar(r_arch)) f <- sprintf(".Rprofile.%s", r_arch)
+        if (!is_file(f)) f <- ".Rprofile"
+        if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
+        if (!is_file(f)) f <- "~/.Rprofile"
+        if (is_file(f)) {
+          logf("- %s", file_info(f, type = "r"))
+          warn_file_capitalization(f, "Rprofile")
+        }
+      }
     }
 
     f <- Sys.getenv("R_TESTS")
