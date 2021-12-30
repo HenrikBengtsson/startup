@@ -273,38 +273,17 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   # (vi) Unload package?
   if (unload) {
-    ## When unloading the namespace, we will loose several functions
-    ## that we need before
-    copy_fcn <- function(names, env = parent.frame()) {
-      ns <- getNamespace(.packageName)
-      for (name in names) {
-        fcn <- get(name, mode = "function", envir = ns)
-        environment(fcn) <- env
-        assign(name, fcn, envir = env)
-      }
-    }
-    t0 <- timestamp(get_t0 = TRUE)
-    copy_fcn(c("timestamp", "is_file", "nlines", "file_info", "is_rstudio_console", "ask_yes_no", "supports_tcltk", "tcltk_yesno"))
-    if (debug) {
-      logf <- function(fmt, ...) {
-        fmt <- paste(timestamp(), ": ", fmt, sep = "")
-        message(sprintf(fmt, ...))
-      }
-    }
-    
-    unload(debug = debug)
+    if (debug) logf("- unloading the %s package", squote(.packageName))
+    on.exit(unload(debug = FALSE))
   }
 
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # IMPORTANT: From here on, we must not use any 'startup' functions
-  #            because the package might have been unloaded
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   if (debug) {
-    logf("- Search path: %s", paste(squote(search()), collapse = ", "))
-    logf("- Loaded namespaces: %s",
-         paste(squote(loadedNamespaces()), collapse = ", "))
+    values <- search()
+    if (unload) values <- setdiff(values, sprintf("package:%s", .packageName))
+    logf("- Search path: %s", paste(squote(values), collapse = ", "))
+    values <- loadedNamespaces()
+    if (unload) values <- setdiff(values, .packageName)
+    logf("- Loaded namespaces: %s", paste(squote(values), collapse = ", "))
     logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
   }
@@ -425,6 +404,6 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
          paste(squote(pkgs), collapse = ", "))
   }
-  
+
   invisible(res)
 }
