@@ -422,6 +422,17 @@ startup <- function(sibling = FALSE, all = FALSE,
     pkgs <- pkgs[to_be_attached]
     logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
          paste(squote(pkgs), collapse = ", "))
+
+    
+    logf("The following will be processed when R terminates:")
+    for (what in c(".Last", ".Last.sys")) {
+      where <- find(what, mode = "function")
+      if (where > 0) {
+        logf("- %s(): in %s (position %d on search()); circumvented by quit(runLast = FALSE)", what, squote(search()[where]), where)
+      } else {
+        logf("- %s(): no such function on search()", what)
+      }
+    }
   }
 
   invisible(res)
