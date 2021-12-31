@@ -110,3 +110,74 @@ on_session_enter <- local({
     invisible(fcns)
   }
 })
+
+
+on_session_enter <- local({
+  .First <- function() {
+    "This function was added by startup::on_session_enter()"
+    "Evaluate registered functions, cf. environment(.First)$fcns"
+    for (fcn in fcns) {
+      local(fcn())
+    }
+    
+    ## Call any pre-existing .First() on the search path
+    "Call any pre-existing .First() on the search path, including"
+    "any pre-existing .First() function, cf. environment(.First)$first"
+    
+    ## Is there a .First() on the search() path excluding existing one
+    ## in the global environment?
+    e <- globalenv()
+    while (!identical(e <- parent.env(e), emptyenv())) {
+      if (exists(".First", mode = "function", envir = e, inherits = FALSE)) {
+        first <- get(".First", mode = "function", envir = e, inherits = FALSE)
+        break
+      }
+    }
+    
+    if (is.function(first)) first()
+  } ## .First()
+  
+  function(fcn = NULL, append = TRUE, replace = FALSE) {
+    stopifnot(is.logical(append), length(append) == 1L, !is.na(append))
+    stopifnot(is.logical(replace), length(replace) == 1L, !is.na(replace))
+
+    if (!is.function(fcn)) {
+      expr <- fcn
+      fcn <- function(...) NULL
+      body(fcn) <- expr
+    }
+
+    genv <- globalenv()
+  
+    ## Make sure to record any pre-existing .First() in the global environment
+    first <- NULL
+    fcns <- list()
+    if (exists(".First", envir = genv, inherits = FALSE)) {
+      first <- get(".First", envir = genv, inherits = FALSE)
+      env <- environment(first)
+      if (isTRUE(env[["on_session_enter"]])) {
+        first <- env[["first"]]
+        fcns <- env[["fcns"]]
+      }
+    }
+
+    ## Replace?
+    if (replace) fcns <- list()
+  
+    ## Append or prepend?
+    if (!is.null(fcn)) {
+      fcn <- list(fcn)
+      fcns <- if (append) c(fcns, fcn) else c(fcn, fcns)
+    }
+
+    env <- new.env(parent = genv)
+    env[["first"]] <- first
+    env[["fcns"]] <- fcns
+    env[["on_session_enter"]] <- TRUE
+    environment(.First) <<- env
+    
+    assign(".First", .First, envir = genv)
+  
+    invisible(fcns)
+  }
+})
