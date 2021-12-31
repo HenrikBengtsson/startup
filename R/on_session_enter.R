@@ -1,7 +1,8 @@
 #' Register an R expression to be evaluated at the end of the R startup process
 #' 
-#' @param expr,substitute An R expression. If `substitute = TRUE`, `expr`
-#' is automatically substituted.  `NULL` expressions are ignored.
+#' @param expr,substitute An R expression or a function.
+#' If `substitute = TRUE`, `expr` is automatically substituted. 
+#' `NULL` expressions are ignored.
 #'
 #' @param append If TRUE (default), the expression is added to the end of the
 #' list of expression to be evaluated, otherwise prepended.
@@ -12,22 +13,22 @@
 #' @return (invisible) the list of registered expressions.
 #'
 #' @details
-#' This function registers one or more R expressions to be evaluated at the
-#' very end of the R startup process.  All expressions are evaluated in a
-#' local environment.  The expressions are evaluated without exception
-#' handlers, which means that if one expression produces an error, then
-#' none of the following expression will be evaluated.
+#' This function registers one or more R expressions or functions to be
+#' evaluated at the very end of the R startup process.  All are evaluated in
+#' a local environment.  These expressions and functions are evaluated without
+#' exception handlers, which means that if one produces an error, then none of
+#' the following will be evaluated.
 #'
-#' To list currently registered expressions, call `exprs <- on_session_enter()`.
-#' To remove all registered expressions, call
+#' To list currently registered expressions and functions, call
+#' `exprs <- on_session_enter()`. To remove all registered expressions, call
 #' `on_session_enter(replace = TRUE)`.
 #'
-#' The function works by recording all expressions `expr` in an internal list
-#' which will be evaluated via a custom \code{\link[base:.First]{.First()}}
-#' function created in the global environment. Any other `.First()` function
-#' on the search path, including a pre-existing `.First()` function in the
-#' global environment, is called at the end after registered expressions have
-#' been called.
+#' The function works by recording all `expr` in an internal list which will
+#' be evaluated via a custom \code{\link[base:.First]{.First()}} function
+#' created in the global environment. Any other `.First()` function on the
+#' search path, including a pre-existing `.First()` function in the global
+#' environment, is called at the end after registered expressions have been
+#' called.
 #'
 #' @export
 on_session_enter <- function(expr = NULL, substitute = TRUE, append = TRUE, replace = FALSE) {
@@ -54,6 +55,10 @@ on_session_enter <- function(expr = NULL, substitute = TRUE, append = TRUE, repl
   
     ## Append or prepend?
     if (!is.null(expr)) {
+      ## A function?
+      if (identical(expr[[1]], as.symbol("function"))) {
+        expr <- eval(expr, envir = parent.frame())
+      }
       task <- list(expr)
       tasks <- if (append) c(tasks, task) else c(task, tasks)
     }
@@ -61,7 +66,13 @@ on_session_enter <- function(expr = NULL, substitute = TRUE, append = TRUE, repl
     .First <- function() {
       "This function was added by startup::on_session_enter()"
       "Evaluate registered expressions, cf. environment(.First)$tasks"
-      for (task in tasks) local(eval(task, envir = parent.frame()))
+      for (task in tasks) {
+        if (is.function(task)) {
+          local(eval(task(), envir = parent.frame()))
+        } else {
+          local(eval(task, envir = parent.frame()))
+        }
+      }
       
       ## Call any pre-existing .First() on the search path
       "Call any pre-existing .First() on the search path, including"

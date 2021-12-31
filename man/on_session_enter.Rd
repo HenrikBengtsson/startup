@@ -12,8 +12,9 @@ on_session_enter(
 )
 }
 \arguments{
-\item{expr, substitute}{An R expression. If \code{substitute = TRUE}, \code{expr}
-is automatically substituted.  \code{NULL} expressions are ignored.}
+\item{expr, substitute}{An R expression or a function.
+If \code{substitute = TRUE}, \code{expr} is automatically substituted.
+\code{NULL} expressions are ignored.}
 
 \item{append}{If TRUE (default), the expression is added to the end of the
 list of expression to be evaluated, otherwise prepended.}
@@ -28,20 +29,20 @@ previously added, otherwise it will be added (default).}
 Register an R expression to be evaluated at the end of the R startup process
 }
 \details{
-This function registers one or more R expressions to be evaluated at the
-very end of the R startup process.  All expressions are evaluated in a
-local environment.  The expressions are evaluated without exception
-handlers, which means that if one expression produces an error, then
-none of the following expression will be evaluated.
+This function registers one or more R expressions or functions to be
+evaluated at the very end of the R startup process.  All are evaluated in
+a local environment.  These expressions and functions are evaluated without
+exception handlers, which means that if one produces an error, then none of
+the following will be evaluated.
 
-To list currently registered expressions, call \code{exprs <- on_session_enter()}.
-To remove all registered expressions, call
+To list currently registered expressions and functions, call
+\code{exprs <- on_session_enter()}. To remove all registered expressions, call
 \code{on_session_enter(replace = TRUE)}.
 
-The function works by recording all expressions \code{expr} in an internal list
-which will be evaluated via a custom \code{\link[base:.First]{.First()}}
-function created in the global environment. Any other \code{.First()} function
-on the search path, including a pre-existing \code{.First()} function in the
-global environment, is called at the end after registered expressions have
-been called.
+The function works by recording all \code{expr} in an internal list which will
+be evaluated via a custom \code{\link[base:.First]{.First()}} function
+created in the global environment. Any other \code{.First()} function on the
+search path, including a pre-existing \code{.First()} function in the global
+environment, is called at the end after registered expressions have been
+called.
 }
