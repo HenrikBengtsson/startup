@@ -5,13 +5,13 @@ Version: 0.16.0-9005 [2021-12-30]
 
 NEW FEATURES:
 
- * Add on_session_enter() for registering R expressions and functions to be
+ * Add on_session_enter() for registering R functions and expressions to be
    evaluated at the end of R's startup process via a custom .First() that is
    added to the global environment.  If there is a .First() function on the
    search path, including any preexisting one in the global environment, that
    is called at the end.
 
- * Add on_session_exit() for registering R functions and expression to be
+ * Add on_session_exit() for registering R functions and expressions to be
    called at the very end when the R session terminates.
 
  * Now startup() warns about non-standard, platform-specific capitalization of
@@ -94,7 +94,7 @@ DOCUMENTATION:
 
 BUG FIXES:
    
- * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
+ * The new default of option 'stringsAsFactors' in R (>= 4.0.0) would trigger
    a startup warning.
 
  * It was not possible to disable the validation of R option 'error' and

@@ -1,39 +1,9 @@
-#' Register R expressions and functions to be evaluated when R terminates
-#' 
-#' @param fcn An R function or an R expression.  If an expression, it will
-#' automatically we wrapped up in an anonymous function.
-#'
-#' @param append If TRUE (default), the function will be evaluated after
-#' previously registered ones, otherwise prepended.
-#'
-#' @param replace if TRUE, the function replaces any previously registered
-#' ones, otherwise it will be added (default).
-#'
-#' @return (invisible) the list of registered functions.
-#'
-#' @details
-#' This function registers one or more functions to be called when the R
-#' session terminates.  All of them are evaluated in a local environment.
-#' These functions are evaluated without exception handlers, which means that
-#' if one produces an error, then none of the following will be evaluated.
-#'
-#' To list currently registered functions, call `fcns <- on_session_exit()`.
-#' To remove all registered functions, call `on_session_exit(replace = TRUE)`.
-#'
-#' The function works by recording all `fcn`:s in an internal list which will
-#' be evaluated via a custom function that is called when the global
-#' environment is garbage collected, which happens at the very end of the R
-#' shutdown process.
-#' Contrary to `.Last()` and `.Last.sys()`, which may not be called if
-#' `quit(runLast = FALSE)` is used, functions registered via
-#' `on_session_exit()` are always processed.
-#'
+#' @rdname on_session_enter
 #' @export
 on_session_exit <- local({
   .globalenv_finalizer <- function(env) {
     "This function was added by startup::on_session_exit()"
-    "Evaluate registered expressions and function, cf."
-    "fcns <- startup::on_session_exit()"
+    "Evaluate registered functions, cf. fcns <- startup::on_session_exit()"
     for (fcn in fcns) {
       local(eval(fcn(), envir = parent.frame()))
     }
@@ -45,7 +15,7 @@ on_session_exit <- local({
 
     if (!is.function(fcn)) {
       expr <- fcn
-      fcn <- function() NULL
+      fcn <- function(...) NULL
       body(fcn) <- expr
     }
 
@@ -55,9 +25,9 @@ on_session_exit <- local({
     if (!isTRUE(env[["on_session_exit"]])) {
       env <- new.env(parent = globalenv())
       env[["fcns"]] <- list()
+      env[["on_session_exit"]] <- TRUE
       environment(.globalenv_finalizer) <<- env
       reg.finalizer(globalenv(), .globalenv_finalizer, onexit = TRUE)
-      env[["on_session_exit"]] <- TRUE
     }
 
     fcns <- env[["fcns"]]
