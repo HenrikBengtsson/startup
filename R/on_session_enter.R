@@ -74,27 +74,23 @@ on_session_enter <- local({
       body(fcn) <- expr
     }
 
-    ## Make sure to record any pre-existing .First() in the global environment
-    first <- NULL
-    fcns <- list()
-    env <- NULL
+    env <- environment(.First)
+    
+    ## Set up local .First()? (only once)
+    if (!isTRUE(env[["on_session_enter"]])) {
+      env <- new.env(parent = globalenv())
+      env[["first"]] <- NULL
+      env[["fcns"]] <- list()
+      env[["on_session_enter"]] <- TRUE
+      environment(.First) <<- env
+    }
 
+    ## Make sure to record any pre-existing .First() in the global environment
     genv <- globalenv()
     if (exists(".First", envir = genv, inherits = FALSE)) {
       first <- get(".First", envir = genv, inherits = FALSE)
-      env <- environment(first)
-      if (isTRUE(env[["on_session_enter"]])) {
-        first <- env[["first"]]
-        fcns <- env[["fcns"]]
-      }
-    }
-
-    if (is.null(env)) {
-      env <- new.env(parent = genv)
-      env[["first"]] <- first
-      env[["fcns"]] <- fcns
-      env[["on_session_enter"]] <- TRUE
-      environment(.First) <<- env
+      e <- environment(first)
+      if (!isTRUE(e[["on_session_enter"]])) env[["first"]] <- first
     }
 
     fcns <- env[["fcns"]]
