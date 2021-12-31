@@ -1,26 +1,26 @@
-#' Register an R expression to be evaluated at the end of the R startup process
+#' Register R expressions and functions to be evaluated at the end of the R startup process
 #' 
 #' @param expr,substitute An R expression or a function.
 #' If `substitute = TRUE`, `expr` is automatically substituted. 
 #' `NULL` expressions are ignored.
 #'
-#' @param append If TRUE (default), the expression is added to the end of the
-#' list of expression to be evaluated, otherwise prepended.
+#' @param append If TRUE (default), the expression or the function will be
+#' evaluated after previously registered entries, otherwise prepended.
 #'
-#' @param replace if TRUE, the expression replaces all existing expressions
-#' previously added, otherwise it will be added (default).
+#' @param replace if TRUE, the expression or the function replaces all
+#' existing ones previously added, otherwise it will be added (default).
 #'
-#' @return (invisible) the list of registered expressions.
+#' @return (invisible) the list of registered expressions and functions.
 #'
 #' @details
 #' This function registers one or more R expressions or functions to be
-#' evaluated at the very end of the R startup process.  All are evaluated in
-#' a local environment.  These expressions and functions are evaluated without
-#' exception handlers, which means that if one produces an error, then none of
-#' the following will be evaluated.
+#' evaluated at the very end of the R startup process.  All of them are
+#' evaluated in a local environment.  These expressions and functions are
+#' evaluated without exception handlers, which means that if one produces an
+#' error, then none of the following will be evaluated.
 #'
 #' To list currently registered expressions and functions, call
-#' `exprs <- on_session_enter()`. To remove all registered expressions, call
+#' `exprs <- on_session_enter()`. To remove all registered entries, call
 #' `on_session_enter(replace = TRUE)`.
 #'
 #' The function works by recording all `expr` in an internal list which will
