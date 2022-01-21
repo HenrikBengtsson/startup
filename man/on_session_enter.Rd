@@ -51,4 +51,29 @@ end of the R shutdown process.
 Contrary to a \code{\link[base:.Last]{.Last()}} function, which is not be
 called if \code{quit(runLast = FALSE)} is used, functions registered via
 \code{on_session_exit()} are always processed.
+Registered \code{on_session_exit()} functions are called \emph{after} \code{quit()} saves
+any workspace image to file (\code{./.RData}), and \emph{after} any \code{.Last()} has
+been called.
+}
+\examples{
+\dontrun{
+## Summarize interactive session upon termination
+if (interactive()) {
+  startup::on_session_exit(local({
+    t0 <- Sys.time()
+    function(...) {
+      dt <- difftime(Sys.time(), t0, units = "auto")
+      msg <- c(
+        "Session summary:",
+        sprintf(" * R version: \%s", getRversion()),
+        sprintf(" * Process ID: \%d", Sys.getpid()),
+        sprintf(" * Wall time: \%.2f \%s", dt, attr(dt, "units"))
+      )
+      msg <- paste(msg, collapse = "\n")
+      message(msg)
+    }
+  }))
+}
+}
+
 }

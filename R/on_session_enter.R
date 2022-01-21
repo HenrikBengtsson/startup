@@ -37,6 +37,30 @@
 #' Contrary to a \code{\link[base:.Last]{.Last()}} function, which is not be
 #' called if `quit(runLast = FALSE)` is used, functions registered via
 #' `on_session_exit()` are always processed.
+#' Registered `on_session_exit()` functions are called _after_ `quit()` saves
+#' any workspace image to file (`./.RData`), and _after_ any `.Last()` has
+#' been called.
+#'
+#' @examples
+#' \dontrun{
+#' ## Summarize interactive session upon termination
+#' if (interactive()) {
+#'   startup::on_session_exit(local({
+#'     t0 <- Sys.time()
+#'     function(...) {
+#'       dt <- difftime(Sys.time(), t0, units = "auto")
+#'       msg <- c(
+#'         "Session summary:",
+#'         sprintf(" * R version: %s", getRversion()),
+#'         sprintf(" * Process ID: %d", Sys.getpid()),
+#'         sprintf(" * Wall time: %.2f %s", dt, attr(dt, "units"))
+#'       )
+#'       msg <- paste(msg, collapse = "\n")
+#'       message(msg)
+#'     }
+#'   }))
+#' }
+#' }
 #'
 #' @export
 on_session_enter <- local({
