@@ -30,7 +30,7 @@ get_windows_local_appdata <- function() {
 }
 
 
-find_os_cache_path <- function(dirs = c("R", utils::packageName())) {
+find_cache_path <- function(dirs = c("R", utils::packageName())) {
   ## Per tools::R_user_dir(which = "cache") of R (>= 4.0.0)
   root <- Sys.getenv("R_USER_CACHE_DIR", NA_character_)
   if (is.na(root)) {
@@ -60,10 +60,53 @@ find_os_cache_path <- function(dirs = c("R", utils::packageName())) {
 }
 
 
-get_os_cache_root_path <- local({
-  os_cache_path <- NULL
-  function() {
-    if (is.null(os_cache_path)) os_cache_path <<- find_os_cache_path()
-    os_cache_path
+find_config_path <- function(dirs = c("R", utils::packageName())) {
+  ## Per tools::R_user_dir(which = "config") of R (>= 4.0.0)
+  root <- Sys.getenv("R_USER_CONFIG_DIR", NA_character_)
+  if (is.na(root)) {
+    root <- Sys.getenv("XDG_CONFIG_HOME", NA_character_)
+  }
+  if (is.na(root)) {
+    os <- get_os()
+    root <- switch(os,
+      windows = file.path(get_windows_local_appdata(), "R", "config"),
+      macos = file.path("~", "Library", "Preferences", "org.R-project.R"),
+      unix = file.path("~", ".config"),
+      NA_character_
+    )
+  }
+
+  ## Failed to find a OS-specific cache folder?
+  if (is.na(root)) {
+    os <- get_os()
+    stop("Failed to locate local cache folder on this operating system: ", os)
+  }
+  
+  path <- c(root, dirs)
+  path <- do.call(file.path, args = as.list(path))
+  path <- normalizePath(path, mustWork = FALSE)
+
+  path
+}
+
+get_user_dir <- local({
+  paths <- list()
+  function(which = c("cache", "config"), create = TRUE) {
+    which <- match.arg(which)
+    path <- paths[[which]]
+    if (is.null(path)) {
+      path <- switch(which,
+        cache = find_cache_path(),
+        config = find_config_path()
+      )
+      paths[[which]] <<- path
+    }
+
+    if (create && !is_dir(path)) {
+      dir.create(path, recursive = TRUE)
+      stop_if_not(is_dir(path))
+    }
+
+    path
   }
 })
