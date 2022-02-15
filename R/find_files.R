@@ -98,6 +98,16 @@ find_d_dirs <- function(paths, all = FALSE) {
   paths <- paths[file.exists(paths)]
   paths <- paths[file.info(paths)$isdir]
 
+  ## Drop duplicates
+  paths <- unique(paths)
+
+  ## Drop duplicates after path normalization. For example, ~/.Rprofile.d/
+  ## and ./.Rprofile.d/ may be the same folder. Also, if ~/.Rprofile.d/ is
+  ## a symbolic links to ~/.config/R/startup/Rprofile.d/, they are also
+  ## considered duplicates.
+  dups <- duplicated(normalizePath(paths, mustWork = FALSE))
+  paths <- paths[!dups]
+
   if (!all) {
     paths <- if (length(paths) == 0) character(0L) else paths[1]
   }
