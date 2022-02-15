@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.16.0-9006 [2021-12-30]
+Version: 0.16.0-9007 [2022-02-15]
 
 NEW FEATURES:
 
@@ -20,6 +20,8 @@ NEW FEATURES:
    supported file name is ~/.Rprofile.
 
  * Now startup(debug = TRUE) reports on '.Last()' and '.Last.sys()'.
+
+ * Harmonized cache folder options toward tools::R_user_dir() of R (>= 4.0.0).
 
 BUG FIXES:
 

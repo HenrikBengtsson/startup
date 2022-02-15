@@ -31,17 +31,24 @@ get_windows_local_appdata <- function() {
 
 
 find_os_cache_path <- function(dirs = c("R", utils::packageName())) {
-  os <- get_os()
-
-  root <- switch(os,
-    windows = get_windows_local_appdata(),
-    macos = "~/Library/Caches",
-    unix = Sys.getenv("XDG_CACHE_HOME", "~/.cache"),
-    NA_character_
-  )
+  ## Per tools::R_user_dir(which = "cache") of R (>= 4.0.0)
+  root <- Sys.getenv("R_USER_CACHE_DIR", NA_character_)
+  if (is.na(root)) {
+    root <- Sys.getenv("XDG_CACHE_HOME", NA_character_)
+  }
+  if (is.na(root)) {
+    os <- get_os()
+    root <- switch(os,
+      windows = file.path(get_windows_local_appdata(), "R", "cache"),
+      macos = file.path("~", "Library", "Caches", "org.R-project.R"),
+      unix = file.path("~", ".cache"),
+      NA_character_
+    )
+  }
 
   ## Failed to find a OS-specific cache folder?
   if (is.na(root)) {
+    os <- get_os()
     stop("Failed to locate local cache folder on this operating system: ", os)
   }
   
