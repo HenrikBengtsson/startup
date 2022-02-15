@@ -42,7 +42,7 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
-  paths <- c(file.path(get_user_dir("config"), "Rprofile.d"), paths)
+  paths <- c(paths, file.path(get_user_dir("config"), "Rprofile.d"))
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
@@ -70,7 +70,7 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
-  paths <- c(file.path(get_user_dir("config"), "Renviron.d"), paths)
+  paths <- c(paths, file.path(get_user_dir("config"), "Renviron.d"))
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
@@ -182,8 +182,17 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
 } ## list_d_files()
 
 
+running_r_cmd <- local({
+  running <- NA
+  function() {
+    if (is.na(running)) {
+      running <<- nzchar(Sys.getenv("R_CMD"))
+    }
+    running
+  }
+})
+
 drop_user_files_during_check <- function(pathnames) {
-  if (!nzchar(Sys.getenv("R_CMD"))) return(pathnames)
+  if (!running_r_cmd()) return(pathnames)
   grep("~", pathnames, value = TRUE, invert = TRUE)
 }
-
