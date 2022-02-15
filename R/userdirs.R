@@ -91,7 +91,7 @@ find_config_path <- function(dirs = c("R", utils::packageName())) {
 
 get_user_dir <- local({
   paths <- list()
-  function(which = c("cache", "config"), create = TRUE) {
+  function(which = c("cache", "config"), create = FALSE) {
     which <- match.arg(which)
     path <- paths[[which]]
     if (is.null(path)) {

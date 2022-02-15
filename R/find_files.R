@@ -42,12 +42,13 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
+  paths <- c(file.path(get_user_dir("config"), "Rprofile.d"), paths)
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
          paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
+    logf("Found %s directory %s.", squote(.packageName), paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }
@@ -69,12 +70,13 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
+  paths <- c(file.path(get_user_dir("config"), "Renviron.d"), paths)
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
          paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
+    logf("Found %s directory %s.", squote(.packageName), paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }

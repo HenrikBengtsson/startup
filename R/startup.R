@@ -112,6 +112,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", squote(getwd()))
     logf("- User's home directory: %s", path_info("~"))
+    logf("- User's %s config directory: %s", squote(.packageName), path_info(get_user_dir("config")))
     logf("- Search path: %s", paste(squote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(squote(loadedNamespaces()), collapse = ", "))
