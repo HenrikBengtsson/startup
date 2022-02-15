@@ -6,7 +6,13 @@
 \title{Install and uninstall support for .Renviron.d and .Rprofile.d startup
 directories}
 \usage{
-install(path = "~", backup = TRUE, overwrite = FALSE, quiet = FALSE)
+install(
+  path = "~",
+  backup = TRUE,
+  overwrite = FALSE,
+  make_dirs = TRUE,
+  quiet = FALSE
+)
 
 uninstall(path = "~", backup = TRUE, quiet = FALSE)
 }
@@ -20,6 +26,9 @@ fails, then an error is produced and the R startup file is unmodified.}
 \item{overwrite}{If the R startup file already exist, then \code{FALSE} (default)
 appends the startup code to the end of the file. is overwritten.  If \code{TRUE},
 any pre-existing R startup file is overwritten.}
+
+\item{make_dirs}{If \code{TRUE} (default), directories \file{.Renviron.d/} and
+\file{.Rprofile.d/} are created in folder \code{path}, if missing.}
 
 \item{quiet}{If \code{FALSE} (default), detailed messages are generated,
 otherwise not.}
@@ -35,8 +44,7 @@ startup directories by appending / removing one line of code to the
 \section{Functions}{
 \itemize{
 \item \code{install}: injects a \code{tryCatch(startup::startup(), ...)} call to
-the \file{.Rprofile} file (created if missing) and creates empty folders
-\file{.Renviron.d/} and \file{.Rprofile.d/}, if missing.
+the \file{.Rprofile} file, which is created if missing.
 
 \item \code{uninstall}: Remove calls to \code{startup::startup()} and similar.
 }}

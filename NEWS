@@ -13,6 +13,9 @@ NEW FEATURES:
    MS Windows %LOCALAPPDATA%/R/cache/R/startup/. If environment variable
    'XDG_CONFIG_HOME' is set, then ${XDG_CONFIG_HOME}/R/startup/ is used.
 
+ * startup::install() gained argument 'make_dirs' to control whether
+   directories .Renviron.d/ and .Rprofile.d/ should be created, if missing.
+   
  * Add on_session_enter() for registering R functions and expressions to be
    evaluated at the end of R's startup process via a custom .First() that is
    added to the global environment.  If there is a .First() function on the
