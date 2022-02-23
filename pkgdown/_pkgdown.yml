@@ -1,0 +1,11 @@
+navbar:
+  structure:
+    right: [cran, github]
+  components:
+    cran:
+      icon: fab fa-r-project
+      href: https://cloud.r-project.org/package=startup
+
+template:
+  bootstrap: 3
+  
