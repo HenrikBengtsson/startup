@@ -6,7 +6,7 @@ Version: 0.16.0-9008 [2022-02-22]
 NEW FEATURES:
 
  * startup::startup() now searches for Renviron.d/ and Rprofile.d/ (note,
-   with leading periods) in user's configuration folder in a way that is
+   without leading periods) in user's configuration folder in a way that is
    compatible with tools::R_user_dir() of R (>= 4.0.0) and that follows
    operating-system standards. For example, for Linux ~/.config/R/startup/,
    for macOS ~/Library/Preferences/org.R-project.R/R/startup/, and for
