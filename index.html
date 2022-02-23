@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -64,7 +60,13 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/HenrikBengtsson/startup/">
+  <a href="https://cloud.r-project.org/package=startup" class="external-link">
+    <span class="fab fa-r-project"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/HenrikBengtsson/startup/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -83,58 +85,66 @@
   <div class="contents col-md-9">
 
 
-<div id="startup-friendly-r-startup-configuration" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#startup-friendly-r-startup-configuration" class="anchor"></a>startup: Friendly R Startup Configuration</h1></div>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level1">
+<div class="page-header"><h1 id="startup-friendly-r-startup-configuration">startup: Friendly R Startup Configuration<a class="anchor" aria-label="anchor" href="#startup-friendly-r-startup-configuration"></a>
+</h1></div>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>When you start R, it will by default source a <code>.Rprofile</code> file if it exists. This allows you to automatically tweak your R settings to meet your everyday needs. For instance, you may want to set the default CRAN repository (<code>options("repos")</code>) so you don’t have to choose one every time you install a package.</p>
-<p>The <strong><a href="https://cran.r-project.org/package=startup">startup</a></strong> package extends the default R startup process by allowing you to put multiple startup scripts in a common <code>.Rprofile.d</code> directory and have them all be sourced during the R startup process. This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings. Similarly, you can use a <code>.Renviron.d</code> directory with multiple files defining different environment variables. For instance, one file may define environment variable <code>LANGUAGE</code>, whereas another file may contain your private <code>GITHUB_PAT</code> key. The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).</p>
+<p>The <strong><a href="https://cran.r-project.org/package=startup" class="external-link">startup</a></strong> package extends the default R startup process by allowing you to put multiple startup scripts in a common ‘.Rprofile.d’ directory and have them all be sourced during the R startup process. This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings. Similarly, you can use a ‘Renviron.d’ directory with multiple files defining different environment variables. For instance, one file may define environment variable <code>LANGUAGE</code>, whereas another file may contain your private <code>GITHUB_PAT</code> key. The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).</p>
 </div>
-<div id="how-the-r-startup-process-works" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-the-r-startup-process-works" class="anchor"></a>How the R startup process works</h2>
+<div class="section level2">
+<h2 id="how-the-r-startup-process-works">How the R startup process works<a class="anchor" aria-label="anchor" href="#how-the-r-startup-process-works"></a>
+</h2>
 <p>When R starts, the following <em>user-specific</em> setup takes place:</p>
-<ol>
-<li><p>The <em>first</em> <code>.Renviron</code> file found on the R startup search path is processed. The search path is (in order): (i) <code>Sys.getenv("R_ENVIRON_USER")</code>, (ii) <code>./.Renviron</code>, and (iii) <code>~/.Renviron</code>. The format of this file is one <code>ENV_VAR=VALUE</code> statement per line, cf. <code><a href="https://rdrr.io/r/base/Startup.html">?.Renviron</a></code>. <em>NOTE:</em> Some environment variables must be set already in this step in order to be acknowledged by R, i.e. it is <em>too late</em> to set some of them in Step 2 and Step 3 below.</p></li>
-<li><p>The <em>first</em> <code>.Rprofile</code> file found on the R startup search path is processed. The search path is (in order): (i) <code>Sys.getenv("R_PROFILE_USER")</code>, (ii) <code>./.Rprofile</code>, and (iii) <code>~/.Rprofile</code>. The format of this file must be a valid R script (with a trailing newline), cf. <code><a href="https://rdrr.io/r/base/Startup.html">?.Rprofile</a></code>.</p></li>
-<li><p>If the <code>.Rprofile</code> file (in Step 2) calls <code><a href="reference/renviron_d.html">startup::startup()</a></code> then the following will also take place:</p></li>
+<ol style="list-style-type: decimal">
+<li><p>The <em>first</em> <code>.Renviron</code> file found on the R startup search path is processed. The search path is (in order): (i) <code>Sys.getenv("R_ENVIRON_USER")</code>, (ii) <code>./.Renviron</code>, and (iii) <code>~/.Renviron</code>. The format of this file is one <code>ENV_VAR=VALUE</code> statement per line, cf. <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">?.Renviron</a></code>. <em>NOTE:</em> Some environment variables must be set already in this step in order to be acknowledged by R, i.e. it is <em>too late</em> to set some of them in Step 2 and Step 3 below.</p></li>
+<li><p>The <em>first</em> <code>.Rprofile</code> file found on the R startup search path is processed. The search path is (in order): (i) <code>Sys.getenv("R_PROFILE_USER")</code>, (ii) <code>./.Rprofile</code>, and (iii) <code>~/.Rprofile</code>. The format of this file must be a valid R script (with a trailing newline), cf. <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">?.Rprofile</a></code>.</p></li>
+<li>
+<p>If the <code>.Rprofile</code> file (in Step 2) calls <code><a href="reference/startup.html">startup::startup()</a></code> then the following will also take place:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The <em>first</em> ‘Renviron.d’ directory on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_ENVIRON_USER"), ".d")</code>, (ii) <code>./.Renviron.d</code>, (iii) <code>~/.Renviron.d</code>, and (iv) <code>{user-cache-dir}/Renviron.d</code>, where <code>{user-cache-dir}</code> corresponds to <code>tools::R_user_dir("startup", which = "config")</code>, e.g. <code>${XDG_CONFIG_HOME}/R/startup</code>. The format of these files should be the same as for <code>.Renviron</code>. <em>NOTE:</em> Some environment variables must be set already in Step 1 above in order to be acknowledged by R.</p></li>
+<li><p>A set of handy R options that can be use in Step 3c are set. Their names are prefixed <code>startup.session.</code> - see <code><a href="reference/startup_session_options.html">?startup::startup_session_options</a></code> for details.</p></li>
+<li><p>The <em>first</em> ‘Rprofile.d’ directory found on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_PROFILE_USER"), ".d")</code>, (ii) <code>./.Rprofile.d</code>, (iii) <code>~/.Rprofile.d</code>, and (iv) <code>{user-cache-dir}/Rprofile.d</code>. The format of these files should be the same as for <code>.Rprofile</code>, that is, they must be valid R scripts.</p></li>
+<li><p>If no errors occur above, the <strong><a href="https://cran.r-project.org/package=startup" class="external-link">startup</a></strong> package will be unloaded, leaving no trace of itself behind, except for R options <code>startup.session.*</code> set in Step 3b - these will be erased if <code><a href="reference/startup.html">startup::startup()</a></code> is called with <code>keep = NULL</code>.</p></li>
 </ol>
-<p>a. The <em>first</em> <code>.Renviron.d</code> directory on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_ENVIRON_USER"), ".d")</code>, (ii) <code>./.Renviron.d</code>, and (iii) <code>~/.Renviron.d</code>. The format of these files should be the same as for <code>.Renviron</code>. <em>NOTE:</em> Some environment variables must be set already in Step 1 above in order to be acknowledged by R.</p>
-<p>b. A set of handy R options that can be use in Step 3c are set. Their names are prefixed <code>startup.session.</code> - see <code><a href="reference/startup_session_options.html">?startup::startup_session_options</a></code> for details.</p>
-<p>c. The <em>first</em> <code>.Rprofile.d</code> directory found on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_PROFILE_USER"), ".d")</code>, (ii) <code>./.Rprofile.d</code>, and (iii) <code>~/.Rprofile.d</code>. The format of these files should be the same as for <code>.Rprofile</code>, that is, they must be valid R scripts.</p>
-<p>d. If no errors occur above, the <strong><a href="https://cran.r-project.org/package=startup">startup</a></strong> package will be unloaded, leaving no trace of itself behind, except for R options <code>startup.session.*</code> set in Step 3b - these will be erased if <code><a href="reference/renviron_d.html">startup::startup()</a></code> is called with <code>keep = NULL</code>.</p>
-<p>All relevant files in directories <code>.Renviron.d</code> and <code>.Rprofile.d</code>, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the <code>C</code> locale). There are no restrictions on what the file names should be (except for the ones ignored as explained below). However, for <code>.Rprofile.d</code> we recommend to use filename extension <code>*.R</code> to indicate that the files are regular R scripts. For <code>.Renviron.d</code> we recommend to use files without extensions (or <code>*.Renviron</code> for clarification). To avoid confusions, do <em>not</em> use an <code>*.R</code> extension for Renviron files because they are not R script per se (as some editors may warn you about).</p>
-<p>Files with file extensions <code>*.txt</code>, <code>*.md</code> and <code>*~</code> are ignored as well as any files named <code>.Rhistory</code>, <code>.RData</code> and <code>.DS_Store</code>. Directories named <code>__MACOSX</code> and their content are ignored. Files and directories with names starting with two periods (<code>..</code>) are ignored, e.g. <code>~/.Rprofile.d/..my-tests/</code>.</p>
+</li>
+</ol>
+<p>All relevant files in ‘Renviron.d’ and ‘Rprofile.d’ directories, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the <code>C</code> locale). There are no restrictions on what the file names should be (except for the ones ignored as explained below). However, for ‘Rprofile.d’ files we recommend to use filename extension <code>*.R</code> to indicate that the files are regular R scripts. For ‘Renviron.d’ files we recommend to use files without extensions (or <code>*.Renviron</code> for clarification). To avoid confusions, do <em>not</em> use an <code>*.R</code> extension for ‘Renviron.d’ files because they are not R script per se (as some editors may warn you about).</p>
+<p>Files with file extensions <code>*.txt</code>, <code>*.md</code> and <code>*~</code> are ignored as well as any files named <code>.Rhistory</code>, <code>.RData</code> and <code>.DS_Store</code>. Directories named <code>__MACOSX</code> and their content are ignored. Files and directories with names starting with two periods (<code>..</code>) are ignored, e.g. <code>~/.Rprofile.d/..my-tests/</code>.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>After installing the startup packages (see instructions at the end), call</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/install.html">install</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>once. This will append</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/renviron_d.html">startup</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/startup.html">startup</a></span><span class="op">(</span><span class="op">)</span>, error<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">ex</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">".Rprofile error: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">conditionMessage</a></span><span class="op">(</span><span class="va">ex</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>to your <code>~/.Rprofile</code>. The file will be created if missing. This will also create directories <code>~/.Renviron.d/</code> and <code>~/.Rprofile.d/</code> if missing. To find the location of these folder on Windows, use <code>normalizePath("~")</code> - it’s often located under <code>C:\Users\Alice\Documents\</code>.</p>
-<p>Alternatively to the above installation setup, you can just add <code>try(startup::startup())</code> to your <code>~/.Rprofile</code> file manually. The reason for using <code><a href="https://rdrr.io/r/base/try.html">try()</a></code> is for the case when <strong>startup</strong> is not installed and you try to install it, e.g. after upgrading R to a new major release. Without <code><a href="https://rdrr.io/r/base/try.html">try()</a></code>, R will fail to install the <strong>startup</strong> package (or any other package) because the R profile startup script produces an error complaining about <strong>startup</strong> not being available.</p>
+<p>Alternatively to the above installation setup, you can just add that line to your <code>~/.Rprofile</code> file manually. The reason for using <code>tryCatch(..., error = ...)</code> is for the case when <strong>startup</strong> is not installed and you try to install it, e.g. after upgrading R to a new major release. Without <code><a href="https://rdrr.io/r/base/try.html" class="external-link">try()</a></code>, R will fail to install the <strong>startup</strong> package (or any other package) because the R profile startup script produces an error complaining about <strong>startup</strong> not being available.</p>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>Just start R :)</p>
 <p>To debug the startup process, use <code>startup::startup(debug = TRUE)</code> or set environment variable <code>R_STARTUP_DEBUG=TRUE</code>, e.g. on Linux you can do</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="va">R_STARTUP_DEBUG=</span>TRUE <span class="ex">R</span></code></pre></div>
-<p>This will produce time-stamped messages during startup specifying which files are included.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> R_STARTUP_DEBUG=TRUE R</span></code></pre></div>
+<p>On MS Windows, you can do:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> R R_STARTUP_DEBUG=TRUE</span></code></pre></div>
+<p>This will produce time-stamped messages during startup specifying which files are included together with details on the files and what they modified.</p>
 </div>
-<div id="conditional-file-and-directory-names" class="section level2">
-<h2 class="hasAnchor">
-<a href="#conditional-file-and-directory-names" class="anchor"></a>Conditional file and directory names</h2>
+<div class="section level2">
+<h2 id="conditional-file-and-directory-names">Conditional file and directory names<a class="anchor" aria-label="anchor" href="#conditional-file-and-directory-names"></a>
+</h2>
 <p>If the name of a file consists of a <code>&lt;key&gt;=&lt;value&gt;</code> specification, then that file will be included / used only if the specification is fulfilled (on the current system with the current R setup). For instance, a file <code>~/.Rprofile.d/os=windows.R</code> will be ignored unless <code>startup::sysinfo()$os == "windows"</code>, i.e. the R session is started on a Windows system.</p>
 <p>The following <code><a href="reference/sysinfo.html">startup::sysinfo()</a></code> keys are available for conditional inclusion of files by their path names:</p>
 <ul>
-<li>System values:</li>
+<li>
+<p>System values:</p>
+<ul>
 <li>
 <code>dirname</code> - (character) the name of the current working directory (= <code>basename(getwd())</code>)</li>
 <li>
@@ -147,26 +157,41 @@
 <code>os</code> - (character) the operating system (= <code>.Platform$OS.type</code>)</li>
 <li>
 <code>sysname</code> - (character) the system name (= <code>Sys.info()[["sysname"]]</code>)</li>
-<li><p><code>user</code> - (character) the user name (= <code>Sys.info()[["user"]]</code>)</p></li>
-<li>System flags:</li>
 <li>
-<code>interactive</code> - (logical) whether running R interactively or not (= <code><a href="https://rdrr.io/r/base/interactive.html">interactive()</a></code>)</li>
+<code>user</code> - (character) the user name (= <code>Sys.info()[["user"]]</code>)</li>
+</ul>
+</li>
 <li>
-<code>ess</code> - (logical) whether running R in <a href="https://ess.r-project.org/">Emacs Speaks Statistics (ESS)</a> or not</li>
+<p>System flags:</p>
+<ul>
 <li>
-<code>pqr</code> - (logical) whether running <a href="http://www.pqr-project.org/">pqR</a> (“A Pretty Quick Version of R”) or not</li>
+<code>interactive</code> - (logical) whether running R interactively or not (= <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code>)</li>
 <li>
-<code>radian</code> - (logical) whether running R in <a href="https://github.com/randy3k/radian">radian</a> (formerly known as ‘rtichoke’ and ‘rice’) or not</li>
+<code>ess</code> - (logical) whether running R in <a href="https://ess.r-project.org/" class="external-link">Emacs Speaks Statistics (ESS)</a> or not</li>
 <li>
-<code>microsoftr</code> - (logical) whether running R in <a href="https://mran.microsoft.com/open">Microsoft R Open</a> or not</li>
+<code>pqr</code> - (logical) whether running <a href="http://www.pqr-project.org/" class="external-link">pqR</a> (“A Pretty Quick Version of R”) or not</li>
 <li>
-<code>rstudio</code> - (logical) whether running R in <a href="https://www.rstudio.com/products/RStudio/">RStudio</a> Console or not</li>
+<code>radian</code> - (logical) whether running R in <a href="https://github.com/randy3k/radian" class="external-link">radian</a> (formerly known as ‘rtichoke’ and ‘rice’) or not</li>
 <li>
-<code>rstudioterm</code> - (logical) whether running R in <a href="https://www.rstudio.com/products/RStudio/">RStudio</a> Terminal or not</li>
-<li><p><code>wine</code> - (logical) whether running R on Windows via <a href="https://www.winehq.org/">Linux Wine</a> or not</p></li>
-<li><p>Installed packages:</p></li>
-<li><p><code>package</code> - (character) whether a package is installed or not. In addition to checking the availability, having <code>package=&lt;name&gt;</code> in the filename makes it clear that the startup file concerns settings specific to that package.</p></li>
-<li><p>With a specific frequency:</p></li>
+<code>microsoftr</code> - (logical) whether running R in <a href="https://mran.microsoft.com/open" class="external-link">Microsoft R Open</a> or not</li>
+<li>
+<code>rstudio</code> - (logical) whether running R in <a href="https://www.rstudio.com/products/RStudio/" class="external-link">RStudio</a> Console or not</li>
+<li>
+<code>rstudioterm</code> - (logical) whether running R in <a href="https://www.rstudio.com/products/RStudio/" class="external-link">RStudio</a> Terminal or not</li>
+<li>
+<code>wine</code> - (logical) whether running R on Windows via <a href="https://www.winehq.org/" class="external-link">Linux Wine</a> or not</li>
+</ul>
+</li>
+<li>
+<p>Installed packages:</p>
+<ul>
+<li>
+<code>package</code> - (character) whether a package is installed or not. In addition to checking the availability, having <code>package=&lt;name&gt;</code> in the filename makes it clear that the startup file concerns settings specific to that package.</li>
+</ul>
+</li>
+<li>
+<p>With a specific frequency:</p>
+<ul>
 <li>
 <code>when</code> - (character) specify how often the file should be processed:
 <ul>
@@ -186,112 +211,117 @@
 </li>
 </ul>
 <p>If such a file, or its timestamp, is updated, then it will be processed the next time R is started.</p>
+</li>
+<li>
+<p>Environment variables:</p>
 <ul>
-<li><p>Environment variables:</p></li>
-<li><p>Any further <code>&lt;key&gt;=&lt;value&gt;</code> specifications with keys matching none of the above known keys are interpreted as system environment variables and <strong>startup</strong> will test such conditions against their values. <em>Note, if <code>&lt;key&gt;</code> does not correspond to a known environment variable, then the file is skipped if <code>&lt;key&gt;=&lt;value&gt;</code> is used but included if <code>&lt;key&gt;!=&lt;value&gt;</code> is used.</em></p></li>
+<li>Any further <code>&lt;key&gt;=&lt;value&gt;</code> specifications with keys matching none of the above known keys are interpreted as system environment variables and <strong>startup</strong> will test such conditions against their values. <em>Note, if <code>&lt;key&gt;</code> does not correspond to a known environment variable, then the file is skipped if <code>&lt;key&gt;=&lt;value&gt;</code> is used but included if <code>&lt;key&gt;!=&lt;value&gt;</code> is used.</em>
+</li>
 </ul>
-<p>To condition on more than one key, separate <code>&lt;key&gt;=&lt;value&gt;</code> pairs by commas, e.g. <code>~/.Rprofile.d/work,interactive=TRUE,os=windows.R</code>. This also works for directory names. For instance, <code>~/.Rprofile.d/os=windows/work,interactive=TRUE.R</code> will be processed if running on Windows and in interactive mode. Multiple packages may be specified. For instance, <code>~/.Rprofile.d/package=devtools,package=future.R</code> will be used only if both the devtools and the future packages are installed.</p>
+</li>
+</ul>
+<p>To condition on more than one key, separate <code>&lt;key&gt;=&lt;value&gt;</code> pairs by commas, e.g. <code>~/.Rprofile.d/work,interactive=TRUE,os=windows.R</code>. This also works for directory names. For instance, <code>~/.Rprofile.d/os=windows/work,interactive=TRUE.R</code> will be processed if running on Windows and in interactive mode. Multiple packages may be specified. For instance, <code>~/.Rprofile.d/package=devtools,package=future.R</code> will be used only if both the devtools and the future packages are installed.</p>
 <p>It is also possible to negate a conditional filename test by using the <code>&lt;key&gt;!=&lt;value&gt;</code> specification. For instance, <code>~/.Rprofile.d/package=doMC,os!=windows.R</code> will be processed if package <code>doMC</code> is installed and the operating system is not Windows.</p>
-<div id="secrets-conditionally-on-an-environment-variable" class="section level3">
-<h3 class="hasAnchor">
-<a href="#secrets-conditionally-on-an-environment-variable" class="anchor"></a>Secrets (conditionally on an environment variable)</h3>
+<div class="section level3">
+<h3 id="secrets-conditionally-on-an-environment-variable">Secrets (conditionally on an environment variable)<a class="anchor" aria-label="anchor" href="#secrets-conditionally-on-an-environment-variable"></a>
+</h3>
 <p>Renviron and Rprofile startup files with a non-declared <code>&lt;key&gt;</code> in their file names are skipped. A non-declared key is any key that is neither one of the above predefined keys nor a declared environment variable.</p>
 <p>This is useful, because it allows us to keep “secrets” in private files and only load them conditionally on the value of an environment variable. For instance, we put all our secret Renviron files under <code>~/.Renviron.d/private/SECRET=banana/</code> such that they are only loaded if environment variable <code>SECRET</code> is set to exactly <code>banana</code>. Moreover, by making sure the directory <code>~/.Renviron.d/private/</code> is only accessible by you, then it will be harder for someone else two know what your secret “password” (<code>banana</code>) is. On a Unix system, you can set this up as:</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="fu">mkdir</span> -p ~/.Renviron.d/private/SECRET=banana/
-$ <span class="fu">chmod</span> go-rw ~/.Renviron.d/private</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir <span class="at">-p</span> ~/.Renviron.d/private/SECRET=banana/</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod go-rw ~/.Renviron.d/private</span></code></pre></div>
 <p>Then go ahead an put your secret Renviron files in there, e.g.</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">.Renviron.d/private</span>/<span class="va">SECRET=</span>banana/
-  <span class="ex">+--</span> amazon  ## AWS_* credential <span class="kw">&amp;</span> <span class="ex">settings</span>
-  <span class="ex">+--</span> github  ## GITHUB_TOKEN + GITHUB_PAT</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.Renviron.d/private/SECRET=banana/</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">+--</span> amazon  <span class="co">## AWS_* credential &amp; settings</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">+--</span> github  <span class="co">## GITHUB_TOKEN + GITHUB_PAT</span></span></code></pre></div>
 <p>Now, only if <code>SECRET</code> is set to exactly <code>banana</code> when you launch R, the above secret files will be processed and the corresponding environment variables will be available from withing R. For instance, they will be loaded if you do:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">$</span><span class="st"> </span>SECRET=banana R</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> SECRET<span class="ot">=</span>banana R</span></code></pre></div>
 <p>but not if you do:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">$</span><span class="st"> </span>SECRET=badguess R</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> SECRET<span class="ot">=</span>badguess R</span></code></pre></div>
 <p>or if <code>SECRET</code> is unset.</p>
 <p><em>Comment:</em> You can use whichever variable name you like, it does not have to be <code>SECRET</code>. And, the “password” <code>banana</code> is obviously just an example.</p>
 </div>
 </div>
-<div id="known-limitations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#known-limitations" class="anchor"></a>Known limitations</h2>
-<div id="setting-environment-variables-during-startup" class="section level3">
-<h3 class="hasAnchor">
-<a href="#setting-environment-variables-during-startup" class="anchor"></a>Setting environment variables during startup</h3>
+<div class="section level2">
+<h2 id="known-limitations">Known limitations<a class="anchor" aria-label="anchor" href="#known-limitations"></a>
+</h2>
+<div class="section level3">
+<h3 id="setting-environment-variables-during-startup">Setting environment variables during startup<a class="anchor" aria-label="anchor" href="#setting-environment-variables-during-startup"></a>
+</h3>
 <p>Renviron startup files is a convenient and cross-platform way of setting environment variables during the R startup process. However, for some of the environment variables that R consults must be set early on in the R startup process (immediately after Step 1), because R only consults them once. Examples(*) of environment variables that need to be set <em>no later than</em> <code>.Renviron</code> (Step 1) are:</p>
 <ul>
 <li>
-<code>TMPDIR</code>, <code>TMP</code>, <code>TEMP</code> - the parent of R’s temporary directory, cf. <code><a href="https://rdrr.io/r/base/tempfile.html">?tempdir</a></code>
+<code>TMPDIR</code>, <code>TMP</code>, <code>TEMP</code> - the parent of R’s temporary directory, cf. <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">?tempdir</a></code>
 </li>
 <li>
-<code>LC_ALL</code> - locale settings used by R, e.g. cf. <code><a href="https://rdrr.io/r/base/locales.html">?locales</a></code>
+<code>LC_ALL</code> - locale settings used by R, e.g. cf. <code><a href="https://rdrr.io/r/base/locales.html" class="external-link">?locales</a></code>
 </li>
 <li>
-<code>R_DEFAULT_PACKAGES</code> - default set of packages loaded when R starts, cf. <code><a href="https://rdrr.io/r/utils/Rscript.html">?Rscript</a></code>
+<code>R_DEFAULT_PACKAGES</code> - default set of packages loaded when R starts, cf. <code><a href="https://rdrr.io/r/utils/Rscript.html" class="external-link">?Rscript</a></code>
 </li>
 <li>
-<code>R_LIBS_USER</code> - user’s library path, e.g. <code>R_LIBS_USER=~/R/%p-library/%v</code> is the folder specification used by default on all platforms and and R version. The folder must exist, otherwise it is ignored by R. The <code>%p</code> (platform) and <code>%v</code> (version) parts are R-specific conversion specifiers, cf. <code><a href="https://rdrr.io/r/base/libPaths.html">?R_LIBS_USER</a></code>
+<code>R_LIBS_USER</code> - user’s library path, e.g. <code>R_LIBS_USER=~/R/%p-library/%v</code> is the folder specification used by default on all platforms and and R version. The folder must exist, otherwise it is ignored by R. The <code>%p</code> (platform) and <code>%v</code> (version) parts are R-specific conversion specifiers, cf. <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">?R_LIBS_USER</a></code>
 </li>
 <li>
-<code>R_MAX_NUM_DLLS</code>, cf. <code><a href="https://rdrr.io/r/base/dynload.html">?dyn.load</a></code>
+<code>R_MAX_NUM_DLLS</code>, cf. <code><a href="https://rdrr.io/r/base/dynload.html" class="external-link">?dyn.load</a></code>
 </li>
 </ul>
-<p>Any changes to these done in an <code>.Renviron.d/*</code> file (Step 3a), or via <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv()</a></code> in <code>.Rprofile</code> (Step 2) or <code>.Rprofile.d/*</code> files (Step 3c), <em>will be ignored by R itself</em> - despite being reflected by <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv()</a></code>.</p>
+<p>Any changes to these done in an ‘Renviron.d’ file (Step 3a), or via <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code> in <code>.Rprofile</code> (Step 2) or ‘Rprofile.d’ files (Step 3c), <em>will be ignored by R itself</em> - despite being reflected by <code><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv()</a></code>.</p>
 <p>Furthermore, some environment variables can not even be set in <code>.Renviron</code> (Step 1) but must be set <em>prior</em> to launching R. This is because those variables are consulted by R very early on (prior to Step 1). Examples(*) of environment variables that need to be set <em>prior to</em> <code>.Renviron</code> (Step 1) are:</p>
 <ul>
 <li>
 <code>HOME</code> - the user’s home directory</li>
 <li>
-<code>MKL_NUM_THREADS</code> and <code>OMP_NUM_THREADS</code> - the default number of threads used by OpenMP etc, cf. <em>R Installation and Administration</em>
+<code>MKL_NUM_THREADS</code> and <code>OMP_NUM_THREADS</code> - the default number of threads used by OpenMP etc, cf. <em>R Installation and Administration</em>
 </li>
 </ul>
 <p>These variables have to be set using methods specific to the operating system or the calling shell, e.g. in a Unix shell</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash">$ <span class="bu">export</span> <span class="va">OMP_NUM_THREADS=</span>1
-$ <span class="ex">R</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export OMP_NUM_THREADS=1</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> R</span></code></pre></div>
 <p>or per call as</p>
-<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">OMP_NUM_THREADS=</span>1 <span class="ex">R</span></code></pre></div>
-<p>(*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. <code><a href="https://rdrr.io/r/base/EnvVar.html">?"environment variables"</a></code> and <code><a href="https://rdrr.io/r/base/Startup.html">?Startup</a></code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">OMP_NUM_THREADS</span><span class="op">=</span>1 <span class="ex">R</span></span></code></pre></div>
+<p>(*) For further details on which environment variables R consults and what they are used for by R, see the R documentation and help, e.g. <code><a href="https://rdrr.io/r/base/EnvVar.html" class="external-link">?"environment variables"</a></code> and <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">?Startup</a></code>.</p>
 </div>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
 <p>Below is a list of “real-world” example files:</p>
-<pre><code>.Renviron.d/
-  +-- lang
-  +-- r_cmd_check
-  +-- secrets=banana
+<pre><code><span class="va">.Renviron.d</span><span class="op">/</span>
+  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">lang</span>
+  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">r_cmd_check</span>
+  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">secrets</span><span class="op">=</span><span class="va">banana</span>
  
-.Rprofile.d/
-  +-- interactive=TRUE/
-      +-- help.start.R
-      +-- misc.R
-      +-- package=fortunes.R
-  +-- os=windows.R
-  +-- repos.R</code></pre>
+<span class="va">.Rprofile.d</span><span class="op">/</span>
+  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">interactive</span><span class="op">=</span><span class="cn">TRUE</span><span class="op">/</span>
+      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">help.start.R</span>
+      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">misc.R</span>
+      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">package</span><span class="op">=</span><span class="va">fortunes.R</span>
+  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">os</span><span class="op">=</span><span class="va">windows.R</span>
+  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">repos.R</span></code></pre>
 <p>They are available as part of this package under <code>system.file(package = "startup")</code>, e.g.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span>f &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"Rprofile.d"</span>, <span class="st">"repos.R"</span>, <span class="dt">package =</span> <span class="st">"startup"</span>)
-<span class="op">&gt;</span><span class="st"> </span><span class="kw">file.show</span>(f, <span class="dt">type =</span> <span class="st">"text"</span>)
-
-<span class="kw">local</span>({
-  repos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>)
-  <span class="cf">if</span> (.Platform<span class="op">$</span>OS.type <span class="op">==</span><span class="st"> "windows"</span>) {
-     repos[<span class="st">"CRANextra"</span>] &lt;-<span class="st"> "https://www.stats.ox.ac.uk/pub/RWin"</span>
-  }
-  <span class="kw">options</span>(<span class="dt">repos =</span> <span class="kw">c</span>(repos, <span class="kw">getOption</span>(<span class="st">"repos"</span>)))
-})</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"Rprofile.d"</span>, <span class="st">"repos.R"</span>, <span class="at">package =</span> <span class="st">"startup"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">file.show</span>(f, <span class="at">type =</span> <span class="st">"text"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">local</span>({</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  repos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">"windows"</span>) {</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     repos[<span class="st">"CRANextra"</span>] <span class="ot">&lt;-</span> <span class="st">"https://www.stats.ox.ac.uk/pub/RWin"</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(repos, <span class="fu">getOption</span>(<span class="st">"repos"</span>)))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 </div>
-<div id="installation-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation-1" class="anchor"></a>Installation</h2>
-<p>R package startup is available on <a href="https://cran.r-project.org/package=startup">CRAN</a> and can be installed in R as:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"startup"</span><span class="op">)</span></code></pre></div>
-<div id="pre-release-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#pre-release-version" class="anchor"></a>Pre-release version</h3>
+<div class="section level2">
+<h2 id="installation-1">Installation<a class="anchor" aria-label="anchor" href="#installation-1"></a>
+</h2>
+<p>R package startup is available on <a href="https://cran.r-project.org/package=startup" class="external-link">CRAN</a> and can be installed in R as:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"startup"</span><span class="op">)</span></code></pre></div>
+<div class="section level3">
+<h3 id="pre-release-version">Pre-release version<a class="anchor" aria-label="anchor" href="#pre-release-version"></a>
+</h3>
 <p>To install the pre-release version that is available in Git branch <code>develop</code> on GitHub, use:</p>
-<div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"HenrikBengtsson/startup"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"HenrikBengtsson/startup"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></code></pre></div>
 <p>This will install the package from source.</p>
 </div>
 </div>
@@ -301,53 +331,63 @@ $ <span class="ex">R</span></code></pre></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=startup">https://​cloud.r-project.org/​package=startup</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/HenrikBengtsson/startup/">https://​github.com/​HenrikBengtsson/​startup/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/HenrikBengtsson/startup/issues">https://​github.com/​HenrikBengtsson/​startup/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=startup" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/HenrikBengtsson/startup/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/HenrikBengtsson/startup/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>LGPL (&gt;= 2.1)</li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 </ul>
 </div>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing startup</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Henrik Bengtsson <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/web/checks/check_results_startup.html"><img border="0" src="https://www.r-pkg.org/badges/version/startup" alt="CRAN check status"></a></li>
-<li><a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/startup/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"></a></li>
-<li><a href="https://app.codecov.io/gh/HenrikBengtsson/startup"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"></a></li>
+<li><a href="https://CRAN.R-project.org/web/checks/check_results_startup.html" class="external-link"><img border="0" src="https://www.r-pkg.org/badges/version/startup" alt="CRAN check status"></a></li>
+<li><a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check" class="external-link"><img border="0" src="https://github.com/HenrikBengtsson/startup/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"></a></li>
+<li><a href="https://app.codecov.io/gh/HenrikBengtsson/startup" class="external-link"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Henrik Bengtsson.</p>
+  <p></p>
+<p>Developed by Henrik Bengtsson.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer>
@@ -355,6 +395,8 @@ $ <span class="ex">R</span></code></pre></div>
 
   
 
+
+  
 
   </body>
 </html>
