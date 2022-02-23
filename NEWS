@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.16.0-9008 [2022-02-22]
+Version: 0.16.0-9008 [2022-02-23]
 
 NEW FEATURES:
 
@@ -12,6 +12,8 @@ NEW FEATURES:
    for macOS ~/Library/Preferences/org.R-project.R/R/startup/, and for
    MS Windows %LOCALAPPDATA%/R/cache/R/startup/. If environment variable
    'XDG_CONFIG_HOME' is set, then ${XDG_CONFIG_HOME}/R/startup/ is used.
+   For now, startup::install() will continue to create ~/.Renviron.d/ and
+   ~/.Rprofile.d/ by default.
 
  * startup::install() gained argument 'make_dirs' to control whether
    directories .Renviron.d/ and .Rprofile.d/ should be created, if missing.
