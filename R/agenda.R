@@ -29,8 +29,7 @@ get_startup_time <- local({
 get_when_cache_path <- function(when) {
   when <- match.arg(when, choices = known_when_keys, several.ok = TRUE)
   
-  cache_path <- get_os_cache_root_path()
-  if (!is_dir(cache_path)) dir.create(cache_path, recursive = TRUE)
+  cache_path <- get_user_dir(which = "cache", create = TRUE)
   path <- file.path(cache_path, when)
   path
 }

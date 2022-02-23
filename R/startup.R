@@ -112,6 +112,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- R call: %s", paste(cmd_args, collapse = " "))
     logf("- Current directory: %s", squote(getwd()))
     logf("- User's home directory: %s", path_info("~"))
+    logf("- User's %s config directory: %s", squote(.packageName), path_info(get_user_dir("config")))
     logf("- Search path: %s", paste(squote(search()), collapse = ", "))
     logf("- Loaded namespaces: %s",
          paste(squote(loadedNamespaces()), collapse = ", "))
@@ -136,11 +137,18 @@ startup <- function(sibling = FALSE, all = FALSE,
       if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
 
       f <- Sys.getenv("R_ENVIRON_USER")
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
-      if (!is_file(f)) f <- ".Renviron"
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
-      if (!is_file(f)) f <- "~/.Renviron"
-      if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
+      if (is_file(f)) {
+        logf("- %s", file_info(f, type = "env", validate = TRUE))
+      } else {
+        if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
+        f <- ".Renviron"
+        if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
+        if (!is_file(f)) f <- "~/.Renviron"
+        if (is_file(f)) {
+          logf("- %s", file_info(f, type = "env", validate = TRUE))
+          warn_file_capitalization(f, "Renviron")
+        }
+      }
     }
 
     ## TMPDIR et al. may be set at the latest in an Renviron file
@@ -184,21 +192,33 @@ startup <- function(sibling = FALSE, all = FALSE,
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
-      if (nzchar(r_arch) && !is_file(f)) {
-        f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
+      if (is_file(f)) {
+        logf("- %s", file_info(f, type = "env", validate = TRUE))
+      } else {
+        if (nzchar(r_arch)) f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
+        if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
+        if (is_file(f)) {
+          logf("- %s", file_info(f, type = "r"))
+          warn_file_capitalization(f, "Rprofile")
+        }
       }
-      if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
-      if (is_file(f)) logf("- %s", file_info(f, type = "r"))
     }
 
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
     if (!no_init_file) {
       f <- Sys.getenv("R_PROFILE_USER")
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Rprofile.%s", r_arch)
-      if (!is_file(f)) f <- ".Rprofile"
-      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
-      if (!is_file(f)) f <- "~/.Rprofile"
-      if (is_file(f)) logf("- %s", file_info(f, type = "r"))
+      if (is_file(f)) {
+        logf("- %s", file_info(f, type = "env", validate = TRUE))
+      } else {
+        if (nzchar(r_arch)) f <- sprintf(".Rprofile.%s", r_arch)
+        if (!is_file(f)) f <- ".Rprofile"
+        if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
+        if (!is_file(f)) f <- "~/.Rprofile"
+        if (is_file(f)) {
+          logf("- %s", file_info(f, type = "r"))
+          warn_file_capitalization(f, "Rprofile")
+        }
+      }
     }
 
     f <- Sys.getenv("R_TESTS")
@@ -273,38 +293,17 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   # (vi) Unload package?
   if (unload) {
-    ## Needed because we might unload package below and then we will
-    ## lose timestamp() and logf()
-    if (debug) {
-      copy_fcn <- function(names, env = parent.frame()) {
-        ns <- getNamespace(.packageName)
-        for (name in names) {
-          fcn <- get(name, mode = "function", envir = ns)
-          environment(fcn) <- env
-          assign(name, fcn, envir = env)
-        }
-      }
-      t0 <- timestamp(get_t0 = TRUE)
-      copy_fcn(c("timestamp", "is_file", "nlines", "file_info"))
-      logf <- function(fmt, ...) {
-        fmt <- paste(timestamp(), ": ", fmt, sep = "")
-        message(sprintf(fmt, ...))
-      }
-    }
-    
-    unload(debug = debug)
+    if (debug) logf("- unloading the %s package", squote(.packageName))
+    on.exit(unload(debug = FALSE))
   }
 
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # IMPORTANT: From here on, we must not use any 'startup' functions
-  #            because the package might have been unloaded
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   if (debug) {
-    logf("- Search path: %s", paste(squote(search()), collapse = ", "))
-    logf("- Loaded namespaces: %s",
-         paste(squote(loadedNamespaces()), collapse = ", "))
+    values <- search()
+    if (unload) values <- setdiff(values, sprintf("package:%s", .packageName))
+    logf("- Search path: %s", paste(squote(values), collapse = ", "))
+    values <- loadedNamespaces()
+    if (unload) values <- setdiff(values, .packageName)
+    logf("- Loaded namespaces: %s", paste(squote(values), collapse = ", "))
     logf("startup::startup()-specific processing ... done")
     logf("The following will be processed next by R:")
   }
@@ -334,17 +333,17 @@ startup <- function(sibling = FALSE, all = FALSE,
         fallback <- rdata[2L]
         if (interactive()) {  
           if (is.na(fallback) || fallback == "default") fallback <- "rename"
-          logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
+          if (debug) logf("- Prompting user whether they want to load or %s %s", fallback, f_info)
           question <- sprintf("Detected %s - do you want to load it? If not, it will be %sd.", f_info, fallback)
 
           ## We might be able to prompt the user
           if (is_rstudio_console() && !supports_tcltk()) {
             rdata <- "default"
-            logf("- Cannot prompt user in the RStudio Console on this system")
+            if (debug) logf("- Cannot prompt user in the RStudio Console on this system")
             warning(sprintf("Detected %s, which was loaded (default), because it was possible to ask you if it should loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, rdata0), call. = FALSE)
           } else {
             res <- ask_yes_no(question)
-            logf("- User wants to load it: %s", res)
+            if (debug) logf("- User wants to load it: %s", res)
             rdata <- if (res) "default" else fallback
           }  
         } else {
@@ -364,7 +363,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       stop_if_not(length(rdata) == 1L, !is.na(rdata))
       
       if (rdata == "remove") {
-        logf("- Skipping %s by removing it", f_info)
+        if (debug) logf("- Skipping %s by removing it", f_info)
         file.remove(f)
         has_RData <- is_file(f)
         if (!has_RData) {
@@ -380,7 +379,7 @@ startup <- function(sibling = FALSE, all = FALSE,
         f_new <- sprintf("%s.%s", f, when)
         file.rename(f, f_new)
         f_new_info <- file_info(normalizePath(f_new), type = "binary")
-        logf("- Skipping %s by renaming it to %s", f, f_new_info)
+        if (debug) logf("- Skipping %s by renaming it to %s", f, f_new_info)
         has_RData <- is_file(f)
         if (!has_RData) {
           warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA/startup.rdata=%s]", squote(f_norm), f_new_info, rdata0), call. = FALSE)
@@ -424,7 +423,18 @@ startup <- function(sibling = FALSE, all = FALSE,
     pkgs <- pkgs[to_be_attached]
     logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
          paste(squote(pkgs), collapse = ", "))
+
+    
+    logf("The following will be processed when R terminates:")
+    for (what in c(".Last", ".Last.sys")) {
+      where <- find(what, mode = "function")
+      if (where > 0) {
+        logf("- %s(): in %s (position %d on search()); circumvented by quit(runLast = FALSE)", what, squote(search()[where]), where)
+      } else {
+        logf("- %s(): no such function on search()", what)
+      }
+    }
   }
-  
+
   invisible(res)
 }

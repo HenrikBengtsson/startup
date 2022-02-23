@@ -15,30 +15,34 @@
 #' appends the startup code to the end of the file. is overwritten.  If `TRUE`,
 #' any pre-existing R startup file is overwritten.
 #'
+#' @param make_dirs If `TRUE` (default), directories \file{.Renviron.d/} and
+#' \file{.Rprofile.d/} are created in folder `path`, if missing.
+#'
 #' @param quiet If `FALSE` (default), detailed messages are generated,
 #' otherwise not.
 #'
 #' @return The pathname of the R startup file modified.
 #'
 #' @describeIn install injects a `tryCatch(startup::startup(), ...)` call to
-#' the \file{.Rprofile} file (created if missing) and creates empty folders
-#' \file{.Renviron.d/} and \file{.Rprofile.d/}, if missing.
+#' the \file{.Rprofile} file, which is created if missing.
 #'
 #' @export
 install <- function(path = "~", backup = TRUE, overwrite = FALSE,
-                    quiet = FALSE) {
+                    make_dirs = TRUE, quiet = FALSE) {
   if (quiet) notef <- function(...) NULL
 
-  dir <- file.path(path, ".Rprofile.d")
-  if (!file.exists(dir)) {
-    notef("Creating R profile directory: %s", squote(dir))
-    dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-  }
-
-  dir <- file.path(path, ".Renviron.d")
-  if (!file.exists(dir)) {
-    notef("Creating R environment directory: %s", squote(dir))
-    dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+  if (make_dirs) {
+    dir <- file.path(path, ".Rprofile.d")
+    if (!file.exists(dir)) {
+      notef("Creating R profile directory: %s", squote(dir))
+      dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+    }
+  
+    dir <- file.path(path, ".Renviron.d")
+    if (!file.exists(dir)) {
+      notef("Creating R environment directory: %s", squote(dir))
+      dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+    }
   }
 
   file <- file.path(path, ".Rprofile")
@@ -48,7 +52,6 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
     warning(msg)
     return(file)
   }
-
 
   file_exists <- file.exists(file)
   if (backup && file_exists) backup(file, quiet = quiet)

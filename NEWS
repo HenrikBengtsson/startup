@@ -1,6 +1,51 @@
 Package: startup
 ================
 
+Version: 0.17.0 [2022-02-23]
+
+NEW FEATURES:
+
+ * startup::startup() now searches for Renviron.d/ and Rprofile.d/ (note,
+   without leading periods) in user's configuration folder in a way that is
+   compatible with tools::R_user_dir() of R (>= 4.0.0) and that follows
+   operating-system standards. For example, for Linux ~/.config/R/startup/,
+   for macOS ~/Library/Preferences/org.R-project.R/R/startup/, and for
+   MS Windows %LOCALAPPDATA%/R/cache/R/startup/. If environment variable
+   'XDG_CONFIG_HOME' is set, then ${XDG_CONFIG_HOME}/R/startup/ is used.
+   For now, startup::install() will continue to create ~/.Renviron.d/ and
+   ~/.Rprofile.d/ by default.
+
+ * startup::install() gained argument 'make_dirs' to control whether
+   directories .Renviron.d/ and .Rprofile.d/ should be created, if missing.
+   
+ * Add on_session_enter() for registering R functions and expressions to be
+   evaluated at the end of R's startup process via a custom .First() that is
+   added to the global environment.  If there is a .First() function on the
+   search path, including any preexisting one in the global environment, that
+   is called at the end.
+
+ * Add on_session_exit() for registering R functions and expressions to be
+   called at the very end when the R session terminates.
+
+ * Now startup() warns about non-standard, platform-specific capitalization of
+   Renviron and Rprofile file names.  For example, although ~/.RProfile works
+   on MS Windows and macOS with non-case sensitive file systems, the officially
+   supported file name is ~/.Rprofile.
+
+ * Now startup(debug = TRUE) reports on '.Last()' and '.Last.sys()'.
+
+ * Now startup(debug = TRUE) gives a note if it detects that an Rprofile
+   script updated the state of R's random number generator (RNG).
+
+ * Harmonized cache folder options toward tools::R_user_dir() of R (>= 4.0.0).
+
+BUG FIXES:
+
+ * startup(unload = TRUE) failed when there was an .RData file and environment
+   variable 'R_STARTUP_RDATA' or R option 'startup.rdata' specifies "prompt".
+
+
+
 Version: 0.16.0 [2021-11-19]
 
 NEW FEATURES:
@@ -67,7 +112,7 @@ DOCUMENTATION:
 
 BUG FIXES:
    
- * The new default of option 'stringsAsFactor' in R (>= 4.0.0) would trigger
+ * The new default of option 'stringsAsFactors' in R (>= 4.0.0) would trigger
    a startup warning.
 
  * It was not possible to disable the validation of R option 'error' and

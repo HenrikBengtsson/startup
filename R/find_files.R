@@ -42,12 +42,13 @@ find_rprofile_d <- function(sibling = FALSE, all = FALSE) {
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
+  paths <- c(paths, file.path(get_user_dir("config"), "Rprofile.d"))
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
          paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
+    logf("Found %s directory %s.", squote(.packageName), paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }
@@ -69,12 +70,13 @@ find_renviron_d <- function(sibling = FALSE, all = FALSE) {
 
   pathnames <- pathnames[nzchar(pathnames)]
   paths <- sprintf("%s.d", pathnames)
+  paths <- c(paths, file.path(get_user_dir("config"), "Renviron.d"))
   paths_d <- find_d_dirs(paths, all = all)
   if (length(paths_d) == 0) {
     logf("Found no corresponding startup directory %s.",
          paste(squote(paths), collapse = ", "))
   } else {
-    logf("Found startup directory %s.", paste(squote(paths_d), collapse = ", "))
+    logf("Found %s directory %s.", squote(.packageName), paste(squote(paths_d), collapse = ", "))
   }
   paths_d
 }
@@ -95,6 +97,16 @@ find_d_dirs <- function(paths, all = FALSE) {
 
   paths <- paths[file.exists(paths)]
   paths <- paths[file.info(paths)$isdir]
+
+  ## Drop duplicates
+  paths <- unique(paths)
+
+  ## Drop duplicates after path normalization. For example, ~/.Rprofile.d/
+  ## and ./.Rprofile.d/ may be the same folder. Also, if ~/.Rprofile.d/ is
+  ## a symbolic links to ~/.config/R/startup/Rprofile.d/, they are also
+  ## considered duplicates.
+  dups <- duplicated(normalizePath(paths, mustWork = FALSE))
+  paths <- paths[!dups]
 
   if (!all) {
     paths <- if (length(paths) == 0) character(0L) else paths[1]
@@ -180,8 +192,17 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
 } ## list_d_files()
 
 
+running_r_cmd <- local({
+  running <- NA
+  function() {
+    if (is.na(running)) {
+      running <<- nzchar(Sys.getenv("R_CMD"))
+    }
+    running
+  }
+})
+
 drop_user_files_during_check <- function(pathnames) {
-  if (!nzchar(Sys.getenv("R_CMD"))) return(pathnames)
+  if (!running_r_cmd()) return(pathnames)
   grep("~", pathnames, value = TRUE, invert = TRUE)
 }
-

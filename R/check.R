@@ -264,3 +264,31 @@ check_rstudio_option_error_conflict <- function() {
 
   warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
+
+
+## Check that Renviron and Rprofile files are properly capitalized. The proper
+## way is .Renviron and .Rprofile, whereas, for instance, .REnviron is not.
+warn_file_capitalization <- function(pathname, what) {
+  ## Get the actual name on file
+  path <- dirname(pathname)
+  file <- basename(pathname)
+  pattern <- sprintf("^%s$", file)
+  actual <- dir(path = path, pattern = pattern, ignore.case = TRUE, all.files = TRUE)
+  if (length(actual) == 0) return(invisible(TRUE))
+  if (length(actual) > 1) {
+    warning(sprintf("startup::startup(): Unexpected, internal result. Please report to the %s maintainer. Found more than one %s file: %s", squote(.packageName), squote(what), paste(squote(actual), collapse = ", ")))
+    actual <- actual[1]
+  }
+  
+  ## Is it a non-standard file name?
+  pattern <- sprintf("^[.]?%s", what)
+  if (grepl(pattern, actual)) return(invisible(TRUE))
+
+  ## Produce informative warning
+  pathname_actual <- file.path(path, actual)
+  correct <- gsub(pattern, sprintf(".%s", what), actual, ignore.case = TRUE)
+  pathname_correct <- file.path(path, correct)
+  msg <- sprintf("Detected non-standard, platform-dependent letter casing of an %s file. Please rename file to use the officially supported casing: %s -> %s", squote(what), squote(pathname_actual), squote(pathname_correct))
+  warning("startup::startup(): ", msg, call. = FALSE)
+  invisible(FALSE)
+}

@@ -45,4 +45,29 @@ stopifnot(inherits(res, "simpleError"))
 
 message("*** Checks - test files ... DONE")
 
+message("*** File name capitalization ...")
+
+for (what in c("Renviron", "Rprofile")) {
+  file <- sprintf(".%s", what)
+  pathname <- file.path(tempdir(), file)
+  cat("dummy", file = pathname)
+  res <- startup:::warn_file_capitalization(pathname, what)
+  stopifnot(isTRUE(res))
+  file.remove(pathname)
+  
+  file <- toupper(file)
+  pathname <- file.path(tempdir(), file)
+  cat("dummy", file = pathname)
+  res <- startup:::warn_file_capitalization(pathname, what)
+  stopifnot(!isTRUE(res))
+
+  res <- tryCatch({
+    startup:::warn_file_capitalization(pathname, what)
+  }, warning = identity)
+  stopifnot(inherits(res, "warning"))
+  file.remove(pathname)
+}
+
+message("*** File name capitalization ... DONE")
+
 message("*** Checks ... DONE")
