@@ -54,6 +54,7 @@ files_apply <- function(files, fun,
         )
         res$attached_envs <- grep("^package:", res$attached, invert = TRUE, value = TRUE)
         res$attached <- gsub("^package:", "", grep("^package:", res$attached, value = TRUE))
+        res$random_seed <- globalenv()$.Random.seed
         res
       }
     }
@@ -112,6 +113,9 @@ files_apply <- function(files, fun,
         s <- paste(s, collapse = ", ")
         logf("           Search path: %s", s, timestamp = FALSE)
       }
+      
+      rng_updated <- !identical(after$random_seed, before$random_seed)
+      if (rng_updated) logf("           NOTE: .Random.seed updated", timestamp = FALSE)
     }
 
     if (length(when) == 1L) {

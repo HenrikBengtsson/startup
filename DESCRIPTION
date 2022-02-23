@@ -1,5 +1,5 @@
 Package: startup
-Version: 0.16.0-9007
+Version: 0.16.0-9008
 Title: Friendly R Startup Configuration
 Depends: R (>= 2.14.0)
 Suggests: commonmark, tools, tcltk

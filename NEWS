@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.16.0-9007 [2022-02-15]
+Version: 0.16.0-9008 [2022-02-22]
 
 NEW FEATURES:
 
@@ -31,6 +31,9 @@ NEW FEATURES:
    supported file name is ~/.Rprofile.
 
  * Now startup(debug = TRUE) reports on '.Last()' and '.Last.sys()'.
+
+ * Now startup(debug = TRUE) gives a note if it detects that an Rprofile
+   script updated the state of R's random number generator (RNG).
 
  * Harmonized cache folder options toward tools::R_user_dir() of R (>= 4.0.0).
 
