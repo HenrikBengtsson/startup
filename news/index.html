@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.17.0-9000</span>
       </span>
     </div>
 
@@ -64,7 +64,10 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.17.0" id="startup-0170">startup 0.17.0<a class="anchor" aria-label="anchor" href="#startup-0170"></a></h2>
+<h2 class="page-header" data-toc-text="0.17.0-9000" id="startup-0170-9000">startup 0.17.0-9000<a class="anchor" aria-label="anchor" href="#startup-0170-9000"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.17.0" id="startup-0170">startup 0.17.0<small>2022-02-23</small><a class="anchor" aria-label="anchor" href="#startup-0170"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-17-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-17-0"></a></h4>
 <ul><li><p>startup::startup() now searches for Renviron.d/ and Rprofile.d/ (note, without leading periods) in user’s configuration folder in a way that is compatible with tools::R_user_dir() of R (&gt;= 4.0.0) and that follows operating-system standards. For example, for Linux ~/.config/R/startup/, for macOS ~/Library/Preferences/org.R-project.R/R/startup/, and for MS Windows %LOCALAPPDATA%/R/cache/R/startup/. If environment variable ‘XDG_CONFIG_HOME’ is set, then ${XDG_CONFIG_HOME}/R/startup/ is used. For now, startup::install() will continue to create ~/.Renviron.d/ and ~/.Rprofile.d/ by default.</p></li>
