@@ -10,7 +10,7 @@
 
 When you start R, it will by default source a `.Rprofile` file if it exists.  This allows you to automatically tweak your R settings to meet your everyday needs.  For instance, you may want to set the default CRAN repository (`options("repos")`) so you don't have to choose one every time you install a package.
 
-The **[startup]** package extends the default R startup process by allowing you to put multiple startup scripts in a common '.Rprofile.d' directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings.
+The **[startup]** package extends the default R startup process by allowing you to put multiple startup scripts in a common 'Rprofile.d' directory and have them all be sourced during the R startup process.  This way you can have one file to configure the default CRAN repository and another one to configure your personal devtools settings.
 Similarly, you can use a 'Renviron.d' directory with multiple files defining different environment variables.  For instance, one file may define environment variable `LANGUAGE`, whereas another file may contain your private `GITHUB_PAT` key.
 The advantages of this approach are that it gives a better overview when you list the files, makes it easier to share certain settings (= certain files) with other users, and enable you to keep specific files completely private (by setting the file privileges so only you can access those settings).
 
@@ -25,11 +25,11 @@ When R starts, the following _user-specific_ setup takes place:
 
 3. If the `.Rprofile` file (in Step 2) calls `startup::startup()` then the following will also take place:
 
-   a. The _first_ 'Renviron.d' directory on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, (ii) `./.Renviron.d`, (iii) `~/.Renviron.d`, and (iv) `{user-cache-dir}/Renviron.d`, where `{user-cache-dir}` corresponds to `tools::R_user_dir("startup", which = "config")`, e.g. `${XDG_CONFIG_HOME}/R/startup`.  The format of these files should be the same as for `.Renviron`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
+   a. The _first_ 'Renviron.d' directory on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, (ii) `./.Renviron.d`, (iii) `~/.Renviron.d`, and (iv) `{user-config-dir}/Renviron.d`, where `{user-config-dir}` corresponds to `tools::R_user_dir("startup", which = "config")`, e.g. `${XDG_CONFIG_HOME}/R/startup`.  The format of these files should be the same as for `.Renviron`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
 
    b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
 
-   c. The _first_ 'Rprofile.d' directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, (iii) `~/.Rprofile.d`, and (iv) `{user-cache-dir}/Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
+   c. The _first_ 'Rprofile.d' directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, (iii) `~/.Rprofile.d`, and (iv) `{user-config-dir}/Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
    d. If no errors occur above, the **[startup]** package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
 
