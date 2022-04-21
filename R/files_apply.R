@@ -67,7 +67,12 @@ files_apply <- function(files, fun,
         options()
       }
 
-      ## (d) Random number generator (RNG) state
+      ## (d) Global variables
+      record_globals <- function() {
+        as.list(globalenv())
+      }
+
+      ## (e) Random number generator (RNG) state
       record_rng <- function() {
         globalenv()$.Random.seed
       }
@@ -82,6 +87,7 @@ files_apply <- function(files, fun,
     if (debug && what == "Rprofile") {
       before <- list(
         envvars = record_envvars(),
+        globals = record_globals(),
         options = record_options(),
            pkgs = record_pkgs(),
             rng = record_rng()
@@ -93,6 +99,7 @@ files_apply <- function(files, fun,
     if (debug && what == "Rprofile") {
       after <- list(
         envvars = record_envvars(),
+        globals = record_globals(),
         options = record_options(),
            pkgs = record_pkgs(),
             rng = record_rng()
@@ -185,9 +192,33 @@ files_apply <- function(files, fun,
         logf("           R options: %s", s, timestamp = FALSE)
       }
 
-      ## (d) Random number generator (RNG) state
+      ## (d) Global variables
+      s <- NULL
+      set <- setdiff(names(after$globals), names(before$globals))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s added (%s)",   length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      set <- setdiff(names(before$globals), names(after$globals))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s removed (%s)", length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      common <- intersect(names(before$globals), names(after$globals))
+      same <- mapply(before$globals[common], after$globals[common], FUN = identical)
+      set <- names(same)[!same]
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s changed (%s)", length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      if (length(s) > 0) {
+        s <- paste(s, collapse = ", ")
+        logf("           Global variables: %s", s, timestamp = FALSE)
+      }
+      
+      ## (e) Random number generator (RNG) state
       rng_updated <- !identical(after$rng, before$rng)
       if (rng_updated) logf("           .Random.seed: updated", timestamp = FALSE)
+
+      ## Not needed anymore
+      before <- after <- NULL
     }
 
     if (length(when) == 1L) {
