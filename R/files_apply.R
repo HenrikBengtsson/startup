@@ -47,14 +47,18 @@ files_apply <- function(files, fun,
   } else if (what == "Rprofile") {
     type <- "r"
     if (debug) {
-      record_pkgs_etc <- function() {
+      record_pkgs_rng <- function() {
+        ## Loaded and attached packages
         res <- list(
           loaded = loadedNamespaces(),
           attached = sort(search())
         )
         res$attached_envs <- grep("^package:", res$attached, invert = TRUE, value = TRUE)
         res$attached <- gsub("^package:", "", grep("^package:", res$attached, value = TRUE))
+        
+        ## Random number generator (RNG) state
         res$random_seed <- globalenv()$.Random.seed
+        
         res
       }
     }
@@ -66,13 +70,13 @@ files_apply <- function(files, fun,
     logf(" - %s", file_info(file, type = type, extra = sprintf("when=%s", when)))
 
     if (debug && what == "Rprofile") {
-      before <- record_pkgs_etc()
+      before <- record_pkgs_rng()
     }
 
     call_fun(file)
 
     if (debug && what == "Rprofile") {
-      after <- record_pkgs_etc()
+      after <- record_pkgs_rng()
       added <- mapply(after, before, FUN = setdiff)
       added$loaded <- setdiff(added$loaded, added$attached)
       removed <- mapply(before, after, FUN = setdiff)
