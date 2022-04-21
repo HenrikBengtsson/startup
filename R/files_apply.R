@@ -47,19 +47,24 @@ files_apply <- function(files, fun,
   } else if (what == "Rprofile") {
     type <- "r"
     if (debug) {
-      record_pkgs_rng <- function() {
-        ## Loaded and attached packages
-        res <- list(
-          loaded = loadedNamespaces(),
-          attached = sort(search())
-        )
+      ## (a) Loaded and attached packages
+      record_pkgs <- function() {
+        res <- list()
+        res$loaded <- loadedNamespaces()
+        res$attached <- sort(search())
         res$attached_envs <- grep("^package:", res$attached, invert = TRUE, value = TRUE)
         res$attached <- gsub("^package:", "", grep("^package:", res$attached, value = TRUE))
-        
-        ## Random number generator (RNG) state
-        res$random_seed <- globalenv()$.Random.seed
-        
         res
+      }
+
+      ## (b) Environment variables
+      record_envvars <- function() {
+        Sys.getenv()
+      }
+
+      ## (c) Random number generator (RNG) state
+      record_rng <- function() {
+        globalenv()$.Random.seed
       }
     }
   }
@@ -70,23 +75,36 @@ files_apply <- function(files, fun,
     logf(" - %s", file_info(file, type = type, extra = sprintf("when=%s", when)))
 
     if (debug && what == "Rprofile") {
-      before <- record_pkgs_rng()
+      before <- list(
+        envvars = record_envvars(),
+           pkgs = record_pkgs(),
+            rng = record_rng()
+      )
     }
 
     call_fun(file)
 
     if (debug && what == "Rprofile") {
-      after <- record_pkgs_rng()
-      added <- mapply(after, before, FUN = setdiff)
+      after <- list(
+        envvars = record_envvars(),
+           pkgs = record_pkgs(),
+            rng = record_rng()
+      )
+
+      ## (a) Packages
+      ## Identified added entries
+      added <- mapply(after$pkgs, before$pkgs, FUN = setdiff)
       added$loaded <- setdiff(added$loaded, added$attached)
-      removed <- mapply(before, after, FUN = setdiff)
+      
+      ## Identified removed entries
+      removed <- mapply(before$pkgs, after$pkgs, FUN = setdiff)
       removed$attached <- setdiff(removed$attached, removed$loaded)
       names(removed) <- gsub("attached", "detached", names(removed))
       names(removed) <- gsub("loaded", "unloaded", names(removed))
+      
       nadded <- sapply(added, FUN = length)
       nremoved <- sapply(removed, FUN = length)
 
-      ## Packages
       s <- NULL
       for (kind in c("attached", "loaded")) {
         if (nadded[[kind]] > 0) {
@@ -117,9 +135,31 @@ files_apply <- function(files, fun,
         s <- paste(s, collapse = ", ")
         logf("           Search path: %s", s, timestamp = FALSE)
       }
-      
-      rng_updated <- !identical(after$random_seed, before$random_seed)
-      if (rng_updated) logf("           NOTE: .Random.seed updated", timestamp = FALSE)
+
+      ## (b) Environment variables
+      s <- NULL
+      set <- setdiff(names(after$envvars), names(before$envvars))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s added (%s)",   length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      set <- setdiff(names(before$envvars), names(after$envvars))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s removed (%s)", length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      common <- intersect(names(before$envvars), names(after$envvars))
+      diff <- which(before$envvars[common] != after$envvars[common])
+      set <- names(diff)
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s changed (%s)", length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      if (length(s) > 0) {
+        s <- paste(s, collapse = ", ")
+        logf("           Environment variables: %s", s, timestamp = FALSE)
+      }
+
+      ## (c) Random number generator (RNG) state
+      rng_updated <- !identical(after$rng, before$rng)
+      if (rng_updated) logf("           .Random.seed: updated", timestamp = FALSE)
     }
 
     if (length(when) == 1L) {
