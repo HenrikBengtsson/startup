@@ -62,7 +62,12 @@ files_apply <- function(files, fun,
         Sys.getenv()
       }
 
-      ## (c) Random number generator (RNG) state
+      ## (c) R options
+      record_options <- function() {
+        options()
+      }
+
+      ## (d) Random number generator (RNG) state
       record_rng <- function() {
         globalenv()$.Random.seed
       }
@@ -77,6 +82,7 @@ files_apply <- function(files, fun,
     if (debug && what == "Rprofile") {
       before <- list(
         envvars = record_envvars(),
+        options = record_options(),
            pkgs = record_pkgs(),
             rng = record_rng()
       )
@@ -87,6 +93,7 @@ files_apply <- function(files, fun,
     if (debug && what == "Rprofile") {
       after <- list(
         envvars = record_envvars(),
+        options = record_options(),
            pkgs = record_pkgs(),
             rng = record_rng()
       )
@@ -157,7 +164,28 @@ files_apply <- function(files, fun,
         logf("           Environment variables: %s", s, timestamp = FALSE)
       }
 
-      ## (c) Random number generator (RNG) state
+      ## (c) R options
+      s <- NULL
+      set <- setdiff(names(after$options), names(before$options))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s added (%s)",   length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      set <- setdiff(names(before$options), names(after$options))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s removed (%s)", length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      common <- intersect(names(before$options), names(after$options))
+      same <- mapply(before$options[common], after$options[common], FUN = identical)
+      set <- names(same)[!same]
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s changed (%s)", length(set), paste(sQuote(set), collapse = ", ")))
+      }
+      if (length(s) > 0) {
+        s <- paste(s, collapse = ", ")
+        logf("           R options: %s", s, timestamp = FALSE)
+      }
+
+      ## (d) Random number generator (RNG) state
       rng_updated <- !identical(after$rng, before$rng)
       if (rng_updated) logf("           .Random.seed: updated", timestamp = FALSE)
     }

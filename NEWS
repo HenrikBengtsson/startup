@@ -1,14 +1,17 @@
 Package: startup
 ================
 
-Version: 0.17.0-9001 [2022-04-21]
+Version: 0.17.0-9002 [2022-04-21]
 
 NEW FEATURES:
 
  * Now startup::startup(debug = TRUE) reports on any environment
-   variables added, removed, and changed for each individual Rprofile
-   file processed.
- 
+   variables added, removed, and changed for each Rprofile file
+   processed.
+
+ * Now startup::startup(debug = TRUE) reports on any R options added,
+   removed, and changed for each Rprofile file processed.
+
 
 Version: 0.17.0 [2022-02-23]
 
