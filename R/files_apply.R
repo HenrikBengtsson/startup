@@ -84,6 +84,10 @@ files_apply <- function(files, fun,
       record_pwd <- function() {
         getwd()
       }
+      ## (g) Current working directory
+      record_libpath <- function() {
+        .libPaths()
+      }
     }
   }
 
@@ -96,6 +100,7 @@ files_apply <- function(files, fun,
       before <- list(
         envvars = record_envvars(),
         globals = record_globals(),
+        libpath = record_libpath(),
         options = record_options(),
            pkgs = record_pkgs(),
             pwd = record_pwd(),
@@ -109,6 +114,7 @@ files_apply <- function(files, fun,
       after <- list(
         envvars = record_envvars(),
         globals = record_globals(),
+        libpath = record_libpath(),
         options = record_options(),
            pkgs = record_pkgs(),
             pwd = record_pwd(),
@@ -144,7 +150,8 @@ files_apply <- function(files, fun,
         s <- paste(s, collapse = ", ")
         logf("           Packages: %s", s, timestamp = FALSE)
       }
-      
+
+
       ## Search path
       s <- NULL
       kind <- "attached_envs"
@@ -159,6 +166,7 @@ files_apply <- function(files, fun,
         s <- paste(s, collapse = ", ")
         logf("           Search path: %s", s, timestamp = FALSE)
       }
+
 
       ## (b) Environment variables
       s <- NULL
@@ -181,6 +189,7 @@ files_apply <- function(files, fun,
         logf("           Environment variables: %s", s, timestamp = FALSE)
       }
 
+
       ## (c) R options
       s <- NULL
       set <- setdiff(names(after$options), names(before$options))
@@ -201,6 +210,7 @@ files_apply <- function(files, fun,
         s <- paste(s, collapse = ", ")
         logf("           R options: %s", s, timestamp = FALSE)
       }
+
 
       ## (d) Global variables
       s <- NULL
@@ -223,18 +233,32 @@ files_apply <- function(files, fun,
         logf("           Global variables: %s", s, timestamp = FALSE)
       }
 
-      ## (e) Current working directory
+
+      ## (e) Library path
+      if (!identical(after$libpath, before$libpath)) {
+      utils::str(before$libpath)
+      utils::str(after$libpath)
+        logf("           Library path: (%s) -> (%s)",
+          paste(sprintf("%d=%s", seq_along(before$libpath), sQuote(before$libpath)), collapse = ", "),
+          paste(sprintf("%d=%s", seq_along(after$libpath), sQuote(after$libpath)), collapse = ", "),
+          timestamp = FALSE
+        )
+      }
+
+
+      ## (f) Working directory
       if (!identical(after$pwd, before$pwd)) {
-        logf("           Working directory: updated (%s -> %s)",
+        logf("           Working directory: %s -> %s",
           sQuote(before$pwd),
           sQuote(after$pwd),
           timestamp = FALSE
         )
       }
 
-      ## (f) Random number generator (RNG) state
+
+      ## (g) Random number generator (RNG) state
       if (!identical(after$rng$kind, before$rng$kind)) {
-        logf("           RNG kind: updated ([%s] -> [%s])",
+        logf("           RNG kind: (%s) -> (%s)",
           paste(before$rng$kind, collapse = ", "),
           paste(after$rng$kind, collapse = ", "),
           timestamp = FALSE
