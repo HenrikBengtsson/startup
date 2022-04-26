@@ -92,7 +92,12 @@ files_apply <- function(files, fun,
       
       ## (h) Locale
       record_locale <- function() {
-        Sys.getlocale()
+        res <- strsplit(Sys.getlocale(), split = ";", fixed = TRUE)[[1]]
+        pattern <- "(.*)=(.*)"
+        names <- gsub(pattern, "\\1", res)
+        values <- gsub(pattern, "\\2", res)
+        names(values) <- names
+        values
       }
     }
   }
@@ -221,12 +226,24 @@ files_apply <- function(files, fun,
 
 
       ## (d) Locale
-      if (!identical(after$locale, before$locale)) {
-        logf("           Locale: %s -> %s",
-          sQuote(before$locale),
-          sQuote(after$locale),
-          timestamp = FALSE
-        )
+      s <- NULL
+      set <- setdiff(names(after$locale), names(before$locale))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s added (%s)",   length(set), paste(sprintf("%s=%s", set, sQuote(after$locale[set])), collapse = ", ")))
+      }
+      set <- setdiff(names(before$locale), names(after$locale))
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s removed (%s)", length(set), paste(sprintf("%s=%s", set, sQuote(before$locale[set])), collapse = ", ")))
+      }
+      common <- intersect(names(before$locale), names(after$locale))
+      same <- mapply(before$locale[common], after$locale[common], FUN = identical)
+      set <- names(same)[!same]
+      if (length(set) > 0) {
+        s <- c(s, sprintf("%s changed (%s)", length(set), paste(sprintf("%s=%s -> %s", set, sQuote(before$locale[set]), sQuote(after$locale[set])), collapse = ", ")))
+      }
+      if (length(s) > 0) {
+        s <- paste(s, collapse = ", ")
+        logf("           Locale: %s", s, timestamp = FALSE)
       }
 
 
