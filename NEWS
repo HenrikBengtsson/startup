@@ -1,7 +1,7 @@
 Package: startup
 ================
 
-Version: 0.17.0-9006 [2022-04-26]
+Version: 0.17.0-9007 [2022-04-26]
 
 NEW FEATURES:
 
@@ -10,10 +10,9 @@ NEW FEATURES:
    and changed while processing an Rprofile file.
 
  * startup::startup(debug = TRUE) now reports on any changes to the
-   current working directory while processing an Rprofile file.
-
- * startup::startup(debug = TRUE) now reports on any changes to the R
-   library path (= .libPaths()) while processing an Rprofile file.
+   current working directory (getwd()), the R library path
+   (.libPaths()), and the locale (.Sys.getlocale()), while processing
+   an Rprofile file.
 
  * startup::startup(debug = TRUE) already reported on updates to the
    state of R's random number generator (RNG). Now it also reports on

@@ -84,9 +84,15 @@ files_apply <- function(files, fun,
       record_pwd <- function() {
         getwd()
       }
-      ## (g) Current working directory
+      
+      ## (g) Working directory
       record_libpath <- function() {
         .libPaths()
+      }
+      
+      ## (h) Locale
+      record_locale <- function() {
+        Sys.getlocale()
       }
     }
   }
@@ -101,6 +107,7 @@ files_apply <- function(files, fun,
         envvars = record_envvars(),
         globals = record_globals(),
         libpath = record_libpath(),
+         locale = record_locale(),
         options = record_options(),
            pkgs = record_pkgs(),
             pwd = record_pwd(),
@@ -115,6 +122,7 @@ files_apply <- function(files, fun,
         envvars = record_envvars(),
         globals = record_globals(),
         libpath = record_libpath(),
+         locale = record_locale(),
         options = record_options(),
            pkgs = record_pkgs(),
             pwd = record_pwd(),
@@ -212,7 +220,17 @@ files_apply <- function(files, fun,
       }
 
 
-      ## (d) Global variables
+      ## (d) Locale
+      if (!identical(after$locale, before$locale)) {
+        logf("           Locale: %s -> %s",
+          sQuote(before$locale),
+          sQuote(after$locale),
+          timestamp = FALSE
+        )
+      }
+
+
+      ## (e) Global variables
       s <- NULL
       set <- setdiff(names(after$globals), names(before$globals))
       if (length(set) > 0) {
@@ -234,10 +252,8 @@ files_apply <- function(files, fun,
       }
 
 
-      ## (e) Library path
+      ## (f) Library path
       if (!identical(after$libpath, before$libpath)) {
-      utils::str(before$libpath)
-      utils::str(after$libpath)
         logf("           Library path: (%s) -> (%s)",
           paste(sprintf("%d=%s", seq_along(before$libpath), sQuote(before$libpath)), collapse = ", "),
           paste(sprintf("%d=%s", seq_along(after$libpath), sQuote(after$libpath)), collapse = ", "),
@@ -246,7 +262,7 @@ files_apply <- function(files, fun,
       }
 
 
-      ## (f) Working directory
+      ## (g) Working directory
       if (!identical(after$pwd, before$pwd)) {
         logf("           Working directory: %s -> %s",
           sQuote(before$pwd),
@@ -256,7 +272,7 @@ files_apply <- function(files, fun,
       }
 
 
-      ## (g) Random number generator (RNG) state
+      ## (h) Random number generator (RNG) state
       if (!identical(after$rng$kind, before$rng$kind)) {
         logf("           RNG kind: (%s) -> (%s)",
           paste(before$rng$kind, collapse = ", "),
