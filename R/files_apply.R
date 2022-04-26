@@ -79,6 +79,11 @@ files_apply <- function(files, fun,
           seed = globalenv()$.Random.seed
         )
       }
+      
+      ## (f) Current working directory
+      record_pwd <- function() {
+        getwd()
+      }
     }
   }
 
@@ -93,6 +98,7 @@ files_apply <- function(files, fun,
         globals = record_globals(),
         options = record_options(),
            pkgs = record_pkgs(),
+            pwd = record_pwd(),
             rng = record_rng()
       )
     }
@@ -105,6 +111,7 @@ files_apply <- function(files, fun,
         globals = record_globals(),
         options = record_options(),
            pkgs = record_pkgs(),
+            pwd = record_pwd(),
             rng = record_rng()
       )
 
@@ -215,10 +222,19 @@ files_apply <- function(files, fun,
         s <- paste(s, collapse = ", ")
         logf("           Global variables: %s", s, timestamp = FALSE)
       }
-      
-      ## (e) Random number generator (RNG) state
+
+      ## (e) Current working directory
+      if (!identical(after$pwd, before$pwd)) {
+        logf("           Working directory: updated (%s -> %s)",
+          sQuote(before$pwd),
+          sQuote(after$pwd),
+          timestamp = FALSE
+        )
+      }
+
+      ## (f) Random number generator (RNG) state
       if (!identical(after$rng$kind, before$rng$kind)) {
-        logf("           RNG kind: updated [(%s) -> (%s)]",
+        logf("           RNG kind: updated ([%s] -> [%s])",
           paste(before$rng$kind, collapse = ", "),
           paste(after$rng$kind, collapse = ", "),
           timestamp = FALSE

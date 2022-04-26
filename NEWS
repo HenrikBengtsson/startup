@@ -1,16 +1,20 @@
 Package: startup
 ================
 
-Version: 0.17.0-9004 [2022-04-26]
+Version: 0.17.0-9005 [2022-04-26]
 
 NEW FEATURES:
 
  * Now startup::startup(debug = TRUE) reports on any environment
    variables, options, and global variables that were added, removed,
-   and changed while processing an Rprofile file.  Previously, it was
-   already reporting on updates to the state of R's random number
-   generator (RNG). Now it also reports on updates to the RNG kind,
-   including what the change was.
+   and changed while processing an Rprofile file.
+
+ * startup::startup(debug = TRUE) now reports on any changes to the
+   current working directory while processing an Rprofile file.
+
+ * startup::startup(debug = TRUE) already reported on updates to the
+   state of R's random number generator (RNG). Now it also reports on
+   updates to the RNG kind, including what the change was.
    
 
 Version: 0.17.0 [2022-02-23]
