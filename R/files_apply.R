@@ -74,7 +74,10 @@ files_apply <- function(files, fun,
 
       ## (e) Random number generator (RNG) state
       record_rng <- function() {
-        globalenv()$.Random.seed
+        list(
+          kind = RNGkind(),
+          seed = globalenv()$.Random.seed
+        )
       }
     }
   }
@@ -214,8 +217,16 @@ files_apply <- function(files, fun,
       }
       
       ## (e) Random number generator (RNG) state
-      rng_updated <- !identical(after$rng, before$rng)
-      if (rng_updated) logf("           .Random.seed: updated", timestamp = FALSE)
+      if (!identical(after$rng$kind, before$rng$kind)) {
+        logf("           RNG kind: updated [(%s) -> (%s)]",
+          paste(before$rng$kind, collapse = ", "),
+          paste(after$rng$kind, collapse = ", "),
+          timestamp = FALSE
+        )
+      }
+      if (!identical(after$rng$seed, before$rng$seed)) {
+        logf("           .Random.seed: updated", timestamp = FALSE)
+      }
 
       ## Not needed anymore
       before <- after <- NULL
