@@ -88,7 +88,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-17-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-17-0"></a></h3>
 <ul><li>
-<code>startup(unload = TRUE)</code> failed when there was an .RData file and environment variable <code>R_STARTUP_RDATA</code> or R option ‘startup.rdata’ specifies “prompt”.</li>
+<code>startup(unload = TRUE)</code> failed when there was an .RData file and environment variable <code>R_STARTUP_RDATA</code> or R option <code>startup.rdata</code> specifies <code>"prompt"</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -100,12 +100,12 @@
 <li><p>Now it is sufficient to call <code>startup(dryrun = TRUE)</code> to see what the R startup would have been. Previously one would also have to specify <code>debug = TRUE</code>.</p></li>
 <li><p>Now <code>startup(debug = TRUE)</code> reports on packages loaded, attached, unloaded, and detached per Rprofile file processed. It also reports on other environments attached and detached.</p></li>
 <li><p>Now <code>startup(debug = TRUE)</code> reports also on the Rprofile file in the <strong>base</strong> package, i.e. <code>system.file("R", "Rprofile", package = "base")</code>.</p></li>
-<li><p><code>startup::startup(check = TRUE)</code> no longer warns if environment variables <code>R_LIBS_SITE</code> or <code>R_LIBS_USER</code> have value ‘NULL’, which in R (&gt;= 4.2.0) corresponds to setting them to be empty.</p></li>
+<li><p><code>startup::startup(check = TRUE)</code> no longer warns if environment variables <code>R_LIBS_SITE</code> or <code>R_LIBS_USER</code> have value NULL, which in R (&gt;= 4.2.0) corresponds to setting them to be empty.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-16-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-16-0"></a></h3>
 <ul><li>
-<code>startup::restart(quiet = TRUE)</code> would give an error in ‘radian’ saying <code>--quiet</code> is not supported, but it’s supported in radian (&gt;= 0.2.8) since 2018-08-27.</li>
+<code>startup::restart(quiet = TRUE)</code> would give an error in radian saying <code>--quiet</code> is not supported, but it’s supported in radian (&gt;= 0.2.8) since 2018-08-27.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -125,7 +125,7 @@
 <h2 class="page-header" data-toc-text="0.14.1" id="version-0141">Version 0.14.1<small>2020-04-01</small><a class="anchor" aria-label="anchor" href="#version-0141"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-14-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-14-1"></a></h3>
-<ul><li>Add R options as an alternative to corresponding environment variables, e.g. added ‘startup.disable’ (<code>R_STARTUP_DISABLE</code>), ‘startup.init’ (<code>R_STARTUP_INIT</code>), and ‘startup.rdata’ (<code>R_STARTUP_RDATA</code>).</li>
+<ul><li>Add R options as an alternative to corresponding environment variables, e.g. added <code>startup.disable</code> (<code>R_STARTUP_DISABLE</code>), <code>startup.init</code> (<code>R_STARTUP_INIT</code>), and <code>startup.rdata</code> (<code>R_STARTUP_RDATA</code>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-0-14-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-14-1"></a></h3>
@@ -133,8 +133,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-14-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-14-1"></a></h3>
-<ul><li><p>The new default of option ‘stringsAsFactors’ in R (&gt;= 4.0.0) would trigger a startup warning.</p></li>
-<li><p>It was not possible to disable the validation of R option ‘error’ and environment variables such as <code>R_LIBS_USER</code>, <code>R_PROFILE_SITE</code>, and <code>R_CHECK_ENVIRON</code>. These validations can now be disabled by specifying argument <code>check = FALSE</code>, or the corresponding R option, or environment variable. Validation of ‘error’ specifically can be disable by adding ‘error’ to environment variable <code>R_STARTUP_CHECK_OPTIONS_IGNORE</code> or to option ‘startup.check.options.ignore’. The default is to ignore ‘error’.</p></li>
+<ul><li><p>The new default of option <code>stringsAsFactors</code> in R (&gt;= 4.0.0) would trigger a startup warning.</p></li>
+<li><p>It was not possible to disable the validation of R option <code>error</code> and environment variables such as <code>R_LIBS_USER</code>, <code>R_PROFILE_SITE</code>, and <code>R_CHECK_ENVIRON</code>. These validations can now be disabled by specifying argument <code>check = FALSE</code>, or the corresponding R option, or environment variable. Validation of <code>error</code> specifically can be disable by adding <code>"error"</code> to environment variable <code>R_STARTUP_CHECK_OPTIONS_IGNORE</code> or to option <code>startup.check.options.ignore</code>. The default is to ignore <code>error</code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -146,27 +146,27 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-14-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-14-0"></a></h3>
-<ul><li><p>Setting environment variable <code>R_STARTUP_RDATA</code> to “remove” will cause an existing ‘./.RData’ file to be skipped by automatically removing it. If “rename”, it will be renamed to ‘./.RData.YYYYMMDD_hhmmss’ where the timestamp is the last time the file was modified. If “prompt”, then the user is prompted whether they want to load the file or rename it. In non-interactive session, “prompt” will fallback to loading by default. To fallback to renaming the file, use “prompt,rename”. Thus, setting <code>R_STARTUP_RDATA=rename</code> in an .Renviron file will make sure no .RData file is ever loaded while still preserving them.</p></li>
+<ul><li><p>Setting environment variable <code>R_STARTUP_RDATA</code> to <code>"remove"</code> will cause an existing ‘./.RData’ file to be skipped by automatically removing it. If <code>"rename"</code>, it will be renamed to ‘./.RData.YYYYMMDD_hhmmss’ where the timestamp is the last time the file was modified. If <code>"prompt"</code>, then the user is prompted whether they want to load the file or rename it. In non-interactive session, <code>"prompt"</code> will fallback to loading by default. To fallback to renaming the file, use <code>"prompt,rename"</code>. Thus, setting <code>R_STARTUP_RDATA=rename</code> in an .Renviron file will make sure no .RData file is ever loaded while still preserving them.</p></li>
 <li><p>RStudio Console: The only way to prompt a user during the R startup process in the RStudio Console is via a graphical popup window. Because of this, <code>R_STARTUP_RDATA=prompt</code> will trigger a popup window in RStudio if there is a .RData file.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-14-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-14-0"></a></h3>
 <ul><li><p><code>startup(debug = TRUE)</code> would not only report on the name of an environment variable, but also parts of its value, if the value contained equal signs.</p></li>
 <li><p>The source information, that is, the filename and line locations, were dropped from functions defined via <code><a href="../reference/startup.html">startup()</a></code>. To get the filename where a function was defined use <code>getSrcFilename(my_fcn, full.names = TRUE)</code>.</p></li>
-<li><p>RStudio: Using <strong>renv</strong> together with <code><a href="../reference/startup.html">startup()</a></code> while in the RStudio Console would produce a false warning on the ‘error’ option being set.</p></li>
+<li><p>RStudio: Using <strong>renv</strong> together with <code><a href="../reference/startup.html">startup()</a></code> while in the RStudio Console would produce a false warning on the <code>error</code> option being set.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.13.0" id="version-0130">Version 0.13.0<small>2019-10-27</small><a class="anchor" aria-label="anchor" href="#version-0130"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-13-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-13-0"></a></h3>
-<ul><li><p><code><a href="../reference/startup.html">startup::startup()</a></code> will return immediately without processing R startup files if environment variable <code>R_STARTUP_DISABLE</code> is set to ‘TRUE’.</p></li>
-<li><p>Added flag ‘radian’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in radian (previously known as rtichoke and rice) or not. Please stop using the ‘rice’ and ‘rtichoke’ flags.</p></li>
+<ul><li><p><code><a href="../reference/startup.html">startup::startup()</a></code> will return immediately without processing R startup files if environment variable <code>R_STARTUP_DISABLE</code> is set to TRUE.</p></li>
+<li><p>Added flag <code>radian</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in radian (previously known as rtichoke and rice) or not. Please stop using the <code>rice</code> and <code>rtichoke</code> flags.</p></li>
 <li><p>The <code><a href="../reference/startup.html">startup::startup()</a></code> code snipped injected in the .Rprofile file by <code><a href="../reference/install.html">startup::install()</a></code> now prefix error messages with ‘.Rprofile error:’ to help troubleshooting errors.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-13-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-13-0"></a></h3>
-<ul><li><p>The validation of <code>R_LIBS',</code>R_LIBS_SITE’, <code>R_LIBS_USER</code> by <code><a href="../reference/check.html">startup::check()</a></code> had a <code>_R_CHECK_LENGTH_1_LOGIC2_</code> bug.</p></li>
+<ul><li><p>The validation of <code>R_LIBS</code>, <code>R_LIBS_SITE</code>, <code>R_LIBS_USER</code> by <code><a href="../reference/check.html">startup::check()</a></code> had a <code>_R_CHECK_LENGTH_1_LOGIC2_</code> bug.</p></li>
 <li><p>The startup checks asserting that <code><a href="https://rdrr.io/r/utils/update.packages.html" class="external-link">update.packages()</a></code> is not called would pick up not only those with the period (‘.’) but any character in that position.</p></li>
 </ul></div>
 <div class="section level3">
@@ -180,7 +180,7 @@
 <div class="section level3">
 <h3 id="significant-changes-0-12-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-0-12-0"></a></h3>
 <ul><li><p>Renviron and Rprofile startup files that use <code>&lt;key&gt;!=&lt;value&gt;</code> filters with non-defined keys are now included. Previously they were skipped. Note that <code>&lt;key&gt;=&lt;value&gt;</code> files are indeed skipped when <code>&lt;key&gt;</code> is not defined.</p></li>
-<li><p><code><a href="../reference/startup.html">startup()</a></code> now produces an informative warning if it detects that an R option that is considered unsafe to change from its default, e.g. changing ‘encoding’ other than in interactive mode may break package installations and changing ‘stringsAsFactors’ will summon the dead.</p></li>
+<li><p><code><a href="../reference/startup.html">startup()</a></code> now produces an informative warning if it detects that an R option that is considered unsafe to change from its default, e.g. changing <code>encoding</code> other than in interactive mode may break package installations and changing <code>stringsAsFactors</code> will summon the dead.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-12-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-12-0"></a></h3>
@@ -210,10 +210,10 @@
 <h3 id="new-features-0-11-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-11-0"></a></h3>
 <ul><li><p><code>startup(debug = TRUE)</code> now also displays the expanded path to any file or folder listed. It also gives information on files that known environment variables (e.g. <code>R_ENVIRON_USER</code>) point to. For Renviron files, it also reports on names of the environment variables set in each of those files.</p></li>
 <li><p><code>startup(debug = TRUE)</code> reports on the search path and loaded namespaces, and what packages will be attached after R’s startup finishes.</p></li>
-<li><p>Added character ‘dirname’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> specifying the basename of the current working directory.</p></li>
+<li><p>Added character <code>dirname</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> specifying the basename of the current working directory.</p></li>
 <li><p><code>startup(check = TRUE)</code>, warns if <code>R_ENVIRON</code>, <code>R_ENVIRON_USER</code>, <code>R_PROFILE</code>, <code>R_PROFILE_USER</code>, <code>R_BUILD_ENVIRON</code>, or <code>R_CHECK_ENVIRON</code> specifies non-existing files.</p></li>
 <li><p><code>startup::check(fix = TRUE)</code> now returns the pathnames of any files that needed to be fixed and was successfully updated.</p></li>
-<li><p>RStudio: <code><a href="../reference/startup.html">startup()</a></code> now gives an informative warning if option ‘error’ is set during the R startup and it will be overridden by RStudio’s debug settings.</p></li>
+<li><p>RStudio: <code><a href="../reference/startup.html">startup()</a></code> now gives an informative warning if option <code>error</code> is set during the R startup and it will be overridden by RStudio’s debug settings.</p></li>
 <li><p>Windows: Calling <code><a href="../reference/restart.html">startup::restart()</a></code> in the Windows RGui now produces an error clarifying that the RGui cannot be restarted this way.</p></li>
 </ul></div>
 <div class="section level3">
@@ -233,12 +233,12 @@
 <ul><li><p>Added <code><a href="../reference/is_debug_on.html">is_debug_on()</a></code> which returns TRUE if the startup debug mode is on. To control the debug mode, see <code><a href="../reference/startup.html">?startup::startup</a></code>.</p></li>
 <li><p><code>startup(debug = TRUE)</code> reports on several <code>R_*</code> environment variables.</p></li>
 <li><p><code><a href="../reference/restart.html">restart()</a></code> gained argument <code>quiet</code> for controlling whether the restart should be quiet or not.</p></li>
-<li><p>Added flag ‘microsoftr’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in Microsoft R Open or not.</p></li>
-<li><p>Added flag ‘pqr’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether running pqR (“A Pretty Quick # Version of R”), or not.</p></li>
-<li><p>Added flag ‘rstudioterm’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in an RStudio Terminal or not. To test whether R runs via the RStudio Console, use the ‘rstudio’ flag.</p></li>
-<li><p>Added flag ‘rtichoke’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in rtichoke (previously known as Rice) or not. Please stop using the ‘rice’ flag and start using the ‘rtichoke’ instead (both have identical values).</p></li>
-<li><p>The ‘ess’ flag of <code><a href="../reference/sysinfo.html">sysinfo()</a></code> is now based on whether “ESSR” in <code><a href="https://rdrr.io/r/base/search.html" class="external-link">search()</a></code> or not - used to check for environment variable <code>EMACS</code> equaling “t” or not.</p></li>
-<li><p>Now <code><a href="../reference/restart.html">startup::restart()</a></code> also work when running R via ‘rtichoke’.</p></li>
+<li><p>Added flag <code>microsoftr</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in Microsoft R Open or not.</p></li>
+<li><p>Added flag <code>pqr</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether running pqR (“A Pretty Quick # Version of R”), or not.</p></li>
+<li><p>Added flag <code>rstudioterm</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in an RStudio Terminal or not. To test whether R runs via the RStudio Console, use the <code>rstudio</code> flag.</p></li>
+<li><p>Added flag <code>rtichoke</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs in rtichoke (previously known as Rice) or not. Please stop using the <code>rice</code> flag and start using the <code>rtichoke</code> instead (both have identical values).</p></li>
+<li><p>The <code>ess</code> flag of <code><a href="../reference/sysinfo.html">sysinfo()</a></code> is now based on whether “ESSR” is in <code><a href="https://rdrr.io/r/base/search.html" class="external-link">search()</a></code> or not - used to check for environment variable <code>EMACS</code> equaling “t” or not.</p></li>
+<li><p>Now <code><a href="../reference/restart.html">startup::restart()</a></code> also work when running R via rtichoke.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-10-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-10-0"></a></h3>
@@ -258,10 +258,10 @@
 <div class="section level3">
 <h3 id="new-features-0-8-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-8-0"></a></h3>
 <ul><li><p>Added <code><a href="../reference/current_script.html">startup::current_script()</a></code> which returns the .Rprofile.d/ pathname that is currently processed by <code><a href="../reference/startup.html">startup::startup()</a></code>.</p></li>
-<li><p>Added flag ‘rice’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs via Rice or not, meaning it can be used as a file and directory name tag, e.g. rice=TRUE.</p></li>
+<li><p>Added flag <code>rice</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs via Rice or not, meaning it can be used as a file and directory name tag, e.g. rice=TRUE.</p></li>
 <li><p><code>startup(debug = TRUE)</code> outputs much more information on what has taken place and what will take place through R’s startup process.</p></li>
 <li><p><code><a href="../reference/startup.html">startup()</a></code> gained argument <code>check</code> for controlling whether the content of startup files should be validated or not.</p></li>
-<li><p>check()<code>, and therefore also</code>startup(check = TRUE), warns if <code>R_LIBS</code>, <code>R_LIBS_SITE</code>, or <code>R_LIBS_USER</code> specifies non-existing directory.</p></li>
+<li><p><code><a href="../reference/check.html">check()</a></code>, and therefore also <code>startup(check = TRUE)</code>, warns if <code>R_LIBS</code>, <code>R_LIBS_SITE</code>, or <code>R_LIBS_USER</code> specifies non-existing directory.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="deprecated-and-defunct-0-8-0">Deprecated and Defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-0-8-0"></a></h3>
@@ -281,7 +281,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-7-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-7-0"></a></h3>
-<ul><li><p>Convenient session details are now gathered and recorded as R options immediately after processing ‘.Renviron.d’ files. These options, prefixed ‘startup.session.’, are available while processing ‘.Rprofile.d’ files and, by default, also after <code><a href="../reference/startup.html">startup::startup()</a></code> has completed. For information on session details recorded, see <code><a href="../reference/startup_session_options.html">help("startup_session_options")</a></code>.</p></li>
+<ul><li><p>Convenient session details are now gathered and recorded as R options immediately after processing ‘.Renviron.d’ files. These options, prefixed <code>startup.session.</code>, are available while processing ‘.Rprofile.d’ files and, by default, also after <code><a href="../reference/startup.html">startup::startup()</a></code> has completed. For information on session details recorded, see <code><a href="../reference/startup_session_options.html">help("startup_session_options")</a></code>.</p></li>
 <li><p>Added a package vignette (available only in R &gt;= 3.0.2).</p></li>
 </ul></div>
 </div>
@@ -314,7 +314,7 @@
 <h3 id="new-features-0-5-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
 <ul><li><p>Startup directory or file names that start with two or more periods are now excluded, e.g. ~/.Rprofile.d/..hide/test.R.</p></li>
 <li><p><code><a href="../reference/startup.html">startup()</a></code> protects against attempts to update R packages also via <code>pacman::p_up()</code> in addition to <code><a href="https://rdrr.io/r/utils/update.packages.html" class="external-link">utils::update.packages()</a></code>.</p></li>
-<li><p>Added flag ‘ess’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs under Emacs Speaks Statistics (ESS) or not.</p></li>
+<li><p>Added flag <code>ess</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs under Emacs Speaks Statistics (ESS) or not.</p></li>
 <li><p><code>startup(debug = TRUE)</code> detects if <code>R_TESTS</code> is set and reports which the file is and that the <strong>base</strong> package has already processed it.</p></li>
 </ul></div>
 <div class="section level3">
@@ -328,8 +328,8 @@
 <h3 id="new-features-0-4-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
 <ul><li><p>Now it is possible to do negated filename specifications, e.g. hpc,package=future/os!=windows.</p></li>
 <li><p>Filename flags can now be specified a TRUE, FALSE, T, F, 1, and 0 (non-case sensitive), e.g. interactive=false and interactive=0.</p></li>
-<li><p>Added element ‘gui’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code>.</p></li>
-<li><p>Added flags ‘rstudio’ and ‘wine’ to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs via RStudio and via Linux Wine, respectively.</p></li>
+<li><p>Added element <code>gui</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code>.</p></li>
+<li><p>Added flags <code>rstudio</code> and <code>wine</code> to <code><a href="../reference/sysinfo.html">sysinfo()</a></code> indicating whether R runs via RStudio and via Linux Wine, respectively.</p></li>
 <li><p>New conditional <code>&lt;key&gt;=&lt;value&gt;</code> specification: Directory and file names containing a <code>package=&lt;name&gt;</code> specification will be processed if and only if package <code>&lt;name&gt;</code> is installed.</p></li>
 <li><p>Errors occurring while sourcing an Rprofile file now also contain information about in file the error occurred. Lines with invalid syntax in Renviron files are ignored with a message outputted saying so. Due to limitations in how <code><a href="https://rdrr.io/r/base/readRenviron.html" class="external-link">base::readRenviron()</a></code> works, it is not possible to detect these errors nor capture the outputted message.</p></li>
 <li><p>Now objects are auto printed to match the behavior of the R startup process.</p></li>
