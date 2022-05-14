@@ -6,12 +6,11 @@ Version: 0.17.0-9008 [2022-04-26]
 NEW FEATURES:
 
  * Now startup::startup(debug = TRUE) reports on any environment
-   variables, options, and global variables that were added, removed,
-   and changed while processing an Rprofile file.
+   variables, options, global variables, locale settings that were
+   added, removed, and changed while processing an Rprofile file.
 
  * startup::startup(debug = TRUE) now reports on any changes to the
-   current working directory (getwd()), the R library path
-   (.libPaths()), and the locale (.Sys.getlocale()), while processing
+   current working directory and the R library path while processing
    an Rprofile file.
 
  * startup::startup(debug = TRUE) already reported on updates to the
