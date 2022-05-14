@@ -16,9 +16,9 @@ Run `revdep_details(, "dipsaus")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.9Mb
+      installed size is  7.0Mb
       sub-directories of 1Mb or more:
         doc    1.3Mb
-        libs   3.3Mb
+        libs   4.4Mb
     ```
 
