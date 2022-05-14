@@ -1,6 +1,6 @@
-# CRAN submission startup 0.17.0
+# CRAN submission startup 0.18.0
 
-on 2022-02-23
+on 2022-05-13
 
 Thanks in advance
 
@@ -11,15 +11,15 @@ Thanks in advance
 
 The package has been verified using `R CMD check --as-cran` on:
 
-| R version     | GitHub | R-hub      | mac/win-builder |
-| ------------- | ------ | ---------- | --------------- |
-| 3.4.x         | L      |            |                 |
-| 3.5.x         | L      |            |                 |
-| 4.0.x         | L      | L          |                 |
-| 4.1.x         | L M W  | L M M1 S W | M1 W            |
-| devel         | L M W  | L          |    W            |
+| R version | GitHub | R-hub    | mac/win-builder |
+| --------- | ------ | -------- | --------------- |
+| 3.4.x     | L      |          |                 |
+| 4.0.x     | L      |          |                 |
+| 4.1.x     | L      |          |                 |
+| 4.2.x     | L M W  | L M M1 W | M1 W            |
+| devel     | L M W  | L        |    W            |
 
-*Legend: OS: L = Linux, S = Solaris, M = macOS, M1 = macOS M1, W = Windows*
+*Legend: OS: L = Linux, M = macOS, M1 = macOS M1, W = Windows*
 
 
 R-hub checks:
@@ -35,57 +35,57 @@ print(res)
 gives
 
 ```
-── startup 0.17.0: OK
+── startup 0.18.0: OK
 
-  Build ID:   startup_0.17.0.tar.gz-457d776a96434379aab308a42a44e8db
+  Build ID:   startup_0.18.0.tar.gz-810c4dc794ed4940baacc9333e2dbd35
   Platform:   Debian Linux, R-devel, clang, ISO-8859-15 locale
-  Submitted:  6m 56.8s ago
-  Build time: 1m 19.5s
+  Submitted:  10m 44.9s ago
+  Build time: 1m 28.8s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── startup 0.17.0: OK
+── startup 0.18.0: OK
 
-  Build ID:   startup_0.17.0.tar.gz-20fb17d014de4b20909dc9e4e02e4c72
+  Build ID:   startup_0.18.0.tar.gz-17910cdc047f4926b353340e66fd2b24
   Platform:   Debian Linux, R-patched, GCC
-  Submitted:  6m 56.8s ago
-  Build time: 1m 3.8s
+  Submitted:  10m 45s ago
+  Build time: 1m 24.6s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── startup 0.17.0: OK
+── startup 0.18.0: OK
 
-  Build ID:   startup_0.17.0.tar.gz-b8e6aedececc41899df17f0751eef45e
+  Build ID:   startup_0.18.0.tar.gz-8a5789dbe13a460d8f1a2fc24add5f94
   Platform:   CentOS 8, stock R from EPEL
-  Submitted:  6m 56.8s ago
-  Build time: 1m 15.2s
+  Submitted:  10m 45s ago
+  Build time: 1m 24.2s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── startup 0.17.0: OK
+── startup 0.18.0: OK
 
-  Build ID:   startup_0.17.0.tar.gz-afc468a68bee4ffa9f8d77de400469eb
+  Build ID:   startup_0.18.0.tar.gz-dee7cbaa23a048ecb965b95f7fcc1b94
   Platform:   macOS 10.13.6 High Sierra, R-release, CRAN's setup
-  Submitted:  6m 56.8s ago
-  Build time: 1m 14.9s
+  Submitted:  10m 45s ago
+  Build time: 1m 7.6s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── startup 0.17.0: OK
+── startup 0.18.0: OK
 
-  Build ID:   startup_0.17.0.tar.gz-5ad0f53a7f0d48579e3696fcf9f75a9b
+  Build ID:   startup_0.18.0.tar.gz-7cd4d4232bc244d0a48cbe6a2a222d67
   Platform:   Apple Silicon (M1), macOS 11.6 Big Sur, R-release
-  Submitted:  6m 56.8s ago
-  Build time: 43.6s
+  Submitted:  10m 45.1s ago
+  Build time: 46s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── startup 0.17.0: OK
+── startup 0.18.0: OK
 
-  Build ID:   startup_0.17.0.tar.gz-6cc9220d3117445e83204c433851d8d6
+  Build ID:   startup_0.18.0.tar.gz-f1cb9b63535242678e6cc3b95eb21331
   Platform:   Windows Server 2008 R2 SP1, R-release, 32/64 bit
-  Submitted:  6m 56.8s ago
-  Build time: 2m 38.7s
+  Submitted:  10m 45.1s ago
+  Build time: 2m 30.5s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ```
