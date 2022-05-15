@@ -1,6 +1,12 @@
 # Version (development version)
 
- * ...
+## New Features
+
+ * An R script in environment variable `R_STARTUP_FILE` will be
+   evaluated by `startup::startup()` after Renviron and Rprofile files
+   have been processed, and after any `R_STARTUP_INIT` code.  For
+   example, `R_STARTUP_FILE="setup.R" R` launches R, processes all R
+   startup files, and at the end parses and evaluates file 'setup.R'.
  
 
 # Version 0.18.0

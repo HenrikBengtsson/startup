@@ -52,10 +52,20 @@ Controls the default value of argument \code{dryrun} of \code{\link[=startup]{st
 
 
 \describe{
+\item{\env{R_STARTUP_FILE} / \option{startup.file}:}{
+(R script as a character string)
+Optional \R script that is parsed and evaluated after
+\file{.Renviron.d/} and \file{.Rprofile.d/} files,
+and \code{R_STARTUP_INIT} code, have been processed, e.g.
+\verb{R_STARTUP_FILE="setup.R" R --quiet}.
+(Default: not specified)
+}
+
 \item{\env{R_STARTUP_INIT} / \option{startup.init}:}{
 (R code as a character string)
-Optional \R code that is parsed and evaluated after \file{.Renviron.d/}
-and \file{.Rprofile.d/} files have been processed, e.g.
+Optional \R code that is parsed and evaluated after
+\file{.Renviron.d/} and \file{.Rprofile.d/} files,
+but before \code{R_STARTUP_FILE} code, have been processed e.g.
 \verb{R_STARTUP_INIT="message('Hello world')" R --quiet}.
 The specified string must be parsable by \code{\link[base:parse]{base::parse()}}.
 (Default: not specified)

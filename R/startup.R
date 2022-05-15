@@ -248,7 +248,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     check_envs()
     
     # (b) Check for unsafe changes to R options changes done by
-    #     any Rprofile files or by the R_STARTUP_INIT code
+    #     any Rprofile files
     check_options()
   }
 
@@ -277,12 +277,49 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   ## (iv) Detect and report on run-time startup issues
   if (check) {
-    # (a) Check for unsafe/non-intended changes to environment variables
-    #     to library, Renviron, or Rprofile paths
     check_envs()
-    
-    # (b) Check for unsafe changes to R options changes done by
-    #     any Rprofile files or by the R_STARTUP_INIT code
+    check_options()
+  }
+  
+  ## (iii) Process R_STARTUP_FILE code?
+  f <- Sys.getenv("R_STARTUP_FILE")
+  f <- getOption("startup.file", f)
+  if (nzchar(f)) {
+    logf("Processing R_STARTUP_FILE/startup.file=%s:", squote(f))
+    if (!is_file(f)) {
+      msg <- sprintf("No such file 'R_STARTUP_FILE'/'startup.file' file: %s", squote(f))
+      logf(paste("- [SKIPPING]", msg))
+      if (on_error == "error") {
+        stop(msg, call. = FALSE)
+      } else if (on_error == "warning") {
+        warning(msg, call. = FALSE)
+      } else if (on_error == "immediate.warning") {
+        warning(msg, immediate. = TRUE, call. = FALSE)
+      } else if (on_error == "message") {
+        message(msg)
+      }
+    }
+    expr <- tryCatch(parse(file = f), error = identity)
+    if (inherits(expr, "error")) {
+      msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", squote(code))
+      logf(paste("- [SKIPPED]", msg))
+      if (on_error == "error") {
+        stop(msg, call. = FALSE)
+      } else if (on_error == "warning") {
+        warning(msg, call. = FALSE)
+      } else if (on_error == "immediate.warning") {
+        warning(msg, immediate. = TRUE, call. = FALSE)
+      } else if (on_error == "message") {
+        message(msg)
+      }
+    } else {
+      eval(expr, envir = .GlobalEnv, enclos = baseenv())
+    }
+  }
+
+  ## (iv) Detect and report on run-time startup issues
+  if (check) {
+    check_envs()
     check_options()
   }
   

@@ -10,5 +10,5 @@ vigns: vignettes/startup-intro.md
 
 spelling:
 	$(R_SCRIPT) -e "spelling::spell_check_package()"
-	$(R_SCRIPT) -e "spelling::spell_check_files(c('NEWS', dir('vignettes', pattern='[.](md|rsp)$$', full.names=TRUE)), ignore=readLines('inst/WORDLIST', warn=FALSE))"
+	$(R_SCRIPT) -e "spelling::spell_check_files(c('NEWS.md', dir('vignettes', pattern='[.](md|rsp)$$', full.names=TRUE)), ignore=readLines('inst/WORDLIST', warn=FALSE))"
 
