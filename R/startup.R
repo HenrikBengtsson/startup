@@ -193,7 +193,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
       if (is_file(f)) {
-        logf("- %s", file_info(f, type = "env", validate = TRUE))
+        logf("- %s", file_info(f, type = "r", validate = TRUE))
       } else {
         if (nzchar(r_arch)) f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
         if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
@@ -208,7 +208,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     if (!no_init_file) {
       f <- Sys.getenv("R_PROFILE_USER")
       if (is_file(f)) {
-        logf("- %s", file_info(f, type = "env", validate = TRUE))
+        logf("- %s", file_info(f, type = "r", validate = TRUE))
       } else {
         if (nzchar(r_arch)) f <- sprintf(".Rprofile.%s", r_arch)
         if (!is_file(f)) f <- ".Rprofile"

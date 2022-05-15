@@ -7,7 +7,13 @@
    have been processed, and after any `R_STARTUP_INIT` code.  For
    example, `R_STARTUP_FILE="setup.R" R` launches R, processes all R
    startup files, and at the end parses and evaluates file 'setup.R'.
- 
+
+## Bug Fixes
+
+ * `startup(debug = TRUE)` would report file information on `R_PROFILE`
+   and `R_PROFILE_USER` files as if they were Renviron files, not
+   Rprofile files.
+   
 
 # Version 0.18.0
 
