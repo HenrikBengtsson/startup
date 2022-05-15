@@ -187,8 +187,6 @@ startup <- function(sibling = FALSE, all = FALSE,
     if (is_file(f)) logf("- %s", file_info(f, type = "r"))
 
     logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
-    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
-
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
@@ -204,6 +202,7 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
     }
 
+    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
     if (!no_init_file) {
       f <- Sys.getenv("R_PROFILE_USER")
