@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9002</span>
       </span>
     </div>
 
@@ -68,6 +68,11 @@
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>An R script in environment variable <code>R_STARTUP_FILE</code> will be evaluated by <code><a href="../reference/startup.html">startup::startup()</a></code> after Renviron and Rprofile files have been processed, and after any <code>R_STARTUP_INIT</code> code. For example, <code>R_STARTUP_FILE="setup.R" R</code> launches R, processes all R startup files, and at the end parses and evaluates file ‘setup.R’.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>
+<code>startup(debug = TRUE)</code> would report file information on <code>R_PROFILE</code> and <code>R_PROFILE_USER</code> files as if they were Renviron files, not Rprofile files.</li>
 </ul></div>
 </div>
     <div class="section level2">

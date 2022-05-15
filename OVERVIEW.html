@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9002</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
 <li>
 <p>If the <code>.Rprofile</code> file (in Step 2) calls <code><a href="reference/startup.html">startup::startup()</a></code> then the following will also take place:</p>
 <ol style="list-style-type: lower-alpha"><li><p>The <em>first</em> ‘Renviron.d’ directory on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_ENVIRON_USER"), ".d")</code>, (ii) <code>./.Renviron.d</code>, (iii) <code>~/.Renviron.d</code>, and (iv) <code>{user-config-dir}/Renviron.d</code>, where <code>{user-config-dir}</code> corresponds to <code>tools::R_user_dir("startup", which = "config")</code>, e.g. <code>${XDG_CONFIG_HOME}/R/startup</code>. The format of these files should be the same as for <code>.Renviron</code>. <em>NOTE:</em> Some environment variables must be set already in Step 1 above in order to be acknowledged by R.</p></li>
-<li><p>A set of handy R options that can be use in Step 3c are set. Their names are prefixed <code>startup.session.</code> - see <code><a href="reference/startup_session_options.html">?startup::startup_session_options</a></code> for details.</p></li>
+<li><p>A set of handy R options that can be used in Step 3c are set. Their names are prefixed <code>startup.session.</code> - see <code><a href="reference/startup_session_options.html">?startup::startup_session_options</a></code> for details.</p></li>
 <li><p>The <em>first</em> ‘Rprofile.d’ directory found on the R startup search path is processed. The search path is (in order): (i) <code>paste0(Sys.getenv("R_PROFILE_USER"), ".d")</code>, (ii) <code>./.Rprofile.d</code>, (iii) <code>~/.Rprofile.d</code>, and (iv) <code>{user-config-dir}/Rprofile.d</code>. The format of these files should be the same as for <code>.Rprofile</code>, that is, they must be valid R scripts.</p></li>
 <li><p>If set, any R code in environment variable <code>R_STARTUP_INIT</code>, or R option <code>startup.init</code>, is parsed and evaluated.</p></li>
 <li><p>If set, any R script specified by environment variable <code>R_STARTUP_FILE</code>, or R option <code>startup.file</code>, is parsed and evaluated.</p></li>
