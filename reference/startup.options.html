@@ -21,7 +21,7 @@ R or (ii) in the .Renviron file."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9001</span>
       </span>
     </div>
 
@@ -103,10 +103,20 @@ Controls the default value of argument <code>dryrun</code> of <code><a href="sta
     
 
 
-<dl><dt><code class="env">R_STARTUP_INIT</code> / <span class="option">startup.init</span>:</dt>
+<dl><dt><code class="env">R_STARTUP_FILE</code> / <span class="option">startup.file</span>:</dt>
+<dd><p>(R script as a character string)
+Optional <span style="R">R</span> script that is parsed and evaluated after
+<code class="file">.Renviron.d/</code> and <code class="file">.Rprofile.d/</code> files,
+and <code>R_STARTUP_INIT</code> code, have been processed, e.g.
+<code>R_STARTUP_FILE="setup.R" R --quiet</code>.
+(Default: not specified)</p></dd>
+
+
+<dt><code class="env">R_STARTUP_INIT</code> / <span class="option">startup.init</span>:</dt>
 <dd><p>(R code as a character string)
-Optional <span style="R">R</span> code that is parsed and evaluated after <code class="file">.Renviron.d/</code>
-and <code class="file">.Rprofile.d/</code> files have been processed, e.g.
+Optional <span style="R">R</span> code that is parsed and evaluated after
+<code class="file">.Renviron.d/</code> and <code class="file">.Rprofile.d/</code> files,
+but before <code>R_STARTUP_FILE</code> code, have been processed e.g.
 <code>R_STARTUP_INIT="message('Hello world')" R --quiet</code>.
 The specified string must be parsable by <code><a href="https://rdrr.io/r/base/parse.html" class="external-link">base::parse()</a></code>.
 (Default: not specified)</p></dd>

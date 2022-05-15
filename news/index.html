@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9001</span>
       </span>
     </div>
 
@@ -65,8 +65,11 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<ul><li>…</li>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>An R script in environment variable <code>R_STARTUP_FILE</code> will be evaluated by <code><a href="../reference/startup.html">startup::startup()</a></code> after Renviron and Rprofile files have been processed, and after any <code>R_STARTUP_INIT</code> code. For example, <code>R_STARTUP_FILE="setup.R" R</code> launches R, processes all R startup files, and at the end parses and evaluates file ‘setup.R’.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.18.0" id="version-0180">Version 0.18.0<small>2022-05-14</small><a class="anchor" aria-label="anchor" href="#version-0180"></a></h2>
 <div class="section level3">
