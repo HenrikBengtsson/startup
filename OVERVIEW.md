@@ -19,7 +19,7 @@ When R starts, the following _user-specific_ setup takes place:
 
    a. The _first_ 'Renviron.d' directory on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, (ii) `./.Renviron.d`, (iii) `~/.Renviron.d`, and (iv) `{user-config-dir}/Renviron.d`, where `{user-config-dir}` corresponds to `tools::R_user_dir("startup", which = "config")`, e.g. `${XDG_CONFIG_HOME}/R/startup`.  The format of these files should be the same as for `.Renviron`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
 
-   b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
+   b. A set of handy R options that can be used in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
 
    c. The _first_ 'Rprofile.d' directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, (iii) `~/.Rprofile.d`, and (iv) `{user-config-dir}/Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
