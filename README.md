@@ -31,7 +31,11 @@ When R starts, the following _user-specific_ setup takes place:
 
    c. The _first_ 'Rprofile.d' directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, (iii) `~/.Rprofile.d`, and (iv) `{user-config-dir}/Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
-   d. If no errors occur above, the **[startup]** package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
+   d. If set, any R code in environment variable `R_STARTUP_INIT`, or R option `startup.init`, is parsed and evaluated.
+   
+   e. If set, any R script specified by environment variable `R_STARTUP_FILE`, or R option `startup.file`, is parsed and evaluated.
+   
+   f. If no errors occur above, the **[startup]** package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
 
 
 All relevant files in 'Renviron.d' and 'Rprofile.d'  directories, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the `C` locale).
