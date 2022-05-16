@@ -47,7 +47,7 @@ Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any f
 
 ## Installation
 
-After installing the startup packages (see instructions at the end), call
+After installing the **startup** packages (see instructions at the end), call
 
 ```r
 startup::install()
