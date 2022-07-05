@@ -127,6 +127,8 @@
 #' startup.dryrun
 #' R_STARTUP_DISABLE
 #' startup.disable
+#' R_STARTUP_FILE
+#' startup.file
 #' R_STARTUP_INIT
 #' startup.init
 #' R_STARTUP_RDATA

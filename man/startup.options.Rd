@@ -13,6 +13,8 @@
 \alias{startup.dryrun}
 \alias{R_STARTUP_DISABLE}
 \alias{startup.disable}
+\alias{R_STARTUP_FILE}
+\alias{startup.file}
 \alias{R_STARTUP_INIT}
 \alias{startup.init}
 \alias{R_STARTUP_RDATA}
