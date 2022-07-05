@@ -90,10 +90,10 @@
 <h3 id="new-features-0-17-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-17-0"></a></h3>
 <ul><li><p><code><a href="../reference/startup.html">startup::startup()</a></code> now searches for Renviron.d/ and Rprofile.d/ (note, without leading periods) in user’s configuration folder in a way that is compatible with <code><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">tools::R_user_dir()</a></code> of R (&gt;= 4.0.0) and that follows operating-system standards. For example, for Linux ~/.config/R/startup/, for macOS ~/Library/Preferences/org.R-project.R/R/startup/, and for MS Windows %LOCALAPPDATA%/R/cache/R/startup/. If environment variable <code>XDG_CONFIG_HOME</code> is set, then ${XDG_CONFIG_HOME}/R/startup/ is used. For now, <code><a href="../reference/install.html">startup::install()</a></code> will continue to create ~/.Renviron.d/ and ~/.Rprofile.d/ by default.</p></li>
 <li><p><code><a href="../reference/install.html">startup::install()</a></code> gained argument <code>make_dirs</code> to control whether directories .Renviron.d/ and .Rprofile.d/ should be created, if missing.</p></li>
-<li><p>Add <code><a href="../reference/on_session_enter.html">on_session_enter()</a></code> for registering R functions and expressions to be evaluated at the end of R’s startup process via a custom <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.First()</a></code> that is added to the global environment. If there is a <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.First()</a></code> function on the search path, including any preexisting one in the global environment, that is called at the end.</p></li>
+<li><p>Add <code><a href="../reference/on_session_enter.html">on_session_enter()</a></code> for registering R functions and expressions to be evaluated at the end of R’s startup process via a custom <code>.First()</code> that is added to the global environment. If there is a <code>.First()</code> function on the search path, including any preexisting one in the global environment, that is called at the end.</p></li>
 <li><p>Add <code><a href="../reference/on_session_enter.html">on_session_exit()</a></code> for registering R functions and expressions to be called at the very end when the R session terminates.</p></li>
 <li><p>Now <code><a href="../reference/startup.html">startup()</a></code> warns about non-standard, platform-specific capitalization of Renviron and Rprofile file names. For example, although ~/.RProfile works on MS Windows and macOS with non-case sensitive file systems, the officially supported file name is ~/.Rprofile.</p></li>
-<li><p>Now <code>startup(debug = TRUE)</code> reports on <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">.Last()</a></code> and <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">.Last.sys()</a></code>.</p></li>
+<li><p>Now <code>startup(debug = TRUE)</code> reports on <code>.Last()</code> and <code>.Last.sys()</code>.</p></li>
 <li><p>Now <code>startup(debug = TRUE)</code> gives a note if it detects that an Rprofile script updated the state of R’s random number generator (RNG).</p></li>
 <li><p>Harmonized cache folder options toward <code><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">tools::R_user_dir()</a></code> of R (&gt;= 4.0.0).</p></li>
 </ul></div>
@@ -198,7 +198,7 @@
 <h3 id="new-features-0-12-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-12-0"></a></h3>
 <ul><li><p>Added support for <code>when=&lt;periodicity&gt;</code> file declarations, where <code>&lt;periodicity&gt;</code> can be ‘once’, ‘hourly’, ‘daily’, ‘weekly’, ‘fortnightly’, and ‘monthly’. A startup file with such a declaration will be processed at most once per <code>&lt;periodicity&gt;</code>, e.g. a file with ‘when=daily’ somewhere in the pathname will be processed once per day. The periodicity is based on the walltime in the local time zone, e.g. if a file with ‘when=daily’ was processed one minute before midnight, it will be processed again if an R session is started one minute past midnight. Updating the file timestamp of a ‘when’ file will reset its timer.</p></li>
 <li><p>Code in environment variable <code>R_STARTUP_INIT</code> will now be evaluated by <code><a href="../reference/startup.html">startup::startup()</a></code> after Renviron and Rprofile files have been processed. For example, <code>R_STARTUP_INIT="x &lt;- 1" R</code> will launch R with <code>x == 1</code>.</p></li>
-<li><p><code>startup(debug = TRUE)</code> now also reports on <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.First()</a></code>.</p></li>
+<li><p><code>startup(debug = TRUE)</code> now also reports on <code>.First()</code>.</p></li>
 <li><p>The messages of warnings and errors produced by the <strong>startup</strong> package itself now mention which startup function they originate from. This helps to identify the origin of these when produced during the R startup process.</p></li>
 <li><p>Added <code><a href="../reference/warn.html">warn()</a></code>, which produces a warning with information on which R source file it was produced in, if any.</p></li>
 </ul></div>
@@ -388,7 +388,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>

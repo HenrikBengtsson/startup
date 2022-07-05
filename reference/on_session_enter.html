@@ -69,9 +69,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">on_session_enter</span><span class="op">(</span>fcn <span class="op">=</span> <span class="cn">NULL</span>, append <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">on_session_exit</span><span class="op">(</span>fcn <span class="op">=</span> <span class="cn">NULL</span>, append <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">on_session_enter</span><span class="op">(</span>fcn <span class="op">=</span> <span class="cn">NULL</span>, append <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">on_session_exit</span><span class="op">(</span>fcn <span class="op">=</span> <span class="cn">NULL</span>, append <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -80,16 +80,23 @@
 <dd><p>A function or an R expression. The function must accept zero
 or more arguments (currently not used). If an expression, it will
 automatically we wrapped up in an anonymous function.</p></dd>
+
+
 <dt>append</dt>
 <dd><p>If TRUE (default), the function will be evaluated after
 previously registered ones, otherwise prepended.</p></dd>
+
+
 <dt>replace</dt>
 <dd><p>if TRUE, the function replaces any previously registered
 ones, otherwise it will be added (default).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>(invisible) the list of registered functions.</p>
+    
+
+<p>(invisible) the list of registered functions.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -104,8 +111,8 @@ or <code>on_session_exit(replace = TRUE)</code>.</p>
 <p>The <code>on_session_enter()</code> function works by recording all <code>fcn</code>:s in an
 internal list which will be evaluated via a custom
 <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.First()</a></code> function created in the global
-environment. Any other <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.First()</a></code> function on the search path, including
-a pre-existing <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">.First()</a></code> function in the global environment, is called
+environment. Any other <code>.First()</code> function on the search path, including
+a pre-existing <code>.First()</code> function in the global environment, is called
 at the end after registered functions have been called.</p>
 <p>The <code>on_session_exit()</code> function works by recording all <code>fcn</code>:s in an
 internal list which will be evaluated via a custom function that is called
@@ -115,32 +122,32 @@ Contrary to a <code><a href="https://rdrr.io/r/base/quit.html" class="external-l
 called if <code>quit(runLast = FALSE)</code> is used, functions registered via
 <code>on_session_exit()</code> are always processed.
 Registered <code>on_session_exit()</code> functions are called <em>after</em> <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">quit()</a></code> saves
-any workspace image to file (<code>./.RData</code>), and <em>after</em> any <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">.Last()</a></code> has
+any workspace image to file (<code>./.RData</code>), and <em>after</em> any <code>.Last()</code> has
 been called.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">## Summarize interactive session upon termination</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu">startup</span><span class="fu">::</span><span class="fu">on_session_exit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">local</a></span><span class="op">(</span><span class="op">{</span></span>
-<span class="r-in">    <span class="va">t0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">      <span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">difftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">t0</span>, units <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span></span>
-<span class="r-in">      <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">        <span class="st">"Session summary:"</span>,</span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">" * R version: %s"</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">getRversion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">" * Process ID: %d"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">" * Wall time: %.2f %s"</span>, <span class="va">dt</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dt</span>, <span class="st">"units"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">      <span class="op">)</span></span>
-<span class="r-in">      <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">msg</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="va">msg</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">}</span></span>
-<span class="r-in">  <span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## Summarize interactive session upon termination</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">startup</span><span class="fu">::</span><span class="fu">on_session_exit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">local</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">t0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">difftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">t0</span>, units <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"Session summary:"</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">" * R version: %s"</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">getRversion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">" * Process ID: %d"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">" * Wall time: %.2f %s"</span>, <span class="va">dt</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dt</span>, <span class="st">"units"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">msg</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="va">msg</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -155,7 +162,7 @@ been called.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>

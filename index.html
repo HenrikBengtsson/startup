@@ -119,12 +119,12 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>After installing the startup packages (see instructions at the end), call</p>
+<p>After installing the <strong>startup</strong> packages (see instructions at the end), call</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/install.html">install</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/install.html">install</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>once. This will append</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/startup.html">startup</a></span><span class="op">(</span><span class="op">)</span>, error<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">ex</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">".Rprofile error: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">conditionMessage</a></span><span class="op">(</span><span class="va">ex</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">startup</span><span class="fu">::</span><span class="fu"><a href="reference/startup.html">startup</a></span><span class="op">(</span><span class="op">)</span>, error<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">ex</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">".Rprofile error: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">conditionMessage</a></span><span class="op">(</span><span class="va">ex</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>to your <code>~/.Rprofile</code>. The file will be created if missing. This will also create directories <code>~/.Renviron.d/</code> and <code>~/.Rprofile.d/</code> if missing. To find the location of these folder on Windows, use <code>normalizePath("~")</code> - it’s often located under <code>C:\Users\Alice\Documents\</code>.</p>
 <p>Alternatively to the above installation setup, you can just add that line to your <code>~/.Rprofile</code> file manually. The reason for using <code>tryCatch(..., error = ...)</code> is for the case when <strong>startup</strong> is not installed and you try to install it, e.g. after upgrading R to a new major release. Without <code><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch()</a></code>, R will fail to install the <strong>startup</strong> package (or any other package) because the R profile startup script produces an error complaining about <strong>startup</strong> not being available.</p>
 </div>
@@ -288,18 +288,18 @@
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <p>Below is a list of “real-world” example files:</p>
-<pre><code><span class="va">.Renviron.d</span><span class="op">/</span>
-  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">lang</span>
-  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">r_cmd_check</span>
-  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">secrets</span><span class="op">=</span><span class="va">banana</span>
- 
-<span class="va">.Rprofile.d</span><span class="op">/</span>
-  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">interactive</span><span class="op">=</span><span class="cn">TRUE</span><span class="op">/</span>
-      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">help.start.R</span>
-      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">misc.R</span>
-      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">package</span><span class="op">=</span><span class="va">fortunes.R</span>
-  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">os</span><span class="op">=</span><span class="va">windows.R</span>
-  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">repos.R</span></code></pre>
+<pre><code><span><span class="va">.Renviron.d</span><span class="op">/</span></span>
+<span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">lang</span></span>
+<span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">r_cmd_check</span></span>
+<span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">secrets</span><span class="op">=</span><span class="va">banana</span></span>
+<span> </span>
+<span><span class="va">.Rprofile.d</span><span class="op">/</span></span>
+<span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">interactive</span><span class="op">=</span><span class="cn">TRUE</span><span class="op">/</span></span>
+<span>      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">help.start.R</span></span>
+<span>      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">misc.R</span></span>
+<span>      <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">package</span><span class="op">=</span><span class="va">fortunes.R</span></span>
+<span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">os</span><span class="op">=</span><span class="va">windows.R</span></span>
+<span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">repos.R</span></span></code></pre>
 <p>They are available as part of this package under <code>system.file(package = "startup")</code>, e.g.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"Rprofile.d"</span>, <span class="st">"repos.R"</span>, <span class="at">package =</span> <span class="st">"startup"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">file.show</span>(f, <span class="at">type =</span> <span class="st">"text"</span>)</span>
@@ -317,13 +317,13 @@
 </h2>
 <p>R package startup is available on <a href="https://cran.r-project.org/package=startup" class="external-link">CRAN</a> and can be installed in R as:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"startup"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"startup"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pre-release-version">Pre-release version<a class="anchor" aria-label="anchor" href="#pre-release-version"></a>
 </h3>
 <p>To install the pre-release version that is available in Git branch <code>develop</code> on GitHub, use:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"HenrikBengtsson/startup"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"HenrikBengtsson/startup"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></span></code></pre></div>
 <p>This will install the package from source.</p>
 </div>
 </div>
@@ -389,7 +389,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer>

@@ -69,16 +69,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">restart</span><span class="op">(</span>
-  status <span class="op">=</span> <span class="fl">0L</span>,
-  workdir <span class="op">=</span> <span class="cn">NULL</span>,
-  rcmd <span class="op">=</span> <span class="cn">NULL</span>,
-  args <span class="op">=</span> <span class="cn">NULL</span>,
-  envvars <span class="op">=</span> <span class="cn">NULL</span>,
-  as <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"current"</span>, <span class="st">"specified"</span>, <span class="st">"R CMD build"</span>, <span class="st">"R CMD check"</span>, <span class="st">"R CMD INSTALL"</span><span class="op">)</span>,
-  quiet <span class="op">=</span> <span class="cn">FALSE</span>,
-  debug <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">restart</span><span class="op">(</span></span>
+<span>  status <span class="op">=</span> <span class="fl">0L</span>,</span>
+<span>  workdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rcmd <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  envvars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  as <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"current"</span>, <span class="st">"specified"</span>, <span class="st">"R CMD build"</span>, <span class="st">"R CMD check"</span>, <span class="st">"R CMD INSTALL"</span><span class="op">)</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  debug <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,31 +86,46 @@
     <dl><dt>status</dt>
 <dd><p>An integer specifying the exit code of the current
 <span style="R">R</span> session.</p></dd>
+
+
 <dt>workdir</dt>
 <dd><p>The working directory where the new <span style="R">R</span> session should
 be launched from.  If <code>NULL</code>, then the working directory that was in
 place when the <span class="pkg">startup</span> package was first loaded.  If using
 <code><a href="startup.html">startup::startup()</a></code> in an <code class="file">.Rprofile</code> startup file, then this
 is likely to record the directory from which <span style="R">R</span> itself was launched from.</p></dd>
+
+
 <dt>rcmd</dt>
 <dd><p>A character string specifying the command for launching <span style="R">R</span>.
 The default is the same as used to launch the current <span style="R">R</span> session, i.e.
 <code><a href="https://rdrr.io/r/base/commandArgs.html" class="external-link">commandArgs()[1]</a></code>.</p></dd>
+
+
 <dt>args</dt>
 <dd><p>A character vector specifying zero or more command-line
 arguments to be appended to the system call of <code>rcmd</code>.</p></dd>
+
+
 <dt>envvars</dt>
 <dd><p>A named character vector of environment variables to
 be set when calling <span style="R">R</span>.</p></dd>
+
+
 <dt>as</dt>
 <dd><p>A character string specifying a predefined setups of <code>rcmd</code>,
 <code>args</code>, and <code>envvars</code>.  For details, see below.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Should the restart be quiet or not?
 If <code>NA</code> and <code>as == "current"</code>, then <code>quiet</code> is <code>TRUE</code> if the current
 <span style="R">R</span> session was started quietly, otherwise <code>FALSE</code>.</p></dd>
+
+
 <dt>debug</dt>
 <dd><p>If <code>TRUE</code>, debug messages are outputted, otherwise not.</p></dd>
+
 </dl></div>
     <div id="predefined-setups">
     <h2>Predefined setups</h2>
@@ -163,21 +178,21 @@ and so on.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="co">## Relaunch R with debugging of startup::startup() enabled</span></span>
-<span class="r-in">  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>envvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_STARTUP_DEBUG <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">## Relaunch R without loading user Rprofile files</span></span>
-<span class="r-in">  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>args <span class="op">=</span> <span class="st">"--no-init-file"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">## Mimic 'R CMD build' and 'R CMD check'</span></span>
-<span class="r-in">  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>as <span class="op">=</span> <span class="st">"R CMD build"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>as <span class="op">=</span> <span class="st">"R CMD check"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co">## ... which are both short for</span></span>
-<span class="r-in">  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--no-restore"</span><span class="op">)</span>,</span>
-<span class="r-in">                   envvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_DEFAULT_PACKAGES<span class="op">=</span><span class="st">""</span>, LC_COLLATE<span class="op">=</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co">## Relaunch R with debugging of startup::startup() enabled</span></span></span>
+<span class="r-in"><span>  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>envvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_STARTUP_DEBUG <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co">## Relaunch R without loading user Rprofile files</span></span></span>
+<span class="r-in"><span>  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>args <span class="op">=</span> <span class="st">"--no-init-file"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co">## Mimic 'R CMD build' and 'R CMD check'</span></span></span>
+<span class="r-in"><span>  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>as <span class="op">=</span> <span class="st">"R CMD build"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>as <span class="op">=</span> <span class="st">"R CMD check"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co">## ... which are both short for</span></span></span>
+<span class="r-in"><span>  <span class="fu">startup</span><span class="fu">::</span><span class="fu">restart</span><span class="op">(</span>args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--no-restore"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   envvars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_DEFAULT_PACKAGES<span class="op">=</span><span class="st">""</span>, LC_COLLATE<span class="op">=</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -192,7 +207,7 @@ and so on.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>
