@@ -16,11 +16,11 @@ startup of R
 }
 \section{Functions}{
 \itemize{
-\item \code{find_rprofile_d}: Locates the \file{.Rprofile.d} directory used
+\item \code{find_rprofile_d()}: Locates the \file{.Rprofile.d} directory used
 during \R startup.
 
-\item \code{find_renviron_d}: Locates the \file{.Renviron.d} directory used
+\item \code{find_renviron_d()}: Locates the \file{.Renviron.d} directory used
 during \R startup.
+
 }}
-
 \keyword{internal}

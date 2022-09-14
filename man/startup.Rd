@@ -86,14 +86,14 @@ of \R.
 }
 \section{Functions}{
 \itemize{
-\item \code{renviron_d}: Initiate using \file{.Renviron.d/} files
+\item \code{renviron_d()}: Initiate using \file{.Renviron.d/} files
 
-\item \code{rprofile_d}: Initiate using \file{.Rprofile.d/} files
+\item \code{rprofile_d()}: Initiate using \file{.Rprofile.d/} files
 
-\item \code{startup}: \code{renviron_d()} followed by \code{rprofile_d()} and then the
+\item \code{startup()}: \code{renviron_d()} followed by \code{rprofile_d()} and then the
 package is unloaded
-}}
 
+}}
 \section{User-specific installation}{
 
 In order for \file{.Rprofile.d} and \file{.Renviron.d} directories to be
