@@ -8,6 +8,12 @@
    example, `R_STARTUP_FILE="setup.R" R` launches R, processes all R
    startup files, and at the end parses and evaluates file 'setup.R'.
 
+## Miscellaneous
+
+ * Warnings on mis-configured environments and R options are now
+   produced at most onces. Previously, duplicated warnings with
+   identical messages could be produced.
+
 ## Bug Fixes
 
  * `startup(debug = TRUE)` would report file information on `R_PROFILE`

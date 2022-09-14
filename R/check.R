@@ -138,7 +138,7 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
       value <- getOption(opt, default)
       default <- "native.enc"
       if (!interactive() && value != default) {
-        warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
+        unique_warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
       }
     } else if (opt == "error") {
       check_rstudio_option_error_conflict()
@@ -146,7 +146,7 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
       value <- getOption(opt, default)
       default <- if (getRversion() >= "4.0.0") FALSE else TRUE
       if (value != default) {
-        warning(msg(opt, default, value), call. = FALSE)
+        unique_warning(msg(opt, default, value), call. = FALSE)
       }
     }
   }
@@ -191,7 +191,7 @@ check_r_libs_env_vars <- function() {
       } else {
         msg <- sprintf("Environment variable %s specifies %d non-existing folders %s which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", squote(var), npaths, pathsq, pathsQ)
       }
-      warning("startup::check(): ", msg, call. = FALSE)
+      unique_warning("startup::check(): ", msg, call. = FALSE)
     }
   }
 
@@ -207,7 +207,7 @@ check_r_libs_env_vars <- function() {
         pathnameq <- sprintf("%s (expands to %s)", pathnameq, squote(pathnamex))
       }
       msg <- sprintf("Environment variable %s specifies a non-existing startup file %s which R will silently ignore", squote(var), pathnameq)
-      warning("startup::check(): ", msg, call. = FALSE)
+      unique_warning("startup::check(): ", msg, call. = FALSE)
     }
   }
 
@@ -224,7 +224,7 @@ check_r_libs_env_vars <- function() {
         pathnameq <- sprintf("%s (expands to %s)", pathnameq, squote(pathnamex))
       }
       msg <- sprintf("Environment variable %s specifies a non-existing startup file %s which 'R CMD %s' will silently ignore", squote(var), pathnameq, key)
-      warning("startup::check(): ", msg, call. = FALSE)
+      unique_warning("startup::check(): ", msg, call. = FALSE)
     }
   }
 }
@@ -271,7 +271,7 @@ check_rstudio_option_error_conflict <- function() {
   ## Record intended value of option 'error'
   options(startup.error.lost = getOption("error"))
 
-  warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
+  unique_warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
 
 
@@ -301,3 +301,16 @@ warn_file_capitalization <- function(pathname, what) {
   warning("startup::startup(): ", msg, call. = FALSE)
   invisible(FALSE)
 }
+
+
+
+unique_warning <- local({
+  msgs <- NULL
+  function(...,  call. = TRUE) {
+    msg <- .makeMessage(...)
+    ## Nothing to do? Already warned?
+    if (msg %in% msgs) return(invisible(msg))
+    msgs <<- c(msgs, msg)
+    warning(..., call. = call.)
+  }
+})
