@@ -11,6 +11,10 @@
  * `sysinfo()` gained field `quiet`, which is TRUE if `R` or `Rscript`
    was called with command-line options `-q`, `--quiet`, or `--silent`.
 
+ * `sysinfo()` gained field `save`, which is TRUE if `R` or `Rscript`
+   was called with command-line options `--save`, FALSE if called with
+   `--no-save`, and otherwise NA.
+
 ## Miscellaneous
 
  * Warnings on mis-configured environments and R options are now

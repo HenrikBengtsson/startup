@@ -29,6 +29,10 @@ sysinfo <- function() {
   ## Session-specific variables
   sysinfo$dirname <- basename(getwd())
   sysinfo$quiet <- any(c("-q", "--quiet", "--silent") %in% r_cli_args())
+  save <- NA
+  if ("--save" %in% r_cli_args()) save <- TRUE
+  if ("--no-save" %in% r_cli_args()) save <- FALSE
+  sysinfo$save <- save
   
   sysinfo
 }
