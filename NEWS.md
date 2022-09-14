@@ -7,6 +7,9 @@
    have been processed, and after any `R_STARTUP_INIT` code.  For
    example, `R_STARTUP_FILE="setup.R" R` launches R, processes all R
    startup files, and at the end parses and evaluates file 'setup.R'.
+   
+ * `sysinfo()` gained field `quiet`, which is TRUE if `R` or `Rscript`
+   was called with command-line options `-q`, `--quiet`, or `--silent`.
 
 ## Miscellaneous
 

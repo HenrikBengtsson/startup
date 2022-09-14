@@ -103,6 +103,7 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   
 * System flags:
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
+  - `quiet`     - (logical) Indicates whether one of the R command-line arguments `-q`, `--quiet`, and `--silent` was specified
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
   - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
   - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice') or not
