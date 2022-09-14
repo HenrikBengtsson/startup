@@ -181,12 +181,15 @@ check_r_libs_env_vars <- function() {
     if (npaths > 0) {
       pathsx <- normalizePath(paths, mustWork = FALSE)
       pathsq <- paste(squote(paths), collapse = ", ")
+      if (!all(pathsx == paths)) {
+        pathsq <- sprintf("%s (expands to %s)",
+                          pathsq, paste(squote(pathsx), collapse = ", "))
+      }
       pathsQ <- paste(sprintf("\"%s\"", paths), collapse = ", ")
-      pathsxq <- paste(squote(pathsx), collapse = ", ")
       if (npaths == 1L) {
-        msg <- sprintf("Environment variable %s specifies a non-existing folder %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", squote(var), pathsq, pathsxq, pathsQ)
+        msg <- sprintf("Environment variable %s specifies a non-existing folder %s which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", squote(var), pathsq, pathsQ)
       } else {
-        msg <- sprintf("Environment variable %s specifies %d non-existing folders %s (expands to %s) which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", squote(var), npaths, pathsq, pathsxq, pathsQ)
+        msg <- sprintf("Environment variable %s specifies %d non-existing folders %s which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", squote(var), npaths, pathsq, pathsQ)
       }
       warning("startup::check(): ", msg, call. = FALSE)
     }
@@ -198,9 +201,12 @@ check_r_libs_env_vars <- function() {
     if (!nzchar(pathname)) next
     
     if (!is_file(pathname)) {
+      pathnameq <- squote(pathname)
       pathnamex <- normalizePath(pathname, mustWork = FALSE)
-      msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which R will silently ignore",
-                     squote(var), squote(pathname), squote(pathnamex))
+      if (pathnamex != pathname) {
+        pathnameq <- sprintf("%s (expands to %s)", pathnameq, squote(pathnamex))
+      }
+      msg <- sprintf("Environment variable %s specifies a non-existing startup file %s which R will silently ignore", squote(var), pathnameq)
       warning("startup::check(): ", msg, call. = FALSE)
     }
   }
@@ -212,9 +218,12 @@ check_r_libs_env_vars <- function() {
     if (!nzchar(pathname)) next
     
     if (!is_file(pathname)) {
+      pathnameq <- squote(pathname)
       pathnamex <- normalizePath(pathname, mustWork = FALSE)
-      msg <- sprintf("Environment variable %s specifies a non-existing startup file %s (expands to %s) which 'R CMD %s' will silently ignore",
-                     squote(var), squote(pathname), squote(pathnamex), key)
+      if (pathnamex != pathname) {
+        pathnameq <- sprintf("%s (expands to %s)", pathnameq, squote(pathnamex))
+      }
+      msg <- sprintf("Environment variable %s specifies a non-existing startup file %s which 'R CMD %s' will silently ignore", squote(var), pathnameq, key)
       warning("startup::check(): ", msg, call. = FALSE)
     }
   }
