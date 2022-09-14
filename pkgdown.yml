@@ -1,7 +1,7 @@
 pandoc: '2.18'
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   startup-intro: startup-intro.html
-last_built: 2022-07-05T10:13Z
+last_built: 2022-09-14T17:28Z
 
