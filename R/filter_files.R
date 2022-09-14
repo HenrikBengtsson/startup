@@ -36,10 +36,13 @@ filter_files_info <- function(files, info = sysinfo()) {
         files_values[files_values == "1"] <- "TRUE"
         files_values[files_values == "0"] <- "FALSE"
         files_values <- as.logical(files_values)
-        files_values[is.na(files_values)] <- FALSE
+        ## SPECIAL CASE: For all but 'save', interpret NA as FALSE
+        if (key != "save") {
+          files_values[is.na(files_values)] <- FALSE
+        }
       }
       files_ok <- lapply(files_values, FUN = function(values) {
-        keep <- (values == value)
+        keep <- vapply(values, FUN = identical, value, FUN.VALUE = FALSE)
         if (op == "!=") keep <- !keep
         all(keep)
       })
@@ -202,12 +205,14 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
   } ## for (op ...)
 
   attr(files, "unknown_keys") <- unknown_keys
-  
+
   files
 } ## filter_files_env()
 
 
 filter_files <- function(files, info = sysinfo()) {
+  files0 <- files
+  
   files <- filter_files_info(files, info = info)
   
   files <- filter_files_package(files)
@@ -218,6 +223,11 @@ filter_files <- function(files, info = sysinfo()) {
   files <- filter_files_env(files, ignore = c(names(info), "package", "when"))
 
   attr(files, "already_done") <- already_done
+
+  ## Sanity checks
+  if (anyNA(files)) {
+      stop("[INTERNAL ERROR] startup:::filter_files() produced missing values: ", paste(sprintf("%s -> %s", squote(files0), squote(files)), collapse = ", "))
+  }
 
   files
 } ## filter_files()
