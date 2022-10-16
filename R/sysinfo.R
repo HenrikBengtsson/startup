@@ -26,8 +26,24 @@ sysinfo <- function() {
   sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$wine <- is_wine()
 
-  ## Session-specific variables (character)
+  ## Session-specific variables
   sysinfo$dirname <- basename(getwd())
+  sysinfo$quiet <- any(c("-q", "--quiet", "--silent") %in% r_cli_args())
+  save <- NA
+  if ("--save" %in% r_cli_args()) save <- TRUE
+  if ("--no-save" %in% r_cli_args()) save <- FALSE
+  sysinfo$save <- save
   
   sysinfo
 }
+
+
+r_cli_args <- local({
+  cli_args <- NULL
+  function() {
+    if (is.null(cli_args)) {
+      cli_args <<- setdiff(commandArgs(), commandArgs(trailingOnly = TRUE))
+    }
+    cli_args
+  }
+})

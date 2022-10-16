@@ -18,7 +18,7 @@ jobs:
         config:
           - {os: windows-latest, r: 'devel'    }
           - {os: windows-latest, r: 'release'  }
-          - {os: macOS-latest,   r: 'devel'    }
+#          - {os: macOS-latest,   r: 'devel'    }
           - {os: macOS-latest,   r: 'release'  }
           - {os: ubuntu-20.04,   r: 'devel'    }
           - {os: ubuntu-20.04,   r: 'release'  }
@@ -26,6 +26,9 @@ jobs:
           - {os: ubuntu-20.04,   r: 'oldrel-1' }
           - {os: ubuntu-20.04,   r: 'oldrel-2' }
           - {os: ubuntu-20.04,   r: '3.4'      }
+          - {os: ubuntu-20.04,   r: 'release'  , language: ko,    label: ko    }
+          - {os: ubuntu-20.04,   r: 'release'  , language: zh_CN, label: zh_CN }
+          - {os: ubuntu-20.04,   r: 'release'  , language: zh_TW, label: zh_TW }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -37,6 +40,8 @@ jobs:
       _R_CHECK_LENGTH_1_LOGIC2_: true
       _R_CHECK_MATRIX_DATA_: true
       _R_CHECK_SUGGESTS_ONLY_: true
+      ## Test in other locale (optional)
+      LANGUAGE: ${{ matrix.config.language }}
 
     steps:
       - uses: actions/checkout@v2

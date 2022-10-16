@@ -14,11 +14,11 @@ Locates the .Rprofile and .Renviron files used during the startup of R
 }
 \section{Functions}{
 \itemize{
-\item \code{find_rprofile}: Locates the \file{.Rprofile} file used during
+\item \code{find_rprofile()}: Locates the \file{.Rprofile} file used during
 \R startup.
 
-\item \code{find_renviron}: Locates the \file{.Renviron} file used during
+\item \code{find_renviron()}: Locates the \file{.Renviron} file used during
 \R startup.
+
 }}
-
 \keyword{internal}

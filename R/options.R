@@ -29,10 +29,20 @@
 #' @section Additional customization of the startup process:
 #'
 #' \describe{
+#'   \item{\env{R_STARTUP_FILE} / \option{startup.file}:}{
+#'     (R script as a character string)
+#'     Optional \R script that is parsed and evaluated after
+#'     \file{.Renviron.d/} and \file{.Rprofile.d/} files,
+#'     and `R_STARTUP_INIT` code, have been processed, e.g.
+#'     `R_STARTUP_FILE="setup.R" R --quiet`.
+#'     (Default: not specified)
+#'   }
+#'
 #'   \item{\env{R_STARTUP_INIT} / \option{startup.init}:}{
 #'     (R code as a character string)
-#'     Optional \R code that is parsed and evaluated after \file{.Renviron.d/}
-#'     and \file{.Rprofile.d/} files have been processed, e.g.
+#'     Optional \R code that is parsed and evaluated after
+#'     \file{.Renviron.d/} and \file{.Rprofile.d/} files,
+#'     but before `R_STARTUP_FILE` code, have been processed e.g.
 #'     `R_STARTUP_INIT="message('Hello world')" R --quiet`.
 #'     The specified string must be parsable by [base::parse()].
 #'     (Default: not specified)
@@ -117,6 +127,8 @@
 #' startup.dryrun
 #' R_STARTUP_DISABLE
 #' startup.disable
+#' R_STARTUP_FILE
+#' startup.file
 #' R_STARTUP_INIT
 #' startup.init
 #' R_STARTUP_RDATA

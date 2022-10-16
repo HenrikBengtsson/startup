@@ -187,13 +187,11 @@ startup <- function(sibling = FALSE, all = FALSE,
     if (is_file(f)) logf("- %s", file_info(f, type = "r"))
 
     logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
-    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
-
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
     if (!no_site_file) {
       f <- Sys.getenv("R_PROFILE")
       if (is_file(f)) {
-        logf("- %s", file_info(f, type = "env", validate = TRUE))
+        logf("- %s", file_info(f, type = "r", validate = TRUE))
       } else {
         if (nzchar(r_arch)) f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
         if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
@@ -204,11 +202,12 @@ startup <- function(sibling = FALSE, all = FALSE,
       }
     }
 
+    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
     if (!no_init_file) {
       f <- Sys.getenv("R_PROFILE_USER")
       if (is_file(f)) {
-        logf("- %s", file_info(f, type = "env", validate = TRUE))
+        logf("- %s", file_info(f, type = "r", validate = TRUE))
       } else {
         if (nzchar(r_arch)) f <- sprintf(".Rprofile.%s", r_arch)
         if (!is_file(f)) f <- ".Rprofile"
@@ -248,7 +247,7 @@ startup <- function(sibling = FALSE, all = FALSE,
     check_envs()
     
     # (b) Check for unsafe changes to R options changes done by
-    #     any Rprofile files or by the R_STARTUP_INIT code
+    #     any Rprofile files
     check_options()
   }
 
@@ -277,12 +276,49 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   ## (iv) Detect and report on run-time startup issues
   if (check) {
-    # (a) Check for unsafe/non-intended changes to environment variables
-    #     to library, Renviron, or Rprofile paths
     check_envs()
-    
-    # (b) Check for unsafe changes to R options changes done by
-    #     any Rprofile files or by the R_STARTUP_INIT code
+    check_options()
+  }
+  
+  ## (iii) Process R_STARTUP_FILE code?
+  f <- Sys.getenv("R_STARTUP_FILE")
+  f <- getOption("startup.file", f)
+  if (nzchar(f)) {
+    logf("Processing R_STARTUP_FILE/startup.file=%s:", squote(f))
+    if (!is_file(f)) {
+      msg <- sprintf("No such file 'R_STARTUP_FILE'/'startup.file' file: %s", squote(f))
+      logf(paste("- [SKIPPING]", msg))
+      if (on_error == "error") {
+        stop(msg, call. = FALSE)
+      } else if (on_error == "warning") {
+        warning(msg, call. = FALSE)
+      } else if (on_error == "immediate.warning") {
+        warning(msg, immediate. = TRUE, call. = FALSE)
+      } else if (on_error == "message") {
+        message(msg)
+      }
+    }
+    expr <- tryCatch(parse(file = f), error = identity)
+    if (inherits(expr, "error")) {
+      msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", squote(code))
+      logf(paste("- [SKIPPED]", msg))
+      if (on_error == "error") {
+        stop(msg, call. = FALSE)
+      } else if (on_error == "warning") {
+        warning(msg, call. = FALSE)
+      } else if (on_error == "immediate.warning") {
+        warning(msg, immediate. = TRUE, call. = FALSE)
+      } else if (on_error == "message") {
+        message(msg)
+      }
+    } else {
+      eval(expr, envir = .GlobalEnv, enclos = baseenv())
+    }
+  }
+
+  ## (iv) Detect and report on run-time startup issues
+  if (check) {
+    check_envs()
     check_options()
   }
   

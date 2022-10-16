@@ -1,5 +1,3 @@
-
-
 <div id="badges"><!-- pkgdown markup -->
 <a href="https://CRAN.R-project.org/web/checks/check_results_startup.html"><img border="0" src="https://www.r-pkg.org/badges/version/startup" alt="CRAN check status"/></a> <a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/startup/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"/></a>     <a href="https://app.codecov.io/gh/HenrikBengtsson/startup"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"/></a> 
 </div>
@@ -27,11 +25,15 @@ When R starts, the following _user-specific_ setup takes place:
 
    a. The _first_ 'Renviron.d' directory on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, (ii) `./.Renviron.d`, (iii) `~/.Renviron.d`, and (iv) `{user-config-dir}/Renviron.d`, where `{user-config-dir}` corresponds to `tools::R_user_dir("startup", which = "config")`, e.g. `${XDG_CONFIG_HOME}/R/startup`.  The format of these files should be the same as for `.Renviron`.  _NOTE:_ Some environment variables must be set already in Step 1 above in order to be acknowledged by R.
 
-   b. A set of handy R options that can be use in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
+   b. A set of handy R options that can be used in Step 3c are set.  Their names are prefixed `startup.session.` - see `?startup::startup_session_options` for details.
 
    c. The _first_ 'Rprofile.d' directory found on the R startup search path is processed.  The search path is (in order): (i) `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii) `./.Rprofile.d`, (iii) `~/.Rprofile.d`, and (iv) `{user-config-dir}/Rprofile.d`.  The format of these files should be the same as for `.Rprofile`, that is, they must be valid R scripts.
 
-   d. If no errors occur above, the **[startup]** package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
+   d. If set, any R code in environment variable `R_STARTUP_INIT`, or R option `startup.init`, is parsed and evaluated.
+   
+   e. If set, any R script specified by environment variable `R_STARTUP_FILE`, or R option `startup.file`, is parsed and evaluated.
+   
+   f. If no errors occur above, the **[startup]** package will be unloaded, leaving no trace of itself behind, except for R options `startup.session.*` set in Step 3b - these will be erased if `startup::startup()` is called with `keep = NULL`.
 
 
 All relevant files in 'Renviron.d' and 'Rprofile.d'  directories, including those found recursively in subdirectories thereof, will be processed (in lexicographic order sorted under the `C` locale).
@@ -43,7 +45,7 @@ Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well as any f
 
 ## Installation
 
-After installing the startup packages (see instructions at the end), call
+After installing the **startup** packages (see instructions at the end), call
 
 ```r
 startup::install()
@@ -58,7 +60,7 @@ tryCatch(startup::startup(), error=function(ex) message(".Rprofile error: ", con
 to your `~/.Rprofile`.  The file will be created if missing.  This will also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if missing.  To find the location of these folder on Windows, use `normalizePath("~")` - it's often located under `C:\Users\Alice\Documents\`.
 
 
-Alternatively to the above installation setup, you can just add that line to your `~/.Rprofile` file manually.  The reason for using `tryCatch(..., error = ...)` is for the case when **startup** is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `try()`, R will fail to install the **startup** package (or any other package) because the R profile startup script produces an error complaining about **startup** not being available.
+Alternatively to the above installation setup, you can just add that line to your `~/.Rprofile` file manually.  The reason for using `tryCatch(..., error = ...)` is for the case when **startup** is not installed and you try to install it, e.g. after upgrading R to a new major release.  Without `tryCatch()`, R will fail to install the **startup** package (or any other package) because the R profile startup script produces an error complaining about **startup** not being available.
 
 
 
@@ -99,6 +101,8 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   
 * System flags:
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
+  - `quiet`        - (logical) Indicates whether one of the R command-line arguments `-q`, `--quiet`, and `--silent` was specified
+  - `save`         - (logical) TRUE if R was launched with command-line argument `--save`, FALSE if launched with `--no-save`, otherwise NA
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
   - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
   - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice') or not

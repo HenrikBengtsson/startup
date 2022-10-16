@@ -1,4 +1,34 @@
-# Version 0.18.0
+# Version 0.19.0 (2022-10-15)
+
+## New Features
+
+ * An R script in environment variable `R_STARTUP_FILE` will be
+   evaluated by `startup::startup()` after Renviron and Rprofile files
+   have been processed, and after any `R_STARTUP_INIT` code.  For
+   example, `R_STARTUP_FILE="setup.R" R` launches R, processes all R
+   startup files, and at the end parses and evaluates file 'setup.R'.
+   
+ * `sysinfo()` gained field `quiet`, which is TRUE if `R` or `Rscript`
+   was called with command-line options `-q`, `--quiet`, or `--silent`.
+
+ * `sysinfo()` gained field `save`, which is TRUE if `R` or `Rscript`
+   was called with command-line options `--save`, FALSE if called with
+   `--no-save`, and otherwise NA.
+
+## Miscellaneous
+
+ * Warnings on mis-configured environments and R options are now
+   produced at most onces. Previously, duplicated warnings with
+   identical messages could be produced.
+
+## Bug Fixes
+
+ * `startup(debug = TRUE)` would report file information on `R_PROFILE`
+   and `R_PROFILE_USER` files as if they were Renviron files, not
+   Rprofile files.
+   
+
+# Version 0.18.0 (2022-05-14)
 
 ## New Features
 
@@ -15,7 +45,7 @@
    updates to the RNG kind, including what the change was.
    
 
-# Version 0.17.0
+# Version 0.17.0 (2022-02-23)
 
 ## New Features
 
@@ -60,7 +90,7 @@
 
 
 
-# Version 0.16.0
+# Version 0.16.0 (2021-11-20)
 
 ## New Features
 
@@ -91,7 +121,7 @@
    since 2018-08-27.
     
 
-# Version 0.15.0
+# Version 0.15.0 (2020-09-03)
 
 ## New Features
 
@@ -111,7 +141,7 @@
    it did not have a newline on the last line.
 
 
-# Version 0.14.1
+# Version 0.14.1 (2020-04-01)
 
 ## New Features
 
@@ -138,7 +168,7 @@
    option `startup.check.options.ignore`. The default is to ignore `error`.
 
 
-# Version 0.14.0
+# Version 0.14.0 (2019-12-09)
 
 ## Significant Changes
 
@@ -178,7 +208,7 @@
    would produce a false warning on the `error` option being set.
 
 
-# Version 0.13.0
+# Version 0.13.0 (2019-10-27)
 
 ## New Features
 
@@ -209,7 +239,7 @@
    how such files were filtered out.
 
 
-# Version 0.12.0
+# Version 0.12.0 (2019-05-27)
 
 ## Significant Changes
 
@@ -262,7 +292,7 @@
  * Removed defunct `renviron()` and `rprofile()`. Use `renviron_d()` and `rprofile_d()`.
  
 
-# Version 0.11.0
+# Version 0.11.0 (2018-08-26)
 
 ## New Features
 
@@ -302,7 +332,7 @@
    a symbolic link.
    
 
-# Version 0.10.0
+# Version 0.10.0 (2018-03-31)
 
 ## Significant Changes
 
@@ -352,7 +382,7 @@
    `R_LIBS_USER` folders.
 
 
-# Version 0.9.0
+# Version 0.9.0 (2018-01-11)
 
 ## New Features
 
@@ -362,7 +392,7 @@
    possible.
 
 
-# Version 0.8.0
+# Version 0.8.0 (2017-10-19)
 
 ## New Features
 
@@ -393,7 +423,7 @@
    backup file with the exact same name already existed.
 
 
-# Version 0.7.0
+# Version 0.7.0 (2017-09-07)
 
 ## Significant Changes
 
@@ -410,7 +440,7 @@
  * Added a package vignette (available only in R >= 3.0.2).
  
  
-# Version 0.6.1
+# Version 0.6.1 (2017-05-17)
 
 ## Bug Fixes
 
@@ -420,7 +450,7 @@
    be created as well.
  
 
-# Version 0.6.0
+# Version 0.6.0 (2017-05-01)
 
 ## Significant Changes
 
@@ -450,7 +480,7 @@
    but also that they have the same file size as the original file.
 
 
-# Version 0.5.0
+# Version 0.5.0 (2017-02-13)
 
 ## New Features
 
@@ -473,7 +503,7 @@
    in startup errors.
  
 
-# Version 0.4.0
+# Version 0.4.0 (2016-12-22)
 
 ## New Features
 
@@ -518,7 +548,7 @@
  * Some macOS backup files would not be filtered out when running on Windows.
  
 
-# Version 0.3.0
+# Version 0.3.0 (2016-11-21)
 
  * No updates.  First submission to CRAN.
 

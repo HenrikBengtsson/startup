@@ -43,9 +43,9 @@ startup directories by appending / removing one line of code to the
 }
 \section{Functions}{
 \itemize{
-\item \code{install}: injects a \code{tryCatch(startup::startup(), ...)} call to
+\item \code{install()}: injects a \code{tryCatch(startup::startup(), ...)} call to
 the \file{.Rprofile} file, which is created if missing.
 
-\item \code{uninstall}: Remove calls to \code{startup::startup()} and similar.
-}}
+\item \code{uninstall()}: Remove calls to \code{startup::startup()} and similar.
 
+}}
