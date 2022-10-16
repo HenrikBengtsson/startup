@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.18.0-9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.19.0-9000</span>
       </span>
     </div>
 
@@ -65,18 +65,22 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<ul><li>…</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.19.0" id="version-0190">Version 0.19.0<small>2022-10-16</small><a class="anchor" aria-label="anchor" href="#version-0190"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-19-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-19-0"></a></h3>
 <ul><li><p>An R script in environment variable <code>R_STARTUP_FILE</code> will be evaluated by <code><a href="../reference/startup.html">startup::startup()</a></code> after Renviron and Rprofile files have been processed, and after any <code>R_STARTUP_INIT</code> code. For example, <code>R_STARTUP_FILE="setup.R" R</code> launches R, processes all R startup files, and at the end parses and evaluates file ‘setup.R’.</p></li>
 <li><p><code><a href="../reference/sysinfo.html">sysinfo()</a></code> gained field <code>quiet</code>, which is TRUE if <code>R</code> or <code>Rscript</code> was called with command-line options <code>-q</code>, <code>--quiet</code>, or <code>--silent</code>.</p></li>
 <li><p><code><a href="../reference/sysinfo.html">sysinfo()</a></code> gained field <code>save</code>, which is TRUE if <code>R</code> or <code>Rscript</code> was called with command-line options <code>--save</code>, FALSE if called with <code>--no-save</code>, and otherwise NA.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="miscellaneous-development-version">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-development-version"></a></h3>
+<h3 id="miscellaneous-0-19-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-19-0"></a></h3>
 <ul><li>Warnings on mis-configured environments and R options are now produced at most onces. Previously, duplicated warnings with identical messages could be produced.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-19-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-19-0"></a></h3>
 <ul><li>
 <code>startup(debug = TRUE)</code> would report file information on <code>R_PROFILE</code> and <code>R_PROFILE_USER</code> files as if they were Renviron files, not Rprofile files.</li>
 </ul></div>
