@@ -26,8 +26,8 @@
 
 ## Miscellaneous
 
- * Warnings on mis-configured environments and R options are now
-   produced at most onces. Previously, duplicated warnings with
+ * Warnings on misconfigured environments and R options are now
+   produced at most once. Previously, duplicated warnings with
    identical messages could be produced.
 
 ## Bug Fixes

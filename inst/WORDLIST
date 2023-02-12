@@ -19,8 +19,6 @@ pqR
 pre
 rtichoke
 se
-
-
 api
 CMD
 config
@@ -47,6 +45,7 @@ LOCALAPPDATA
 macOS
 MACOSX
 microsoftr
+misconfigured
 NOTEs
 os
 pacman
