@@ -1,3 +1,5 @@
+
+
 <div id="badges"><!-- pkgdown markup -->
 <a href="https://CRAN.R-project.org/web/checks/check_results_startup.html"><img border="0" src="https://www.r-pkg.org/badges/version/startup" alt="CRAN check status"/></a> <a href="https://github.com/HenrikBengtsson/startup/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/startup/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"/></a>     <a href="https://app.codecov.io/gh/HenrikBengtsson/startup"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/startup/branch/develop/graph/badge.svg" alt="Coverage Status"/></a> 
 </div>
@@ -101,8 +103,8 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   
 * System flags:
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
-  - `quiet`        - (logical) Indicates whether one of the R command-line arguments `-q`, `--quiet`, and `--silent` was specified
-  - `save`         - (logical) TRUE if R was launched with command-line argument `--save`, FALSE if launched with `--no-save`, otherwise NA
+  - `quiet`       - (logical) Indicates whether one of the R command-line arguments `-q`, `--quiet`, and `--silent` was specified
+  - `save`        - (logical) TRUE if R was launched with command-line argument `--save`, FALSE if launched with `--no-save`, otherwise NA
   - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
   - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
   - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice') or not
@@ -246,7 +248,7 @@ local({
 [Microsoft R Open]: https://mran.microsoft.com/open
 [pqR]: http://www.pqr-project.org/
 [radian]: https://github.com/randy3k/radian
-[RStudio]: https://www.rstudio.com/products/RStudio/
+[RStudio]: https://posit.co/products/open-source/rstudio/
 [Linux Wine]: https://www.winehq.org/
 
 ## Installation
