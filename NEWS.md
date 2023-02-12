@@ -1,7 +1,11 @@
 # Version (development version)
 
- * ...
- 
+## Bug Fixes
+
+ * startup::check() no longer warns when R sets environment variables
+   'R_LIBS_USER' and 'R_LIBS_SITE' to the default folders that do not
+   exist by default.
+   
 
 # Version 0.19.0 (2022-10-15)
 

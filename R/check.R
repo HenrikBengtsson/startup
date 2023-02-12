@@ -167,16 +167,34 @@ check_r_libs_env_vars <- function() {
     ## Ignore "NULL" as is the case in R 4.2.0?
     if (var != "R_LIBS") {
       if (path == "NULL") next
+      
+      ## SPECIAL CASE: The system Renviron file sets R_LIBS_USER="%U"
+      ## and R_LIBS_SITE="%S", if not already set.  Then the system
+      ## Rprofile file, expands and updates their values. It keeps
+      ## the values regardless of them refering to existing folders.
+      ## We don't want to warn about these non-existing defaults.
+
+      if (var == "R_LIBS_USE") {
+        if (path == .expand_R_libs_env_var("%U")) {
+          if (!is_dir(path)) next
+        }
+      } else if (var == "R_LIBS_SITE") {
+        if (path == .expand_R_libs_env_var("%S") &&
+	    length(.Library.site) == 0) {
+          if (!is_dir(path)) next
+        }
+      }
     }
 
     ## Don't check intential "dummy" specification, e.g.
     ## non-existing-dummy-folder
     is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
     if (is_dummy) next
-    
+
     paths <- unlist(strsplit(path, split = .Platform$path.sep, fixed = TRUE))
     paths <- unique(paths)
     paths <- paths[!vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)]
+
     npaths <- length(paths)
     if (npaths > 0) {
       pathsx <- normalizePath(paths, mustWork = FALSE)
