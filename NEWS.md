@@ -5,7 +5,11 @@
  * startup::check() no longer warns when R sets environment variables
    'R_LIBS_USER' and 'R_LIBS_SITE' to the default folders that do not
    exist by default.
-   
+
+ * startup::check() would report on an incorrect default value if R
+   option `encoding` or `stringsAsFactors` was set during startup to
+   an unsafe value.
+
 
 # Version 0.19.0 (2022-10-15)
 

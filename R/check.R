@@ -135,17 +135,17 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
 
   for (opt in include) {
     if (opt == "encoding") {
-      value <- getOption(opt, default)
+      value <- getOption(opt, default = NULL)
       default <- "native.enc"
-      if (!interactive() && value != default) {
+      if (!interactive() && !is.null(value) && value != default) {
         unique_warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
       }
     } else if (opt == "error") {
       check_rstudio_option_error_conflict()
     } else if (opt == "stringsAsFactors") {
-      value <- getOption(opt, default)
+      value <- getOption(opt, default = NULL)
       default <- if (getRversion() >= "4.0.0") FALSE else TRUE
-      if (value != default) {
+      if (!is.null(value) && value != default) {
         unique_warning(msg(opt, default, value), call. = FALSE)
       }
     }
