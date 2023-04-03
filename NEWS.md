@@ -2,6 +2,13 @@
 
 ## New Features
 
+ * `sysinfo()` gained flag `rapp`, which is `TRUE` when running R from
+   the R.app GUI on macOS. This flag equals `sysinfo()$gui == "AQUA"`.
+
+ * `sysinfo()` gained flag `rgui`, which is `TRUE` when running R from
+   the Rgui GUI on MS Windows. This flag equals `sysinfo()$gui ==
+   "Rgui"`.
+
  * `startup::startup(debug = TRUE)` now reports on any `Rconsole`
    configure file processed when running R via the Rgui graphical user
    interface (GUI) available on MS Windows.

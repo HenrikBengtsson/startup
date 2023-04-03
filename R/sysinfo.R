@@ -14,16 +14,18 @@ sysinfo <- function() {
   sysinfo$interactive <- interactive()
   
   ## Built-in system flags (logical)
-  sysinfo$ess <- is_ess()
+  sysinfo$rapp <- (.Platform$GUI == "AQUA")
+  sysinfo$rgui <- (.Platform$GUI == "Rgui")
+  sysinfo$rstudio <- is_rstudio_console()
+  sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$microsoftr <- is_microsoftr()
-  sysinfo$pqr <- is_pqr()
+  sysinfo$ess <- is_ess()
   sysinfo$radian <- is_radian()
   ## Deprecated: Renamed rtichoke -> radian in December 2018
   sysinfo$rtichoke <- sysinfo$radian
   ## Deprecated: Renamed rice -> rtichoke in February 2018
   sysinfo$rice <- sysinfo$radian
-  sysinfo$rstudio <- is_rstudio_console()
-  sysinfo$rstudioterm <- is_rstudio_terminal()
+  sysinfo$pqr <- is_pqr()
   sysinfo$wine <- is_wine()
 
   ## Session-specific variables
