@@ -101,6 +101,8 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
   - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice') or not
   - `microsoftr`  - (logical) whether running R in [Microsoft R Open] or not
+  - `rapp`        - (logical) whether running R in [R.app] or not (a macOS GUI)
+  - `rgui`        - (logical) whether running R in [Rgui] or not (an MS Windows GUI)
   - `rstudio`     - (logical) whether running R in [RStudio] Console or not
   - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
   - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
