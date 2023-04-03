@@ -1,5 +1,11 @@
 # Version (development version)
 
+## New Features
+
+ * `startup::startup(debug = TRUE)` now reports on any `Rconsole`
+   configure file processed when running R via the Rgui graphical user
+   interface (GUI) available on MS Windows.
+
 ## Bug Fixes
 
  * startup::check() no longer warns when R sets environment variables

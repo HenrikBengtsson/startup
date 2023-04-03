@@ -228,6 +228,20 @@ startup <- function(sibling = FALSE, all = FALSE,
         logf("- R_TESTS: %s (not found)", normalizePath(f, mustWork = FALSE))
       }
     }
+
+    if (.Platform$GUI == "Rgui") {
+      paths <- c(system = file.path(Sys.getenv("R_HOME"), "etc"), user = Sys.getenv("R_USER"))
+      for (name in names(paths)) {
+        path <- paths[[name]]
+        if (!is_dir(path)) next
+        f <- file.path(path, "Rconsole")
+        if (is_file(f)) {
+          logf("- %s-specific Rconsole configuration: %s", name, file_info(f, type = "r"))
+        } else {
+          logf("- %s-specific Rconsole configuration: %s (not found)", name, normalizePath(f, mustWork = FALSE))
+        }
+      } ## for (path ...)
+    }
   }
 
   logf("startup::startup()-specific processing ...")
