@@ -135,17 +135,17 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
 
   for (opt in include) {
     if (opt == "encoding") {
-      value <- getOption(opt, default)
+      value <- getOption(opt, default = NULL)
       default <- "native.enc"
-      if (!interactive() && value != default) {
+      if (!interactive() && !is.null(value) && value != default) {
         unique_warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
       }
     } else if (opt == "error") {
       check_rstudio_option_error_conflict()
     } else if (opt == "stringsAsFactors") {
-      value <- getOption(opt, default)
+      value <- getOption(opt, default = NULL)
       default <- if (getRversion() >= "4.0.0") FALSE else TRUE
-      if (value != default) {
+      if (!is.null(value) && value != default) {
         unique_warning(msg(opt, default, value), call. = FALSE)
       }
     }
@@ -167,16 +167,34 @@ check_r_libs_env_vars <- function() {
     ## Ignore "NULL" as is the case in R 4.2.0?
     if (var != "R_LIBS") {
       if (path == "NULL") next
+      
+      ## SPECIAL CASE: The system Renviron file sets R_LIBS_USER="%U"
+      ## and R_LIBS_SITE="%S", if not already set.  Then the system
+      ## Rprofile file, expands and updates their values. It keeps
+      ## the values regardless of them refering to existing folders.
+      ## We don't want to warn about these non-existing defaults.
+
+      if (var == "R_LIBS_USE") {
+        if (path == .expand_R_libs_env_var("%U")) {
+          if (!is_dir(path)) next
+        }
+      } else if (var == "R_LIBS_SITE") {
+        if (path == .expand_R_libs_env_var("%S") &&
+	    length(.Library.site) == 0) {
+          if (!is_dir(path)) next
+        }
+      }
     }
 
     ## Don't check intential "dummy" specification, e.g.
     ## non-existing-dummy-folder
     is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
     if (is_dummy) next
-    
+
     paths <- unlist(strsplit(path, split = .Platform$path.sep, fixed = TRUE))
     paths <- unique(paths)
     paths <- paths[!vapply(paths, FUN = is_dir, FUN.VALUE = FALSE)]
+
     npaths <- length(paths)
     if (npaths > 0) {
       pathsx <- normalizePath(paths, mustWork = FALSE)

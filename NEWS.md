@@ -1,3 +1,29 @@
+# Version 0.20.0 (2023-04-02)
+
+## New Features
+
+ * `sysinfo()` gained flag `rapp`, which is `TRUE` when running R from
+   the R.app GUI on macOS. This flag equals `sysinfo()$gui == "AQUA"`.
+
+ * `sysinfo()` gained flag `rgui`, which is `TRUE` when running R from
+   the Rgui GUI on MS Windows. This flag equals `sysinfo()$gui ==
+   "Rgui"`.
+
+ * `startup::startup(debug = TRUE)` now reports on any `Rconsole`
+   configure file processed when running R via the Rgui graphical user
+   interface (GUI) available on MS Windows.
+
+## Bug Fixes
+
+ * startup::check() no longer warns when R sets environment variables
+   'R_LIBS_USER' and 'R_LIBS_SITE' to the default folders that do not
+   exist by default.
+
+ * startup::check() would report on an incorrect default value if R
+   option `encoding` or `stringsAsFactors` was set during startup to
+   an unsafe value.
+
+
 # Version 0.19.0 (2022-10-15)
 
 ## New Features
@@ -17,8 +43,8 @@
 
 ## Miscellaneous
 
- * Warnings on mis-configured environments and R options are now
-   produced at most onces. Previously, duplicated warnings with
+ * Warnings on misconfigured environments and R options are now
+   produced at most once. Previously, duplicated warnings with
    identical messages could be produced.
 
 ## Bug Fixes
