@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.19.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0-9000</span>
       </span>
     </div>
 
@@ -68,6 +68,20 @@
 <ul><li>…</li>
 </ul></div>
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.20.0" id="version-0200">Version 0.20.0<small>2023-04-03</small><a class="anchor" aria-label="anchor" href="#version-0200"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-20-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-20-0"></a></h3>
+<ul><li><p><code><a href="../reference/sysinfo.html">sysinfo()</a></code> gained flag <code>rapp</code>, which is <code>TRUE</code> when running R from the R.app GUI on macOS. This flag equals <code>sysinfo()$gui == "AQUA"</code>.</p></li>
+<li><p><code><a href="../reference/sysinfo.html">sysinfo()</a></code> gained flag <code>rgui</code>, which is <code>TRUE</code> when running R from the Rgui GUI on MS Windows. This flag equals <code>sysinfo()$gui ==    "Rgui"</code>.</p></li>
+<li><p><code>startup::startup(debug = TRUE)</code> now reports on any <code>Rconsole</code> configure file processed when running R via the Rgui graphical user interface (GUI) available on MS Windows.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-20-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-20-0"></a></h3>
+<ul><li><p>startup::check() no longer warns when R sets environment variables ‘R_LIBS_USER’ and ‘R_LIBS_SITE’ to the default folders that do not exist by default.</p></li>
+<li><p>startup::check() would report on an incorrect default value if R option <code>encoding</code> or <code>stringsAsFactors</code> was set during startup to an unsafe value.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.19.0" id="version-0190">Version 0.19.0<small>2022-10-16</small><a class="anchor" aria-label="anchor" href="#version-0190"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-19-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-19-0"></a></h3>
@@ -77,7 +91,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-0-19-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-19-0"></a></h3>
-<ul><li>Warnings on mis-configured environments and R options are now produced at most onces. Previously, duplicated warnings with identical messages could be produced.</li>
+<ul><li>Warnings on misconfigured environments and R options are now produced at most once. Previously, duplicated warnings with identical messages could be produced.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-19-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-19-0"></a></h3>
@@ -398,7 +412,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
 </div>
 
       </footer></div>

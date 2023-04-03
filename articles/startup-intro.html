@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.19.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0-9000</span>
       </span>
     </div>
 
@@ -243,9 +243,9 @@ profile startup script produces an error complaining about
 <p>To debug the startup process, use
 <code>startup::startup(debug = TRUE)</code> or set environment variable
 <code>R_STARTUP_DEBUG=TRUE</code>, e.g. on Linux you can do</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> R_STARTUP_DEBUG=TRUE R</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">$</span> R_STARTUP_DEBUG=TRUE R</span></code></pre></div>
 <p>On MS Windows, you can do:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> R R_STARTUP_DEBUG=TRUE</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">$</span> R R_STARTUP_DEBUG=TRUE</span></code></pre></div>
 <p>This will produce time-stamped messages during startup specifying
 which files are included together with details on the files and what
 they modified.</p>
@@ -296,6 +296,14 @@ directory (= <code>basename(getwd())</code>)</li>
 <code>interactive</code> - (logical) whether running R interactively
 or not (= <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code>)</li>
 <li>
+<code>quiet</code> - (logical) Indicates whether one of the R
+command-line arguments <code>-q</code>, <code>--quiet</code>, and
+<code>--silent</code> was specified</li>
+<li>
+<code>save</code> - (logical) TRUE if R was launched with
+command-line argument <code>--save</code>, FALSE if launched with
+<code>--no-save</code>, otherwise NA</li>
+<li>
 <code>ess</code> - (logical) whether running R in <a href="https://ess.r-project.org/" class="external-link">Emacs Speaks Statistics (ESS)</a> or
 not</li>
 <li>
@@ -307,11 +315,17 @@ R”) or not</li>
 <li>
 <code>microsoftr</code> - (logical) whether running R in <a href="https://mran.microsoft.com/open" class="external-link">Microsoft R Open</a> or not</li>
 <li>
-<code>rstudio</code> - (logical) whether running R in <a href="https://www.rstudio.com/products/RStudio/" class="external-link">RStudio</a> Console or
-not</li>
+<code>rapp</code> - (logical) whether running R in [R.app] or not (a
+macOS GUI)</li>
 <li>
-<code>rstudioterm</code> - (logical) whether running R in <a href="https://www.rstudio.com/products/RStudio/" class="external-link">RStudio</a> Terminal or
-not</li>
+<code>rgui</code> - (logical) whether running R in [Rgui] or not (an
+MS Windows GUI)</li>
+<li>
+<code>rstudio</code> - (logical) whether running R in <a href="https://posit.co/products/open-source/rstudio/" class="external-link">RStudio</a>
+Console or not</li>
+<li>
+<code>rstudioterm</code> - (logical) whether running R in <a href="https://posit.co/products/open-source/rstudio/" class="external-link">RStudio</a>
+Terminal or not</li>
 <li>
 <code>wine</code> - (logical) whether running R on Windows via <a href="https://www.winehq.org/" class="external-link">Linux Wine</a> or not</li>
 </ul>
@@ -402,19 +416,19 @@ exactly <code>banana</code>. Moreover, by making sure the directory
 <code>~/.Renviron.d/private/</code> is only accessible by you, then it
 will be harder for someone else two know what your secret “password”
 (<code>banana</code>) is. On a Unix system, you can set this up as:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir <span class="at">-p</span> ~/.Renviron.d/private/SECRET=banana/</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod go-rw ~/.Renviron.d/private</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">$</span> mkdir <span class="at">-p</span> ~/.Renviron.d/private/SECRET=banana/</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">$</span> chmod go-rw ~/.Renviron.d/private</span></code></pre></div>
 <p>Then go ahead an put your secret Renviron files in there, e.g.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.Renviron.d/private/SECRET=banana/</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">+--</span> amazon  <span class="co">## AWS_* credential &amp; settings</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">+--</span> github  <span class="co">## GITHUB_TOKEN + GITHUB_PAT</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">.Renviron.d/private/SECRET=banana/</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="ex">+--</span> amazon  <span class="co">## AWS_* credential &amp; settings</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="ex">+--</span> github  <span class="co">## GITHUB_TOKEN + GITHUB_PAT</span></span></code></pre></div>
 <p>Now, only if <code>SECRET</code> is set to exactly
 <code>banana</code> when you launch R, the above secret files will be
 processed and the corresponding environment variables will be available
 from withing R. For instance, they will be loaded if you do:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> SECRET<span class="ot">=</span>banana R</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="sc">$</span> SECRET<span class="ot">=</span>banana R</span></code></pre></div>
 <p>but not if you do:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> SECRET<span class="ot">=</span>badguess R</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="sc">$</span> SECRET<span class="ot">=</span>badguess R</span></code></pre></div>
 <p>or if <code>SECRET</code> is unset.</p>
 <p><em>Comment:</em> You can use whichever variable name you like, it
 does not have to be <code>SECRET</code>. And, the “password”
@@ -479,10 +493,10 @@ Administration</em>
 </ul>
 <p>These variables have to be set using methods specific to the
 operating system or the calling shell, e.g. in a Unix shell</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> export OMP_NUM_THREADS=1</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> R</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">$</span> export OMP_NUM_THREADS=1</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="ex">$</span> R</span></code></pre></div>
 <p>or per call as</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">OMP_NUM_THREADS</span><span class="op">=</span>1 <span class="ex">R</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="va">OMP_NUM_THREADS</span><span class="op">=</span>1 <span class="ex">R</span></span></code></pre></div>
 <p>(*) For further details on which environment variables R consults and
 what they are used for by R, see the R documentation and help,
 e.g. <code><a href="https://rdrr.io/r/base/EnvVar.html" class="external-link">?"environment variables"</a></code> and
@@ -507,16 +521,16 @@ e.g. <code><a href="https://rdrr.io/r/base/EnvVar.html" class="external-link">?
 <span>  <span class="op">+</span><span class="op">-</span><span class="op">-</span> <span class="va">repos.R</span></span></code></pre>
 <p>They are available as part of this package under
 <code>system.file(package = "startup")</code>, e.g.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"Rprofile.d"</span>, <span class="st">"repos.R"</span>, <span class="at">package =</span> <span class="st">"startup"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">file.show</span>(f, <span class="at">type =</span> <span class="st">"text"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">local</span>({</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  repos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">"windows"</span>) {</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     repos[<span class="st">"CRANextra"</span>] <span class="ot">&lt;-</span> <span class="st">"https://www.stats.ox.ac.uk/pub/RWin"</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(repos, <span class="fu">getOption</span>(<span class="st">"repos"</span>)))</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="sc">&gt;</span> f <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"Rprofile.d"</span>, <span class="st">"repos.R"</span>, <span class="at">package =</span> <span class="st">"startup"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">file.show</span>(f, <span class="at">type =</span> <span class="st">"text"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">local</span>({</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  repos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">"windows"</span>) {</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>     repos[<span class="st">"CRANextra"</span>] <span class="ot">&lt;-</span> <span class="st">"https://www.stats.ox.ac.uk/pub/RWin"</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  }</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(repos, <span class="fu">getOption</span>(<span class="st">"repos"</span>)))</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>})</span></code></pre></div>
 </div>
   </div>
 
@@ -537,7 +551,7 @@ e.g. <code><a href="https://rdrr.io/r/base/EnvVar.html" class="external-link">?
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
 </div>
 
       </footer>
