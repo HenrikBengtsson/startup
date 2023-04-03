@@ -240,7 +240,7 @@ startup <- function(sibling = FALSE, all = FALSE,
         if (is_file(f)) {
           if (already_done) {
             info <- file_info(f, type = "r")
-            info <- sprintf("%s (skipped)", info)
+            info <- sprintf("%s [skipped]", info)
           } else {
             info <- file_info(f, type = "r")
             already_done <- TRUE
