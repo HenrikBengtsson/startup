@@ -490,12 +490,16 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("  - R_ENABLE_JIT: %s", value)
     if (is.na(jit)) {
       logf("  - JIT compiler enabled by default")
-      logf("  - The 'compiler' package will be loaded")
+      if (!"compiler" %in% loadedNamespaces()) {
+        logf("  - The 'compiler' package will be loaded")
+      }
     } else {
       value <- suppressWarnings(as.integer(jit))
       if (!is.na(value) && value > 0L) {
         logf("  - JIT compiler enabled at level %d", jit)
-        logf("  - The 'compiler' package will be loaded")
+        if (!"compiler" %in% loadedNamespaces()) {
+          logf("  - The 'compiler' package will be loaded")
+        }
       } else {
         logf("  - JIT compiler disabled")
       }
