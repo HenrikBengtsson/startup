@@ -247,7 +247,7 @@ local({
 
 [startup]: https://cran.r-project.org/package=startup
 [Emacs Speaks Statistics (ESS)]: https://ess.r-project.org/
-[Microsoft R Open]: https://mran.microsoft.com/open
+[Microsoft R Open]: https://github.com/microsoft/microsoft-r-open
 [pqR]: http://www.pqr-project.org/
 [radian]: https://github.com/randy3k/radian
 [RStudio]: https://posit.co/products/open-source/rstudio/

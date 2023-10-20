@@ -1,6 +1,10 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * When `startup()` tried to rename `.RData` file (e.g. when
+   environment variable `R_STARTUP_RDATA=rename`), it would produce
+   `.Rprofile error: cannot xtfrm data frames`.
  
 
 # Version 0.20.0 (2023-04-02)

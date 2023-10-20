@@ -431,8 +431,9 @@ startup <- function(sibling = FALSE, all = FALSE,
       } else if (rdata == "rename") {
         fi <- file.info(f)
         when <- fi[c("mtime", "ctime")]
-        keep <- vapply(when, FUN = inherits, "POSIXct", FUN.VALUE=FALSE)
+        keep <- vapply(when, FUN = inherits, "POSIXct", FUN.VALUE = FALSE)
         when <- when[keep]
+        when <- unlist(when, use.names = FALSE)
         when <- sort(when, decreasing = TRUE)
         when <- format(when[[1]], format = "%Y%m%d_%H%M%S")
         f_new <- sprintf("%s.%s", f, when)
