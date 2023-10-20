@@ -484,7 +484,24 @@ startup <- function(sibling = FALSE, all = FALSE,
     logf("- Remaining packages per R_DEFAULT_PACKAGES to be attached by base::.First.sys() (in order): %s",
          paste(squote(pkgs), collapse = ", "))
 
-    
+    logf("- The R just-in-time (JIT) compiler:")
+    jit <- Sys.getenv("R_ENABLE_JIT", NA_character_)
+    value <- if (is.na(jit)) "<not set>" else squote(jit)
+    logf("  - R_ENABLE_JIT: %s", value)
+    if (is.na(jit)) {
+      logf("  - JIT compiler enabled by default")
+      logf("  - The 'compiler' package will be loaded")
+    } else {
+      value <- suppressWarnings(as.integer(jit))
+      if (!is.na(value) && value > 0L) {
+        logf("  - JIT compiler enabled at level %d", jit)
+        logf("  - The 'compiler' package will be loaded")
+      } else {
+        logf("  - JIT compiler disabled")
+      }
+    }
+
+
     logf("The following will be processed when R terminates:")
     for (what in c(".Last", ".Last.sys")) {
       where <- find(what, mode = "function")

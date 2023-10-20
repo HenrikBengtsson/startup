@@ -1,5 +1,11 @@
 # Version (development version)
 
+## New Features
+
+ * `startup::startup(debug = TRUE)` now reports on environment
+   variable `R_ENABLE_JIT` and whether the R just-in-time (JIT)
+   compiler will be enabled or not, and at what level.
+
 ## Bug Fixes
 
  * When `startup()` tried to rename `.RData` file (e.g. when
