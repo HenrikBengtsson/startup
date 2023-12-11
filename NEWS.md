@@ -1,3 +1,21 @@
+# Version 0.21.0 (2023-12-11)
+
+## New Features
+
+ * `startup::startup(debug = TRUE)` now reports on environment
+   variable `R_ENABLE_JIT` and whether the R just-in-time (JIT)
+   compiler will be enabled or not, and at what level.
+
+## Bug Fixes
+
+ * When `startup()` tried to rename `.RData` file (e.g. when
+   environment variable `R_STARTUP_RDATA=rename`), it would produce
+   `.Rprofile error: cannot xtfrm data frames`.
+
+ * `startup()` would give '.Rprofile error ...: could not find
+   function "anyNA"' in R (< 3.1.0).
+
+
 # Version 0.20.0 (2023-04-02)
 
 ## New Features
@@ -15,11 +33,11 @@
 
 ## Bug Fixes
 
- * startup::check() no longer warns when R sets environment variables
-   'R_LIBS_USER' and 'R_LIBS_SITE' to the default folders that do not
+ * `startup::check()` no longer warns when R sets environment variables
+   `R_LIBS_USER` and `R_LIBS_SITE` to the default folders that do not
    exist by default.
 
- * startup::check() would report on an incorrect default value if R
+ * `startup::check()` would report on an incorrect default value if R
    option `encoding` or `stringsAsFactors` was set during startup to
    an unsafe value.
 
