@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0-9000</span>
       </span>
     </div>
 
@@ -64,9 +64,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<ul><li>…</li>
+<h2 class="page-header" data-toc-text="0.21.0" id="version-0210">Version 0.21.0<a class="anchor" aria-label="anchor" href="#version-0210"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-21-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-21-0"></a></h3>
+<ul><li>
+<code>startup::startup(debug = TRUE)</code> now reports on environment variable <code>R_ENABLE_JIT</code> and whether the R just-in-time (JIT) compiler will be enabled or not, and at what level.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-21-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-21-0"></a></h3>
+<ul><li><p>When <code><a href="../reference/startup.html">startup()</a></code> tried to rename <code>.RData</code> file (e.g. when environment variable <code>R_STARTUP_RDATA=rename</code>), it would produce <code>.Rprofile error: cannot xtfrm data frames</code>.</p></li>
+<li><p><code><a href="../reference/startup.html">startup()</a></code> would give ‘.Rprofile error …: could not find function “anyNA”’ in R (&lt; 3.1.0).</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.20.0" id="version-0200">Version 0.20.0<small>2023-04-03</small><a class="anchor" aria-label="anchor" href="#version-0200"></a></h2>
 <div class="section level3">
@@ -77,8 +86,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-20-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-20-0"></a></h3>
-<ul><li><p>startup::check() no longer warns when R sets environment variables ‘R_LIBS_USER’ and ‘R_LIBS_SITE’ to the default folders that do not exist by default.</p></li>
-<li><p>startup::check() would report on an incorrect default value if R option <code>encoding</code> or <code>stringsAsFactors</code> was set during startup to an unsafe value.</p></li>
+<ul><li><p><code><a href="../reference/check.html">startup::check()</a></code> no longer warns when R sets environment variables <code>R_LIBS_USER</code> and <code>R_LIBS_SITE</code> to the default folders that do not exist by default.</p></li>
+<li><p><code><a href="../reference/check.html">startup::check()</a></code> would report on an incorrect default value if R option <code>encoding</code> or <code>stringsAsFactors</code> was set during startup to an unsafe value.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
