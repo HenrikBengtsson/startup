@@ -11,7 +11,10 @@
  * When `startup()` tried to rename `.RData` file (e.g. when
    environment variable `R_STARTUP_RDATA=rename`), it would produce
    `.Rprofile error: cannot xtfrm data frames`.
- 
+
+ * `startup()` would give '.Rprofile error ...: could not find
+   function "anyNA"' in R (< 3.1.0).
+
 
 # Version 0.20.0 (2023-04-02)
 

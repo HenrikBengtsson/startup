@@ -210,6 +210,11 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
 } ## filter_files_env()
 
 
+## base::anyNA() was introduced in R 3.1.0
+if (!exists("anyNA", mode = "function", envir = baseenv(), inherits = FALSE)) {
+  anyNA <- function(x) any(is.na(x))
+}
+  
 filter_files <- function(files, info = sysinfo()) {
   files0 <- files
   
