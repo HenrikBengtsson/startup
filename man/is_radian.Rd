@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_radian.R
 \name{is_radian}
 \alias{is_radian}
-\title{Checks whether running R via radian (formerly known as rtichoke and rice) or not}
+\title{Check if running R via radian (formerly known as rtichoke and rice)}
 \usage{
 is_radian()
 }
@@ -10,7 +10,7 @@ is_radian()
 A logical
 }
 \description{
-Checks whether running R via radian (formerly known as rtichoke and rice) or not
+Check if running R via radian (formerly known as rtichoke and rice)
 }
 \references{
 \enumerate{

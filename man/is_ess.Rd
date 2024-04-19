@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_ess.R
 \name{is_ess}
 \alias{is_ess}
-\title{Checks whether running R via Emacs Spekas Statistics (ESS) or not}
+\title{Check if running R via Emacs Speaks Statistics (ESS)}
 \usage{
 is_ess()
 }
@@ -10,5 +10,5 @@ is_ess()
 A logical
 }
 \description{
-Checks whether running R via Emacs Spekas Statistics (ESS) or not
+Check if running R via Emacs Speaks Statistics (ESS)
 }

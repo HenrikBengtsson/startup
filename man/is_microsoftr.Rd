@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_microsoftr.R
 \name{is_microsoftr}
 \alias{is_microsoftr}
-\title{Checks if running R in Microsoft R Open}
+\title{Check if running R via Microsoft R Open}
 \usage{
 is_microsoftr()
 }
@@ -10,5 +10,5 @@ is_microsoftr()
 A logical
 }
 \description{
-Checks if running R in Microsoft R Open
+Check if running R via Microsoft R Open
 }

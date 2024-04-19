@@ -1,4 +1,4 @@
-#' Checks if running R in Microsoft R Open
+#' Check if running R via Microsoft R Open
 #'
 #' @return A logical
 is_microsoftr <- function() {

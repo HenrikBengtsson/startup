@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_wine.R
 \name{is_wine}
 \alias{is_wine}
-\title{Checks whether running R on Windows using Wine or not}
+\title{Check if running R on Windows using Wine}
 \usage{
 is_wine()
 }
@@ -10,7 +10,7 @@ is_wine()
 A logical
 }
 \description{
-Checks whether running R on Windows using Wine or not
+Check if running R on Windows using Wine
 }
 \references{
 \enumerate{

@@ -1,4 +1,4 @@
-#' Checks whether running R via radian (formerly known as rtichoke and rice) or not
+#' Check if running R via radian (formerly known as rtichoke and rice)
 #'
 #' @return A logical
 #'

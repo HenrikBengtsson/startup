@@ -1,3 +1,11 @@
+# Version (development version)
+
+## New Features
+
+ * Now `sysinfo()` return also flag `webr`, which indicates whether R
+   runs via WebR or not.
+ 
+
 # Version 0.21.0 (2023-12-11)
 
 ## New Features
