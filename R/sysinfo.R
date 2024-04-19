@@ -26,6 +26,7 @@ sysinfo <- function() {
   ## Deprecated: Renamed rice -> rtichoke in February 2018
   sysinfo$rice <- sysinfo$radian
   sysinfo$pqr <- is_pqr()
+  sysinfo$vscode <- is_vscode()
   sysinfo$webr <- is_webr()
   sysinfo$wine <- is_wine()
 

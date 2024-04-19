@@ -5,8 +5,8 @@
  * `startup()` gained argument `encoding`, which controls the encoding
    used to parse the R startup files.
  
- * Now `sysinfo()` return also flag `webr`, which indicates whether R
-   runs via WebR or not.
+ * Now `sysinfo()` report also on Visual Studio Code (VSCode) webR via
+   flags `vscode` and `webr`.
  
 
 # Version 0.21.0 (2023-12-11)
