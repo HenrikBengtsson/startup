@@ -2,6 +2,9 @@
 
 ## New Features
 
+ * `startup()` gained argument `encoding`, which controls the encoding
+   used to parse the R startup files.
+ 
  * Now `sysinfo()` return also flag `webr`, which indicates whether R
    runs via WebR or not.
  

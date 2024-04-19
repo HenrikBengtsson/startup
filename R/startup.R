@@ -23,6 +23,9 @@
 #' complete.  The default is to keep `startup.session.*` options
 #' as recorded by [startup_session_options()].
 #'
+#' @param encoding The encodingto use when parsing the R startup files.
+#' See [base::parse()] for more details.
+#' 
 #' @param check If `TRUE`, then the content of startup files are validated.
 #' 
 #' @param unload If `TRUE`, then the package is unloaded afterward, otherwise
@@ -81,6 +84,7 @@ startup <- function(sibling = FALSE, all = FALSE,
                     on_error = c("error", "warning", "immediate.warning",
                                  "message", "ignore"),
                     keep = c("options"), check = NA, unload = TRUE, skip = NA,
+                    encoding = getOption("encoding"),
                     dryrun = NA, debug = dryrun) {
   ## Is startup::startup() fully disabled?
   disable <- as.logical(Sys.getenv("R_STARTUP_DISABLE", "FALSE"))
@@ -279,7 +283,7 @@ startup <- function(sibling = FALSE, all = FALSE,
   code <- getOption("startup.init", code)
   if (nzchar(code)) {
     logf("Processing R_STARTUP_INIT/startup.init=%s:", squote(code))
-    expr <- tryCatch(parse(text = code), error = identity)
+    expr <- tryCatch(parse(text = code, encoding = encoding), error = identity)
     if (inherits(expr, "error")) {
       msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", squote(code))
       logf(paste("- [SKIPPED]", msg))
@@ -321,7 +325,7 @@ startup <- function(sibling = FALSE, all = FALSE,
         message(msg)
       }
     }
-    expr <- tryCatch(parse(file = f), error = identity)
+    expr <- tryCatch(parse(file = f, encoding = encoding), error = identity)
     if (inherits(expr, "error")) {
       msg <- sprintf("Syntax error in 'R_STARTUP_INIT'/'startup.init': %s", squote(code))
       logf(paste("- [SKIPPED]", msg))
