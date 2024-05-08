@@ -5,7 +5,8 @@
 #' startup directories by appending / removing one line of code to the
 #' \file{~/.Rprofile} file.
 #'
-#' @param path The path where to create / update the \file{.Rprofile} file.
+#' @param file The pathname where to create or update the \file{.Rprofile}
+#' file.
 #'
 #' @param backup If `TRUE`, a timestamped backup copy of the original file is
 #' created before modifying / overwriting it, otherwise not.  If the backup
@@ -14,6 +15,9 @@
 #' @param overwrite If the R startup file already exist, then `FALSE` (default)
 #' appends the startup code to the end of the file. is overwritten.  If `TRUE`,
 #' any pre-existing R startup file is overwritten.
+#'
+#' @param path The folder where to create \file{.Renviron.d} and
+#' \file{.Rprofile.d} directory.
 #'
 #' @param make_dirs If `TRUE` (default), directories \file{.Renviron.d/} and
 #' \file{.Rprofile.d/} are created in folder `path`, if missing.
@@ -27,8 +31,8 @@
 #' the \file{.Rprofile} file, which is created if missing.
 #'
 #' @export
-install <- function(path = "~", backup = TRUE, overwrite = FALSE,
-                    make_dirs = TRUE, quiet = FALSE) {
+install <- function(file = rprofile_user(), backup = TRUE, overwrite = FALSE,
+                    path = dirname(file), make_dirs = TRUE, quiet = FALSE) {
   if (quiet) notef <- function(...) NULL
 
   if (make_dirs) {
@@ -45,7 +49,6 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
     }
   }
 
-  file <- file.path(path, ".Rprofile")
   if (is_installed(file)) {
     msg <- sprintf("startup::startup() already installed: %s", squote(file))
     notef(msg)
@@ -77,10 +80,9 @@ install <- function(path = "~", backup = TRUE, overwrite = FALSE,
 
 #' @describeIn install Remove calls to `startup::startup()` and similar.
 #' @export
-uninstall <- function(path = "~", backup = TRUE, quiet = FALSE) {
+uninstall <- function(file = rprofile_user(), backup = TRUE, quiet = FALSE) {
   if (quiet) notef <- function(...) NULL
 
-  file <- file.path(path, ".Rprofile")
   if (!is_installed(file)) {
     msg <- sprintf("startup::startup() not installed: %s", squote(file))
     notef(msg)
@@ -106,7 +108,18 @@ uninstall <- function(path = "~", backup = TRUE, quiet = FALSE) {
 }
 
 
-is_installed <- function(file = file.path("~", ".Rprofile")) {
+rprofile_user <- function() {
+  file <- Sys.getenv("R_PROFILE_USER", NA_character_)
+  if (!is.na(file) && nzchar(file)) {
+    names(file) <- "R_PROFILE_USER"
+    return(file)
+  }
+  file <- file.path("~", ".Rprofile")
+  names(file) <- "~/.Rprofile"
+  file
+}
+
+is_installed <- function(file = rprofile_user()) {
   if (!file.exists(file)) return(FALSE)
   bfr <- readLines(file, warn = FALSE)
   bfr <- gsub("#.*", "", bfr)

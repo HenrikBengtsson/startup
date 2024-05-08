@@ -7,7 +7,10 @@
  
  * Now `sysinfo()` report also on Visual Studio Code (VSCode) webR via
    flags `vscode` and `webr`.
- 
+
+ * Now `install()` and `uninstall()` respect environment variable
+   `R_PROFILE_USER`, if specified.
+   
 
 # Version 0.21.0 (2023-12-11)
 
