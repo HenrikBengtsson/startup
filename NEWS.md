@@ -10,7 +10,12 @@
 
  * Now `install()` and `uninstall()` respect environment variable
    `R_PROFILE_USER`, if specified.
-   
+
+## Bug Fixes
+
+ * `startup(debug = TRUE)` did not report on global variables starting
+   with a period, e.g. `.Last()`.
+
 
 # Version 0.21.0 (2023-12-11)
 
