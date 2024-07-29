@@ -11,6 +11,10 @@
  * Now `install()` and `uninstall()` respect environment variable
    `R_PROFILE_USER`, if specified.
 
+ * Now `startup()` ignores files and folders specific version control, e.g.
+   `.git`, `.gitignore`, `.hg`, `.hgignore`, and `.svn`.
+
+
 ## Bug Fixes
 
  * `startup(debug = TRUE)` did not report on global variables starting

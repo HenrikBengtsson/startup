@@ -169,6 +169,9 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   ## (double period)
   files <- grep("(^|/|\\\\)[.][.]", files, value = TRUE, invert = TRUE)
 
+  ## Drop version control files
+  files <- grep("([.]git|[.]gitignore|[.]hg|[.]hgignore|[.]p4config|[.]p4ignore|[.]svn)$", files, value = TRUE, invert = TRUE)
+
   ## Nothing to do?
   if (length(files) == 0) return(character(0))
 
