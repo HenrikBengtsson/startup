@@ -14,6 +14,7 @@ sysinfo <- function() {
   sysinfo$interactive <- interactive()
   
   ## Built-in system flags (logical)
+  sysinfo$jupyter <- is_jupyter()
   sysinfo$rapp <- (.Platform$GUI == "AQUA")
   sysinfo$rgui <- (.Platform$GUI == "Rgui")
   sysinfo$rstudio <- is_rstudio_console()

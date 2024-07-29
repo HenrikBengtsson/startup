@@ -1,4 +1,4 @@
-#' Checks if running is R via Visual Studio Code (VSCode)
+#' Checks if running R via Visual Studio Code (VSCode)
 #'
 #' @return A logical
 is_vscode <- function() {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_vscode.R
 \name{is_vscode}
 \alias{is_vscode}
-\title{Checks if running is R via Visual Studio Code (VSCode)}
+\title{Checks if running R via Visual Studio Code (VSCode)}
 \usage{
 is_vscode()
 }
@@ -10,5 +10,5 @@ is_vscode()
 A logical
 }
 \description{
-Checks if running is R via Visual Studio Code (VSCode)
+Checks if running R via Visual Studio Code (VSCode)
 }

@@ -5,8 +5,8 @@
  * `startup()` gained argument `encoding`, which controls the encoding
    used to parse the R startup files.
  
- * Now `sysinfo()` report also on Visual Studio Code (VSCode) webR via
-   flags `vscode` and `webr`.
+ * Now `sysinfo()` report also on Jupyter, Visual Studio Code (VSCode)
+   webR via flags `jupyter`, `vscode`, and `webr`.
 
  * Now `install()` and `uninstall()` respect environment variable
    `R_PROFILE_USER`, if specified.
