@@ -70,7 +70,6 @@ jobs:
         run: |
           options(width = 100)
           capabilities()
-          parallelly::availableCores(which = "all")
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
           ## Verify LANGUAGE settings by generating a translatable error
