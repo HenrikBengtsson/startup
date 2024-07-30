@@ -1,3 +1,8 @@
+# Version (development version)
+
+ * ...
+ 
+
 # Version 0.22.0 (2024-07-29)
 
 ## New Features
@@ -11,8 +16,9 @@
  * Now `install()` and `uninstall()` respect environment variable
    `R_PROFILE_USER`, if specified.
 
- * Now `startup()` ignores files and folders specific version control, e.g.
-   `.git`, `.gitignore`, `.hg`, `.hgignore`, and `.svn`.
+ * Now `startup()` ignores files and folders specific to version
+   control, e.g.  `.git`, `.gitignore`, `.hg`, `.hgignore`, and
+   `.svn`.
 
 
 ## Bug Fixes
