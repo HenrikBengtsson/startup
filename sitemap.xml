@@ -52,6 +52,9 @@
     <loc>/reference/is_ess.html</loc>
   </url>
   <url>
+    <loc>/reference/is_jupyter.html</loc>
+  </url>
+  <url>
     <loc>/reference/is_microsoftr.html</loc>
   </url>
   <url>
@@ -62,6 +65,12 @@
   </url>
   <url>
     <loc>/reference/is_rstudio_console.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_vscode.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_webr.html</loc>
   </url>
   <url>
     <loc>/reference/is_wine.html</loc>

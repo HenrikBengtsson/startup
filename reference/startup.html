@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0-9000</span>
       </span>
     </div>
 
@@ -101,6 +101,7 @@
 <span>  check <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  unload <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"encoding"</span><span class="op">)</span>,</span>
 <span>  dryrun <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  debug <span class="op">=</span> <span class="va">dryrun</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -158,6 +159,11 @@ they are always ignored with a message that cannot be captured.</p></dd>
 <dd><p>Specify what information should remain after this function
 complete.  The default is to keep <code>startup.session.*</code> options
 as recorded by <code><a href="startup_session_options.html">startup_session_options()</a></code>.</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>The encodingto use when parsing the R startup files.
+See <code><a href="https://rdrr.io/r/base/parse.html" class="external-link">base::parse()</a></code> for more details.</p></dd>
 
 </dl></div>
     <div id="details">
@@ -233,7 +239,7 @@ should also be installed in the site-wide library.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9006.</p>
 </div>
 
       </footer></div>

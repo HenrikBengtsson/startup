@@ -21,7 +21,7 @@ startup directories by appending / removing one line of code to the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0-9000</span>
       </span>
     </div>
 
@@ -77,20 +77,22 @@ startup directories by appending / removing one line of code to the
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">install</span><span class="op">(</span></span>
-<span>  path <span class="op">=</span> <span class="st">"~"</span>,</span>
+<span>  file <span class="op">=</span> <span class="fu">rprofile_user</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  backup <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>,</span>
 <span>  make_dirs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">uninstall</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"~"</span>, backup <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">uninstall</span><span class="op">(</span>file <span class="op">=</span> <span class="fu">rprofile_user</span><span class="op">(</span><span class="op">)</span>, backup <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>path</dt>
-<dd><p>The path where to create / update the <code class="file">.Rprofile</code> file.</p></dd>
+    <dl><dt>file</dt>
+<dd><p>The pathname where to create or update the <code class="file">.Rprofile</code>
+file.</p></dd>
 
 
 <dt>backup</dt>
@@ -103,6 +105,11 @@ fails, then an error is produced and the R startup file is unmodified.</p></dd>
 <dd><p>If the R startup file already exist, then <code>FALSE</code> (default)
 appends the startup code to the end of the file. is overwritten.  If <code>TRUE</code>,
 any pre-existing R startup file is overwritten.</p></dd>
+
+
+<dt>path</dt>
+<dd><p>The folder where to create <code class="file">.Renviron.d</code> and
+<code class="file">.Rprofile.d</code> directory.</p></dd>
 
 
 <dt>make_dirs</dt>
@@ -141,7 +148,7 @@ the <code class="file">.Rprofile</code> file, which is created if missing.</p></
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9006.</p>
 </div>
 
       </footer></div>
