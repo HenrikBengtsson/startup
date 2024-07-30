@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_pqr.R
 \name{is_pqr}
 \alias{is_pqr}
-\title{Checks if running pqR (A Pretty Quick Version of R)}
+\title{Check if running a Pretty Quick Version of R (pqR)}
 \usage{
 is_pqr()
 }
@@ -10,7 +10,7 @@ is_pqr()
 A logical
 }
 \description{
-Checks if running pqR (A Pretty Quick Version of R)
+Check if running a Pretty Quick Version of R (pqR)
 }
 \references{
 \enumerate{

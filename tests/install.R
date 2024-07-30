@@ -12,19 +12,19 @@ res <- startup:::is_installed(file)
 print(res)
 stopifnot(!res)
 
-print(startup:::install(path = path))
+print(startup:::install(file))
 res <- startup:::is_installed(file)
 print(res)
 stopifnot(res)
 
 res <- tryCatch({
-  startup:::install(path = path, backup = FALSE)
+  startup:::install(file, backup = FALSE)
 }, warning = identity)
 print(res)
 stopifnot(inherits(res, "warning"))
 
 cat("# Empty\n", file = file)
-print(startup:::install(path = path, backup = FALSE))
+print(startup:::install(file, backup = FALSE))
 res <- startup:::is_installed(file)
 print(res)
 stopifnot(res)
@@ -32,14 +32,14 @@ stopifnot(res)
 
 message("- uninstall() ...")
 
-print(startup:::uninstall(path = path))
+print(startup:::uninstall(file))
 
 res <- startup:::is_installed(file)
 print(res)
 stopifnot(!res)
 
 res <- tryCatch({
-  startup:::uninstall(path = path)
+  startup:::uninstall(file)
 }, warning = identity)
 print(res)
 stopifnot(inherits(res, "warning"))

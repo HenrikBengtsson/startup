@@ -1,4 +1,4 @@
-## Checks if running R via Rscript or not
+## Checks if running R via Rscript
 ##
 ## _WARNING: This function does not work - it always returns FALSE \[1\]._
 ##

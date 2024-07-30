@@ -1,3 +1,26 @@
+# Version 0.22.0 (2024-07-29)
+
+## New Features
+
+ * `startup()` gained argument `encoding`, which controls the encoding
+   used to parse the R startup files.
+ 
+ * Now `sysinfo()` report also on Jupyter, Visual Studio Code (VSCode)
+   webR via flags `jupyter`, `vscode`, and `webr`.
+
+ * Now `install()` and `uninstall()` respect environment variable
+   `R_PROFILE_USER`, if specified.
+
+ * Now `startup()` ignores files and folders specific version control, e.g.
+   `.git`, `.gitignore`, `.hg`, `.hgignore`, and `.svn`.
+
+
+## Bug Fixes
+
+ * `startup(debug = TRUE)` did not report on global variables starting
+   with a period, e.g. `.Last()`.
+
+
 # Version 0.21.0 (2023-12-11)
 
 ## New Features

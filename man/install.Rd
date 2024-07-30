@@ -7,17 +7,19 @@
 directories}
 \usage{
 install(
-  path = "~",
+  file = rprofile_user(),
   backup = TRUE,
   overwrite = FALSE,
+  path = dirname(file),
   make_dirs = TRUE,
   quiet = FALSE
 )
 
-uninstall(path = "~", backup = TRUE, quiet = FALSE)
+uninstall(file = rprofile_user(), backup = TRUE, quiet = FALSE)
 }
 \arguments{
-\item{path}{The path where to create / update the \file{.Rprofile} file.}
+\item{file}{The pathname where to create or update the \file{.Rprofile}
+file.}
 
 \item{backup}{If \code{TRUE}, a timestamped backup copy of the original file is
 created before modifying / overwriting it, otherwise not.  If the backup
@@ -26,6 +28,9 @@ fails, then an error is produced and the R startup file is unmodified.}
 \item{overwrite}{If the R startup file already exist, then \code{FALSE} (default)
 appends the startup code to the end of the file. is overwritten.  If \code{TRUE},
 any pre-existing R startup file is overwritten.}
+
+\item{path}{The folder where to create \file{.Renviron.d} and
+\file{.Rprofile.d} directory.}
 
 \item{make_dirs}{If \code{TRUE} (default), directories \file{.Renviron.d/} and
 \file{.Rprofile.d/} are created in folder \code{path}, if missing.}

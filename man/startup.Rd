@@ -38,6 +38,7 @@ startup(
   check = NA,
   unload = TRUE,
   skip = NA,
+  encoding = getOption("encoding"),
   dryrun = NA,
   debug = dryrun
 )
@@ -74,6 +75,9 @@ they are always ignored with a message that cannot be captured.}
 \item{keep}{Specify what information should remain after this function
 complete.  The default is to keep \verb{startup.session.*} options
 as recorded by \code{\link[=startup_session_options]{startup_session_options()}}.}
+
+\item{encoding}{The encodingto use when parsing the R startup files.
+See \code{\link[base:parse]{base::parse()}} for more details.}
 }
 \description{
 Initiates \R using all files under \file{.Renviron.d/} and / or

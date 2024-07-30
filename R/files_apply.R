@@ -69,7 +69,7 @@ files_apply <- function(files, fun,
 
       ## (d) Global variables
       record_globals <- function() {
-        as.list(globalenv())
+        as.list(globalenv(), all.names = TRUE)
       }
 
       ## (e) Random number generator (RNG) state

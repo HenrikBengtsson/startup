@@ -1,4 +1,4 @@
-#' Checks if running pqR (A Pretty Quick Version of R)
+#' Check if running a Pretty Quick Version of R (pqR)
 #'
 #' @return A logical
 #'

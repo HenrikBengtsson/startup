@@ -1,5 +1,5 @@
 Package: startup
-Version: 0.21.0
+Version: 0.22.0
 Title: Friendly R Startup Configuration
 Depends: R (>= 2.14.0)
 Suggests: commonmark, tools, tcltk
@@ -11,5 +11,5 @@ License: LGPL (>= 2.1)
 LazyLoad: TRUE
 URL: https://henrikbengtsson.github.io/startup/, https://github.com/HenrikBengtsson/startup
 BugReports: https://github.com/HenrikBengtsson/startup/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)

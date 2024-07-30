@@ -14,6 +14,7 @@ sysinfo <- function() {
   sysinfo$interactive <- interactive()
   
   ## Built-in system flags (logical)
+  sysinfo$jupyter <- is_jupyter()
   sysinfo$rapp <- (.Platform$GUI == "AQUA")
   sysinfo$rgui <- (.Platform$GUI == "Rgui")
   sysinfo$rstudio <- is_rstudio_console()
@@ -26,6 +27,8 @@ sysinfo <- function() {
   ## Deprecated: Renamed rice -> rtichoke in February 2018
   sysinfo$rice <- sysinfo$radian
   sysinfo$pqr <- is_pqr()
+  sysinfo$vscode <- is_vscode()
+  sysinfo$webr <- is_webr()
   sysinfo$wine <- is_wine()
 
   ## Session-specific variables

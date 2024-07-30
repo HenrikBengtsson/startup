@@ -1,4 +1,4 @@
-#' Checks whether running R via Emacs Spekas Statistics (ESS) or not
+#' Check if running R via Emacs Speaks Statistics (ESS)
 #'
 #' @return A logical
 is_ess <- function() {
