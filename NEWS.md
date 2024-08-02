@@ -2,6 +2,8 @@
 
 ## New Features
 
+ * Now `sysinfo()` report also on Ark (An R Kernel) via flag `ark`.
+
  * `startup(debug = TRUE)` does a better job explaining why certain
    Renviron and Rprofile files are skipped.
  
