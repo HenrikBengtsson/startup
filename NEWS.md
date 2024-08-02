@@ -2,7 +2,8 @@
 
 ## New Features
 
- * Now `sysinfo()` report also on Ark (An R Kernel) via flag `ark`.
+ * Now `sysinfo()` reports also on Ark (An R Kernel) and Positron via
+   flags `ark` and `positron`.
 
  * `startup(debug = TRUE)` does a better job explaining why certain
    Renviron and Rprofile files are skipped.

@@ -22,6 +22,7 @@ sysinfo <- function() {
   sysinfo$rstudioterm <- is_rstudio_terminal()
   sysinfo$microsoftr <- is_microsoftr()
   sysinfo$ess <- is_ess()
+  sysinfo$positron <- is_positron()
   sysinfo$radian <- is_radian()
   ## Deprecated: Renamed rtichoke -> radian in December 2018
   sysinfo$rtichoke <- sysinfo$radian
