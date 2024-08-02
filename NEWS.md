@@ -3,7 +3,7 @@
 ## New Features
 
  * `startup(debug = TRUE)` does a better job explaining why certain
-   Renviron and Rprofile files have been skipped.
+   Renviron and Rprofile files are skipped.
  
 
 # Version 0.22.0 (2024-07-29)

@@ -14,11 +14,6 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
     check <- isTRUE(getOption("startup.check", check))
   }
 
-  ## Skip?
-  if (is.na(skip)) {
-    skip <- any(c("--no-init-file", "--vanilla") %in% commandArgs())
-  }
-
   # (i) Check and fix common errors
   if (check) {
     check(all = all, fix = TRUE, debug = FALSE)
@@ -26,10 +21,23 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
 
   debug(debug)
 
+  # (ii) Find custom .Rprofile.d/* files
+  if (is.null(paths)) paths <- find_rprofile_d(sibling = sibling, all = all)
+
+  # (iii) Filter and source custom .Rprofile.d/* files
+  files <- list_d_files(paths, filter = filter_files)
+
+  if (is.na(skip)) {
+    skip <- any(c("--no-init-file", "--vanilla") %in% commandArgs())
+    if (skip) {
+      logf(" - Skipping %d .Rprofile.d/* scripts, because R was launched with command-line option %s", length(files), paste(intersect(c("--no-init-file", "--vanilla"), commandArgs()), collapse = " "))
+    }
+  } else if (skip) {
+    logf(" - Skipping %d .Rprofile.d/* scripts because skip = TRUE", length(files))
+  }
+  
+  ## Skip?
   if (!skip) {
-    # (ii) Source custom .Rprofile.d/* files
-    if (is.null(paths)) paths <- find_rprofile_d(sibling = sibling, all = all)
-    files <- list_d_files(paths, filter = filter_files)
     encoding <- getOption("encoding")
     keep_source <- getOption("keep.source", TRUE)
 
