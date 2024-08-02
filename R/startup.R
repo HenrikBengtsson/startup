@@ -123,36 +123,45 @@ startup <- function(sibling = FALSE, all = FALSE,
 
     logf("The following has already been processed by R:")
 
-    logf("- R_ENVIRON: %s", file_info(Sys.getenv("R_ENVIRON"), type = "env", validate = TRUE))
-    logf("- R_ENVIRON_USER: %s", file_info(Sys.getenv("R_ENVIRON_USER"), type = "env", validate = TRUE))
-    
     if (r_os == "unix") {
       f <- file.path(r_home, "etc", "Renviron")
       if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
     }
 
     no_environ <- any(c("--no-environ", "--vanilla") %in% cmd_args)
-    if (!no_environ) {
-      f <- Sys.getenv("R_ENVIRON")
-      if (nzchar(r_arch) && !is_file(f)) {
-        f <- file.path(r_home, "etc", r_arch, "Renviron.site")
+    
+    f <- Sys.getenv("R_ENVIRON")
+    logf("- R_ENVIRON: %s", file_info(f, type = "env"))
+    if (nzchar(r_arch) && !is_file(f)) {
+      f <- file.path(r_home, "etc", r_arch, "Renviron.site")
+    }
+    if (!is_file(f)) f <- file.path(r_home, "etc", "Renviron.site")
+    if (is_file(f)) {
+      logf("- Renviron file: %s", file_info(f, type = "env", validate = !no_environ))
+      if (no_environ) {
+        logf("- Skipped Renviron file, because R was launched with command-line option %s", paste(intersect(c("--no-environ", "--vanilla"), cmd_args), collapse = " "))
       }
-      if (!is_file(f)) f <- file.path(r_home, "etc", "Renviron.site")
-      if (is_file(f)) logf("- %s", file_info(f, type = "env", validate = TRUE))
+    } else {
+      logf("- Renviron file: <none>")
+    }
 
-      f <- Sys.getenv("R_ENVIRON_USER")
-      if (is_file(f)) {
-        logf("- %s", file_info(f, type = "env", validate = TRUE))
+    f <- Sys.getenv("R_ENVIRON_USER")
+    logf("- R_ENVIRON_USER: %s", file_info(f, type = "env"))
+    if (!is_file(f)) {
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
+      f <- ".Renviron"
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
+      if (!is_file(f)) f <- "~/.Renviron"
+    }
+    if (is_file(f)) {
+      if (no_environ) {
+        logf("- Skipped user Renviron file, because R was launched with command-line option %s", paste(intersect(c("--no-environ", "--vanilla"), cmd_args), collapse = " "))
       } else {
-        if (nzchar(r_arch) && !is_file(f)) f <- sprintf(".Renviron.%s", r_arch)
-        f <- ".Renviron"
-        if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Renviron.%s", r_arch)
-        if (!is_file(f)) f <- "~/.Renviron"
-        if (is_file(f)) {
-          logf("- %s", file_info(f, type = "env", validate = TRUE))
-          warn_file_capitalization(f, "Renviron")
-        }
+        logf("- User Renviron file: %s", file_info(f, type = "env", validate = !no_environ))
+        warn_file_capitalization(f, "Renviron")
       }
+    } else {
+      logf("- User Renviron file: <none>")
     }
 
     ## TMPDIR et al. may be set at the latest in an Renviron file
@@ -190,38 +199,42 @@ startup <- function(sibling = FALSE, all = FALSE,
     f <- system.file("R", "Rprofile", package = "base")
     if (is_file(f)) logf("- %s", file_info(f, type = "r"))
 
-    logf("- R_PROFILE: %s", file_info(Sys.getenv("R_PROFILE")))
     no_site_file <- any(c("--no-site-file", "--vanilla") %in% cmd_args)
-    if (!no_site_file) {
-      f <- Sys.getenv("R_PROFILE")
-      if (is_file(f)) {
-        logf("- %s", file_info(f, type = "r", validate = TRUE))
+    f <- Sys.getenv("R_PROFILE")
+    logf("- R_PROFILE: %s", file_info(f))
+    if (!is_file(f)) {
+      if (nzchar(r_arch)) f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
+      if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
+    }
+    if (is_file(f)) {
+      logf("- %s", file_info(f, type = "r", validate = !no_site_file))
+      if (no_site_file) {
+        logf("- Skipped site Rprofile startup file, because R was launched with command-line option %s", paste(intersect(c("--no-site-file", "--vanilla"), cmd_args), collapse = " "))
       } else {
-        if (nzchar(r_arch)) f <- file.path(r_home, "etc", r_arch, "Rprofile.site")
-        if (!is_file(f)) f <- file.path(r_home, "etc", "Rprofile.site")
-        if (is_file(f)) {
-          logf("- %s", file_info(f, type = "r"))
-          warn_file_capitalization(f, "Rprofile")
-        }
+        warn_file_capitalization(f, "Rprofile")
       }
+    } else {
+      logf("- Site Rprofile file: <none>")
     }
 
-    logf("- R_PROFILE_USER: %s", file_info(Sys.getenv("R_PROFILE_USER")))
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
-    if (!no_init_file) {
-      f <- Sys.getenv("R_PROFILE_USER")
-      if (is_file(f)) {
-        logf("- %s", file_info(f, type = "r", validate = TRUE))
+    f <- Sys.getenv("R_PROFILE_USER")
+    logf("- R_PROFILE_USER: %s", file_info(f))
+    if (!is_file(f)) {
+      if (nzchar(r_arch)) f <- sprintf(".Rprofile.%s", r_arch)
+      if (!is_file(f)) f <- ".Rprofile"
+      if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
+      if (!is_file(f)) f <- "~/.Rprofile"
+    }
+    if (is_file(f)) {
+      if (no_init_file) {
+        logf("- Skipped user Rprofile startup file, because R was launched with command-line option %s", paste(intersect(c("--no-init-file", "--vanilla"), cmd_args), collapse = " "))
       } else {
-        if (nzchar(r_arch)) f <- sprintf(".Rprofile.%s", r_arch)
-        if (!is_file(f)) f <- ".Rprofile"
-        if (nzchar(r_arch) && !is_file(f)) f <- sprintf("~/.Rprofile.%s", r_arch)
-        if (!is_file(f)) f <- "~/.Rprofile"
-        if (is_file(f)) {
-          logf("- %s", file_info(f, type = "r"))
-          warn_file_capitalization(f, "Rprofile")
-        }
+        logf("- %s", file_info(f, type = "r", validate = TRUE))
+        warn_file_capitalization(f, "Rprofile")
       }
+    } else {
+      logf("- User Rprofile file: <none>")
     }
 
     f <- Sys.getenv("R_TESTS")
@@ -373,7 +386,9 @@ startup <- function(sibling = FALSE, all = FALSE,
 
   no_restore_data <- any(c("--no-restore-data", "--no-restore", "--vanilla") %in% cmd_args)
   loads_RData <- has_RData <- FALSE
-  if (!no_restore_data) {
+  if (no_restore_data) {
+    logf("- Skipping any RData file, because R was launched with command-line option %s", paste(intersect(c("--no-restore-data", "--no-restore", "--vanilla"), cmd_args), collapse = " "))
+  } else {
     has_RData <- is_file(f <- "./.RData")
     if (has_RData) {
       f_norm <- normalizePath(f)

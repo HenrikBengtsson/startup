@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## New Features
+
+ * `startup(debug = TRUE)` does a better job explaining why certain
+   Renviron and Rprofile files have been skipped.
  
 
 # Version 0.22.0 (2024-07-29)
