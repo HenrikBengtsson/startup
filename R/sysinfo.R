@@ -15,20 +15,20 @@ sysinfo <- function() {
   
   ## Built-in system flags (logical)
   sysinfo$ark <- is_ark()
+  sysinfo$ess <- is_ess()
   sysinfo$jupyter <- is_jupyter()
+  sysinfo$microsoftr <- is_microsoftr()
+  sysinfo$positron <- is_positron()
+  sysinfo$pqr <- is_pqr()
+  sysinfo$radian <- is_radian()
   sysinfo$rapp <- (.Platform$GUI == "AQUA")
+  ## Deprecated: Renamed rtichoke -> radian in December 2018
+  sysinfo$rice <- sysinfo$radian
   sysinfo$rgui <- (.Platform$GUI == "Rgui")
   sysinfo$rstudio <- is_rstudio_console()
   sysinfo$rstudioterm <- is_rstudio_terminal()
-  sysinfo$microsoftr <- is_microsoftr()
-  sysinfo$ess <- is_ess()
-  sysinfo$positron <- is_positron()
-  sysinfo$radian <- is_radian()
-  ## Deprecated: Renamed rtichoke -> radian in December 2018
   sysinfo$rtichoke <- sysinfo$radian
   ## Deprecated: Renamed rice -> rtichoke in February 2018
-  sysinfo$rice <- sysinfo$radian
-  sysinfo$pqr <- is_pqr()
   sysinfo$vscode <- is_vscode()
   sysinfo$webr <- is_webr()
   sysinfo$wine <- is_wine()
