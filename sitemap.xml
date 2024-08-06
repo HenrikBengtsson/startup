@@ -46,6 +46,9 @@
     <loc>/reference/install.html</loc>
   </url>
   <url>
+    <loc>/reference/is_ark.html</loc>
+  </url>
+  <url>
     <loc>/reference/is_debug_on.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/is_microsoftr.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_positron.html</loc>
   </url>
   <url>
     <loc>/reference/is_pqr.html</loc>
