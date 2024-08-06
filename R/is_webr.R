@@ -3,7 +3,7 @@
 #' @return A logical
 #'
 #' @references
-#' 1. WebR - R in the Browser, <https://docs.r-wasm.org/webr/latest/>
+#' 1. webR - R in the Browser, <https://docs.r-wasm.org/webr/latest/>
 is_webr <- function() {
   if (!"webr" %in% loadedNamespaces()) return(FALSE)
 
