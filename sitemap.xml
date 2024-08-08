@@ -1,108 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/OVERVIEW.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/startup-intro.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check.html</loc>
-  </url>
-  <url>
-    <loc>/reference/current_script.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find_rprofile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find_rprofile_d.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/install.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_ark.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_debug_on.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_ess.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_jupyter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_microsoftr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_positron.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_pqr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_radian.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_rstudio_console.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_vscode.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_webr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_wine.html</loc>
-  </url>
-  <url>
-    <loc>/reference/on_session_enter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reset_when_cache.html</loc>
-  </url>
-  <url>
-    <loc>/reference/restart.html</loc>
-  </url>
-  <url>
-    <loc>/reference/startup.html</loc>
-  </url>
-  <url>
-    <loc>/reference/startup.options.html</loc>
-  </url>
-  <url>
-    <loc>/reference/startup_session_options.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sysinfo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/warn.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CONDUCT.html</loc></url>
+<url><loc>/CONTRIBUTING.html</loc></url>
+<url><loc>/OVERVIEW.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/startup-intro.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/check.html</loc></url>
+<url><loc>/reference/current_script.html</loc></url>
+<url><loc>/reference/find_rprofile.html</loc></url>
+<url><loc>/reference/find_rprofile_d.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/install.html</loc></url>
+<url><loc>/reference/is_ark.html</loc></url>
+<url><loc>/reference/is_debug_on.html</loc></url>
+<url><loc>/reference/is_ess.html</loc></url>
+<url><loc>/reference/is_jupyter.html</loc></url>
+<url><loc>/reference/is_microsoftr.html</loc></url>
+<url><loc>/reference/is_positron.html</loc></url>
+<url><loc>/reference/is_pqr.html</loc></url>
+<url><loc>/reference/is_radian.html</loc></url>
+<url><loc>/reference/is_rstudio_console.html</loc></url>
+<url><loc>/reference/is_vscode.html</loc></url>
+<url><loc>/reference/is_webr.html</loc></url>
+<url><loc>/reference/is_wine.html</loc></url>
+<url><loc>/reference/on_session_enter.html</loc></url>
+<url><loc>/reference/reset_when_cache.html</loc></url>
+<url><loc>/reference/restart.html</loc></url>
+<url><loc>/reference/startup.html</loc></url>
+<url><loc>/reference/startup.options.html</loc></url>
+<url><loc>/reference/startup_session_options.html</loc></url>
+<url><loc>/reference/sysinfo.html</loc></url>
+<url><loc>/reference/warn.html</loc></url>
 </urlset>
+
