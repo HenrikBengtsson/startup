@@ -6,7 +6,7 @@
 
 
     <div class="container template-news">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar- navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0-9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0</span>
       </span>
     </div>
 
@@ -64,21 +64,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li><p>Now <code><a href="../reference/sysinfo.html">sysinfo()</a></code> reports also on Ark (An R Kernel) and Positron via flags <code>ark</code> and <code>positron</code>.</p></li>
-<li><p><code>startup(debug = TRUE)</code> does a better job explaining why certain Renviron and Rprofile files are skipped.</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.22.0" id="version-0220">Version 0.22.0<small>2024-07-29</small><a class="anchor" aria-label="anchor" href="#version-0220"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-22-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-22-0"></a></h3>
 <ul><li><p><code><a href="../reference/startup.html">startup()</a></code> gained argument <code>encoding</code>, which controls the encoding used to parse the R startup files.</p></li>
 <li><p>Now <code><a href="../reference/sysinfo.html">sysinfo()</a></code> report also on Jupyter, Visual Studio Code (VSCode) webR via flags <code>jupyter</code>, <code>vscode</code>, and <code>webr</code>.</p></li>
 <li><p>Now <code><a href="../reference/install.html">install()</a></code> and <code><a href="../reference/install.html">uninstall()</a></code> respect environment variable <code>R_PROFILE_USER</code>, if specified.</p></li>
-<li><p>Now <code><a href="../reference/startup.html">startup()</a></code> ignores files and folders specific to version control, e.g. <code>.git</code>, <code>.gitignore</code>, <code>.hg</code>, <code>.hgignore</code>, and <code>.svn</code>.</p></li>
+<li><p>Now <code><a href="../reference/startup.html">startup()</a></code> ignores files and folders specific version control, e.g. <code>.git</code>, <code>.gitignore</code>, <code>.hg</code>, <code>.hgignore</code>, and <code>.svn</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-22-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-22-0"></a></h3>

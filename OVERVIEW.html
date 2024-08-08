@@ -6,7 +6,7 @@
 
 
     <div class="container template-title-body">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar- navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0-9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0</span>
       </span>
     </div>
 
@@ -128,28 +128,35 @@
 </ul></li>
 <li>
 <p>System flags:</p>
-<ul><li><p><code>interactive</code> - (logical) whether running R interactively or not (= <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code>)</p></li>
-<li><p><code>quiet</code> - (logical) Indicates whether one of the R command-line arguments <code>-q</code>, <code>--quiet</code>, and <code>--silent</code> was specified</p></li>
-<li><p><code>save</code> - (logical) TRUE if R was launched with command-line argument <code>--save</code>, FALSE if launched with <code>--no-save</code>, otherwise NA</p></li>
-<li><p><code>ark</code> - (logical) whether running R in <a href="https://github.com/posit-dev/ark" class="external-link">An R Kernel (ARK)</a></p></li>
-<li><p><code>ess</code> - (logical) whether running R in <a href="https://ess.r-project.org/" class="external-link">Emacs Speaks Statistics (ESS)</a></p></li>
-<li><p><code>jupyter</code> - (logical) whether running R in <a href="https://jupyter.org/" class="external-link">Jupyter</a></p></li>
-<li><p><code>microsoftr</code> - (logical) whether running R in <a href="https://github.com/microsoft/microsoft-r-open" class="external-link">Microsoft R Open</a></p></li>
-<li><p><code>positron</code> - (logical) whether running R in <a href="https://github.com/posit-dev/positron" class="external-link">Positron</a></p></li>
-<li><p><code>pqr</code> - (logical) whether running <a href="http://www.pqr-project.org/" class="external-link">pqR</a> (“A Pretty Quick Version of R”)</p></li>
-<li><p><code>radian</code> - (logical) whether running R in <a href="https://github.com/randy3k/radian" class="external-link">radian</a> (formerly known as ‘rtichoke’ and ‘rice’)</p></li>
-<li><p><code>rapp</code> - (logical) whether running R in [R.app] (a macOS GUI)</p></li>
-<li><p><code>rgui</code> - (logical) whether running R in [Rgui] (an MS Windows GUI)</p></li>
-<li><p><code>rstudio</code> - (logical) whether running R in <a href="https://posit.co/products/open-source/rstudio/" class="external-link">RStudio</a> Console</p></li>
-<li><p><code>rstudioterm</code> - (logical) whether running R in <a href="https://posit.co/products/open-source/rstudio/" class="external-link">RStudio</a> Terminal</p></li>
-<li><p><code>vscode</code> - (logical) whether running R in <a href="https://code.visualstudio.com/" class="external-link">Visual Studio Code (VSCode)</a></p></li>
-<li><p><code>webr</code> - (logical) whether running R in <a href="https://docs.r-wasm.org/webr/latest/" class="external-link">webR</a></p></li>
-<li><p><code>wine</code> - (logical) whether running R on Windows via <a href="https://www.winehq.org/" class="external-link">Linux Wine</a></p></li>
+<ul><li>
+<code>interactive</code> - (logical) whether running R interactively or not (= <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code>)</li>
+<li>
+<code>quiet</code> - (logical) Indicates whether one of the R command-line arguments <code>-q</code>, <code>--quiet</code>, and <code>--silent</code> was specified</li>
+<li>
+<code>save</code> - (logical) TRUE if R was launched with command-line argument <code>--save</code>, FALSE if launched with <code>--no-save</code>, otherwise NA</li>
+<li>
+<code>ess</code> - (logical) whether running R in <a href="https://ess.r-project.org/" class="external-link">Emacs Speaks Statistics (ESS)</a> or not</li>
+<li>
+<code>pqr</code> - (logical) whether running <a href="http://www.pqr-project.org/" class="external-link">pqR</a> (“A Pretty Quick Version of R”) or not</li>
+<li>
+<code>radian</code> - (logical) whether running R in <a href="https://github.com/randy3k/radian" class="external-link">radian</a> (formerly known as ‘rtichoke’ and ‘rice’) or not</li>
+<li>
+<code>microsoftr</code> - (logical) whether running R in <a href="https://github.com/microsoft/microsoft-r-open" class="external-link">Microsoft R Open</a> or not</li>
+<li>
+<code>rapp</code> - (logical) whether running R in [R.app] or not (a macOS GUI)</li>
+<li>
+<code>rgui</code> - (logical) whether running R in [Rgui] or not (an MS Windows GUI)</li>
+<li>
+<code>rstudio</code> - (logical) whether running R in <a href="https://posit.co/products/open-source/rstudio/" class="external-link">RStudio</a> Console or not</li>
+<li>
+<code>rstudioterm</code> - (logical) whether running R in <a href="https://posit.co/products/open-source/rstudio/" class="external-link">RStudio</a> Terminal or not</li>
+<li>
+<code>wine</code> - (logical) whether running R on Windows via <a href="https://www.winehq.org/" class="external-link">Linux Wine</a> or not</li>
 </ul></li>
 <li>
 <p>Installed packages:</p>
 <ul><li>
-<code>package</code> - (character) whether a package is installed. In addition to checking the availability, having <code>package=&lt;name&gt;</code> in the filename makes it clear that the startup file concerns settings specific to that package.</li>
+<code>package</code> - (character) whether a package is installed or not. In addition to checking the availability, having <code>package=&lt;name&gt;</code> in the filename makes it clear that the startup file concerns settings specific to that package.</li>
 </ul></li>
 <li>
 <p>With a specific frequency:</p>
