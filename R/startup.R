@@ -463,6 +463,9 @@ startup <- function(sibling = FALSE, all = FALSE,
         if (!has_RData) {
           warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA/startup.rdata=%s]", squote(f_norm), f_new_info, rdata0), call. = FALSE)
         }
+      } else if (rdata == "warn") {
+        if (debug) logf("- Warn about %s", f_info)
+        warning(sprintf("Detected %s, which R will attempt to load at the end of this startup process [R_STARTUP_RDATA/startup.rdata=%s]", f_info, rdata0), immediate. = TRUE, call. = FALSE)
       } else if (rdata != "default") {
         warning(sprintf("Ignoring unknown value (%s) of %s/%s",
                         squote(rdata0), squote("R_STARTUP_RDATA"),

@@ -7,7 +7,11 @@
 
  * `startup(debug = TRUE)` does a better job explaining why certain
    Renviron and Rprofile files are skipped.
- 
+
+ * Add support for `R_STARTUP_RDATA="warn"`, which will warn about the
+   existance of a `.RData` file with information of its size and
+   timestamp.
+
 
 # Version 0.22.0 (2024-07-29)
 

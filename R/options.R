@@ -59,6 +59,7 @@
 #'     or rename it. In non-interactive session, `"prompt"` will fallback to 
 #'     loading the content (default). To fallback to renaming the file, use
 #'     `"prompt,rename"`.
+#'     If `"warn"`, a warning will be produced, but content is still loaded.
 #'     Note that in contrast to `R` and `R CMD BATCH file.R`, `Rscript` does
 #'     _not_ load \file{.RData} files unless command-line option `--restore`
 #'     is specified.  
