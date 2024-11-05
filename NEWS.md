@@ -10,7 +10,8 @@
 
  * Add support for `R_STARTUP_RDATA="warn"`, which will warn about the
    existance of a `.RData` file with information of its size and
-   timestamp.
+   timestamp.  This can be combined with `"remove"` and `"rename"`,
+   e.g. `R_STARTUP_RDATA="warn,remove"`.
 
 
 # Version 0.22.0 (2024-07-29)

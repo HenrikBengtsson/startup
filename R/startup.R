@@ -435,10 +435,20 @@ startup <- function(sibling = FALSE, all = FALSE,
             rdata <- fallback
           }
         }
+      } else if (rdata[1] == "warn") {
+        if (debug) logf("- Warn about %s", f_info)
+        warning(sprintf("Detected %s, which R will attempt to load at the end of this startup process [R_STARTUP_RDATA/startup.rdata=%s]", f_info, rdata0), immediate. = TRUE, call. = FALSE)
+        rdata <- rdata[2L]
+        if (is.na(rdata)) rdata <- "default"
       }
 
       ## At this point, we should have at most one element in 'rdata'
-      stop_if_not(length(rdata) == 1L, !is.na(rdata))
+      if (length(rdata) != 1L) {
+        stop(sprintf("Unknown value (%s) of %s/%s",
+                        squote(rdata0), squote("R_STARTUP_RDATA"),
+                        squote("startup.rdata")))
+      }
+      stop_if_not(!is.na(rdata))
       
       if (rdata == "remove") {
         if (debug) logf("- Skipping %s by removing it", f_info)
@@ -463,9 +473,6 @@ startup <- function(sibling = FALSE, all = FALSE,
         if (!has_RData) {
           warning(sprintf("Skipped %s by renaming it to %s [R_STARTUP_RDATA/startup.rdata=%s]", squote(f_norm), f_new_info, rdata0), call. = FALSE)
         }
-      } else if (rdata == "warn") {
-        if (debug) logf("- Warn about %s", f_info)
-        warning(sprintf("Detected %s, which R will attempt to load at the end of this startup process [R_STARTUP_RDATA/startup.rdata=%s]", f_info, rdata0), immediate. = TRUE, call. = FALSE)
       } else if (rdata != "default") {
         warning(sprintf("Ignoring unknown value (%s) of %s/%s",
                         squote(rdata0), squote("R_STARTUP_RDATA"),
