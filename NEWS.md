@@ -20,6 +20,12 @@
    `Rprofile.log` in the working directory where R is launched.  If
    not specified, the debug is outputted via `message()` as before.
 
+## Bug Fixes
+
+ * `startup()` did not process `Rprofile.d/` files in Positron,
+   because Positron adds `--no-init-file` to the command-line
+   arguments, despite being ignored by Positron.
+
 
 # Version 0.22.0 (2024-07-29)
 
