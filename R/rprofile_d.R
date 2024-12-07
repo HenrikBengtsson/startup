@@ -29,6 +29,15 @@ rprofile_d <- function(sibling = FALSE, all = FALSE, check = NA,
 
   if (is.na(skip)) {
     skip <- any(c("--no-init-file", "--vanilla") %in% commandArgs())
+    
+    ## SPECIAL CASE: Positron declares '--no-init-file' in commandArgs()
+    ## but it is just a non-functional mockup option; Rprofile startup
+    ## files are still processed by Positron. /HB 2024-12-07
+    if (skip && "--no-init-file" %in% cmd_args && is_positron()) {
+      logf("- Positron option '--no-init-file' has no effect, despite being specified")
+      skip <- FALSE
+    }
+    
     if (skip) {
       logf(" - Skipping %d .Rprofile.d/* scripts, because R was launched with command-line option %s", length(files), paste(intersect(c("--no-init-file", "--vanilla"), commandArgs()), collapse = " "))
     }

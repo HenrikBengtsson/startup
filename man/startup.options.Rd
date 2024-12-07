@@ -8,6 +8,8 @@
 \alias{startup.check.options.ignore}
 \alias{startup.commandArgs}
 \alias{R_STARTUP_DEBUG}
+\alias{startup.debug.file}
+\alias{R_STARTUP_DEBUG_FILE}
 \alias{startup.debug}
 \alias{R_STARTUP_DRYRUN}
 \alias{startup.dryrun}
@@ -122,6 +124,20 @@ Names of \R options that should \emph{not} be validated at the end of the
 (logical)
 Controls the default value of argument \code{debug} of \code{\link[=startup]{startup()}}.
 (Default: \code{FALSE})
+}
+
+\item{\env{R_STARTUP_DEBUG_FILE} / \option{startup.debug.file}:}{
+(character string or NULL)
+Controls where \code{\link[=startup]{startup()}} debug messages are outputted.
+If set, it specifies the file where debug messages are written to.
+If file already exists, it is overwritten.
+Unless an absolute filename is given, the location of the file is
+relative to the working directory where R was started.
+If the filename comprise the string \code{{{pid}}}, it is replaced by
+the R process' process identifier (PID) per \code{Sys.getpid()}.
+If \code{NULL} or \verb{<message>}, then debug is outputted using the
+\code{message()} function.
+(Default: not specified)
 }
 
 \item{\option{startup.commandArgs}:}{

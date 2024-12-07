@@ -218,6 +218,15 @@ startup <- function(sibling = FALSE, all = FALSE,
     }
 
     no_init_file <- any(c("--no-init-file", "--vanilla") %in% cmd_args)
+    
+    ## SPECIAL CASE: Positron declares '--no-init-file' in commandArgs()
+    ## but it is just a non-functional mockup option; Rprofile startup
+    ## files are still processed by Positron. /HB 2024-12-07
+    if (no_init_file && "--no-init-file" %in% cmd_args && is_positron()) {
+      logf("- Positron option '--no-init-file' has no effect, despite being specified")
+      no_init_file <- FALSE
+    }
+    
     f <- Sys.getenv("R_PROFILE_USER")
     logf("- R_PROFILE_USER: %s", file_info(f))
     if (!is_file(f)) {
