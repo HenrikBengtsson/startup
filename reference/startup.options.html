@@ -21,7 +21,7 @@ R or (ii) in the .Renviron file."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0-9012</span>
       </span>
     </div>
 
@@ -133,6 +133,7 @@ If <code>"prompt"</code>, the user is prompted whether they want to load the fil
 or rename it. In non-interactive session, <code>"prompt"</code> will fallback to
 loading the content (default). To fallback to renaming the file, use
 <code>"prompt,rename"</code>.
+If <code>"warn"</code>, a warning will be produced, but content is still loaded.
 Note that in contrast to <code>R</code> and <code>R CMD BATCH file.R</code>, <code>Rscript</code> does
 <em>not</em> load <code class="file">.RData</code> files unless command-line option <code>--restore</code>
 is specified.
@@ -171,6 +172,20 @@ Controls the default value of argument <code>debug</code> of <code><a href="star
 (Default: <code>FALSE</code>)</p></dd>
 
 
+<dt><code class="env">R_STARTUP_DEBUG_FILE</code> / <span class="option">startup.debug.file</span>:</dt>
+<dd><p>(character string or NULL)
+Controls where <code><a href="startup.html">startup()</a></code> debug messages are outputted.
+If set, it specifies the file where debug messages are written to.
+If file already exists, it is overwritten.
+Unless an absolute filename is given, the location of the file is
+relative to the working directory where R was started.
+If the filename comprise the string <code>{{pid}}</code>, it is replaced by
+the R process' process identifier (PID) per <code><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid()</a></code>.
+If <code>NULL</code> or <code>&lt;message&gt;</code>, then debug is outputted using the
+<code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> function.
+(Default: not specified)</p></dd>
+
+
 <dt><span class="option">startup.commandArgs</span>:</dt>
 <dd><p>(character vector)
 Overrides the command-line arguments that <code><a href="startup.html">startup()</a></code> uses, which
@@ -202,7 +217,7 @@ The specified string must be parsable by <code><a href="https://rdrr.io/r/base/a
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9007.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9007.</p>
 </div>
 
       </footer></div>
