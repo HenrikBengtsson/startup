@@ -13,6 +13,13 @@
    timestamp.  This can be combined with `"remove"` and `"rename"`,
    e.g. `R_STARTUP_RDATA="warn,remove"`.
 
+ * Add support for sending debug output to file, which is controlled
+   by R option `startup.debug.file` and environment variable
+   `R_STARTUP_DEBUG_FILE`. For example,
+   `R_STARTUP_DEBUG_FILE=Rprofile.log` will output debug messages to
+   `Rprofile.log` in the working directory where R is launched.  If
+   not specified, the debug is outputted via `message()` as before.
+
 
 # Version 0.22.0 (2024-07-29)
 
