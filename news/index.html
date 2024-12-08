@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">startup</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0-9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.0</span>
       </span>
     </div>
 
@@ -64,16 +64,16 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<h2 class="page-header" data-toc-text="0.23.0" id="version-0230">Version 0.23.0<a class="anchor" aria-label="anchor" href="#version-0230"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-23-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-23-0"></a></h3>
 <ul><li><p>Now <code><a href="../reference/sysinfo.html">sysinfo()</a></code> reports also on Ark (An R Kernel) and Positron via flags <code>ark</code> and <code>positron</code>.</p></li>
 <li><p><code>startup(debug = TRUE)</code> does a better job explaining why certain Renviron and Rprofile files are skipped.</p></li>
 <li><p>Add support for <code>R_STARTUP_RDATA="warn"</code>, which will warn about the existance of a <code>.RData</code> file with information of its size and timestamp. This can be combined with <code>"remove"</code> and <code>"rename"</code>, e.g. <code>R_STARTUP_RDATA="warn,remove"</code>.</p></li>
 <li><p>Add support for sending debug output to file, which is controlled by R option <code>startup.debug.file</code> and environment variable <code>R_STARTUP_DEBUG_FILE</code>. For example, <code>R_STARTUP_DEBUG_FILE=Rprofile.log</code> will output debug messages to <code>Rprofile.log</code> in the working directory where R is launched. If not specified, the debug is outputted via <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> as before.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-23-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-23-0"></a></h3>
 <ul><li>
 <code><a href="../reference/startup.html">startup()</a></code> did not process <code>Rprofile.d/</code> files in Positron, because Positron adds <code>--no-init-file</code> to the command-line arguments, despite being ignored by Positron.</li>
 </ul></div>
