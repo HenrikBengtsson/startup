@@ -39,11 +39,48 @@ debug <- local({
   }
 })
 
+debug_output <- local({
+  .cache <- NULL
+  
+  function(msg) {
+    output <- .cache
+    
+    if (is.null(output)) {
+      debug_file <- getOption("startup.debug.file", NULL)
+      if (is.null(debug_file)) {
+        debug_file <- Sys.getenv("R_STARTUP_DEBUG_FILE", NA_character_)
+        if (is.na(debug_file)) {
+          debug_file <- "<message>"
+        }
+      }
+
+      if (debug_file == "<message>") {
+        output <- function(msg) {
+          message(msg, appendLF = FALSE)
+        }
+      } else {
+        pid <- Sys.getpid()
+        debug_file <- gsub("{{pid}}", pid, debug_file, fixed = TRUE)
+        cat(file = debug_file, append = FALSE)
+        output <- function(msg) {
+          cat(msg, file = debug_file, append = TRUE)
+        }
+      }
+      
+      .cache <<- output
+    }
+    
+    output(msg)
+  }
+})
+
 log <- function(..., collapse = "\n", timestamp = TRUE, appendLF = TRUE) {
   if (!debug()) return()
   lines <- c(...)
   if (timestamp) lines <- sprintf("%s: %s", timestamp(), lines)
-  message(paste(lines, collapse = collapse), appendLF = appendLF)
+  msg <- paste(lines, collapse = collapse)
+  msg <- .makeMessage(msg, appendLF = appendLF)
+  debug_output(msg)
   invisible()
 }
 

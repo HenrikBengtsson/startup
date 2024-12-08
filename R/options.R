@@ -59,6 +59,7 @@
 #'     or rename it. In non-interactive session, `"prompt"` will fallback to 
 #'     loading the content (default). To fallback to renaming the file, use
 #'     `"prompt,rename"`.
+#'     If `"warn"`, a warning will be produced, but content is still loaded.
 #'     Note that in contrast to `R` and `R CMD BATCH file.R`, `Rscript` does
 #'     _not_ load \file{.RData} files unless command-line option `--restore`
 #'     is specified.  
@@ -96,6 +97,20 @@
 #'     (Default: `FALSE`)
 #'   }
 #'
+#'   \item{\env{R_STARTUP_DEBUG_FILE} / \option{startup.debug.file}:}{
+#'     (character string or NULL)
+#'     Controls where [startup()] debug messages are outputted.
+#'     If set, it specifies the file where debug messages are written to.
+#'     If file already exists, it is overwritten.
+#'     Unless an absolute filename is given, the location of the file is
+#'     relative to the working directory where R was started.
+#'     If the filename comprise the string `{{pid}}`, it is replaced by
+#'     the R process' process identifier (PID) per `Sys.getpid()`.
+#'     If `NULL` or `<message>`, then debug is outputted using the
+#'     `message()` function.
+#'     (Default: not specified)
+#'   }
+#'
 #'   \item{\option{startup.commandArgs}:}{
 #'     (character vector)
 #'     Overrides the command-line arguments that [startup()] uses, which
@@ -122,6 +137,8 @@
 #' startup.check.options.ignore
 #' startup.commandArgs
 #' R_STARTUP_DEBUG
+#' startup.debug.file
+#' R_STARTUP_DEBUG_FILE
 #' startup.debug
 #' R_STARTUP_DRYRUN
 #' startup.dryrun

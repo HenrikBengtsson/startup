@@ -7,5 +7,5 @@ navbar:
       href: https://cloud.r-project.org/package=startup
 
 template:
-  bootstrap: 3
+  light-switch: true
   

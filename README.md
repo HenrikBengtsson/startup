@@ -105,19 +105,25 @@ The following `startup::sysinfo()` keys are available for conditional inclusion 
   - `interactive` - (logical) whether running R interactively or not (= `interactive()`)
   - `quiet`       - (logical) Indicates whether one of the R command-line arguments `-q`, `--quiet`, and `--silent` was specified
   - `save`        - (logical) TRUE if R was launched with command-line argument `--save`, FALSE if launched with `--no-save`, otherwise NA
-  - `ess`         - (logical) whether running R in [Emacs Speaks Statistics (ESS)] or not
-  - `pqr`         - (logical) whether running [pqR] ("A Pretty Quick Version of R") or not
-  - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice') or not
-  - `microsoftr`  - (logical) whether running R in [Microsoft R Open] or not
-  - `rapp`        - (logical) whether running R in [R.app] or not (a macOS GUI)
-  - `rgui`        - (logical) whether running R in [Rgui] or not (an MS Windows GUI)
-  - `rstudio`     - (logical) whether running R in [RStudio] Console or not
-  - `rstudioterm` - (logical) whether running R in [RStudio] Terminal or not
-  - `wine`        - (logical) whether running R on Windows via [Linux Wine] or not
+  
+  - `ark`          - (logical) whether running R in [An R Kernel (ARK)]
+  - `ess`          - (logical) whether running R in [Emacs Speaks Statistics (ESS)]
+  - `jupyter`     - (logical) whether running R in [Jupyter]
+  - `microsoftr`  - (logical) whether running R in [Microsoft R Open]
+  - `positron`    - (logical) whether running R in [Positron]
+  - `pqr`          - (logical) whether running [pqR] ("A Pretty Quick Version of R")
+  - `radian`      - (logical) whether running R in [radian] (formerly known as 'rtichoke' and 'rice')
+  - `rapp`        - (logical) whether running R in [R.app] (a macOS GUI)
+  - `rgui`        - (logical) whether running R in [Rgui] (an MS Windows GUI)
+  - `rstudio`     - (logical) whether running R in [RStudio] Console
+  - `rstudioterm` - (logical) whether running R in [RStudio] Terminal
+  - `vscode`      - (logical) whether running R in [Visual Studio Code (VSCode)]
+  - `webr`        - (logical) whether running R in [webR]
+  - `wine`        - (logical) whether running R on Windows via [Linux Wine]
 
 * Installed packages:
 
-  - `package`     - (character) whether a package is installed or not.  In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
+  - `package`     - (character) whether a package is installed.  In addition to checking the availability, having `package=<name>` in the filename makes it clear that the startup file concerns settings specific to that package.
 
 * With a specific frequency:
 
@@ -246,12 +252,19 @@ local({
 ```
 
 [startup]: https://cran.r-project.org/package=startup
+[An R Kernel (ARK)]: https://github.com/posit-dev/ark
 [Emacs Speaks Statistics (ESS)]: https://ess.r-project.org/
+[Jupyter]: https://jupyter.org/
 [Microsoft R Open]: https://github.com/microsoft/microsoft-r-open
+[Positron]: https://github.com/posit-dev/positron
 [pqR]: http://www.pqr-project.org/
 [radian]: https://github.com/randy3k/radian
 [RStudio]: https://posit.co/products/open-source/rstudio/
+[Visual Studio Code (VSCode)]: https://code.visualstudio.com/
+[webR]: https://docs.r-wasm.org/webr/latest/
 [Linux Wine]: https://www.winehq.org/
+
+
 
 ## Installation
 R package startup is available on [CRAN](https://cran.r-project.org/package=startup) and can be installed in R as:

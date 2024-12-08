@@ -14,6 +14,6 @@ Checks if running R via webR
 }
 \references{
 \enumerate{
-\item WebR - R in the Browser, \url{https://docs.r-wasm.org/webr/latest/}
+\item webR - R in the Browser, \url{https://docs.r-wasm.org/webr/latest/}
 }
 }

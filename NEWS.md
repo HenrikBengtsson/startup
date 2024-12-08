@@ -1,3 +1,32 @@
+# Version 0.23.0 (2024-12-07)
+
+## New Features
+
+ * Now `sysinfo()` reports also on Ark (An R Kernel) and Positron via
+   flags `ark` and `positron`.
+
+ * `startup(debug = TRUE)` does a better job explaining why certain
+   Renviron and Rprofile files are skipped.
+
+ * Add support for `R_STARTUP_RDATA="warn"`, which will warn about the
+   existance of a `.RData` file with information of its size and
+   timestamp.  This can be combined with `"remove"` and `"rename"`,
+   e.g. `R_STARTUP_RDATA="warn,remove"`.
+
+ * Add support for sending debug output to file, which is controlled
+   by R option `startup.debug.file` and environment variable
+   `R_STARTUP_DEBUG_FILE`. For example,
+   `R_STARTUP_DEBUG_FILE=Rprofile.log` will output debug messages to
+   `Rprofile.log` in the working directory where R is launched.  If
+   not specified, the debug is outputted via `message()` as before.
+
+## Bug Fixes
+
+ * `startup()` did not process `Rprofile.d/` files in Positron,
+   because Positron adds `--no-init-file` to the command-line
+   arguments, despite being ignored by Positron.
+
+
 # Version 0.22.0 (2024-07-29)
 
 ## New Features
@@ -11,8 +40,9 @@
  * Now `install()` and `uninstall()` respect environment variable
    `R_PROFILE_USER`, if specified.
 
- * Now `startup()` ignores files and folders specific version control, e.g.
-   `.git`, `.gitignore`, `.hg`, `.hgignore`, and `.svn`.
+ * Now `startup()` ignores files and folders specific to version
+   control, e.g.  `.git`, `.gitignore`, `.hg`, `.hgignore`, and
+   `.svn`.
 
 
 ## Bug Fixes
