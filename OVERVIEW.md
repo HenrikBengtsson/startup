@@ -1,0 +1,428 @@
+# NA
+
+## Introduction
+
+When you start R, it will by default source a `.Rprofile` file if it
+exists. This allows you to automatically tweak your R settings to meet
+your everyday needs. For instance, you may want to set the default CRAN
+repository (`options("repos")`) so you don’t have to choose one every
+time you install a package.
+
+The **[startup](https://cran.r-project.org/package=startup)** package
+extends the default R startup process by allowing you to put multiple
+startup scripts in a common ‘Rprofile.d’ directory and have them all be
+sourced during the R startup process. This way you can have one file to
+configure the default CRAN repository and another one to configure your
+personal devtools settings. Similarly, you can use a ‘Renviron.d’
+directory with multiple files defining different environment variables.
+For instance, one file may define environment variable `LANGUAGE`,
+whereas another file may contain your private `GITHUB_PAT` key. The
+advantages of this approach are that it gives a better overview when you
+list the files, makes it easier to share certain settings (= certain
+files) with other users, and enable you to keep specific files
+completely private (by setting the file privileges so only you can
+access those settings).
+
+## How the R startup process works
+
+When R starts, the following *user-specific* setup takes place:
+
+1.  The *first* `.Renviron` file found on the R startup search path is
+    processed. The search path is (in order): (i)
+    `Sys.getenv("R_ENVIRON_USER")`, (ii) `./.Renviron`, and (iii)
+    `~/.Renviron`. The format of this file is one `ENV_VAR=VALUE`
+    statement per line,
+    cf. [`?.Renviron`](https://rdrr.io/r/base/Startup.html). *NOTE:*
+    Some environment variables must be set already in this step in order
+    to be acknowledged by R, i.e. it is *too late* to set some of them
+    in Step 2 and Step 3 below.
+
+2.  The *first* `.Rprofile` file found on the R startup search path is
+    processed. The search path is (in order): (i)
+    `Sys.getenv("R_PROFILE_USER")`, (ii) `./.Rprofile`, and (iii)
+    `~/.Rprofile`. The format of this file must be a valid R script
+    (with a trailing newline),
+    cf. [`?.Rprofile`](https://rdrr.io/r/base/Startup.html).
+
+3.  If the `.Rprofile` file (in Step 2) calls
+    [`startup::startup()`](reference/startup.md) then the following will
+    also take place:
+
+    1.  The *first* ‘Renviron.d’ directory on the R startup search path
+        is processed. The search path is (in order): (i)
+        `paste0(Sys.getenv("R_ENVIRON_USER"), ".d")`, (ii)
+        `./.Renviron.d`, (iii) `~/.Renviron.d`, and (iv)
+        `{user-config-dir}/Renviron.d`, where `{user-config-dir}`
+        corresponds to `tools::R_user_dir("startup", which = "config")`,
+        e.g. `${XDG_CONFIG_HOME}/R/startup`. The format of these files
+        should be the same as for `.Renviron`. *NOTE:* Some environment
+        variables must be set already in Step 1 above in order to be
+        acknowledged by R.
+
+    2.  A set of handy R options that can be used in Step 3c are set.
+        Their names are prefixed `startup.session.` - see
+        [`?startup::startup_session_options`](reference/startup_session_options.md)
+        for details.
+
+    3.  The *first* ‘Rprofile.d’ directory found on the R startup search
+        path is processed. The search path is (in order): (i)
+        `paste0(Sys.getenv("R_PROFILE_USER"), ".d")`, (ii)
+        `./.Rprofile.d`, (iii) `~/.Rprofile.d`, and (iv)
+        `{user-config-dir}/Rprofile.d`. The format of these files should
+        be the same as for `.Rprofile`, that is, they must be valid R
+        scripts.
+
+    4.  If set, any R code in environment variable `R_STARTUP_INIT`, or
+        R option `startup.init`, is parsed and evaluated.
+
+    5.  If set, any R script specified by environment variable
+        `R_STARTUP_FILE`, or R option `startup.file`, is parsed and
+        evaluated.
+
+    6.  If no errors occur above, the
+        **[startup](https://cran.r-project.org/package=startup)**
+        package will be unloaded, leaving no trace of itself behind,
+        except for R options `startup.session.*` set in Step 3b - these
+        will be erased if [`startup::startup()`](reference/startup.md)
+        is called with `keep = NULL`.
+
+All relevant files in ‘Renviron.d’ and ‘Rprofile.d’ directories,
+including those found recursively in subdirectories thereof, will be
+processed (in lexicographic order sorted under the `C` locale). There
+are no restrictions on what the file names should be (except for the
+ones ignored as explained below). However, for ‘Rprofile.d’ files we
+recommend to use filename extension `*.R` to indicate that the files are
+regular R scripts. For ‘Renviron.d’ files we recommend to use files
+without extensions (or `*.Renviron` for clarification). To avoid
+confusions, do *not* use an `*.R` extension for ‘Renviron.d’ files
+because they are not R script per se (as some editors may warn you
+about).
+
+Files with file extensions `*.txt`, `*.md` and `*~` are ignored as well
+as any files named `.Rhistory`, `.RData` and `.DS_Store`. Directories
+named `__MACOSX` and their content are ignored. Files and directories
+with names starting with two periods (`..`) are ignored,
+e.g. `~/.Rprofile.d/..my-tests/`.
+
+## Installation
+
+After installing the **startup** packages (see instructions at the end),
+call
+
+``` r
+
+startup::install()
+```
+
+once. This will append
+
+``` r
+
+tryCatch(startup::startup(), error=function(ex) message(".Rprofile error: ", conditionMessage(ex)))
+```
+
+to your `~/.Rprofile`. The file will be created if missing. This will
+also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if
+missing. To find the location of these folder on Windows, use
+`normalizePath("~")` - it’s often located under
+`C:\Users\Alice\Documents\`.
+
+Alternatively to the above installation setup, you can just add that
+line to your `~/.Rprofile` file manually. The reason for using
+`tryCatch(..., error = ...)` is for the case when **startup** is not
+installed and you try to install it, e.g. after upgrading R to a new
+major release. Without
+[`tryCatch()`](https://rdrr.io/r/base/conditions.html), R will fail to
+install the **startup** package (or any other package) because the R
+profile startup script produces an error complaining about **startup**
+not being available.
+
+## Usage
+
+Just start R :)
+
+To debug the startup process, use `startup::startup(debug = TRUE)` or
+set environment variable `R_STARTUP_DEBUG=TRUE`, e.g. on Linux you can
+do
+
+``` sh
+$ R_STARTUP_DEBUG=TRUE R
+```
+
+On MS Windows, you can do:
+
+``` sh
+$ R R_STARTUP_DEBUG=TRUE
+```
+
+This will produce time-stamped messages during startup specifying which
+files are included together with details on the files and what they
+modified.
+
+## Conditional file and directory names
+
+If the name of a file consists of a `<key>=<value>` specification, then
+that file will be included / used only if the specification is fulfilled
+(on the current system with the current R setup). For instance, a file
+`~/.Rprofile.d/os=windows.R` will be ignored unless
+`startup::sysinfo()$os == "windows"`, i.e. the R session is started on a
+Windows system.
+
+The following [`startup::sysinfo()`](reference/sysinfo.md) keys are
+available for conditional inclusion of files by their path names:
+
+- System values:
+
+  - `dirname` - (character) the name of the current working directory (=
+    `basename(getwd())`)
+  - `gui` - (character) the graphical user interface (= `.Platform$GUI`)
+  - `nodename` - (character) the host name (=
+    `Sys.info()[["nodename"]]`)
+  - `machine` - (character) the machine type (=
+    `Sys.info()[["machine"]]`)
+  - `os` - (character) the operating system (= `.Platform$OS.type`)
+  - `sysname` - (character) the system name (=
+    `Sys.info()[["sysname"]]`)
+  - `user` - (character) the user name (= `Sys.info()[["user"]]`)
+
+- System flags:
+
+  - `interactive` - (logical) whether running R interactively or not (=
+    [`interactive()`](https://rdrr.io/r/base/interactive.html))
+
+  - `quiet` - (logical) Indicates whether one of the R command-line
+    arguments `-q`, `--quiet`, and `--silent` was specified
+
+  - `save` - (logical) TRUE if R was launched with command-line argument
+    `--save`, FALSE if launched with `--no-save`, otherwise NA
+
+  - `ark` - (logical) whether running R in [An R Kernel
+    (ARK)](https://github.com/posit-dev/ark)
+
+  - `ess` - (logical) whether running R in [Emacs Speaks Statistics
+    (ESS)](https://ess.r-project.org/)
+
+  - `jupyter` - (logical) whether running R in
+    [Jupyter](https://jupyter.org/)
+
+  - `microsoftr` - (logical) whether running R in [Microsoft R
+    Open](https://github.com/microsoft/microsoft-r-open)
+
+  - `positron` - (logical) whether running R in
+    [Positron](https://github.com/posit-dev/positron)
+
+  - `pqr` - (logical) whether running [pqR](http://www.pqr-project.org/)
+    (“A Pretty Quick Version of R”)
+
+  - `radian` - (logical) whether running R in
+    [radian](https://github.com/randy3k/radian) (formerly known as
+    ‘rtichoke’ and ‘rice’)
+
+  - `rapp` - (logical) whether running R in \[R.app\] (a macOS GUI)
+
+  - `rgui` - (logical) whether running R in \[Rgui\] (an MS Windows GUI)
+
+  - `rstudio` - (logical) whether running R in
+    [RStudio](https://posit.co/products/open-source/rstudio/) Console
+
+  - `rstudioterm` - (logical) whether running R in
+    [RStudio](https://posit.co/products/open-source/rstudio/) Terminal
+
+  - `vscode` - (logical) whether running R in [Visual Studio Code
+    (VSCode)](https://code.visualstudio.com/)
+
+  - `webr` - (logical) whether running R in
+    [webR](https://docs.r-wasm.org/webr/latest/)
+
+  - `wine` - (logical) whether running R on Windows via [Linux
+    Wine](https://www.winehq.org/)
+
+- Installed packages:
+
+  - `package` - (character) whether a package is installed. In addition
+    to checking the availability, having `package=<name>` in the
+    filename makes it clear that the startup file concerns settings
+    specific to that package.
+
+- With a specific frequency:
+
+  - `when` - (character) specify how often the file should be processed:
+    - `when=once` - the startup file is processed only once
+    - `when=hourly` - the startup file is processed at most once per
+      hour
+    - `when=daily` - the startup file is processed at most once per day
+    - `when=weekly` - the startup file is processed at most once per
+      week
+    - `when=fortnightly` - the startup file is processed at most once
+      every two weeks
+    - `when=monthly` - the startup file is processed at most once per
+      month
+
+  If such a file, or its timestamp, is updated, then it will be
+  processed the next time R is started.
+
+- Environment variables:
+
+  - Any further `<key>=<value>` specifications with keys matching none
+    of the above known keys are interpreted as system environment
+    variables and **startup** will test such conditions against their
+    values. *Note, if `<key>` does not correspond to a known environment
+    variable, then the file is skipped if `<key>=<value>` is used but
+    included if `<key>!=<value>` is used.*
+
+To condition on more than one key, separate `<key>=<value>` pairs by
+commas, e.g. `~/.Rprofile.d/work,interactive=TRUE,os=windows.R`. This
+also works for directory names. For instance,
+`~/.Rprofile.d/os=windows/work,interactive=TRUE.R` will be processed if
+running on Windows and in interactive mode. Multiple packages may be
+specified. For instance,
+`~/.Rprofile.d/package=devtools,package=future.R` will be used only if
+both the devtools and the future packages are installed.
+
+It is also possible to negate a conditional filename test by using the
+`<key>!=<value>` specification. For instance,
+`~/.Rprofile.d/package=doMC,os!=windows.R` will be processed if package
+`doMC` is installed and the operating system is not Windows.
+
+### Secrets (conditionally on an environment variable)
+
+Renviron and Rprofile startup files with a non-declared `<key>` in their
+file names are skipped. A non-declared key is any key that is neither
+one of the above predefined keys nor a declared environment variable.
+
+This is useful, because it allows us to keep “secrets” in private files
+and only load them conditionally on the value of an environment
+variable. For instance, we put all our secret Renviron files under
+`~/.Renviron.d/private/SECRET=banana/` such that they are only loaded if
+environment variable `SECRET` is set to exactly `banana`. Moreover, by
+making sure the directory `~/.Renviron.d/private/` is only accessible by
+you, then it will be harder for someone else two know what your secret
+“password” (`banana`) is. On a Unix system, you can set this up as:
+
+``` sh
+$ mkdir -p ~/.Renviron.d/private/SECRET=banana/
+$ chmod go-rw ~/.Renviron.d/private
+```
+
+Then go ahead an put your secret Renviron files in there, e.g.
+
+``` sh
+.Renviron.d/private/SECRET=banana/
+  +-- amazon  ## AWS_* credential & settings
+  +-- github  ## GITHUB_TOKEN + GITHUB_PAT
+```
+
+Now, only if `SECRET` is set to exactly `banana` when you launch R, the
+above secret files will be processed and the corresponding environment
+variables will be available from withing R. For instance, they will be
+loaded if you do:
+
+``` r
+$ SECRET=banana R
+```
+
+but not if you do:
+
+``` r
+$ SECRET=badguess R
+```
+
+or if `SECRET` is unset.
+
+*Comment:* You can use whichever variable name you like, it does not
+have to be `SECRET`. And, the “password” `banana` is obviously just an
+example.
+
+## Known limitations
+
+### Setting environment variables during startup
+
+Renviron startup files is a convenient and cross-platform way of setting
+environment variables during the R startup process. However, for some of
+the environment variables that R consults must be set early on in the R
+startup process (immediately after Step 1), because R only consults them
+once. Examples(\*) of environment variables that need to be set *no
+later than* `.Renviron` (Step 1) are:
+
+- `TMPDIR`, `TMP`, `TEMP` - the parent of R’s temporary directory,
+  cf. [`?tempdir`](https://rdrr.io/r/base/tempfile.html)
+- `LC_ALL` - locale settings used by R,
+  e.g. cf. [`?locales`](https://rdrr.io/r/base/locales.html)
+- `R_DEFAULT_PACKAGES` - default set of packages loaded when R starts,
+  cf. [`?Rscript`](https://rdrr.io/r/utils/Rscript.html)
+- `R_LIBS_USER` - user’s library path,
+  e.g. `R_LIBS_USER=~/R/%p-library/%v` is the folder specification used
+  by default on all platforms and and R version. The folder must exist,
+  otherwise it is ignored by R. The `%p` (platform) and `%v` (version)
+  parts are R-specific conversion specifiers,
+  cf. [`?R_LIBS_USER`](https://rdrr.io/r/base/libPaths.html)
+- `R_MAX_NUM_DLLS`,
+  cf. [`?dyn.load`](https://rdrr.io/r/base/dynload.html)
+
+Any changes to these done in an ‘Renviron.d’ file (Step 3a), or via
+[`Sys.setenv()`](https://rdrr.io/r/base/Sys.setenv.html) in `.Rprofile`
+(Step 2) or ‘Rprofile.d’ files (Step 3c), *will be ignored by R
+itself* - despite being reflected by
+[`Sys.getenv()`](https://rdrr.io/r/base/Sys.getenv.html).
+
+Furthermore, some environment variables can not even be set in
+`.Renviron` (Step 1) but must be set *prior* to launching R. This is
+because those variables are consulted by R very early on (prior to Step
+1). Examples(\*) of environment variables that need to be set *prior to*
+`.Renviron` (Step 1) are:
+
+- `HOME` - the user’s home directory
+- `MKL_NUM_THREADS` and `OMP_NUM_THREADS` - the default number of
+  threads used by OpenMP etc, cf. *R Installation and Administration*
+
+These variables have to be set using methods specific to the operating
+system or the calling shell, e.g. in a Unix shell
+
+``` sh
+$ export OMP_NUM_THREADS=1
+$ R
+```
+
+or per call as
+
+``` sh
+OMP_NUM_THREADS=1 R
+```
+
+(\*) For further details on which environment variables R consults and
+what they are used for by R, see the R documentation and help,
+e.g. [`?"environment variables"`](https://rdrr.io/r/base/EnvVar.html)
+and [`?Startup`](https://rdrr.io/r/base/Startup.html).
+
+## Examples
+
+Below is a list of “real-world” example files:
+
+    .Renviron.d/
+      +-- lang
+      +-- r_cmd_check
+      +-- secrets=banana
+
+    .Rprofile.d/
+      +-- interactive=TRUE/
+          +-- help.start.R
+          +-- misc.R
+          +-- package=fortunes.R
+      +-- os=windows.R
+      +-- repos.R
+
+They are available as part of this package under
+`system.file(package = "startup")`, e.g.
+
+``` r
+> f <- system.file("Rprofile.d", "repos.R", package = "startup")
+> file.show(f, type = "text")
+
+local({
+  repos <- c(CRAN = "https://cloud.r-project.org")
+  if (.Platform$OS.type == "windows") {
+     repos["CRANextra"] <- "https://www.stats.ox.ac.uk/pub/RWin"
+  }
+  options(repos = c(repos, getOption("repos")))
+})
+```
