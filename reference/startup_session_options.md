@@ -25,9 +25,10 @@ Returns invisibly a named list of the options prefixed
 - `startup.session.startdir`:
 
   (character) the working directory when the startup was first loaded.
-  If [`startup::startup()`](startup.md) is called at the very beginning
-  of the `.Rprofile` file, this is also the directory that the current R
-  session was launched from.
+  If
+  [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+  is called at the very beginning of the `.Rprofile` file, this is also
+  the directory that the current R session was launched from.
 
 - `startup.session.starttime`:
 
@@ -49,18 +50,18 @@ Returns invisibly a named list of the options prefixed
 opts <- startup::startup_session_options()
 opts
 #> $startup.session.startdir
-#> [1] "/tmp/hb/RtmpFmpmLP/startup"
+#> [1] "/tmp/hb/RtmpSeAz7o/startup"
 #> 
 #> $startup.session.starttime
-#> [1] "2026-02-27 16:14:48 PST"
+#> [1] "2026-02-27 16:17:16 PST"
 #> 
 #> $startup.session.starttime_iso
-#> [1] "20260227-161448"
+#> [1] "20260227-161716"
 #> 
 #> $startup.session.id
-#> [1] "RtmprhA9xf"
+#> [1] "Rtmpf3yTXK"
 #> 
 #> $startup.session.dumpto
-#> [1] "/tmp/hb/RtmpFmpmLP/startup/last.dump_20260227-161448_RtmprhA9xf"
+#> [1] "/tmp/hb/RtmpSeAz7o/startup/last.dump_20260227-161716_Rtmpf3yTXK"
 #> 
 ```

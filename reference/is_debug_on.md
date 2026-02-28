@@ -14,6 +14,7 @@ Returns `TRUE` is debug is enabled and `FALSE` otherwise.
 
 ## Details
 
-The debug mode is when [`startup()`](startup.md) is called, either
-explicitly via argument `debug` or via environment variable
-`R_STARTUP_DEBUG`.
+The debug mode is when
+[`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+is called, either explicitly via argument `debug` or via environment
+variable `R_STARTUP_DEBUG`.

@@ -28,9 +28,9 @@ restart(
   The working directory where the new R session should be launched from.
   If `NULL`, then the working directory that was in place when the
   startup package was first loaded. If using
-  [`startup::startup()`](startup.md) in an `.Rprofile` startup file,
-  then this is likely to record the directory from which R itself was
-  launched from.
+  [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+  in an `.Rprofile` startup file, then this is likely to record the
+  directory from which R itself was launched from.
 
 - rcmd:
 

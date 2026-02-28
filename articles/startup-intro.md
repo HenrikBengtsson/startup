@@ -45,8 +45,8 @@ When R starts, the following *user-specific* setup takes place:
     cf. [`?.Rprofile`](https://rdrr.io/r/base/Startup.html).
 
 3.  If the `.Rprofile` file (in Step 2) calls
-    [`startup::startup()`](../reference/startup.md) then the following
-    will also take place:
+    [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+    then the following will also take place:
 
     1.  The *first* ‘Renviron.d’ directory on the R startup search path
         is processed. The search path is (in order): (i)
@@ -61,7 +61,7 @@ When R starts, the following *user-specific* setup takes place:
 
     2.  A set of handy R options that can be used in Step 3c are set.
         Their names are prefixed `startup.session.` - see
-        [`?startup::startup_session_options`](../reference/startup_session_options.md)
+        [`?startup::startup_session_options`](https://henrikbengtsson.github.io/startup/reference/startup_session_options.md)
         for details.
 
     3.  The *first* ‘Rprofile.d’ directory found on the R startup search
@@ -84,8 +84,8 @@ When R starts, the following *user-specific* setup takes place:
         package will be unloaded, leaving no trace of itself behind,
         except for R options `startup.session.*` set in Step 3b - these
         will be erased if
-        [`startup::startup()`](../reference/startup.md) is called with
-        `keep = NULL`.
+        [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+        is called with `keep = NULL`.
 
 All relevant files in ‘Renviron.d’ and ‘Rprofile.d’ directories,
 including those found recursively in subdirectories thereof, will be
@@ -169,8 +169,10 @@ that file will be included / used only if the specification is fulfilled
 `startup::sysinfo()$os == "windows"`, i.e. the R session is started on a
 Windows system.
 
-The following [`startup::sysinfo()`](../reference/sysinfo.md) keys are
-available for conditional inclusion of files by their path names:
+The following
+[`startup::sysinfo()`](https://henrikbengtsson.github.io/startup/reference/sysinfo.md)
+keys are available for conditional inclusion of files by their path
+names:
 
 - System values:
 

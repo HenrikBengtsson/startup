@@ -2,23 +2,27 @@
 
 Below are environment variables and R options that are used by the
 startup package. The `R_STARTUP_***` environment variables must be set
-before calling the [`startup::startup()`](startup.md) function, that is,
-either (i) prior to launching R or (ii) in the `.Renviron` file.
+before calling the
+[`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+function, that is, either (i) prior to launching R or (ii) in the
+`.Renviron` file.
 
 ## Controls whether startup is used or not
 
 - `R_STARTUP_DISABLE` / startup.disable::
 
-  (logical) If `TRUE`, [`startup::startup()`](startup.md) is fully
-  disable such that *no* `.Renviron.d/` or `.Rprofile.d/` files are
-  processed. *Note*: Files `.Renviron` and `.Rprofile` are still
+  (logical) If `TRUE`,
+  [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+  is fully disable such that *no* `.Renviron.d/` or `.Rprofile.d/` files
+  are processed. *Note*: Files `.Renviron` and `.Rprofile` are still
   processed because these are out of control of the startup package.
   (Default: `FALSE`)
 
 - `R_STARTUP_DRYRUN` / startup.dryrun::
 
   (logical) Controls the default value of argument `dryrun` of
-  [`startup()`](startup.md). (Default: `FALSE`)
+  [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md).
+  (Default: `FALSE`)
 
 ## Additional customization of the startup process
 
@@ -59,24 +63,28 @@ either (i) prior to launching R or (ii) in the `.Renviron` file.
 - `R_STARTUP_CHECK` / startup.check::
 
   (logical) Controls the default value of argument `check` of
-  [`startup()`](startup.md). (Default: `TRUE`)
+  [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md).
+  (Default: `TRUE`)
 
 - `R_STARTUP_CHECK_OPTIONS_IGNORE` / startup.check.options.ignore::
 
   (character vector or comma-separated character string) Names of R
   options that should *not* be validated at the end of the
-  [`startup()`](startup.md) process. (Default: `"error"`)
+  [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+  process. (Default: `"error"`)
 
 ## Settings useful for debugging and prototyping
 
 - `R_STARTUP_DEBUG` / startup.debug::
 
   (logical) Controls the default value of argument `debug` of
-  [`startup()`](startup.md). (Default: `FALSE`)
+  [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md).
+  (Default: `FALSE`)
 
 - `R_STARTUP_DEBUG_FILE` / startup.debug.file::
 
-  (character string or NULL) Controls where [`startup()`](startup.md)
+  (character string or NULL) Controls where
+  [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
   debug messages are outputted. If set, it specifies the file where
   debug messages are written to. If file already exists, it is
   overwritten. Unless an absolute filename is given, the location of the
@@ -91,8 +99,9 @@ either (i) prior to launching R or (ii) in the `.Renviron` file.
 - startup.commandArgs::
 
   (character vector) Overrides the command-line arguments that
-  [`startup()`](startup.md) uses, which can be useful to prototype and
-  test alternative ways that R might be launched. (Default:
+  [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+  uses, which can be useful to prototype and test alternative ways that
+  R might be launched. (Default:
   [`base::commandArgs()`](https://rdrr.io/r/base/commandArgs.html))
 
 - `R_STARTUP_TIME` / startup.time::

@@ -59,5 +59,6 @@ The pathname of the R startup file modified.
 - `install()`: injects a `tryCatch(startup::startup(), ...)` call to the
   `.Rprofile` file, which is created if missing.
 
-- `uninstall()`: Remove calls to [`startup::startup()`](startup.md) and
-  similar.
+- `uninstall()`: Remove calls to
+  [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
+  and similar.

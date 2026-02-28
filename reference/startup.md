@@ -94,7 +94,7 @@ startup(
 
   Specify what information should remain after this function complete.
   The default is to keep `startup.session.*` options as recorded by
-  [`startup_session_options()`](startup_session_options.md).
+  [`startup_session_options()`](https://henrikbengtsson.github.io/startup/reference/startup_session_options.md).
 
 - encoding:
 
@@ -121,7 +121,8 @@ process](https://rdrr.io/r/base/Startup.html) of R.
 In order for `.Rprofile.d` and `.Renviron.d` directories to be included
 during the R startup process, a user needs to add `startup::startup()`
 to `~/.Rprofile`. Adding this can also be done by calling
-[`install()`](install.md) once.
+[`install()`](https://henrikbengtsson.github.io/startup/reference/install.md)
+once.
 
 ## Site-wide installation
 
