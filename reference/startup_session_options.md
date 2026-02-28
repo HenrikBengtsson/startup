@@ -50,18 +50,18 @@ Returns invisibly a named list of the options prefixed
 opts <- startup::startup_session_options()
 opts
 #> $startup.session.startdir
-#> [1] "/tmp/hb/RtmpSeAz7o/startup"
+#> [1] "/tmp/hb/RtmpuzVpCC/startup"
 #> 
 #> $startup.session.starttime
-#> [1] "2026-02-27 16:17:16 PST"
+#> [1] "2026-02-27 16:24:17 PST"
 #> 
 #> $startup.session.starttime_iso
-#> [1] "20260227-161716"
+#> [1] "20260227-162417"
 #> 
 #> $startup.session.id
-#> [1] "Rtmpf3yTXK"
+#> [1] "Rtmp5O4Cbj"
 #> 
 #> $startup.session.dumpto
-#> [1] "/tmp/hb/RtmpSeAz7o/startup/last.dump_20260227-161716_Rtmpf3yTXK"
+#> [1] "/tmp/hb/RtmpuzVpCC/startup/last.dump_20260227-162417_Rtmp5O4Cbj"
 #> 
 ```
