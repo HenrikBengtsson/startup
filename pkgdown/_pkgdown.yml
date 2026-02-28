@@ -1,11 +1,13 @@
+url: https://henrikbengtsson.github.io/startup/
+
 navbar:
   structure:
-    right: [cran, github]
+    right: [search, cran, github, lightswitch]
   components:
     cran:
       icon: fab fa-r-project
       href: https://cloud.r-project.org/package=startup
 
 template:
+  bootstrap: 5
   light-switch: true
-  
