@@ -9,7 +9,7 @@
 #' be launched from.  If `NULL`, then the working directory that was in
 #' place when the \pkg{startup} package was first loaded.  If using
 #' `startup::startup()` in an \file{.Rprofile} startup file, then this
-#' is likely to record the directory from which \R itself was launched from.
+#' is likely to record the directory from which \R itself was launched.
 #' 
 #' @param rcmd A character string specifying the command for launching \R.
 #' The default is the same as used to launch the current \R session, i.e.
@@ -21,14 +21,14 @@
 #' @param envvars A named character vector of environment variables to
 #' be set when calling \R.
 #'
-#' @param as A character string specifying a predefined setups of `rcmd`,
+#' @param as A character string specifying predefined setups of `rcmd`,
 #' `args`, and `envvars`.  For details, see below.
 #' 
 #' @param quiet Should the restart be quiet or not?
 #' If `NA` and `as == "current"`, then `quiet` is `TRUE` if the current
 #' \R session was started quietly, otherwise `FALSE`.
 #' 
-#' @param debug If `TRUE`, debug messages are outputted, otherwise not.
+#' @param debug If `TRUE`, debug messages are output, otherwise not.
 #'
 #' @return
 #' Nothing.
@@ -204,7 +204,7 @@ restart <- function(status = 0L,
   ## To please R CMD check
   envir <- globalenv()
 
-  ## Make sure to call existing .Last(), iff any
+  ## Make sure to call existing .Last(), if any
   has_last <- exists(".Last", envir = envir, inherits = FALSE)
   if (has_last) {
     last_org <- get(".Last", envir = envir, inherits = FALSE)

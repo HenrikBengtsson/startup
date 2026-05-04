@@ -15,7 +15,7 @@ find_source_traceback <- function() {
       next
     }
 
-    # Identity the source file
+    # Identify the source file
     if (exists("srcfile", envir=env, inherits=FALSE)) {
       srcfile <- get("srcfile", envir=env, inherits=FALSE)
     } else {

@@ -5,16 +5,16 @@
 #' @param all Should all or only the first entry on
 #' [the R startup search path][base::Startup] be checked?
 #'
-#' @param fix If `TRUE`, detected issues will be tried to be automatically
-#' fixed, otherwise not.
+#' @param fix If `TRUE`, an attempt will be made to automatically fix detected
+#' issues, otherwise not.
 #'
 #' @param backup If `TRUE`, a timestamped backup copy of the original file is
 #' created before modifying it, otherwise not.
 #'
-#' @param debug If `TRUE`, debug messages are outputted, otherwise not.
+#' @param debug If `TRUE`, debug messages are output, otherwise not.
 #'
-#' @return Returns invisibly a character vector of files that were "fixed"
-#' (modified), if any.  If no files needed to be fixed, or `fix = TRUE`,
+#' @return Invisibly returns a character vector of files that were "fixed"
+#' (modified), if any.  If no files needed to be fixed, or `fix = FALSE`,
 #' then an empty vector is returned.
 #' 
 #' @references
@@ -65,14 +65,14 @@ check_rprofile_eof <- function(files = NULL, all = FALSE, fix = TRUE,
         updated <- c(updated, file)
         
         if (eof_ok(file)) {
-          msg <- sprintf("SYNTAX ISSUE FIXED: Added missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process.", file)  #nolint
+          msg <- sprintf("SYNTAX ISSUE FIXED: Added a missing newline to the end of file %s, which otherwise would cause R to silently ignore the file during startup.", file)  #nolint
           warning("startup::check(): ", msg)
         } else {
-          msg <- sprintf("SYNTAX ERROR: Tried to add missing newline to the end of file %s, which otherwise would cause R to silently ignore the file in the startup process, but failed.", file)  #nolint
+          msg <- sprintf("SYNTAX ERROR: Tried to add a missing newline to the end of file %s, which otherwise would cause R to silently ignore the file during startup, but failed.", file)  #nolint
           stop("startup::check(): ", msg)
         }
       } else {
-        msg <- sprintf("SYNTAX ERROR: File %s is missing a newline at the end of the file, which most likely will cause R to silently ignore the file in the startup process.", file)  #nolint
+        msg <- sprintf("SYNTAX ERROR: File %s is missing a newline at the end of the file, which most likely will cause R to silently ignore the file during startup.", file)  #nolint
         stop("startup::check(): ", msg)
       }
     }
@@ -103,7 +103,7 @@ check_rprofile_update_packages <- function(files = NULL, all = FALSE,
     for (name in names(patterns)) {
       pattern <- patterns[name]
       if (any(grepl(pattern, bfr, fixed = FALSE))) {
-        msg <- sprintf("UNSAFE STARTUP CALL DETECTED (%s): Updating or installing R packages during R startup will recursively spawn off an infinite number of R processes. Please remove offending call in order for .Rprofile scripts to be applied: %s", name, file)  #nolint
+        msg <- sprintf("UNSAFE STARTUP CALL DETECTED (%s): Updating or installing R packages during R startup will recursively spawn off an infinite number of R processes. Please remove the offending call so that .Rprofile scripts can be applied: %s", name, file)  #nolint
         stop("startup::check(): ", msg)
       }
     }
@@ -127,7 +127,7 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
   if (length(include) == 0L) return()
 
   msg <- function(opt, default, value, body = NULL) {
-    msg <- sprintf("R option '%s' was changed (to '%s') during startup, cf. Startup.  Values other than the default '%s' is known to cause problems.", opt, value, default)
+    msg <- sprintf("R option '%s' was changed (to '%s') during startup, cf. Startup. Values other than the default '%s' are known to cause problems.", opt, value, default)
     msg <- c(msg, body)
     msg <- c(msg, sprintf("To disable this check, add \"%s\" to option 'startup.check.options.ignore'.", opt))
     paste("startup::check():", paste(msg, collapse = " "))
@@ -138,7 +138,7 @@ check_options <- function(include = c("encoding", "error", "stringsAsFactors"), 
       value <- getOption(opt, default = NULL)
       default <- "native.enc"
       if (!interactive() && !is.null(value) && value != default) {
-        unique_warning(msg(opt, default, value, body = "For example, in non-interactive sessions installation of packages with non-ASCII characters (also in source code comments) fails. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
+        unique_warning(msg(opt, default, value, body = "For example, in non-interactive sessions, the installation of packages with non-ASCII characters (including those in source code comments) will fail. To set the encoding only in interactive mode, e.g. if (base::interactive()) options(encoding = \"UTF-8\")."), call. = FALSE)
       }
     } else if (opt == "error") {
       check_rstudio_option_error_conflict()
@@ -171,7 +171,7 @@ check_r_libs_env_vars <- function() {
       ## SPECIAL CASE: The system Renviron file sets R_LIBS_USER="%U"
       ## and R_LIBS_SITE="%S", if not already set.  Then the system
       ## Rprofile file, expands and updates their values. It keeps
-      ## the values regardless of them refering to existing folders.
+      ## the values regardless of them referring to existing folders.
       ## We don't want to warn about these non-existing defaults.
 
       if (var == "R_LIBS_USE") {
@@ -186,7 +186,7 @@ check_r_libs_env_vars <- function() {
       }
     }
 
-    ## Don't check intential "dummy" specification, e.g.
+    ## Don't check intentional "dummy" specification, e.g.
     ## non-existing-dummy-folder
     is_dummy <- grepl("^[.]", path) && !grepl("[/\\]", path)
     if (is_dummy) next
@@ -205,7 +205,7 @@ check_r_libs_env_vars <- function() {
       }
       pathsQ <- paste(sprintf("\"%s\"", paths), collapse = ", ")
       if (npaths == 1L) {
-        msg <- sprintf("Environment variable %s specifies a non-existing folder %s which R ignores and therefore are not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", squote(var), pathsq, pathsQ)
+        msg <- sprintf("Environment variable %s specifies a non-existing folder %s which R ignores and therefore is not used in .libPaths(). To create this folder, call dir.create(%s, recursive = TRUE)", squote(var), pathsq, pathsQ)
       } else {
         msg <- sprintf("Environment variable %s specifies %d non-existing folders %s which R ignores and therefore are not used in .libPaths(). To create these folders, call sapply(c(%s), dir.create, recursive = TRUE)", squote(var), npaths, pathsq, pathsQ)
       }
@@ -289,12 +289,12 @@ check_rstudio_option_error_conflict <- function() {
   ## Record intended value of option 'error'
   options(startup.error.lost = getOption("error"))
 
-  unique_warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during the R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
+  unique_warning("startup::check(): ", "CONFLICT: Option ", squote("error"), " was set during R startup, but this will be overridden due to the RStudio settings (menu ", squote("Debug -> On Error"), ") when using the RStudio Console. To silence this warning, do not set option 'error' when running RStudio Console, e.g. ", squote("if (!startup::sysinfo()$rstudio) options(error = ...)"), ". The 'error' option that was set during the startup process but lost is recorded in option ", squote("startup.error.lost"), ". For further details on this issue, see https://github.com/rstudio/rstudio/issues/3007")
 }
 
 
 ## Check that Renviron and Rprofile files are properly capitalized. The proper
-## way is .Renviron and .Rprofile, whereas, for instance, .REnviron is not.
+## names are .Renviron and .Rprofile, whereas, for instance, .REnviron is not.
 warn_file_capitalization <- function(pathname, what) {
   ## Get the actual name on file
   path <- dirname(pathname)
@@ -315,7 +315,7 @@ warn_file_capitalization <- function(pathname, what) {
   pathname_actual <- file.path(path, actual)
   correct <- gsub(pattern, sprintf(".%s", what), actual, ignore.case = TRUE)
   pathname_correct <- file.path(path, correct)
-  msg <- sprintf("Detected non-standard, platform-dependent letter casing of an %s file. Please rename file to use the officially supported casing: %s -> %s", squote(what), squote(pathname_actual), squote(pathname_correct))
+  msg <- sprintf("Detected non-standard, platform-dependent letter casing of an %s file. Please rename the file to use the officially supported casing: %s -> %s", squote(what), squote(pathname_actual), squote(pathname_correct))
   warning("startup::startup(): ", msg, call. = FALSE)
   invisible(FALSE)
 }

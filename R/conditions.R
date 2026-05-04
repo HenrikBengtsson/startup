@@ -7,7 +7,7 @@
 #' @param call. If [base::TRUE], the call is included in the warning
 #' message, otherwise not.
 #'
-#' @param immediate. If [base::TRUE], the warning is outputted immediately,
+#' @param immediate. If [base::TRUE], the warning is output immediately,
 #' otherwise not.
 #'
 #' @return

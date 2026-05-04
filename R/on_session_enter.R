@@ -2,7 +2,7 @@
 #' 
 #' @param fcn A function or an R expression. The function must accept zero
 #' or more arguments (currently not used). If an expression, it will
-#' automatically we wrapped up in an anonymous function.
+#' automatically be wrapped up in an anonymous function.
 #'
 #' @param append If TRUE (default), the function will be evaluated after
 #' previously registered ones, otherwise prepended.
@@ -34,7 +34,7 @@
 #' internal list which will be evaluated via a custom function that is called
 #' when the global environment is garbage collected, which happens at the very
 #' end of the R shutdown process.
-#' Contrary to a \code{\link[base:.Last]{.Last()}} function, which is not be
+#' Contrary to a \code{\link[base:.Last]{.Last()}} function, which is not
 #' called if `quit(runLast = FALSE)` is used, functions registered via
 #' `on_session_exit()` are always processed.
 #' Registered `on_session_exit()` functions are called _after_ `quit()` saves

@@ -3,7 +3,7 @@
 #' Initiates \R using all files under \file{.Renviron.d/} and / or
 #' \file{.Rprofile.d/} directories (or in subdirectories thereof).
 #'
-#' The above is done in addition the \file{.Renviron} and \file{.Rprofile}
+#' The above is done in addition to the \file{.Renviron} and \file{.Rprofile}
 #' files that are supported by the built-in [startup process][base::Startup]
 #' of \R.
 #'
@@ -16,17 +16,17 @@
 #' processed, otherwise only the _first ones_ found.
 #'
 #' @param on_error Action taken when an error is detected when sourcing an
-#' Rprofile file.  It is not possible to detect error in Renviron files;
+#' Rprofile file.  It is not possible to detect errors in Renviron files;
 #' they are always ignored with a message that cannot be captured.
 #'
 #' @param keep Specify what information should remain after this function
-#' complete.  The default is to keep `startup.session.*` options
+#' completes.  The default is to keep `startup.session.*` options
 #' as recorded by [startup_session_options()].
 #'
-#' @param encoding The encodingto use when parsing the R startup files.
+#' @param encoding The encoding to use when parsing the R startup files.
 #' See [base::parse()] for more details.
 #' 
-#' @param check If `TRUE`, then the content of startup files are validated.
+#' @param check If `TRUE`, then the content of startup files is validated.
 #' 
 #' @param unload If `TRUE`, then the package is unloaded afterward, otherwise
 #' not.
@@ -38,7 +38,7 @@
 #' @param dryrun If `TRUE`, everything is done except the processing of the
 #' startup files.
 #'
-#' @param debug If `TRUE`, debug messages are outputted, otherwise not.
+#' @param debug If `TRUE`, debug messages are output, otherwise not.
 #'
 #' @return
 #' Nothing.
@@ -70,7 +70,7 @@
 #' # add the following call to the ~/.Rprofile file.
 #' startup::startup(all = TRUE)
 #'
-#' # For finer control of on exactly what files are used
+#' # For finer control over exactly which files are used,
 #' # functions renviron_d() and rprofile_d() are also available:
 #'
 #' # Initiate first .Renviron.d/ found on search path
@@ -295,10 +295,10 @@ startup <- function(sibling = FALSE, all = FALSE,
   ## (iv) Detect and report on run-time startup issues
   if (check) {
     # (a) Check for unsafe/non-intended changes to environment variables
-    #     to library, Renviron, or Rprofile paths
+    #     referring to library, Renviron, or Rprofile paths
     check_envs()
     
-    # (b) Check for unsafe changes to R options changes done by
+    # (b) Check for unsafe changes to R options done by
     #     any Rprofile files
     check_options()
   }
@@ -430,7 +430,7 @@ startup <- function(sibling = FALSE, all = FALSE,
           if (is_rstudio_console() && !supports_tcltk()) {
             rdata <- "default"
             if (debug) logf("- Cannot prompt user in the RStudio Console on this system")
-            warning(sprintf("Detected %s, which was loaded (default), because it was possible to ask you if it should loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, rdata0), call. = FALSE)
+            warning(sprintf("Detected %s, which was loaded (default), because it was NOT possible to ask you if it should be loaded or not. The reason for this is that your R setup does not support X11 or tcltk, which is needed in order to prompt someone in the RStudio Console.", f_info, rdata0), call. = FALSE)
           } else {
             res <- ask_yes_no(question)
             if (debug) logf("- User wants to load it: %s", res)

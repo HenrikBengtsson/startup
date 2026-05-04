@@ -62,21 +62,21 @@ and / or \code{--no-environ} were specified.}
 \item{dryrun}{If \code{TRUE}, everything is done except the processing of the
 startup files.}
 
-\item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
+\item{debug}{If \code{TRUE}, debug messages are output, otherwise not.}
 
 \item{paths}{(internal) character vector of directories.}
 
-\item{check}{If \code{TRUE}, then the content of startup files are validated.}
+\item{check}{If \code{TRUE}, then the content of startup files is validated.}
 
 \item{on_error}{Action taken when an error is detected when sourcing an
-Rprofile file.  It is not possible to detect error in Renviron files;
+Rprofile file.  It is not possible to detect errors in Renviron files;
 they are always ignored with a message that cannot be captured.}
 
 \item{keep}{Specify what information should remain after this function
-complete.  The default is to keep \verb{startup.session.*} options
+completes.  The default is to keep \verb{startup.session.*} options
 as recorded by \code{\link[=startup_session_options]{startup_session_options()}}.}
 
-\item{encoding}{The encodingto use when parsing the R startup files.
+\item{encoding}{The encoding to use when parsing the R startup files.
 See \code{\link[base:parse]{base::parse()}} for more details.}
 }
 \value{
@@ -87,7 +87,7 @@ Initiates \R using all files under \file{.Renviron.d/} and / or
 \file{.Rprofile.d/} directories (or in subdirectories thereof).
 }
 \details{
-The above is done in addition the \file{.Renviron} and \file{.Rprofile}
+The above is done in addition to the \file{.Renviron} and \file{.Rprofile}
 files that are supported by the built-in \link[base:Startup]{startup process}
 of \R.
 }
@@ -132,7 +132,7 @@ startup::startup()
 # add the following call to the ~/.Rprofile file.
 startup::startup(all = TRUE)
 
-# For finer control of on exactly what files are used
+# For finer control over exactly which files are used,
 # functions renviron_d() and rprofile_d() are also available:
 
 # Initiate first .Renviron.d/ found on search path

@@ -160,7 +160,7 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
     pattern <- sprintf("^([a-zA-Z_][a-zA-Z0-9_]*)%s([^=,/]*).*", op)
     files_values <- list_of_values(files, pattern = pattern, names = TRUE)
 
-    ## Drop <key>=<value> elements that refers to sysinfo() or packages
+    ## Drop <key>=<value> elements that refer to sysinfo() or packages
     files_values <- lapply(files_values, FUN = function(x) {
       x[!names(x) %in% ignore]
     })
@@ -185,7 +185,7 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
     })
 
     
-    ## Any files with un-declared 'key' in their pathnames?
+    ## Any files with undeclared 'key' in their pathnames?
     has_unknown_keys <- which(unlist(lapply(files_ok, FUN = is.character)))
     if (length(has_unknown_keys) > 0) {
       unknown_keys_op <- files_ok[has_unknown_keys]

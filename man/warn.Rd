@@ -14,7 +14,7 @@ create the message string.}
 \item{call.}{If \link[base:TRUE]{base::TRUE}, the call is included in the warning
 message, otherwise not.}
 
-\item{immediate.}{If \link[base:TRUE]{base::TRUE}, the warning is outputted immediately,
+\item{immediate.}{If \link[base:TRUE]{base::TRUE}, the warning is output immediately,
 otherwise not.}
 }
 \value{

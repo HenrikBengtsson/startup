@@ -1,4 +1,4 @@
-#' Locates the .Rprofile and .Renviron files used during the startup of R
+#' Locates the .Rprofile and .Renviron files used during R startup
 #'
 #' @describeIn find_rprofile Locates the \file{.Rprofile} file used during
 #' \R startup.
@@ -103,7 +103,7 @@ find_d_dirs <- function(paths, all = FALSE) {
 
   ## Drop duplicates after path normalization. For example, ~/.Rprofile.d/
   ## and ./.Rprofile.d/ may be the same folder. Also, if ~/.Rprofile.d/ is
-  ## a symbolic links to ~/.config/R/startup/Rprofile.d/, they are also
+  ## a symbolic link to ~/.config/R/startup/Rprofile.d/, they are also
   ## considered duplicates.
   dups <- duplicated(normalizePath(paths, mustWork = FALSE))
   paths <- paths[!dups]
@@ -121,7 +121,7 @@ list_d_files <- function(paths, recursive = TRUE, filter = NULL) {
   on.exit(Sys.setlocale("LC_COLLATE", ol))
   Sys.setlocale("LC_COLLATE", "C")
 
-  ## Keep only the ones that exists
+  ## Keep only the ones that exist
   paths <- paths[file.exists(paths)]
 
   ## Nothing to do?

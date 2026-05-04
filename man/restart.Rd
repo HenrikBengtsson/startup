@@ -23,7 +23,7 @@ restart(
 be launched from.  If \code{NULL}, then the working directory that was in
 place when the \pkg{startup} package was first loaded.  If using
 \code{startup::startup()} in an \file{.Rprofile} startup file, then this
-is likely to record the directory from which \R itself was launched from.}
+is likely to record the directory from which \R itself was launched.}
 
 \item{rcmd}{A character string specifying the command for launching \R.
 The default is the same as used to launch the current \R session, i.e.
@@ -35,14 +35,14 @@ arguments to be appended to the system call of \code{rcmd}.}
 \item{envvars}{A named character vector of environment variables to
 be set when calling \R.}
 
-\item{as}{A character string specifying a predefined setups of \code{rcmd},
+\item{as}{A character string specifying predefined setups of \code{rcmd},
 \code{args}, and \code{envvars}.  For details, see below.}
 
 \item{quiet}{Should the restart be quiet or not?
 If \code{NA} and \code{as == "current"}, then \code{quiet} is \code{TRUE} if the current
 \R session was started quietly, otherwise \code{FALSE}.}
 
-\item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
+\item{debug}{If \code{TRUE}, debug messages are output, otherwise not.}
 }
 \value{
 Nothing.

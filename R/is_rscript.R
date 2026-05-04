@@ -5,7 +5,7 @@
 ## @return A logical
 ##
 ## @details
-## This functions use `basename(commandArgs()[1])` to infer whether or not
+## This function uses `basename(commandArgs()[1])` to infer whether or not
 ## \R was launched via \file{Rscript}.  On Windows, both \file{Rscript} and
 ## \file{Rscript.exe} are recognized and the check is case insensitive.
 ##

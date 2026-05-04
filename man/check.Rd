@@ -10,17 +10,17 @@ check(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE)
 \item{all}{Should all or only the first entry on
 \link[base:Startup]{the R startup search path} be checked?}
 
-\item{fix}{If \code{TRUE}, detected issues will be tried to be automatically
-fixed, otherwise not.}
+\item{fix}{If \code{TRUE}, an attempt will be made to automatically fix detected
+issues, otherwise not.}
 
 \item{backup}{If \code{TRUE}, a timestamped backup copy of the original file is
 created before modifying it, otherwise not.}
 
-\item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
+\item{debug}{If \code{TRUE}, debug messages are output, otherwise not.}
 }
 \value{
-Returns invisibly a character vector of files that were "fixed"
-(modified), if any.  If no files needed to be fixed, or \code{fix = TRUE},
+Invisibly returns a character vector of files that were "fixed"
+(modified), if any.  If no files needed to be fixed, or \code{fix = FALSE},
 then an empty vector is returned.
 }
 \description{

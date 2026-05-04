@@ -41,7 +41,7 @@ get_when_cache_file <- function(pathname, when) {
   path <- get_when_cache_path(when = when)
   if (!is_dir(path)) dir.create(path, recursive = TRUE)
 
-  ## Poor-man's file ID
+  ## Poor man's file ID
   fi <- file.info(pathname)
   fi <- lapply(fi, FUN = unclass)
   is_numeric <- unlist(lapply(fi, FUN = is.numeric), use.names = FALSE)
@@ -69,7 +69,7 @@ is_when_file_done <- function(when_pathname) {
   done <- NA
   
   if (when == "once") {
-    format <- "%t"  ## Trick to produce equal output
+    format <- "%t"  ## Trick to produce the same output
   } else if (when == "hourly") {
     format <- "%Y-%m-%d %H"
   } else if (when == "daily") {
@@ -92,7 +92,7 @@ is_when_file_done <- function(when_pathname) {
   } else if (when == "monthly") {
     format <- "%Y %m"
   } else {
-    stop("Unknown value on argument 'when': ", squote(when))
+    stop("Unknown value for argument 'when': ", squote(when))
   }
 
   if (is.na(done)) {
@@ -118,7 +118,7 @@ mark_when_file_done <- function(when_pathname) {
 get_when <- function(pathname) {
   stop_if_not(length(pathname) == 1L, is.character(pathname), !is.na(pathname))
 
-  ## Identify files specifying this <key>=<value>
+  ## Identifies files specifying this <key>=<value>
   op <- "="
   pattern <- sprintf(".*[^a-z]*(when)%s([^=,/]*).*", op)
   if (!grepl(pattern, pathname, fixed = FALSE)) return(character(0L))

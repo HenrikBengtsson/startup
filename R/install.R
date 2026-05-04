@@ -2,7 +2,7 @@
 #' directories
 #'
 #' Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d}
-#' startup directories by appending / removing one line of code to the
+#' startup directories by appending or removing a line of code to the
 #' \file{~/.Rprofile} file.
 #'
 #' @param file The pathname where to create or update the \file{.Rprofile}
@@ -12,11 +12,11 @@
 #' created before modifying / overwriting it, otherwise not.  If the backup
 #' fails, then an error is produced and the R startup file is unmodified.
 #'
-#' @param overwrite If the R startup file already exist, then `FALSE` (default)
-#' appends the startup code to the end of the file. is overwritten.  If `TRUE`,
-#' any pre-existing R startup file is overwritten.
+#' @param overwrite If the R startup file already exists, then `FALSE` (default)
+#' appends the startup code to the end of the file. If `TRUE`, any pre-existing
+#' R startup file is overwritten.
 #'
-#' @param path The folder where to create \file{.Renviron.d} and
+#' @param path The folder in which to create the \file{.Renviron.d} and
 #' \file{.Rprofile.d} directory.
 #'
 #' @param make_dirs If `TRUE` (default), directories \file{.Renviron.d/} and
@@ -67,7 +67,7 @@ install <- function(file = rprofile_user(), backup = TRUE, overwrite = FALSE,
   
   cat(code, file = file, append = !overwrite)
   if (file_exists) {
-    notef("%s 'startup::startup()' to already existing R startup file: %s",
+    notef("%s 'startup::startup()' to the already existing R startup file: %s",
           if (overwrite) "Appended" else "Added", squote(file))
   } else {
     notef("Created new R startup file with 'startup::startup()': %s",

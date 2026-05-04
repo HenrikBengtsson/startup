@@ -25,11 +25,11 @@ file.}
 created before modifying / overwriting it, otherwise not.  If the backup
 fails, then an error is produced and the R startup file is unmodified.}
 
-\item{overwrite}{If the R startup file already exist, then \code{FALSE} (default)
-appends the startup code to the end of the file. is overwritten.  If \code{TRUE},
-any pre-existing R startup file is overwritten.}
+\item{overwrite}{If the R startup file already exists, then \code{FALSE} (default)
+appends the startup code to the end of the file. If \code{TRUE}, any pre-existing
+R startup file is overwritten.}
 
-\item{path}{The folder where to create \file{.Renviron.d} and
+\item{path}{The folder in which to create the \file{.Renviron.d} and
 \file{.Rprofile.d} directory.}
 
 \item{make_dirs}{If \code{TRUE} (default), directories \file{.Renviron.d/} and
@@ -43,7 +43,7 @@ The pathname of the R startup file modified.
 }
 \description{
 Install and uninstall support for \file{.Renviron.d} and \file{.Rprofile.d}
-startup directories by appending / removing one line of code to the
+startup directories by appending or removing a line of code to the
 \file{~/.Rprofile} file.
 }
 \section{Functions}{

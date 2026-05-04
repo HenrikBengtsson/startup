@@ -25,7 +25,7 @@ get_windows_local_appdata <- function() {
   path <- file.path(root, "Local Settings", "Application Data")
   if (!is.na(path)) return(path)
 
-  ## We shouldn't really end up here, but who knows ...
+  ## We shouldn't really end up here, but who knows...
   NA_character_
 }
 

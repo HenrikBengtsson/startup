@@ -37,10 +37,10 @@ the \code{startup::startup()} function, that is, either (i) prior to launching
 \describe{
 \item{\env{R_STARTUP_DISABLE} / \option{startup.disable}:}{
 (logical)
-If \code{TRUE}, \code{startup::startup()} is fully disable such that \emph{no}
+If \code{TRUE}, \code{startup::startup()} is fully disabled such that \emph{no}
 \file{.Renviron.d/} or \file{.Rprofile.d/} files are processed.
 \emph{Note}: Files \file{.Renviron} and \file{.Rprofile} are still processed
-because these are out of control of the \pkg{startup} package.
+because these are outside the control of the \pkg{startup} package.
 (Default: \code{FALSE})
 }
 
@@ -128,14 +128,14 @@ Controls the default value of argument \code{debug} of \code{\link[=startup]{sta
 
 \item{\env{R_STARTUP_DEBUG_FILE} / \option{startup.debug.file}:}{
 (character string or NULL)
-Controls where \code{\link[=startup]{startup()}} debug messages are outputted.
+Controls where \code{\link[=startup]{startup()}} debug messages are output.
 If set, it specifies the file where debug messages are written to.
 If file already exists, it is overwritten.
 Unless an absolute filename is given, the location of the file is
 relative to the working directory where R was started.
-If the filename comprise the string \code{{{pid}}}, it is replaced by
+If the filename comprises the string \code{{{pid}}}, it is replaced by
 the R process' process identifier (PID) per \code{Sys.getpid()}.
-If \code{NULL} or \verb{<message>}, then debug is outputted using the
+If \code{NULL} or \verb{<message>}, then debug messages are output using the
 \code{message()} function.
 (Default: not specified)
 }

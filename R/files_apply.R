@@ -135,11 +135,11 @@ files_apply <- function(files, fun,
       )
 
       ## (a) Packages
-      ## Identified added entries
+      ## Identify added entries
       added <- mapply(after$pkgs, before$pkgs, FUN = setdiff)
       added$loaded <- setdiff(added$loaded, added$attached)
       
-      ## Identified removed entries
+      ## Identify removed entries
       removed <- mapply(before$pkgs, after$pkgs, FUN = setdiff)
       removed$attached <- setdiff(removed$attached, removed$loaded)
       names(removed) <- gsub("attached", "detached", names(removed))

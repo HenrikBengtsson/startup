@@ -12,7 +12,7 @@ on_session_exit(fcn = NULL, append = TRUE, replace = FALSE)
 \arguments{
 \item{fcn}{A function or an R expression. The function must accept zero
 or more arguments (currently not used). If an expression, it will
-automatically we wrapped up in an anonymous function.}
+automatically be wrapped up in an anonymous function.}
 
 \item{append}{If TRUE (default), the function will be evaluated after
 previously registered ones, otherwise prepended.}
@@ -48,7 +48,7 @@ The \code{on_session_exit()} function works by recording all \code{fcn}:s in an
 internal list which will be evaluated via a custom function that is called
 when the global environment is garbage collected, which happens at the very
 end of the R shutdown process.
-Contrary to a \code{\link[base:.Last]{.Last()}} function, which is not be
+Contrary to a \code{\link[base:.Last]{.Last()}} function, which is not
 called if \code{quit(runLast = FALSE)} is used, functions registered via
 \code{on_session_exit()} are always processed.
 Registered \code{on_session_exit()} functions are called \emph{after} \code{quit()} saves

@@ -14,7 +14,7 @@ Check if running R via radian (formerly known as rtichoke and rice)
 }
 \references{
 \enumerate{
-\item radian - A 21 century R console (previously known as rtichoke and rice),
+\item radian - A 21st-century R console (previously known as rtichoke and rice),
 \url{https://github.com/randy3k/radian}
 }
 }

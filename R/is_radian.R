@@ -3,7 +3,7 @@
 #' @return A logical
 #'
 #' @references
-#' 1. radian - A 21 century R console (previously known as rtichoke and rice),
+#' 1. radian - A 21st-century R console (previously known as rtichoke and rice),
 #'    \url{https://github.com/randy3k/radian}
 is_radian <- function() {
   ## radian (>= 0.3.0)

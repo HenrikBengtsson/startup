@@ -3,14 +3,14 @@
 \name{find_rprofile}
 \alias{find_rprofile}
 \alias{find_renviron}
-\title{Locates the .Rprofile and .Renviron files used during the startup of R}
+\title{Locates the .Rprofile and .Renviron files used during R startup}
 \usage{
 find_rprofile(all = FALSE)
 
 find_renviron(all = FALSE)
 }
 \description{
-Locates the .Rprofile and .Renviron files used during the startup of R
+Locates the .Rprofile and .Renviron files used during R startup
 }
 \section{Functions}{
 \itemize{

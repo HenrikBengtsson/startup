@@ -11,10 +11,10 @@
 #' \describe{
 #'   \item{\env{R_STARTUP_DISABLE} / \option{startup.disable}:}{
 #'     (logical)
-#'     If `TRUE`, `startup::startup()` is fully disable such that _no_
+#'     If `TRUE`, `startup::startup()` is fully disabled such that _no_
 #'     \file{.Renviron.d/} or \file{.Rprofile.d/} files are processed.
 #'     _Note_: Files \file{.Renviron} and \file{.Rprofile} are still processed
-#'     because these are out of control of the \pkg{startup} package.
+#'     because these are outside the control of the \pkg{startup} package.
 #'     (Default: `FALSE`)
 #'   }
 #'
@@ -99,14 +99,14 @@
 #'
 #'   \item{\env{R_STARTUP_DEBUG_FILE} / \option{startup.debug.file}:}{
 #'     (character string or NULL)
-#'     Controls where [startup()] debug messages are outputted.
+#'     Controls where [startup()] debug messages are output.
 #'     If set, it specifies the file where debug messages are written to.
 #'     If file already exists, it is overwritten.
 #'     Unless an absolute filename is given, the location of the file is
 #'     relative to the working directory where R was started.
-#'     If the filename comprise the string `{{pid}}`, it is replaced by
+#'     If the filename comprises the string `{{pid}}`, it is replaced by
 #'     the R process' process identifier (PID) per `Sys.getpid()`.
-#'     If `NULL` or `<message>`, then debug is outputted using the
+#'     If `NULL` or `<message>`, then debug messages are output using the
 #'     `message()` function.
 #'     (Default: not specified)
 #'   }
