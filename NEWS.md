@@ -1,7 +1,10 @@
 # Version (development version)
 
- * ...
+## New Features
 
+ * Now `sysinfo()` reports also on Alternative R Frontend (arf) via
+   flag `arf`.
+ 
 
 # Version 0.23.0 (2024-12-07)
 

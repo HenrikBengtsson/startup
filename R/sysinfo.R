@@ -14,6 +14,7 @@ sysinfo <- function() {
   sysinfo$interactive <- interactive()
   
   ## Built-in system flags (logical)
+  sysinfo$arf <- is_arf()
   sysinfo$ark <- is_ark()
   sysinfo$ess <- is_ess()
   sysinfo$jupyter <- is_jupyter()

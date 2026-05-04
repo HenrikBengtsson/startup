@@ -153,7 +153,7 @@ be launched.
 Overrides the current timestamp, which can be useful to prototype and
 test functionalities that depend on the current time, e.g. inclusion
 and exclusion of files based on \verb{when=<periodicity>} tags.
-The specified string must be parsable by \code{\link[base:as.POSIXlt]{base::as.POSIXct()}}.
+The specified string must be parsable by \code{\link[base:as.POSIXct]{base::as.POSIXct()}}.
 (Default: not specified)
 }
 }
