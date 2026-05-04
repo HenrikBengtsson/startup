@@ -10,6 +10,9 @@
 #' @param immediate. If [base::TRUE], the warning is outputted immediately,
 #' otherwise not.
 #'
+#' @return
+#' Nothing.
+#' 
 #' @export
 warn <- function(..., call. = FALSE, immediate. = TRUE, domain = NULL) {
   msg <- .makeMessage(sprintf(...), domain = domain)

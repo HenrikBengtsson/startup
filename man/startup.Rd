@@ -79,6 +79,9 @@ as recorded by \code{\link[=startup_session_options]{startup_session_options()}}
 \item{encoding}{The encodingto use when parsing the R startup files.
 See \code{\link[base:parse]{base::parse()}} for more details.}
 }
+\value{
+Nothing.
+}
 \description{
 Initiates \R using all files under \file{.Renviron.d/} and / or
 \file{.Rprofile.d/} directories (or in subdirectories thereof).

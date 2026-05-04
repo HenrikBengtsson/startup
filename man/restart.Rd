@@ -44,6 +44,9 @@ If \code{NA} and \code{as == "current"}, then \code{quiet} is \code{TRUE} if the
 
 \item{debug}{If \code{TRUE}, debug messages are outputted, otherwise not.}
 }
+\value{
+Nothing.
+}
 \description{
 Restarts \R by quitting the current \R session and launching a new one.
 }

@@ -30,6 +30,9 @@
 #' 
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
+#' @return
+#' Nothing.
+#'
 #' @section Predefined setups:
 #' Argument `as` may take the following values:
 #' \describe{

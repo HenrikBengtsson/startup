@@ -17,6 +17,9 @@ message, otherwise not.}
 \item{immediate.}{If \link[base:TRUE]{base::TRUE}, the warning is outputted immediately,
 otherwise not.}
 }
+\value{
+Nothing.
+}
 \description{
 Produce a warning
 }

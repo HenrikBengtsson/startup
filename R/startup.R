@@ -40,6 +40,9 @@
 #'
 #' @param debug If `TRUE`, debug messages are outputted, otherwise not.
 #'
+#' @return
+#' Nothing.
+#' 
 #' @section User-specific installation:
 #' In order for \file{.Rprofile.d} and \file{.Renviron.d} directories to be
 #' included during the \R startup process, a user needs to add
