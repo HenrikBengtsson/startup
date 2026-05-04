@@ -10,7 +10,7 @@ is_debug_on()
 
 ## Value
 
-Returns `TRUE` is debug is enabled and `FALSE` otherwise.
+Returns `TRUE` if debug is enabled and `FALSE` otherwise.
 
 ## Details
 

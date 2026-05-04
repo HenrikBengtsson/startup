@@ -17,8 +17,8 @@ check(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE)
 
 - fix:
 
-  If `TRUE`, detected issues will be tried to be automatically fixed,
-  otherwise not.
+  If `TRUE`, an attempt will be made to automatically fix detected
+  issues, otherwise not.
 
 - backup:
 
@@ -27,12 +27,12 @@ check(all = FALSE, fix = TRUE, backup = TRUE, debug = FALSE)
 
 - debug:
 
-  If `TRUE`, debug messages are outputted, otherwise not.
+  If `TRUE`, debug messages are output, otherwise not.
 
 ## Value
 
-Returns invisibly a character vector of files that were "fixed"
-(modified), if any. If no files needed to be fixed, or `fix = TRUE`,
+Invisibly returns a character vector of files that were "fixed"
+(modified), if any. If no files needed to be fixed, or `fix = FALSE`,
 then an empty vector is returned.
 
 ## References

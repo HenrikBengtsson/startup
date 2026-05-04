@@ -30,7 +30,7 @@ restart(
   startup package was first loaded. If using
   [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
   in an `.Rprofile` startup file, then this is likely to record the
-  directory from which R itself was launched from.
+  directory from which R itself was launched.
 
 - rcmd:
 
@@ -50,8 +50,8 @@ restart(
 
 - as:
 
-  A character string specifying a predefined setups of `rcmd`, `args`,
-  and `envvars`. For details, see below.
+  A character string specifying predefined setups of `rcmd`, `args`, and
+  `envvars`. For details, see below.
 
 - quiet:
 
@@ -61,7 +61,11 @@ restart(
 
 - debug:
 
-  If `TRUE`, debug messages are outputted, otherwise not.
+  If `TRUE`, debug messages are output, otherwise not.
+
+## Value
+
+Nothing.
 
 ## Predefined setups
 

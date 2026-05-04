@@ -10,6 +10,8 @@
   [`uninstall()`](https://henrikbengtsson.github.io/startup/reference/install.md)
   : Install and uninstall support for .Renviron.d and .Rprofile.d
   startup directories
+- [`is_arf()`](https://henrikbengtsson.github.io/startup/reference/is_arf.md)
+  : Checks if running R via Alternative R Frontend (arf)
 - [`is_ark()`](https://henrikbengtsson.github.io/startup/reference/is_ark.md)
   : Checks if running R via Ark (An R Kernel)
 - [`is_ess()`](https://henrikbengtsson.github.io/startup/reference/is_ess.md)
@@ -21,7 +23,7 @@
 - [`is_positron()`](https://henrikbengtsson.github.io/startup/reference/is_positron.md)
   : Checks if running R via Positron
 - [`is_pqr()`](https://henrikbengtsson.github.io/startup/reference/is_pqr.md)
-  : Check if running a Pretty Quick Version of R (pqR)
+  : Checks if running a Pretty Quick Version of R (pqR)
 - [`is_radian()`](https://henrikbengtsson.github.io/startup/reference/is_radian.md)
   : Check if running R via radian (formerly known as rtichoke and rice)
 - [`is_rstudio_console()`](https://henrikbengtsson.github.io/startup/reference/is_rstudio_console.md)

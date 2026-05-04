@@ -1,7 +1,7 @@
 # Install and uninstall support for .Renviron.d and .Rprofile.d startup directories
 
 Install and uninstall support for `.Renviron.d` and `.Rprofile.d`
-startup directories by appending / removing one line of code to the
+startup directories by appending or removing a line of code to the
 `~/.Rprofile` file.
 
 ## Usage
@@ -33,13 +33,14 @@ uninstall(file = rprofile_user(), backup = TRUE, quiet = FALSE)
 
 - overwrite:
 
-  If the R startup file already exist, then `FALSE` (default) appends
-  the startup code to the end of the file. is overwritten. If `TRUE`,
-  any pre-existing R startup file is overwritten.
+  If the R startup file already exists, then `FALSE` (default) appends
+  the startup code to the end of the file. If `TRUE`, any pre-existing R
+  startup file is overwritten.
 
 - path:
 
-  The folder where to create `.Renviron.d` and `.Rprofile.d` directory.
+  The folder in which to create the `.Renviron.d` and `.Rprofile.d`
+  directory.
 
 - make_dirs:
 

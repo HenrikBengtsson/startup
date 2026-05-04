@@ -2,7 +2,11 @@
 
 ## Version (development version)
 
-- …
+### New Features
+
+- Now
+  [`sysinfo()`](https://henrikbengtsson.github.io/startup/reference/sysinfo.md)
+  reports also on Alternative R Frontend (arf) via flag `arf`.
 
 ## Version 0.23.0
 

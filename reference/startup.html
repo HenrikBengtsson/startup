@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">startup</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0-9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0-9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,7 +122,7 @@ startup files.</p></dd>
 
 
 <dt id="arg-debug">debug<a class="anchor" aria-label="anchor" href="#arg-debug"></a></dt>
-<dd><p>If <code>TRUE</code>, debug messages are outputted, otherwise not.</p></dd>
+<dd><p>If <code>TRUE</code>, debug messages are output, otherwise not.</p></dd>
 
 
 <dt id="arg-paths">paths<a class="anchor" aria-label="anchor" href="#arg-paths"></a></dt>
@@ -130,29 +130,33 @@ startup files.</p></dd>
 
 
 <dt id="arg-check">check<a class="anchor" aria-label="anchor" href="#arg-check"></a></dt>
-<dd><p>If <code>TRUE</code>, then the content of startup files are validated.</p></dd>
+<dd><p>If <code>TRUE</code>, then the content of startup files is validated.</p></dd>
 
 
 <dt id="arg-on-error">on_error<a class="anchor" aria-label="anchor" href="#arg-on-error"></a></dt>
 <dd><p>Action taken when an error is detected when sourcing an
-Rprofile file.  It is not possible to detect error in Renviron files;
+Rprofile file.  It is not possible to detect errors in Renviron files;
 they are always ignored with a message that cannot be captured.</p></dd>
 
 
 <dt id="arg-keep">keep<a class="anchor" aria-label="anchor" href="#arg-keep"></a></dt>
 <dd><p>Specify what information should remain after this function
-complete.  The default is to keep <code>startup.session.*</code> options
+completes.  The default is to keep <code>startup.session.*</code> options
 as recorded by <code><a href="startup_session_options.html">startup_session_options()</a></code>.</p></dd>
 
 
 <dt id="arg-encoding">encoding<a class="anchor" aria-label="anchor" href="#arg-encoding"></a></dt>
-<dd><p>The encodingto use when parsing the R startup files.
+<dd><p>The encoding to use when parsing the R startup files.
 See <code><a href="https://rdrr.io/r/base/parse.html" class="external-link">base::parse()</a></code> for more details.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>Nothing.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The above is done in addition the <code class="file">.Renviron</code> and <code class="file">.Rprofile</code>
+    <p>The above is done in addition to the <code class="file">.Renviron</code> and <code class="file">.Rprofile</code>
 files that are supported by the built-in <a href="https://rdrr.io/r/base/Startup.html" class="external-link">startup process</a>
 of <span style="R">R</span>.</p>
     </div>
@@ -199,7 +203,7 @@ should also be installed in the site-wide library.</p>
 <span class="r-in"><span><span class="co"># add the following call to the ~/.Rprofile file.</span></span></span>
 <span class="r-in"><span><span class="fu">startup</span><span class="fu">::</span><span class="fu">startup</span><span class="op">(</span>all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># For finer control of on exactly what files are used</span></span></span>
+<span class="r-in"><span><span class="co"># For finer control over exactly which files are used,</span></span></span>
 <span class="r-in"><span><span class="co"># functions renviron_d() and rprofile_d() are also available:</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Initiate first .Renviron.d/ found on search path</span></span></span>

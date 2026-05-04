@@ -15,7 +15,7 @@ R or (ii) in the .Renviron file."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">startup</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0-9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0-9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,10 +68,10 @@ the <code><a href="startup.html">startup::startup()</a></code> function, that is
 
 <dl><dt><code class="env">R_STARTUP_DISABLE</code> / <span class="option">startup.disable</span>:</dt>
 <dd><p>(logical)
-If <code>TRUE</code>, <code><a href="startup.html">startup::startup()</a></code> is fully disable such that <em>no</em>
+If <code>TRUE</code>, <code><a href="startup.html">startup::startup()</a></code> is fully disabled such that <em>no</em>
 <code class="file">.Renviron.d/</code> or <code class="file">.Rprofile.d/</code> files are processed.
 <em>Note</em>: Files <code class="file">.Renviron</code> and <code class="file">.Rprofile</code> are still processed
-because these are out of control of the <span class="pkg">startup</span> package.
+because these are outside the control of the <span class="pkg">startup</span> package.
 (Default: <code>FALSE</code>)</p></dd>
 
 
@@ -158,14 +158,14 @@ Controls the default value of argument <code>debug</code> of <code><a href="star
 
 <dt><code class="env">R_STARTUP_DEBUG_FILE</code> / <span class="option">startup.debug.file</span>:</dt>
 <dd><p>(character string or NULL)
-Controls where <code><a href="startup.html">startup()</a></code> debug messages are outputted.
+Controls where <code><a href="startup.html">startup()</a></code> debug messages are output.
 If set, it specifies the file where debug messages are written to.
 If file already exists, it is overwritten.
 Unless an absolute filename is given, the location of the file is
 relative to the working directory where R was started.
-If the filename comprise the string <code>{{pid}}</code>, it is replaced by
+If the filename comprises the string <code>{{pid}}</code>, it is replaced by
 the R process' process identifier (PID) per <code><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid()</a></code>.
-If <code>NULL</code> or <code>&lt;message&gt;</code>, then debug is outputted using the
+If <code>NULL</code> or <code>&lt;message&gt;</code>, then debug messages are output using the
 <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code> function.
 (Default: not specified)</p></dd>
 

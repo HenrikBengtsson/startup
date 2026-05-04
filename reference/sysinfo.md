@@ -20,10 +20,10 @@ startup::sysinfo()
 #> [1] "Linux"
 #> 
 #> $release
-#> [1] "6.17.0-14-generic"
+#> [1] "6.17.0-23-generic"
 #> 
 #> $version
-#> [1] "#14~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Jan 15 15:52:10 UTC 2"
+#> [1] "#23~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Apr 14 16:11:48 UTC 2"
 #> 
 #> $nodename
 #> [1] "hb-x1-2023"
@@ -47,6 +47,9 @@ startup::sysinfo()
 #> [1] "X11"
 #> 
 #> $interactive
+#> [1] FALSE
+#> 
+#> $arf
 #> [1] FALSE
 #> 
 #> $ark

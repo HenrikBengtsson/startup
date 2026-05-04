@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">startup</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0-9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0-9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
 <dl><dt id="arg-fcn">fcn<a class="anchor" aria-label="anchor" href="#arg-fcn"></a></dt>
 <dd><p>A function or an R expression. The function must accept zero
 or more arguments (currently not used). If an expression, it will
-automatically we wrapped up in an anonymous function.</p></dd>
+automatically be wrapped up in an anonymous function.</p></dd>
 
 
 <dt id="arg-append">append<a class="anchor" aria-label="anchor" href="#arg-append"></a></dt>
@@ -99,7 +99,7 @@ at the end after registered functions have been called.</p>
 internal list which will be evaluated via a custom function that is called
 when the global environment is garbage collected, which happens at the very
 end of the R shutdown process.
-Contrary to a <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">.Last()</a></code> function, which is not be
+Contrary to a <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">.Last()</a></code> function, which is not
 called if <code>quit(runLast = FALSE)</code> is used, functions registered via
 <code>on_session_exit()</code> are always processed.
 Registered <code>on_session_exit()</code> functions are called <em>after</em> <code><a href="https://rdrr.io/r/base/quit.html" class="external-link">quit()</a></code> saves

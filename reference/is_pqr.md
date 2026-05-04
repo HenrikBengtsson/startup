@@ -1,6 +1,6 @@
-# Check if running a Pretty Quick Version of R (pqR)
+# Checks if running a Pretty Quick Version of R (pqR)
 
-Check if running a Pretty Quick Version of R (pqR)
+Checks if running a Pretty Quick Version of R (pqR)
 
 ## Usage
 

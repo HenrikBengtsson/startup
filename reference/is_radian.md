@@ -14,5 +14,5 @@ A logical
 
 ## References
 
-1.  radian - A 21 century R console (previously known as rtichoke and
+1.  radian - A 21st-century R console (previously known as rtichoke and
     rice), <https://github.com/randy3k/radian>

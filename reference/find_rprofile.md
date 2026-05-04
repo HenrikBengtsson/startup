@@ -1,6 +1,6 @@
-# Locates the .Rprofile and .Renviron files used during the startup of R
+# Locates the .Rprofile and .Renviron files used during R startup
 
-Locates the .Rprofile and .Renviron files used during the startup of R
+Locates the .Rprofile and .Renviron files used during R startup
 
 ## Usage
 

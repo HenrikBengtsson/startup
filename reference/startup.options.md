@@ -13,10 +13,10 @@ function, that is, either (i) prior to launching R or (ii) in the
 
   (logical) If `TRUE`,
   [`startup::startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
-  is fully disable such that *no* `.Renviron.d/` or `.Rprofile.d/` files
-  are processed. *Note*: Files `.Renviron` and `.Rprofile` are still
-  processed because these are out of control of the startup package.
-  (Default: `FALSE`)
+  is fully disabled such that *no* `.Renviron.d/` or `.Rprofile.d/`
+  files are processed. *Note*: Files `.Renviron` and `.Rprofile` are
+  still processed because these are outside the control of the startup
+  package. (Default: `FALSE`)
 
 - `R_STARTUP_DRYRUN` / startup.dryrun::
 
@@ -85,14 +85,14 @@ function, that is, either (i) prior to launching R or (ii) in the
 
   (character string or NULL) Controls where
   [`startup()`](https://henrikbengtsson.github.io/startup/reference/startup.md)
-  debug messages are outputted. If set, it specifies the file where
-  debug messages are written to. If file already exists, it is
-  overwritten. Unless an absolute filename is given, the location of the
-  file is relative to the working directory where R was started. If the
-  filename comprise the string `{{pid}}`, it is replaced by the R
-  process' process identifier (PID) per
+  debug messages are output. If set, it specifies the file where debug
+  messages are written to. If file already exists, it is overwritten.
+  Unless an absolute filename is given, the location of the file is
+  relative to the working directory where R was started. If the filename
+  comprises the string `{{pid}}`, it is replaced by the R process'
+  process identifier (PID) per
   [`Sys.getpid()`](https://rdrr.io/r/base/Sys.getpid.html). If `NULL` or
-  `<message>`, then debug is outputted using the
+  `<message>`, then debug messages are output using the
   [`message()`](https://rdrr.io/r/base/message.html) function. (Default:
   not specified)
 

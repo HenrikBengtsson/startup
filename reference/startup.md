@@ -74,7 +74,7 @@ startup(
 
 - debug:
 
-  If `TRUE`, debug messages are outputted, otherwise not.
+  If `TRUE`, debug messages are output, otherwise not.
 
 - paths:
 
@@ -82,29 +82,33 @@ startup(
 
 - check:
 
-  If `TRUE`, then the content of startup files are validated.
+  If `TRUE`, then the content of startup files is validated.
 
 - on_error:
 
   Action taken when an error is detected when sourcing an Rprofile file.
-  It is not possible to detect error in Renviron files; they are always
+  It is not possible to detect errors in Renviron files; they are always
   ignored with a message that cannot be captured.
 
 - keep:
 
-  Specify what information should remain after this function complete.
+  Specify what information should remain after this function completes.
   The default is to keep `startup.session.*` options as recorded by
   [`startup_session_options()`](https://henrikbengtsson.github.io/startup/reference/startup_session_options.md).
 
 - encoding:
 
-  The encodingto use when parsing the R startup files. See
+  The encoding to use when parsing the R startup files. See
   [`base::parse()`](https://rdrr.io/r/base/parse.html) for more details.
+
+## Value
+
+Nothing.
 
 ## Details
 
-The above is done in addition the `.Renviron` and `.Rprofile` files that
-are supported by the built-in [startup
+The above is done in addition to the `.Renviron` and `.Rprofile` files
+that are supported by the built-in [startup
 process](https://rdrr.io/r/base/Startup.html) of R.
 
 ## Functions
@@ -147,7 +151,7 @@ startup::startup()
 # add the following call to the ~/.Rprofile file.
 startup::startup(all = TRUE)
 
-# For finer control of on exactly what files are used
+# For finer control over exactly which files are used,
 # functions renviron_d() and rprofile_d() are also available:
 
 # Initiate first .Renviron.d/ found on search path

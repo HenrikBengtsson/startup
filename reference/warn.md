@@ -25,4 +25,8 @@ warn(..., call. = FALSE, immediate. = TRUE, domain = NULL)
 - immediate.:
 
   If [base::TRUE](https://rdrr.io/r/base/logical.html), the warning is
-  outputted immediately, otherwise not.
+  output immediately, otherwise not.
+
+## Value
+
+Nothing.
