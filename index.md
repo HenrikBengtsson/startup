@@ -110,17 +110,13 @@ e.g. `~/.Rprofile.d/..my-tests/`.
 After installing the **startup** packages (see instructions at the end),
 call
 
-``` r
-
-startup::install()
-```
+\
+`startup``::`[`install`](https://henrikbengtsson.github.io/startup/reference/install.md)`(``)`
 
 once. This will append
 
-``` r
-
-tryCatch(startup::startup(), error=function(ex) message(".Rprofile error: ", conditionMessage(ex)))
-```
+\
+[`tryCatch`](https://rdrr.io/r/base/conditions.html)`(``startup``::`[`startup`](https://henrikbengtsson.github.io/startup/reference/startup.md)`(``)``, error``=``function``(``ex``)`` `[`message`](https://rdrr.io/r/base/message.html)`(``".Rprofile error: "``, `[`conditionMessage`](https://rdrr.io/r/base/conditions.html)`(``ex``)``)``)`
 
 to your `~/.Rprofile`. The file will be created if missing. This will
 also create directories `~/.Renviron.d/` and `~/.Rprofile.d/` if
@@ -436,19 +432,15 @@ R package startup is available on
 [CRAN](https://cran.r-project.org/package=startup) and can be installed
 in R as:
 
-``` r
-
-install.packages("startup")
-```
+\
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"startup"``)`
 
 ### Pre-release version
 
 To install the pre-release version that is available in Git branch
 `develop` on GitHub, use:
 
-``` r
-
-remotes::install_github("HenrikBengtsson/startup", ref="develop")
-```
+\
+`remotes``::`[`install_github`](https://remotes.r-lib.org/reference/install_github.html)`(``"HenrikBengtsson/startup"``, ref``=``"develop"``)`
 
 This will install the package from source.

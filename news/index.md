@@ -8,6 +8,13 @@
   [`sysinfo()`](https://henrikbengtsson.github.io/startup/reference/sysinfo.md)
   reports also on Alternative R Frontend (arf) via flag `arf`.
 
+### Bug Fixes
+
+- A startup file with multiple `<key>!=<value>` specifications, e.g.
+  `NO_INTERNET!=TRUE,TUTORIAL!=TRUE.R`, was always processed if one of
+  the environment variables was unset, regardless of the other
+  specifications.
+
 ## Version 0.23.0
 
 CRAN release: 2024-12-07

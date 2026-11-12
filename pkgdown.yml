@@ -1,9 +1,9 @@
-pandoc: '3.9'
-pkgdown: 2.2.0
+pandoc: '3.12'
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   startup-intro: startup-intro.html
-last_built: 2026-05-04T16:10Z
+last_built: 2026-11-12T04:57Z
 urls:
   reference: https://henrikbengtsson.github.io/startup/reference
   article: https://henrikbengtsson.github.io/startup/articles
