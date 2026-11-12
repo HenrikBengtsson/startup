@@ -176,26 +176,31 @@ filter_files_env <- function(files, ignore = c(names(sysinfo()), "package")) {
       
       ## Check for keys for which there exist *no* environment variable
       missing <- keys[is.na(match(keys, env_names))]
-      if (length(missing) > 0) return(missing)
-      
+      if (length(missing) > 0) {
+        ## <key>=<value> requires <key> to be set
+        if (op == "=") return(missing)
+        ## <key>!=<value> is fulfilled when <key> is not set, but the
+        ## remaining <key>!=<value> specifications must still be checked
+        values <- values[!keys %in% missing]
+        keys <- names(values)
+        if (length(keys) == 0) return(TRUE)
+      }
+
       truth <- envs[keys]
       keep <- (values == truth)
       if (op == "!=") keep <- !keep
       all(keep)
     })
 
-    
+
     ## Any files with undeclared 'key' in their pathnames?
+    ## (only possible for <key>=<value>)
     has_unknown_keys <- which(unlist(lapply(files_ok, FUN = is.character)))
     if (length(has_unknown_keys) > 0) {
       unknown_keys_op <- files_ok[has_unknown_keys]
       names(unknown_keys_op) <- files[idxs[has_unknown_keys]]
-      if (op == "=") {
-        unknown_keys <- c(unknown_keys, unknown_keys_op)
-        files_ok[has_unknown_keys] <- FALSE
-      } else {
-        files_ok[has_unknown_keys] <- TRUE
-      }
+      unknown_keys <- c(unknown_keys, unknown_keys_op)
+      files_ok[has_unknown_keys] <- FALSE
     }
 
     files_ok <- unlist(files_ok, use.names = FALSE)

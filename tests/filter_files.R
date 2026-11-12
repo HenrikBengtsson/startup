@@ -33,7 +33,12 @@ filesets <- list(
   P = c("/home/alice/.Rprofile.d/FOO=abc,BAR!=123" = FALSE),
   Q = c("/home/alice/.Rprofile.d/FOO=abc/BAR=123/help" = TRUE),
   R = c("/home/alice/.Rprofile.d/UNKNOWN=42/test" = FALSE),
-  S = c("/home/alice/.Rprofile.d/UNKNOWN!=42/test" = TRUE)
+  S = c("/home/alice/.Rprofile.d/UNKNOWN!=42/test" = TRUE),
+  ## Unset <key>!=<value> must not short-circuit other <key>!=<value>
+  T = c("/home/alice/.Rprofile.d/UNKNOWN!=42,BAR!=123" = FALSE,
+        "/home/alice/.Rprofile.d/BAR!=123,UNKNOWN!=42" = FALSE,
+        "/home/alice/.Rprofile.d/UNKNOWN!=42,BAR!=321" = TRUE,
+        "/home/alice/.Rprofile.d/UNKNOWN!=42/BAR!=123/test" = FALSE)
 )
 
 ## Test with filename extensions *.R as well
